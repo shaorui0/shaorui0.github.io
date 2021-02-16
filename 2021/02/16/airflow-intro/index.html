@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>airflow_intro | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="airflow_intro">
+  <meta name="description" content="Airflow为什么引入airflow？crontab解决了哪些问题？一般的etl功能通过.sh + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。 其他依赖包括什么？  时间依赖，crontab自身支持例行时刻和间隔 外部系统依赖，需要shell自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2021/02/16/airflow-intro/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-16T13:00:44.000Z">
-<meta property="article:modified_time" content="2021-02-16T13:00:44.261Z">
+<meta property="og:description" content="Airflow为什么引入airflow？crontab解决了哪些问题？一般的etl功能通过.sh + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。 其他依赖包括什么？  时间依赖，crontab自身支持例行时刻和间隔 外部系统依赖，需要shell自">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-16T13:21:40.940Z">
+<meta property="article:modified_time" content="2021-02-16T13:21:40.940Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -59,12 +61,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -74,30 +76,49 @@
         <section id="main"><article id="post-airflow-intro" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/airflow-intro/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:00:44.000Z" itemprop="datePublished">2021-02-16</time>
+  <time class="dt-published" datetime="2021-02-16T13:21:40.940Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      airflow_intro
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h1 id="Airflow"><a href="#Airflow" class="headerlink" title="Airflow"></a>Airflow</h1><h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
+<p>其他依赖包括什么？</p>
+<ul>
+<li>时间依赖，crontab自身支持例行时刻和间隔</li>
+<li>外部系统依赖，需要shell自己调用接口</li>
+<li>任务间的依赖，通常通过shell函数来完成</li>
+</ul>
+<h3 id="为什么需要Airflow？"><a href="#为什么需要Airflow？" class="headerlink" title="为什么需要Airflow？"></a>为什么需要Airflow？</h3><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+<ul>
+<li>日志记录<ul>
+<li>RD介入是否方便？</li>
+<li>日志形式是否直观？</li>
+</ul>
+</li>
+<li>任务报警</li>
+<li>失败重试</li>
+</ul>
+<h3 id="额外的惊喜？"><a href="#额外的惊喜？" class="headerlink" title="额外的惊喜？"></a>额外的惊喜？</h3><p>额外的，整个调度系统是否有比较好的伸缩性？比如并发机制（<strong>多个调度任务能不能并发？甚至扩展到多机？</strong>）。涉及到这些高级功能，一般的调度方式是很难满足了。</p>
+<p>Airflow 同时拥有不错的<strong>集群扩展能力</strong>，可使用 CeleryExecuter 以及多个 Pool 来提高任务<strong>并发度</strong>。</p>
+<h3 id="ETL上的实践"><a href="#ETL上的实践" class="headerlink" title="ETL上的实践"></a>ETL上的实践</h3><p>Airflow的理念，天然的适用于 ETL 过程。Airflow 本质是通过DAG来控制任务依赖，<strong>有向无环图</strong>保证了任务之间不会有循环依赖。</p>
+<p>在现阶段的实践中，我们使用 Airflow 来同步各个数据源数据到数仓，同时定时执行一些批处理任务及带有数据依赖、资源依赖关系的计算脚本。</p>
+<ul>
+<li><p>Airflow 在 CeleryExecuter 下可以使用不同的用户启动 Worker，不同的 Worker 监听不同的 Queue，这样可以解决用户权限依赖问题。 Worker 也可以启动在多个不同的机器上，解决<strong>机器依赖</strong>的问题。</p>
+</li>
+<li><p>Airflow 可以为任意一个 Task 指定一个抽象的 Pool，每个 Pool 可以指定一个 Slot 数。 每当一个 Task 启动时，就占用一个 Slot，当 Slot 数占满时，其余的任务就处于等待状态。这样就解决了<strong>资源依赖</strong>问题。</p>
+</li>
+</ul>
+<h2 id="Airflow的升级"><a href="#Airflow的升级" class="headerlink" title="Airflow的升级"></a>Airflow的升级</h2><h3 id="涉及到pyenv和virtualenv的环境隔离"><a href="#涉及到pyenv和virtualenv的环境隔离" class="headerlink" title="涉及到pyenv和virtualenv的环境隔离"></a>涉及到pyenv和virtualenv的环境隔离</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 创建测试所需数据库</span><br><span class="line"></span><br><span class="line">1. mysql: </span><br><span class="line">DF_Airflow_test;</span><br><span class="line">DF_Airflow_Celery_test;</span><br><span class="line">2. redis: </span><br><span class="line">10.26.149.41:7000 </span><br><span class="line"></span><br><span class="line"># airflow 通用安装 e.g. py27 单机多版本注意要设置不同的家目录</span><br><span class="line">mkdir airflow-1.10.10-py-2.7.14</span><br><span class="line">cd airflow-1.10.10-py-2.7.14&#x2F;</span><br><span class="line">pyenv virtualenv 2.7.14  airflow-1.10.10-py-2.7.14</span><br><span class="line">pyenv local airflow-1.10.12-py-2.7.14</span><br><span class="line">export AIRFLOW_HOME&#x3D;~&#x2F;airflow-1.10.10-py-2.7.14</span><br><span class="line">pip install  apache-airflow[mysql,celery]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"></span><br><span class="line"># airflow 1.10.3 安装</span><br><span class="line">pip install  apache-airflow&#x3D;&#x3D;1.10.3   --use-feature&#x3D;2020-resolver</span><br><span class="line"># airflow 1.10.12 安装</span><br><span class="line">## py3</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-3.7.txt&quot;</span><br><span class="line">## py2</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># airflow 升级 py27-airflow-1.10.12 不加constraint会报错</span><br><span class="line">pip install -U  apache-airflow&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># fbac前端创建用户</span><br><span class="line">airflow create_user -r Admin -u admin -e qinyufeng@baidu.com -f qin -l yufeng -p admin</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90282578">&gt; REF BLOG</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="airflow_intro" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -108,18 +129,18 @@
 <nav id="article-nav">
   
     <a href="/2021/02/16/diff-between-post-and-put/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+      <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          diff_between_post_and_put
+          (no title)
         
       </div>
     </a>
   
   
     <a href="/2021/02/16/interview-about-massive-data/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">interview_about_massive_data</div>
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
@@ -142,9 +163,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
     </div>
   </div>
 
@@ -152,28 +173,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+            <a href="/2021/02/16/diff-between-post-and-put/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+            <a href="/2021/02/16/airflow-intro/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+            <a href="/2021/02/16/interview-about-massive-data/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+            <a href="/2021/02/16/what-is-protobuf/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+            <a href="/2021/02/16/what-is-dns/">(no title)</a>
           </li>
         
       </ul>

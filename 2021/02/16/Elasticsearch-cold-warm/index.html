@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Elasticsearch_cold_warm | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch_cold_warm">
+  <meta name="description" content="es的冷热数据处理思考来源于一次面试，面试提出这样的问题。实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。 冷热数据索引特征冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引 热数据索">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2021/02/16/Elasticsearch-cold-warm/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-16T13:03:50.000Z">
-<meta property="article:modified_time" content="2021-02-16T13:03:50.382Z">
+<meta property="og:description" content="es的冷热数据处理思考来源于一次面试，面试提出这样的问题。实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。 冷热数据索引特征冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引 热数据索">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-16T13:21:40.276Z">
+<meta property="article:modified_time" content="2021-02-16T13:21:40.276Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -59,12 +61,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -74,30 +76,33 @@
         <section id="main"><article id="post-Elasticsearch-cold-warm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/Elasticsearch-cold-warm/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:03:50.000Z" itemprop="datePublished">2021-02-16</time>
+  <time class="dt-published" datetime="2021-02-16T13:21:40.276Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      Elasticsearch_cold_warm
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h1 id="es的冷热数据处理"><a href="#es的冷热数据处理" class="headerlink" title="es的冷热数据处理"></a>es的冷热数据处理</h1><p>思考来源于一次面试，面试提出这样的问题。<br>实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。<br>经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。<br>先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。</p>
+<h2 id="冷热数据索引特征"><a href="#冷热数据索引特征" class="headerlink" title="冷热数据索引特征"></a>冷热数据索引特征</h2><p>冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引</p>
+<p>热数据索引：查询频率高，写入压力大，一般为当天数据索引</p>
+<h2 id="为什么需要冷热节点？"><a href="#为什么需要冷热节点？" class="headerlink" title="为什么需要冷热节点？"></a>为什么需要冷热节点？</h2><p>cold、warm、hot spot 的概念并不是ES提出来的，分布式的概念中很早就有这一概念。</p>
+<p>很明显，hot spot是经常读写的，相对的，cold spot 基本就属于“历史数据”一类。<br>典型的，由于ES的数据，是保存在内存中的（TODO）]<br>概念类似“局部性原理”<br>如何设置某些时间的数据为hot，这个时间节点的设置也很关键，直接影响性能。</p>
+<p>当然，为了更好的缓解IO压力，分到多个节点效果更好。</p>
+<p>众所周知，索引是为了更快的获取数据。但是创建索引的过程会比较 expensive。<br>如果数据量太大，而ES的数据又存在内存中，导致IO负载比较大。</p>
+<p>W269N-WFGWX-YVC9B-4J6C9-T83GX</p>
+<h2 id="ES的冷热架构部署"><a href="#ES的冷热架构部署" class="headerlink" title="ES的冷热架构部署"></a>ES的冷热架构部署</h2><p>例子：比如电商数据极大。可以每个月建立一个索引，数据先写到热索引中，通过“工具”将3个月后的索引迁移到冷节点上面。</p>
+<p>典型的，热节点机器使用“垂直扩展”，高性能机器。冷节点使用水平扩展，堆机器数。这样，就能保证最大化的性能</p>
+<p>ES官方是建议使用SSD，但是成本</p>
+<h2 id="支持原理"><a href="#支持原理" class="headerlink" title="支持原理"></a>支持原理</h2><p>第一：集群节点层面支持规划节点类型，这是划分热暖节点的前提。<br>第二：索引层面支持将数据路由到给定节点，这为数据写入冷、热节点做了保障。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caoweixiong/p/11988457.html">Elasticsearch 冷热集群架构</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/Elasticsearch-cold-warm/" data-id="ckl80qmn90004s7qodcs762hs" data-title="Elasticsearch_cold_warm" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/Elasticsearch-cold-warm/" data-id="ckl80qmn90004s7qodcs762hs" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -107,8 +112,8 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/02/16/what_is_event_driven_model/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+    <a href="/2021/02/16/why-need-type-system/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
           (no title)
@@ -117,9 +122,9 @@
     </a>
   
   
-    <a href="/2021/02/16/py-iterator-generator-decorator/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">py_iterator_generator_decorator</div>
+    <a href="/2021/02/16/what-is-high-concurrency/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
@@ -142,9 +147,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
     </div>
   </div>
 
@@ -152,28 +157,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+            <a href="/2021/02/16/diff-between-post-and-put/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+            <a href="/2021/02/16/airflow-intro/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+            <a href="/2021/02/16/interview-about-massive-data/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+            <a href="/2021/02/16/what-is-protobuf/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+            <a href="/2021/02/16/what-is-dns/">(no title)</a>
           </li>
         
       </ul>

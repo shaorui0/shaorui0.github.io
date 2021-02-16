@@ -10,7 +10,7 @@
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/page/2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -71,64 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-how_to_use_and_implement_blocking_queue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-DIFF-blocking-non-blocking-synchronism-asynchronism" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/how_to_use_and_implement_blocking_queue/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.659Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h1><h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本质：作为任务存放的容器。</p>
-<p>多线程的环境下，一个任务过来，不是立即执行的。一个路由thread进行分发，一些worker thread来取。那worker从哪里取呢？典型的就是『先进先出』的队列。</p>
-<p>一个典型的过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 任务过来</span><br><span class="line">2. 分发线程将任务存到queue中</span><br><span class="line">3. 如果有线程闲置，就会去取</span><br><span class="line">    3.1. queue会将task传递给线程</span><br><span class="line">    3.2. queue会同时将task pop掉（4、5过程原子性）</span><br></pre></td></tr></table></figure>
-<p>但是这个队列既然是在并发环境，就得防止<strong>竞争</strong>，哪个环节会出现竞争？『存』、『取』操作。</p>
-<ul>
-<li>存，可能多个任务同时存放，导致抢占queue，需要对queue进行加锁。</li>
-<li>取，多个线程同时取task，这就需要对queue进行加锁，每次只能让单个线程进来</li>
-</ul>
-<h2 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h2><h4 id="单个线程"><a href="#单个线程" class="headerlink" title="单个线程"></a>单个线程</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">The queue module implements multi-producer, multi-consumer queues. It is especially useful in threaded programming when information must be exchanged safely between multiple threads. The Queue class in this module implements all the required locking semantics.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> threading, queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">q = queue.Queue()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.get()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        q.task_done()</span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">True</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    q.put(item)</span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()</span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="多线程配合队列"><a href="#多线程配合队列" class="headerlink" title="多线程配合队列"></a>多线程配合队列</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> queue </span><br><span class="line"><span class="keyword">import</span> threading </span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"></span><br><span class="line">thread_exit_Flag = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sample_Thread</span> (<span class="params">threading.Thread</span>):</span> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, threadID, name, q</span>):</span> </span><br><span class="line">        threading.Thread.__init__(self) </span><br><span class="line">        self.threadID = threadID </span><br><span class="line">        self.name = name </span><br><span class="line">        self.q = q </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span> </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;initializing &quot;</span> + self.name) </span><br><span class="line">        process_data(self.name, self.q) </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;Exiting &quot;</span> + self.name) </span><br><span class="line"></span><br><span class="line"><span class="comment"># helper function to process data</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_data</span>(<span class="params">threadName, q</span>):</span> </span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> thread_exit_Flag: <span class="comment"># 如果有任务，就一直获取任务</span></span><br><span class="line">        queueLock.acquire() </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> workQueue.empty(): </span><br><span class="line">            data = q.get_nowait() </span><br><span class="line">            queueLock.release() </span><br><span class="line">            <span class="built_in">print</span> (<span class="string">&quot;% s processing % s&quot;</span> % (threadName, data)) </span><br><span class="line">            workQueue.task_done() <span class="comment"># 如果要使用queue.join，就必须每次标记task_done</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            queueLock.release() </span><br><span class="line">            time.sleep(<span class="number">1</span>) </span><br><span class="line">  </span><br><span class="line">thread_list = [<span class="string">&quot;Thread-1&quot;</span>, <span class="string">&quot;Thread-2&quot;</span>, <span class="string">&quot;Thread-3&quot;</span>] </span><br><span class="line">name_list = [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>] </span><br><span class="line">queueLock = threading.Lock() </span><br><span class="line">workQueue = queue.Queue(<span class="number">10</span>) </span><br><span class="line">threads = [] </span><br><span class="line">threadID = <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Create new threads </span></span><br><span class="line"><span class="keyword">for</span> thread_name <span class="keyword">in</span> thread_list: </span><br><span class="line">    thread = sample_Thread(threadID, thread_name, workQueue) </span><br><span class="line">    thread.start() </span><br><span class="line">    threads.append(thread) </span><br><span class="line">    threadID += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Fill the queue </span></span><br><span class="line">queueLock.acquire() </span><br><span class="line"><span class="keyword">for</span> items <span class="keyword">in</span> name_list: </span><br><span class="line">    workQueue.put(items) </span><br><span class="line">  </span><br><span class="line">queueLock.release() </span><br><span class="line">  </span><br><span class="line"><span class="comment"># Wait for the queue to empty </span></span><br><span class="line">workQueue.join() <span class="comment"># 需要在每个任务完成的时候加上task_done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Notify threads it&#x27;s time to exit </span></span><br><span class="line">thread_exit_Flag = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Wait for all threads to complete </span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads: </span><br><span class="line">    t.join() </span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Exit Main Thread&quot;</span>) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations"><a href="#Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations" class="headerlink" title="Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?"></a>Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?</h2><p>【问】当你碰见什么样的场景，你需要使用『阻塞队列』？<br>显然，当我需要某种场合<strong>阻塞/等待</strong>的时候需要阻塞队列，扩展开就是当：</p>
-<ol>
-<li>希望队列中元素到达一定数量停止放入（put），等消费者先消费完现有的。（BoundedBlockingQueue特有）。</li>
-<li>希望队列中没有元素时，消费者<strong>等待</strong>再次出现元素，此时应该是生产者忙碌的时候。</li>
-</ol>
-<p>典型的，普通queue也可以完成『等待』的操作，但是需要『busy wait』，这样太消耗CPU。</p>
-<h2 id="DIFF-normal-blocking-queue-and-bounded-blocking-queue"><a href="#DIFF-normal-blocking-queue-and-bounded-blocking-queue" class="headerlink" title="DIFF normal blocking queue and bounded blocking queue"></a>DIFF normal blocking queue and bounded blocking queue</h2><p>这两种容器各是什么场景下使用？</p>
-<blockquote>
-<p>In a pooling application, a blocking “put” is <strong>not appropriate</strong>. Controlling the maximum size of the queue is the job of the pool manager—it decides when to create or destroy resources for the pool. Clients of the pool borrow and return resources from the pool. Adding a new object, or returning a previously borrowed object to the pool should be fast, non-blocking operations. So, a bounded capacity queue is not a good choice for pools.</p>
-</blockquote>
-<p>如果作为『池』的属性，一般是不适合有『容量』的限制，也就是『满』的概念（这个是pool manager的责任）。池仅仅作为仓库。这种情况，使用BlockingQueue更好。</p>
-<p>另一种情况，如果是一个web server。某个用户发出请求太多，此时生产数量将远远超过消费数量，消费者需要一定的时间去消化，导致<strong>延迟</strong>会特别高。在<strong>业务层面</strong>，消费者也不希望等待太长的时间，另可request丢失。这种情况，使用BoundedBlockingQueue更好。</p>
-<h1 id="how-to-implement-a-blocking-queue"><a href="#how-to-implement-a-blocking-queue" class="headerlink" title="how to implement a blocking queue"></a>how to implement a blocking queue</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBlockQueue</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, max_size</span>):</span></span><br><span class="line">        self.max_size = max_size</span><br><span class="line">        self.lock = threading.Lock()</span><br><span class="line"></span><br><span class="line">        self.not_empty = threading.Condition(self.lock)</span><br><span class="line">        self.not_full = threading.Condition(self.lock)</span><br><span class="line">        self.queue = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qsize</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == self.max_size</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">empty</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">take</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.not_empty.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.empty(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_empty.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.empty()</span><br><span class="line">        item = self.queue[<span class="number">0</span>]</span><br><span class="line">        self.queue.remove(item)</span><br><span class="line"></span><br><span class="line">        self.not_full.notify()</span><br><span class="line"></span><br><span class="line">        self.not_empty.release()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, item</span>):</span></span><br><span class="line">        self.not_full.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.full(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_full.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.full()</span><br><span class="line">        self.queue.append(item)</span><br><span class="line">        print(self.queue)</span><br><span class="line"></span><br><span class="line">        self.not_empty.notify()</span><br><span class="line"></span><br><span class="line">        self.not_full.release()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">join</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># TODO too simple to implement</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.empty():</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">q = BoundedBlockQueue(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.take()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">False</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    print(item)</span><br><span class="line">    q.put(item)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()<span class="comment"># Error implement?</span></span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line">os._exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/how_to_use_and_implement_blocking_queue/" data-id="ckl80qmon000rs7qoc4eo57x7" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-DIFF_blocking_non-blocking_synchronism_asynchronism" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/DIFF_blocking_non-blocking_synchronism_asynchronism/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.651Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.808Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -172,7 +118,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/DIFF_blocking_non-blocking_synchronism_asynchronism/" data-id="ckl80qmn80003s7qocj1v8q4m" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/" data-id="ckl80qmn60002s7qobx27g991" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -184,10 +130,10 @@
 
 
   
-    <article id="post-why_stack_can_overflow_but_heap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-why-stack-can-overflow-but-heap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/why_stack_can_overflow_but_heap/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.641Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/why-stack-can-overflow-but-heap/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.780Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -216,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/why_stack_can_overflow_but_heap/" data-id="ckl80qmtd0027s7qo5bhmhpmh" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/why-stack-can-overflow-but-heap/" data-id="ckl80qmt50024s7qo3su0ae6y" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -228,10 +174,10 @@
 
 
   
-    <article id="post-what_is_zombie_process" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-what-is-zombie-process" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/what_is_zombie_process/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.628Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/what-is-zombie-process/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.757Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -261,7 +207,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what_is_zombie_process/" data-id="ckl80qmt30023s7qo3m7e62er" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/what-is-zombie-process/" data-id="ckl80qmsh001ss7qoex7i1gci" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -273,10 +219,10 @@
 
 
   
-    <article id="post-interview_design_memory_pool" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-interview-design-memory-pool" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/interview_design_memory_pool/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.619Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/interview-design-memory-pool/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.747Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -330,7 +276,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/interview_design_memory_pool/" data-id="ckl80qmp7000xs7qocqhk7v5r" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/interview-design-memory-pool/" data-id="ckl80qmp4000vs7qod4pf0pp7" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -342,10 +288,10 @@
 
 
   
-    <article id="post-diff_multi-process-multi_thread-io_resue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-diff-multi-process-multi-thread-io-resue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/diff_multi-process-multi_thread-io_resue/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.595Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/diff-multi-process-multi-thread-io-resue/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.709Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -392,7 +338,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff_multi-process-multi_thread-io_resue/" data-id="ckl80qmo4000js7qohs5qffnr" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -404,10 +350,10 @@
 
 
   
-    <article id="post-diff_ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-diff-ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/diff_ipc/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.586Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/diff-ipc/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.684Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -480,7 +426,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff_ipc/" data-id="ckl80qmo2000is7qo3z505ywa" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -492,10 +438,10 @@
 
 
   
-    <article id="post-waitpid_flag_set" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-waitpid-flag-set" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/waitpid_flag_set/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.565Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/waitpid-flag-set/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.671Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -526,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/waitpid_flag_set/" data-id="ckl80qmsz0021s7qog9u36g8y" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/waitpid-flag-set/" data-id="ckl80qmqh001hs7qoaj3l0kks" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -538,10 +484,10 @@
 
 
   
-    <article id="post-transaction_isolation_1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-transaction-isolation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/transaction_isolation_1/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.557Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/transaction-isolation/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.664Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -655,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/transaction_isolation_1/" data-id="ckl80qmqd001fs7qoen7h6zzk" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/transaction-isolation/" data-id="ckl81d7wj0002akqo52v67lex" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -667,10 +613,10 @@
 
 
   
-    <article id="post-redis_lru" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-redis-lru" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/redis_lru/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:04:24.550Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/redis-lru/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.652Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
@@ -730,7 +676,80 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/redis_lru/" data-id="ckl80qmq2001as7qo9t589hj8" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/redis-lru/" data-id="ckl80qmps0015s7qogs572sw3" data-title="" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-redis-data-structure-in-action" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/redis-data-structure-in-action/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:21:40.630Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="redis数据结构及其使用场景"><a href="#redis数据结构及其使用场景" class="headerlink" title="redis数据结构及其使用场景"></a>redis数据结构及其使用场景</h1><h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>Lpush + lpop = stack</li>
+<li>Lpush + rpop = queue</li>
+<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">what is ltrim?</a></li>
+<li>Lpush + brpop = message queue (blocking queue)</li>
+</ul>
+<p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
+<ol>
+<li>典型的就是消息队列，用于阻塞，空的时候无法获取，那会阻塞？</li>
+<li>典型的还是airticle list，有多少个文章，无需排序，仅仅是通过index去索引</li>
+</ol>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>不重复，无序<br>那么典型的什    么场景</p>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>tag<br>用户标签，对某些东西感兴趣，实现应该是一棵树？</li>
+</ol>
+<p>那zset呢？有序无序之间的区别？</p>
+<h3 id="底层是什么？"><a href="#底层是什么？" class="headerlink" title="底层是什么？"></a>底层是什么？</h3><h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><ul>
+<li>element不能重复</li>
+<li>通过score进行排序<br>有点类似学生id和学生分数</li>
+</ul>
+<p>这个分数是个什么性质，比如说我想按时间排序，能做到吗？</p>
+<h3 id="使用场景呢？"><a href="#使用场景呢？" class="headerlink" title="使用场景呢？"></a>使用场景呢？</h3><p>主要是和list的一个对比：</p>
+<ol start="0">
+<li>set家族当然就是不可重复了</li>
+<li>find，zset更快</li>
+<li>edge work，list更快，lpop、lpush</li>
+<li>排序，根据某种分数和权重，分数改变了，顺序也会改变<ul>
+<li>是可以自己指定权重方式？</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>The sorted set ensure that the key is unique. If you want to do something complex. For example, every time a user login, you add the userid to a sorted set. And there is a backend service read the sorted set and update the user’s information and action habbit. It can save a lot of work if you are using sorted set.<br>一些复杂的功能，比如每次登陆，都更新一下，按照登陆频率排序。</p>
+</blockquote>
+<blockquote>
+<p>What’s more, if the user is a premium paid member, you can set the score of his or her id higher, and refresh this user’s habbit match earlier.</p>
+</blockquote>
+<p>高级会员，放在redis set前面，这样取这个id更快</p>
+<p>总结起来，就是你需要动态排序，然后取一些顶点值的时候。如果是list，你可能要用代码实现，取top_k，但是zset就可以直接按照权重去获取。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis">https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">https://redis.io/topics/data-types-intro</a></p>
+<p><a target="_blank" rel="noopener" href="https://developpaper.com/redis-5-big-data-structure/">https://developpaper.com/redis-5-big-data-structure/</a></p>
+<h3 id="怎么实现的？"><a href="#怎么实现的？" class="headerlink" title="怎么实现的？"></a>怎么实现的？</h3><p>k-v的部分是通过hash，O(1)，排序的部分呢？</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/redis-data-structure-in-action/" data-id="ckl80qmpx0017s7qocxn91dbd" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -746,7 +765,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -763,9 +782,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
     </div>
   </div>
 
@@ -773,28 +792,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+            <a href="/2021/02/16/diff-between-post-and-put/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+            <a href="/2021/02/16/airflow-intro/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+            <a href="/2021/02/16/interview-about-massive-data/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+            <a href="/2021/02/16/what-is-protobuf/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+            <a href="/2021/02/16/what-is-dns/">(no title)</a>
           </li>
         
       </ul>

@@ -4,15 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>encode_format | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="encode_format">
+  <meta name="description" content="ENCODE: ascii unicode utf-8 ascii各国自己标准 unicode完全一致（映射关系） utf-8等编码方式是unicode的一种实现，  123456789101112unicode_str &#x3D; u&amp;#x27;邵瑞&amp;#x27;utf8_str &#x3D; unicode_str.encode(&amp;#x27;utf8&amp;#x27;)unicode_str_2 &#x3D; utf8_str.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2021/02/16/encode-format/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-16T12:58:57.000Z">
-<meta property="article:modified_time" content="2021-02-16T12:58:57.885Z">
+<meta property="og:description" content="ENCODE: ascii unicode utf-8 ascii各国自己标准 unicode完全一致（映射关系） utf-8等编码方式是unicode的一种实现，  123456789101112unicode_str &#x3D; u&amp;#x27;邵瑞&amp;#x27;utf8_str &#x3D; unicode_str.encode(&amp;#x27;utf8&amp;#x27;)unicode_str_2 &#x3D; utf8_str.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-16T13:21:40.542Z">
+<meta property="article:modified_time" content="2021-02-16T13:21:40.542Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -59,12 +61,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -74,30 +76,27 @@
         <section id="main"><article id="post-encode-format" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/encode-format/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T12:58:57.000Z" itemprop="datePublished">2021-02-16</time>
+  <time class="dt-published" datetime="2021-02-16T13:21:40.542Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      encode_format
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h1 id="ENCODE-ascii-unicode-utf-8"><a href="#ENCODE-ascii-unicode-utf-8" class="headerlink" title="ENCODE: ascii unicode utf-8"></a>ENCODE: ascii unicode utf-8</h1><ol>
+<li>ascii各国自己标准</li>
+<li>unicode完全一致（<strong>映射关系</strong>）</li>
+<li>utf-8等编码方式是unicode的一种实现，</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">unicode_str = <span class="string">u&#x27;邵瑞&#x27;</span></span><br><span class="line">utf8_str = unicode_str.encode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">unicode_str_2 = utf8_str.decode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span> = <span class="string">&#x27;邵瑞&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>.decode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line"><span class="string">u&#x27;\u90b5\u745e&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>.decode(<span class="string">&#x27;gbk&#x27;</span>)</span><br><span class="line"><span class="string">u&#x27;\u95ad\u7535\u61ba&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">type</span>(<span class="built_in">str</span>.decode(<span class="string">&#x27;utf8&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>utf-8是一种<strong>编码方式</strong>，<strong>文件</strong>中要有编码格式，这样IDE打开文档时，才能显示正确的文字。<br>unicode则是<strong>内存</strong>中的格式，独一无二。不同国家的不同文字，都有唯一的unicode，但是<strong>太长</strong>了，浪费内存。这里就需要各种编码方式。utf-8…缩减长度</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/encode-format/" data-id="ckl80qmoa000ls7qoetpb9cn1" data-title="encode_format" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/16/encode-format/" data-id="ckl80qmoa000ls7qoetpb9cn1" data-title="" class="article-share-link">分享</a>
       
       
       
@@ -108,18 +107,18 @@
 <nav id="article-nav">
   
     <a href="/2021/02/16/function-in-python/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+      <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          function_in_python
+          (no title)
         
       </div>
     </a>
   
   
-    <a href="/2021/02/16/what-is-duck-typing/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">what_is_duck_typing</div>
+    <a href="/2021/02/16/mutable-obj/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
@@ -142,9 +141,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
     </div>
   </div>
 
@@ -152,28 +151,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+            <a href="/2021/02/16/diff-between-post-and-put/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+            <a href="/2021/02/16/airflow-intro/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+            <a href="/2021/02/16/interview-about-massive-data/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+            <a href="/2021/02/16/what-is-protobuf/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+            <a href="/2021/02/16/what-is-dns/">(no title)</a>
           </li>
         
       </ul>

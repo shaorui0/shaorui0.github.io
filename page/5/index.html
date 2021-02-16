@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-what_is_nginx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what_is_nginx/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.903Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-NGINX"><a href="#what-is-NGINX" class="headerlink" title="what is NGINX?"></a>what is NGINX?</h1><h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><p><a target="_blank" rel="noopener" href="https://www.nginx.com/resources/wiki/start/topics/examples/full/">example link 1</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">example link 2</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><p><img src="./nginx1.png" alt="架构"></p>
+<h4 id="如何做到热部署"><a href="#如何做到热部署" class="headerlink" title="如何做到热部署"></a>如何做到<strong>热部署</strong></h4><h6 id="nginx-做法："><a href="#nginx-做法：" class="headerlink" title="nginx 做法："></a>nginx 做法：</h6><ol>
+<li>Change nginx.conf</li>
+<li>The changes take effect<ul>
+<li>new some workers, new requests =&gt; new workers.</li>
+<li>old workers <strong>continue</strong> to handle unfinished requests. If a old worker completes the <strong>remaining</strong> requests, <strong>KILL</strong> it.</li>
+</ul>
+</li>
+</ol>
+<h6 id="还有可能的方案："><a href="#还有可能的方案：" class="headerlink" title="还有可能的方案："></a>还有可能的方案：</h6><p>修改配置文件nginx.conf后，主进程master负责推送给woker进程更新配置信息，woker进程收到信息后，更新进程内部的线程信息。（有点 valatile 的味道）</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><p><img src="./nginx2.png" alt="虚拟主机"></p>
+<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
+<ol>
+<li>通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
+<li>为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
+<li>静态资源包括 业务数据 和 日志数据，归属到不同域名下（目录），方便维护。</li>
+<li>IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
+</ol>
+<h3 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1. 反向代理"></a>1. 反向代理</h3><p>location:</p>
+<ul>
+<li>root: 静态返回</li>
+<li>proxy_pass: 动态转发</li>
+</ul>
+<h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2. 负载均衡"></a>2. 负载均衡</h3><ul>
+<li>upstream: nginx 定义<strong>一组</strong>后端服务，通过一些 LB 策略进行<strong>负载均衡</strong>，同时进行<strong>健康检查</strong>。</li>
+<li>proxy_pass =&gt; upstream</li>
+</ul>
+<h5 id="负载均衡有哪些策略？"><a href="#负载均衡有哪些策略？" class="headerlink" title="负载均衡有哪些策略？"></a>负载均衡有哪些策略？</h5><p>（IPHASH、加权论调、最少连接……）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer">https://github.com/shaorui0/tiny_load_balancer</a></p>
+<h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>显而易见，可以 scale up ，部署更多的 server 来处理 request 。</p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><p>本质还是『<strong>不一致</strong>』的问题。web 层面，比如用户的 session 信息不一致。（由于 request 经过 lb 到达不同的 server 端）</p>
+<h4 id="从-tiny-lb-中学到什么？"><a href="#从-tiny-lb-中学到什么？" class="headerlink" title="从 tiny_lb 中学到什么？"></a>从 tiny_lb 中学到什么？</h4><ol>
+<li>反向代理是什么东西？<br>本质是<strong>解耦</strong>，client 不知道 server 的 IP ， server 不知道 client 的 IP。两者都经过第三方 reverse_proxy_server ，更符合直觉。</li>
+<li>正向代理是什么东西？<br>典型的应用场景就是<strong>VPN</strong>，client 知道 server 的 IP，但是中间是通过第三方绕过了 WALL，对 client 透明，server 获取到的 IP 是 <strong>VPN_server.IP</strong>。</li>
+</ol>
+<h3 id="3-缓存"><a href="#3-缓存" class="headerlink" title="3. 缓存"></a>3. 缓存</h3><p>TODO</p>
+<h3 id="怎么进行高并发"><a href="#怎么进行高并发" class="headerlink" title="怎么进行高并发"></a>怎么进行高并发</h3><ol>
+<li>本质上是设计的优秀，eventloop</li>
+<li>Master - Worker(1 - n)</li>
+</ol>
+<h3 id="怎么进行高可用"><a href="#怎么进行高可用" class="headerlink" title="怎么进行高可用"></a>怎么进行高可用</h3><p>keepalive + nginx：keppalive 监控 nginx 的生命，防止单点 nginx 挂掉。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what_is_nginx/" data-id="ckl808sj9000w8jqo7tln9gvk" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-what_is_map_reduce" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what_is_map_reduce/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.900Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-map-reduce"><a href="#what-is-map-reduce" class="headerlink" title="what is map reduce"></a>what is map reduce</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.yiibai.com/hadoop/intro-mapreduce.html">good pictures of parse</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.pythontips.com/en/latest/map_filter.html">最佳实践：mapper/filter/reducer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/hadoop/hadoop_mapreduce.htm">hadoop教程，mapreduce</a></li>
+</ul>
+<ol>
+<li><p>map是将函数作用在list的每一个元素上（比迭代更抽象）。<br><code>map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])</code></p>
+</li>
+<li><p>reduce是将所有结果进行一个merge<br><code>reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)</code></p>
+</li>
+</ol>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="built_in">map</span>(<span class="built_in">str</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fn</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">10</span> + y</span><br><span class="line">print(reduce(fn, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">char2num</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;0&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;1&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;2&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;3&#x27;</span>: <span class="number">3</span>, <span class="string">&#x27;4&#x27;</span>: <span class="number">4</span>, <span class="string">&#x27;5&#x27;</span>: <span class="number">5</span>, <span class="string">&#x27;6&#x27;</span>: <span class="number">6</span>, <span class="string">&#x27;7&#x27;</span>: <span class="number">7</span>, <span class="string">&#x27;8&#x27;</span>: <span class="number">8</span>, <span class="string">&#x27;9&#x27;</span>: <span class="number">9</span>&#125;[s]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">str2int</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> reduce(<span class="keyword">lambda</span> x,y: x*<span class="number">10</span>+y, <span class="built_in">map</span>(char2num, s))</span><br></pre></td></tr></table></figure>
+<h2 id="mr任务"><a href="#mr任务" class="headerlink" title="mr任务"></a>mr任务</h2><h5 id="mapper"><a href="#mapper" class="headerlink" title="mapper"></a>mapper</h5><blockquote>
+<p>读取上游数据，对每行按自己的方式进行组织</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    data_type = <span class="built_in">int</span>(sys.argv[<span class="number">1</span>])</span><br><span class="line">    <span class="comment"># 上游数据过来，是标准输入</span></span><br><span class="line">    <span class="keyword">for</span> eachline <span class="keyword">in</span> sys.stdin:</span><br><span class="line">        my_obj = MyClass()</span><br><span class="line">        my_obj.init_from_json(eachline.strip(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;\t&quot;</span>.join([my_obj.<span class="built_in">id</span>, eachline.strip(<span class="string">&quot;\n&quot;</span>)])</span><br></pre></td></tr></table></figure>
+<h5 id="reducer"><a href="#reducer" class="headerlink" title="reducer"></a>reducer</h5><blockquote>
+<p>读取到mapper产生的数据，『遍历』对所有行进行一个『<strong>汇总</strong>』</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    old_info = &#123;&#125;</span><br><span class="line">    check_result = []</span><br><span class="line">    <span class="comment"># 汇集mapreduce所有的输出（保存在list里面）</span></span><br><span class="line">    <span class="keyword">for</span> eachline <span class="keyword">in</span> sys.stdin:</span><br><span class="line">        line = eachline.strip(<span class="string">&quot;\n&quot;</span>).split(<span class="string">&quot;\t&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        key_id = line[<span class="number">0</span>]</span><br><span class="line">        value_json_data = json.loads(line[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        check_result += json_data.get(<span class="string">&quot;check_result&quot;</span>, [])</span><br><span class="line">        old_info[<span class="string">&quot;check_result&quot;</span>] = check_result</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span> json.dumps(old_info)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>mapreduce为了什么？更好的并发，一切为了效率？它是一种编程框架/模型，为的是更好的抽象，在不同层面上做不同的事情。</p>
+<h2 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h2><blockquote>
+<p>更好的并发，一切为了效率</p>
+</blockquote>
+<h1 id="relationship-between-hive-and-hadoop-mapreduce"><a href="#relationship-between-hive-and-hadoop-mapreduce" class="headerlink" title="relationship-between-hive-and-hadoop-mapreduce"></a>relationship-between-hive-and-hadoop-mapreduce</h1><p><strong>Map Reduce</strong> is the framework used to process the data which is stored in the HDFS, here java native language is used to writing Map Reduce programs.<br>Hive is a <strong>batch processing framework</strong>. This component process the data using a language called Hive Query Language(HQL). Hive prevents writing MapReduce programs in Java. Instead one can use SQL like language to do their daily tasks.<br>For HIVE there is <strong>no process to communicate Map/Reduce tasks directly</strong>. </p>
+<p>After the Hive finishes the <strong>query execution</strong>, the result is submitted to the <strong>JobTracker</strong>, which resides on YARN. The JobTracker consists of Map/Reduce tasks which runs the mapper and reducer job to store the final result in the <strong>HDFS</strong>. The Map task deserializes(reading) the data from the HDFS and the Reduce task serializes(writing) the data as the result of the Hive query.</p>
+<p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png" alt="hive_procecss_detail"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what_is_map_reduce/" data-id="ckl808sjh00128jqofegs2kp2" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff_between_partition_and_sharding" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff_between_partition_and_sharding/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.895Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="partition-and-sharding"><a href="#partition-and-sharding" class="headerlink" title="partition and sharding"></a>partition and sharding</h1><h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+<h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
+<ul>
+<li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of what is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
+</ul>
+<h4 id="what-is-sharding"><a href="#what-is-sharding" class="headerlink" title="what is sharding?"></a>what is sharding?</h4><ul>
+<li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
+</ul>
+<h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
+<ul>
+<li>最初的identifiers就是RDBMS中的自增id了，这种标识符称为<strong>Shard Key</strong></li>
+<li>最常用的一种key-less logic是通过字母序来决定的</li>
+<li>还有些是使用key-synchronizition system ===&gt; zookeeper（管理分布式系统）</li>
+</ul>
+<h2 id="Instagram-instance"><a href="#Instagram-instance" class="headerlink" title="Instagram instance"></a>Instagram instance</h2><ol>
+<li>开始不给系统带来太大的复杂度，比如引进分布式系统</li>
+<li>讨论方案的时候，典型的<strong>优缺点</strong>要罗列清楚（pros and cons），这样才好更容易做决策。</li>
+<li><strong>sharding</strong>的本质就是<strong>数据存放好之后（将数据分到很多桶里）我如何取的问题</strong></li>
+<li>典型的就要对id这个东西非常上心</li>
+</ol>
+<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ul>
+<li>id要以时间有序的方式排序（即使没有其他信息，也能够排序）</li>
+<li>id最理想的长度应该是64bits（更小的索引，更好的存储（比如适配redis））</li>
+<li>系统应该引入比较少的、新的’moving parts’（复杂度）</li>
+</ul>
+<h3 id="可能的解法（pros-and-cons）："><a href="#可能的解法（pros-and-cons）：" class="headerlink" title="可能的解法（pros and cons）："></a>可能的解法（pros and cons）：</h3><ol>
+<li><p>通过代码而非数据库的自增id（mongoDB’s Object）</p>
+<ul>
+<li>好处<ul>
+<li>application thread generates IDs independently</li>
+<li>使用时间戳作为第一部分，自动排序</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>保证独立需要很多storage space（为什么？线程控制，全局独立，随着id足够多…）</li>
+<li>UUID？也没有一个很好的natural sort，而且128bits长度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>某种服务专门用来产生id<br>twitter的snowflake，apache zookeeper，64-bits unique IDs</p>
+<ul>
+<li>好处<ul>
+<li>64-bits</li>
+<li>time作为第一部分</li>
+<li>分布式系统，更加可用、某些节点死了的情况下</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>引入了复杂度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>DB自动增加的能力（two ticket DBs 避免单节点失败）</p>
+<ul>
+<li>好处<ul>
+<li>很好理解，很好的预期扩展性</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>写会有瓶颈（事务带来）</li>
+<li>需要一些机器专门来管理（比如EC2）</li>
+<li>单节点可能失效，多节点可能不保证随时间的有序性（考虑两个节点交叉写的情况）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><blockquote>
+<p>现代RDBMS（PostgreSQL）提供了<strong>逻辑上的sharding</strong>，在很少的机器情况下，仍然能进行分片</p>
+</blockquote>
+<p>以上一些方案，分布式的方法更适合。但是，会引入复杂度。</p>
+<p>逻辑分片，粒度：DB =&gt;  schema =&gt; table，而不是传统的DB =&gt; schema（public）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Postgre有内置的语言，通过位运算处理三部分的id</span></span><br><span class="line"></span><br><span class="line">41bits（微秒） ===&gt; 41年</span><br><span class="line">13bits（逻辑shard）</span><br><span class="line">10bits（取模）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每微秒每个shard产生1024个ID</span></span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20771435/database-sharding-vs-partitioning">database-sharding-vs-partitionin</a></p>
+<p><a target="_blank" rel="noopener" href="https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c">EXAMPLE: handle instagram id</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff_between_partition_and_sharding/" data-id="ckl808sg100048jqo2jzi1zbr" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-what_is_event_driven_model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what_is_event_driven_model/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.891Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="event-driven-model"><a href="#event-driven-model" class="headerlink" title="event driven model"></a>event driven model</h1><h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
+<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
+</blockquote>
+<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
+<ul>
+<li>blocking io<br><img src="blocking_io.png" alt="blocking_io"></li>
+<li>non-blocking io<br><img src="non_blocking_io.png" alt="non_blocking_io"></li>
+</ul>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
+</li>
+</ul>
+<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
+<li><p><a href="./echo_server_event_driven.py">server</a></p>
+</li>
+<li><p><a href="./echo_client.py">client</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what_is_event_driven_model/" data-id="ckl808sj0000s8jqogzit0spp" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="虚拟内存分为三个维度  虚拟内存最核心的功能是作为缓存 虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的 磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM） 缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/02/16/what_is_memory_management/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="虚拟内存分为三个维度  虚拟内存最核心的功能是作为缓存 虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的 磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM） 缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-02-16T12:49:59.029Z">
+<meta property="article:modified_time" content="2021-02-16T12:49:59.029Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-what_is_memory_management" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what_is_memory_management/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:59.029Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h1><p>分为三个维度</p>
+<ol>
+<li>虚拟内存最核心的功能是作为缓存<ul>
+<li>虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的</li>
+<li>磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM）</li>
+<li>缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大了内存的逻辑容量，看上去更大了，而不是更快了。</li>
+<li>有很多要考虑的问题（请求式的页面换入换出）<ul>
+<li>当前需要的虚拟页是否已缓存</li>
+<li>如果缓存，对应的物理页在哪里？</li>
+<li>如果未缓存，还要去磁盘找，在磁盘的哪里？</li>
+<li>还需要一个替换算法，选中一个牺牲页，与磁盘上的DRAM进行替换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>虚拟内存帮助内存管理<ul>
+<li>每个进程有一个独立的页表（地址空间）。页面调度与独立地址空间相结合，对内存管理造成了深远的影响。<ul>
+<li>简化了编译、汇编、链接、加载的过程，都会有磁盘和内存之间的交互（.c/.o/etc）</li>
+<li>简化了内存分配的过程，需要哪些？用户层是malloc分配heap，stack自动增长等。典型的就是虚拟地址连续，但是物理地址不用连续。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>虚拟内存作为内存保护<ul>
+<li>每个虚拟页的地址头，都有SUP段，用于判断是否允许用户态访问。</li>
+</ul>
+</li>
+</ol>
+<h1 id="说一下内存管理"><a href="#说一下内存管理" class="headerlink" title="说一下内存管理"></a>说一下内存管理</h1><p>从哪些维度来说？</p>
+<ol start="0">
+<li>内存的最主要的功能是什么<ul>
+<li>充当磁盘和CPU之间的cache</li>
+</ul>
+</li>
+<li>内存分配与回收<ul>
+<li>分页式</li>
+<li>分段式</li>
+<li>段页式</li>
+<li>涉及到的页面置换算法</li>
+</ul>
+</li>
+<li>内存保护<ul>
+<li>分页系统的地址映射机制</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what_is_memory_management/" data-id="ckl808sjb000x8jqoek7sbm5i" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/02/16/diff_static_link_and_dynamic_link/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/16/note/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

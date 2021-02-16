@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-事务的隔离性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.990Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h1><h2 id="为什么会需要隔离性"><a href="#为什么会需要隔离性" class="headerlink" title="为什么会需要隔离性"></a>为什么会需要隔离性</h2><p>如果<strong>两个事务</strong>不触及相同的数据，它们可以安全地并行（parallel） 运行，因为两者都不依赖于另一个。当一个事务读取由另一个事务同时修改的数据时，或者当两个事务试图同时修改相同的数据时，并发问题（<strong>竞争条件</strong>）才会出现。</p>
+<h2 id="先说概念"><a href="#先说概念" class="headerlink" title="先说概念"></a>先说概念</h2><p>四种隔离级别：</p>
+<ul>
+<li>读未提交</li>
+<li>读已提交</li>
+<li>可重复读</li>
+<li>可串行化</li>
+</ul>
+<h2 id="各个隔离级别解决了什么问题？"><a href="#各个隔离级别解决了什么问题？" class="headerlink" title="各个隔离级别解决了什么问题？"></a>各个隔离级别解决了什么问题？</h2><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>读 x 1, 写 x 1（关键字：部分对象）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">init x&#x3D;0, y&#x3D;0</span><br><span class="line"></span><br><span class="line">update x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1, y&#x3D;0 (不一致)</span><br><span class="line">update y &#x3D; 2</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">final: x &#x3D; 1, y &#x3D; 2</span><br></pre></td></tr></table></figure>
+<p><img src="./src/%E8%84%8F%E8%AF%BB.jpg" alt="hive_procecss_detail"></p>
+<ul>
+<li>用户2可能看到<strong>部分</strong>用户1修改的数据，可能在<strong>一致性</strong>上不合法。比如用户看到新的未读电子邮件（对象1），但看不到更新的计数器（对象2）。</li>
+<li>用户2如果事务中止需要<strong>回滚</strong>，用户1可能读到回滚前的数据。</li>
+</ul>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
+<li>读写锁？效果并不好，可能某一方长时间占用锁</li>
+<li>临时变量保存写的对象，让读可以读这个var，避免读被写阻塞</li>
+</ul>
+<h4 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h4><h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p><del>两个对同一个对象的写，后提交的数据覆盖了前面提交的数据</del></p>
+<p>这里还和之前理解的不太一样。脏写真正的含义是，两个用户写入多个对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">update x &#x3D; 1</span><br><span class="line">                update x &#x3D; 2</span><br><span class="line">                update y &#x3D; 2</span><br><span class="line">update y &#x3D; 1</span><br><span class="line">final: x &#x3D; 2, y &#x3D; 1</span><br></pre></td></tr></table></figure>
+<p><img src="./src/%E8%84%8F%E5%86%99.jpg" alt="hive_procecss_detail"></p>
+<h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
+<li>行锁</li>
+</ul>
+<h5 id="没有解决什么？（丢失更新）"><a href="#没有解决什么？（丢失更新）" class="headerlink" title="没有解决什么？（丢失更新）"></a>没有解决什么？（丢失更新）</h5><p>典型的计数器递增，主要的错误是<strong>读</strong>的过程出了问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1</span><br><span class="line">update x +&#x3D; 1(2)</span><br><span class="line">                update x +&#x3D; 1(2)</span><br><span class="line">final: x &#x3D; 2</span><br></pre></td></tr></table></figure>
+<p><img src="./src/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" alt="hive_procecss_detail"></p>
+<p>以上的隔离级别基本解决了一些常见的麻烦。</p>
+<ul>
+<li>读取不完整的事务结果</li>
+<li>并排写入的并发</li>
+</ul>
+<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>持续时间长的事务，由于没有阻塞其他写，导致时间跨度较长的前后时间点读取的某个对象的数据不一致。</p>
+<p><img src="./src/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" alt="hive_procecss_detail"></p>
+<h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><ol>
+<li><p>备份，<strong>持续时间长</strong>。这段时间，肯定是接受写入操作的。如果想从这个备份进行恢复，那么不一致就会变成永久的。</p>
+</li>
+<li><p>分析查询和完整性检查</p>
+</li>
+</ol>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
+<li>快照隔离。MVCC。</li>
+</ul>
+<h5 id="what-is-MVCC"><a href="#what-is-MVCC" class="headerlink" title="what is MVCC?"></a>what is MVCC?</h5><p><img src="./src/MVCC.jpg" alt="hive_procecss_detail"></p>
+<ol>
+<li><strong>多版本</strong>是指某个对象的某个版本</li>
+<li>一个事务一个id（txid，自增长）。</li>
+<li>每当一个事务写入内容，他所写入的数据都会标记上写入者的事务ID。（create_by, delete_by）</li>
+</ol>
+<p>MVCC也可以用在读已提交上面，主要实现是保留两个版本的快照，为每个查询适用单独的快照</p>
+<h5 id="索引在快照隔离上起作用"><a href="#索引在快照隔离上起作用" class="headerlink" title="索引在快照隔离上起作用"></a>索引在快照隔离上起作用</h5><ul>
+<li>一种选择是使用索引简单的指向对象的<strong>所有版本</strong>，并通过索引查询<strong>过滤</strong>当前事务不可见的任何对象版本</li>
+<li>也有一些数据库选用了仅追加的B-tree，每个写入的事务都创建新的树</li>
+</ul>
+<h3 id="防止丢失更新"><a href="#防止丢失更新" class="headerlink" title="防止丢失更新"></a>防止丢失更新</h3><p>只读事务 在 并发写入时看到什么？<strong>读已提交、快照隔离。</strong></p>
+<p>那么写事务进行并发写入呢？（计数器递增）</p>
+<ol>
+<li><p>原子写</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE counters <span class="keyword">SET</span> <span class="keyword">value</span> <span class="operator">=</span> <span class="keyword">value</span> <span class="operator">+</span> <span class="number">1</span> <span class="keyword">WHERE</span> key <span class="operator">=</span> <span class="string">&#x27;foo&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p> 游标稳定性（cursor stability）</p>
+</li>
+<li><p>显式锁定<br> <code>FOR UPDATE</code>对select返回的所有行<strong>加锁</strong></p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> figures</span><br><span class="line">    <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;robot&#x27;</span> <span class="keyword">AND</span> game_id <span class="operator">=</span> <span class="number">222</span></span><br><span class="line"><span class="keyword">FOR</span> UPDATE;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查玩家的操作是否有效，然后更新先前SELECT返回棋子的位置。</span></span><br><span class="line">UPDATE figures <span class="keyword">SET</span> position <span class="operator">=</span> <span class="string">&#x27;c4&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>自动检测丢失的更新</p>
+<ul>
+<li>允许并发写入，写入过后对结果进行检查（中止事务，强制重试 read-update-commit）</li>
+</ul>
+</li>
+<li><p>比较并设置（CAS）</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 根据数据库的实现情况，这可能也可能不安全</span></span><br><span class="line">UPDATE wiki_pages <span class="keyword">SET</span> content <span class="operator">=</span> <span class="string">&#x27;新内容&#x27;</span></span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span> <span class="keyword">AND</span> content <span class="operator">=</span> <span class="string">&#x27;旧内容&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p> 也可能不安全，where从旧的快照中获取数据（MVCC带来的问题）</p>
+</li>
+<li><p>冲突解决和复制（<strong>分布式的场景</strong>，多节点）</p>
+<ul>
+<li>复制数据库中，多对个『<strong>兄弟</strong>』值应用代码进行处理</li>
+<li>如果有可交换性，最终结果也能一致。例如，递增计数器或向集合添加元素是可<strong>交换的操作</strong>。</li>
+<li><strong>最后写入为准</strong>（LWW）的冲突解决方法很容易丢失更新。不幸的是，LWW是许多复制数据库中的默认值。</li>
+</ul>
+</li>
+</ol>
+<h3 id="写入偏差与幻读"><a href="#写入偏差与幻读" class="headerlink" title="写入偏差与幻读"></a>写入偏差与幻读</h3><p>前面说的，<strong>脏写、丢失更新</strong>，主要是并发写入相同对象。那么不同对象呢（但又影响最终结果）？</p>
+<p><strong>写入偏差</strong>视为<strong>丢失更新</strong>问题的一般化。</p>
+<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><p><img src="./src/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg" alt="hive_procecss_detail"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get x</span><br><span class="line">                get x</span><br><span class="line">check x</span><br><span class="line">                check x</span><br><span class="line">update y</span><br><span class="line">                update y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="为什么会出现写入偏差"><a href="#为什么会出现写入偏差" class="headerlink" title="为什么会出现写入偏差"></a>为什么会出现写入偏差</h4><p>幻读</p>
+<p>所有这些例子都遵循类似的模式：</p>
+<ol>
+<li><p>一个SELECT查询找出符合条件的行，并检查是否符合一些要求。（例如：至少有两名医生在值班；不存在对该会议室同一时段的预定；棋盘上的位置没有被其他棋子占据；用户名还没有被抢注；账户里还有足够余额）</p>
+</li>
+<li><p>按照第一个查询的结果，应用代码决定是否继续。（可能会继续操作，也可能中止并报错）</p>
+</li>
+<li><p>如果应用决定继续操作，就执行写入（插入、更新或删除），并提交事务。</p>
+</li>
+</ol>
+<p>这个<strong>写入</strong>的效果改变了步骤2 中的先决条件。换句话说，如果在提交写入后，重复执行一次步骤1 的<strong>SELECT</strong>查询，将会得到<strong>不同的结果</strong>。因为<strong>写入改变符合搜索条件的行集</strong>（现在少了一个医生值班，那时候的会议室现在已经被预订了，棋盘上的这个位置已经被占据了，用户名已经被抢注，账户余额不够了）。</p>
+<p>这些步骤可能以不同的顺序发生。例如可以首先进行写入，然后进行SELECT查询，最后根据查询结果决定是放弃还是提交。</p>
+<p>在医生值班的例子中，在步骤3中修改的行，是步骤1中返回的行之一，所以我们可以通过锁定步骤1 中的行（<strong>SELECT FOR UPDATE</strong>）来使事务安全并避免写入偏差。但是其他四个例子是不同的：它们检查是否不存在某些满足条件的行，写入会添加一个匹配相同条件的行。<strong>如果步骤1中的查询没有返回任何行，则SELECT FOR UPDATE锁不了任何东西</strong>。</p>
+<p>这种效应：<strong>一个事务中的写入改变另一个事务的搜索查询的结果，被称为幻读</strong>【3】。快照隔离避免了只读查询中幻读，但是在像我们讨论的例子那样的读写事务中，幻影会导致特别棘手的写歪斜情况。</p>
+<p>总结：某些情况可以使用<code>SELECT FOR UPDATE</code>防止幻读，但是如果<code>SELECT FOR UPDATE</code>没有结果行，锁不住任何东西，潜在还是会出错。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/" data-id="ckl808sjj00138jqo2u1p4j05" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-redis_lru" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/redis_lru/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.987Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="LRU-algorithm-and-LRU-implementation-of-Redis"><a href="#LRU-algorithm-and-LRU-implementation-of-Redis" class="headerlink" title="LRU algorithm and LRU implementation of Redis"></a>LRU algorithm and LRU implementation of Redis</h1><h3 id="【问】如何设计一个redis的内存淘汰机制？"><a href="#【问】如何设计一个redis的内存淘汰机制？" class="headerlink" title="【问】如何设计一个redis的内存淘汰机制？"></a>【问】如何设计一个redis的内存淘汰机制？</h3><p>面试过程的遇到过这个问题。</p>
+<ol start="0">
+<li>典型的内存淘汰机制是LRU</li>
+<li>LRU的常规实现是双向链表</li>
+</ol>
+<p>但问题并不只是这么简单，但是面试提出如何树的概念，这个逻辑是这样形成的。一个典型的面试场景是这样的：</p>
+<ol start="2">
+<li>如果一个key在里面，再次访问需要拿到前面来，那么如何拿？<ul>
+<li>基于目前的情况，只能是<strong>遍历</strong>。</li>
+</ul>
+</li>
+<li>遍历是不是太慢了？<ul>
+<li>脱口而出排序 + 二分</li>
+</ul>
+</li>
+<li>那么排序后，『优先级』的信息是不是丢失了？<ul>
+<li>排序肯定是错误的了。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
+<li>想到维护一个树的话，查找速度从n =&gt; logn，这是一个进步。</li>
+</ul>
+</li>
+<li>什么样的树呢？<ul>
+<li>为了保证树不会退化到链表，需要维护<strong>平衡</strong>，这里想到了<strong>红黑树</strong></li>
+</ul>
+</li>
+<li>那么一开始为什么不使用红黑树而要使用双向链表？<ul>
+<li>这个问题没有回答好，看了资料以后，发现是需要这个两个数据结构联合实现的<ul>
+<li>查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
+<li>维护优先级的问题通过双向链表解决<br>典型的解决方案就出来了，key-addr在hash table中，(key, value)在two-way chain table中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>TODO 实现</p>
+<h3 id="真正到工业级的redis的实现，又和严格LRU的有一些出入"><a href="#真正到工业级的redis的实现，又和严格LRU的有一些出入" class="headerlink" title="真正到工业级的redis的实现，又和严格LRU的有一些出入"></a>真正到工业级的redis的实现，又和严格LRU的有一些出入</h3><ol>
+<li><p>维护严格的LRU比较耗费空间（大量的前后指针）。</p>
+<ul>
+<li>能想到怎么优化吗？典型的就是将n减少到常数级别，只对少量的kv进行维护。</li>
+<li>这里涉及到一个『采样』的问题，有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？<code>maxmemory-samples 5 </code></li>
+</ul>
+</li>
+<li><p>redis提供了多种驱逐策略，应该怎么选用？</p>
+<p> 和业务中redis的使用场景有关，可能一般的都是作为缓存，基本都隔离了『配置』这块。</p>
+</li>
+</ol>
+<p>TODO 更深入的接触到redis后，进行进一步的了解。</p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">官方, LRU cache</a><br><a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-lru-implementation-of-redis.html">如何实现一个kv形式的严格LRU策略</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/redis_lru/" data-id="ckl808si7000l8jqoakvf33g8" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-redis_data_structure_in_action" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/redis_data_structure_in_action/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.981Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="redis数据结构及其使用场景"><a href="#redis数据结构及其使用场景" class="headerlink" title="redis数据结构及其使用场景"></a>redis数据结构及其使用场景</h1><h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>Lpush + lpop = stack</li>
+<li>Lpush + rpop = queue</li>
+<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">what is ltrim?</a></li>
+<li>Lpush + brpop = message queue (blocking queue)</li>
+</ul>
+<p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
+<ol>
+<li>典型的就是消息队列，用于阻塞，空的时候无法获取，那会阻塞？</li>
+<li>典型的还是airticle list，有多少个文章，无需排序，仅仅是通过index去索引</li>
+</ol>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>不重复，无序<br>那么典型的什    么场景</p>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>tag<br>用户标签，对某些东西感兴趣，实现应该是一棵树？</li>
+</ol>
+<p>那zset呢？有序无序之间的区别？</p>
+<h3 id="底层是什么？"><a href="#底层是什么？" class="headerlink" title="底层是什么？"></a>底层是什么？</h3><h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><ul>
+<li>element不能重复</li>
+<li>通过score进行排序<br>有点类似学生id和学生分数</li>
+</ul>
+<p>这个分数是个什么性质，比如说我想按时间排序，能做到吗？</p>
+<h3 id="使用场景呢？"><a href="#使用场景呢？" class="headerlink" title="使用场景呢？"></a>使用场景呢？</h3><p>主要是和list的一个对比：</p>
+<ol start="0">
+<li>set家族当然就是不可重复了</li>
+<li>find，zset更快</li>
+<li>edge work，list更快，lpop、lpush</li>
+<li>排序，根据某种分数和权重，分数改变了，顺序也会改变<ul>
+<li>是可以自己指定权重方式？</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>The sorted set ensure that the key is unique. If you want to do something complex. For example, every time a user login, you add the userid to a sorted set. And there is a backend service read the sorted set and update the user’s information and action habbit. It can save a lot of work if you are using sorted set.<br>一些复杂的功能，比如每次登陆，都更新一下，按照登陆频率排序。</p>
+</blockquote>
+<blockquote>
+<p>What’s more, if the user is a premium paid member, you can set the score of his or her id higher, and refresh this user’s habbit match earlier.</p>
+</blockquote>
+<p>高级会员，放在redis set前面，这样取这个id更快</p>
+<p>总结起来，就是你需要动态排序，然后取一些顶点值的时候。如果是list，你可能要用代码实现，取top_k，但是zset就可以直接按照权重去获取。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis">https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">https://redis.io/topics/data-types-intro</a></p>
+<p><a target="_blank" rel="noopener" href="https://developpaper.com/redis-5-big-data-structure/">https://developpaper.com/redis-5-big-data-structure/</a></p>
+<h3 id="怎么实现的？"><a href="#怎么实现的？" class="headerlink" title="怎么实现的？"></a>怎么实现的？</h3><p>k-v的部分是通过hash，O(1)，排序的部分呢？</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/redis_data_structure_in_action/" data-id="ckl808sid000o8jqod0eh1pl1" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-redis_ttl" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/redis_ttl/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.978Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="How-Redis-expires-keys"><a href="#How-Redis-expires-keys" class="headerlink" title="How Redis expires keys?"></a>How Redis expires keys?</h1><p>Redis keys are expired in two ways: a passive way, and an active way.<br>使用频繁的是passive way，典型的就是只有当反问到某个key的时候，才判断它是否过期了。<br>但是这样会产生一个问题。</p>
+<ul>
+<li>如果一个key一致不被访问到，那会一直占用空间。</li>
+</ul>
+<p>解决这个问题的一个简单的思路就是：固定的时间随机找到一些key，判断这些key是否存在过期的，然后删除。<br>更进一步的，如果key的数量超过25%，重新执行一次上面的操作。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36172745/how-does-redis-expire-keys">how-does-redis-expire-keys</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/redis_ttl/" data-id="ckl808sie000p8jqo98c7hrpq" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff_hash_btree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff_hash_btree/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.974Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="hash-b-tree"><a href="#hash-b-tree" class="headerlink" title="hash / b-tree"></a>hash / b-tree</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
+<p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
+<h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
+<p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
+</blockquote>
+<blockquote>
+<p>The trade off for tree algorithms is small and they are suitable for almost every use case and thus are default.</p>
+</blockquote>
+<p>处理规模化的数据时，hash维护key会显著变慢（冲突处理）</p>
+<ul>
+<li><p>hash时间复杂度可能落入到O(n)</p>
+</li>
+<li><p>b-tree更平衡，平均复杂度为O(log n)</p>
+</li>
+</ul>
+<h5 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h5><blockquote>
+<p>The difference between using a b-tree and a hash table is that the former allows you to use column comparisons in expressions that use the =, &gt;, &gt;=, &lt;, &lt;=, or BETWEEN operators, while the latter is used only for equality comparisons that use the = or &lt;=&gt; operators.</p>
+</blockquote>
+<p>就存取特征而言，hash table是离散的，只能以O(1)的时间复杂度寻找特定值，而不支持range query（<strong>主要原因</strong>）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff_hash_btree/" data-id="ckl808sgm00078jqoadd682hy" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-example_of_practice" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/example_of_practice/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.965Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="example-of-practice"><a href="#example-of-practice" class="headerlink" title="example of practice"></a>example of practice</h1><p>账户违规发现时效性监控</p>
+<p>risk_user_stat.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 所有非 0 的返回状态都需要捕获</span></span><br><span class="line"><span class="built_in">set</span> -o pipefail  <span class="comment"># 管道间错误需要捕获</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> == 1 ] ; <span class="keyword">then</span></span><br><span class="line">    INPUT_DATE=$(date -d <span class="variable">$1</span> +%Y-%m-%d)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    INPUT_DATE=$(date +%Y-%m-%d)</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间变量</span></span><br><span class="line">END_DAY=<span class="variable">$&#123;INPUT_DATE&#125;</span></span><br><span class="line">BEGIN_DAY=$(date +<span class="string">&quot;%Y-%m-%d&quot;</span> -d <span class="string">&quot;-7 days <span class="variable">$&#123;END_DAY&#125;</span>&quot;</span>)</span><br><span class="line">CVREMARK_DAY=$(date +<span class="string">&quot;%Y%m%d&quot;</span> -d <span class="string">&quot;<span class="variable">$&#123;END_DAY&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库配置</span></span><br><span class="line">HOST=<span class="string">&quot;10.233.31.50&quot;</span></span><br><span class="line">PORT=<span class="string">&quot;7550&quot;</span></span><br><span class="line">USER=<span class="string">&quot;leizihe&quot;</span></span><br><span class="line">PASSWD=<span class="string">&quot;U3m7Aetf8T&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># hadoop配置</span></span><br><span class="line">HADOOP_PATH=<span class="string">&quot;/home/work/bin/hadoop-client/hadoop/bin/hadoop&quot;</span></span><br><span class="line">CVREMARK_HDFS=<span class="string">&quot;hdfs://nmg01-mulan-hdfs.dmop.baidu.com:54310/app/ecom/aries/fengkong/zhukaiwen/cvremark&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取监察数据：userid，违规类型，是否A类，来源，批注占位，审核时间，推送时间</span></span><br><span class="line"><span class="keyword">function</span> get_jc()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;get_jc start!&quot;</span></span><br><span class="line"></span><br><span class="line">    mysql -h<span class="variable">$&#123;HOST&#125;</span> -P<span class="variable">$&#123;PORT&#125;</span> -u<span class="variable">$&#123;USER&#125;</span> -p<span class="variable">$&#123;PASSWD&#125;</span> --default-character-set=utf8 -e <span class="string">&quot;</span></span><br><span class="line"><span class="string">    select</span></span><br><span class="line"><span class="string">        task_id,</span></span><br><span class="line"><span class="string">        user_id,</span></span><br><span class="line"><span class="string">        task.product,</span></span><br><span class="line"><span class="string">        first_source,</span></span><br><span class="line"><span class="string">        reason_name,</span></span><br><span class="line"><span class="string">        reason,</span></span><br><span class="line"><span class="string">        task.violation_basis,</span></span><br><span class="line"><span class="string">        task_type,</span></span><br><span class="line"><span class="string">        audit_time,</span></span><br><span class="line"><span class="string">        task.punish_type,</span></span><br><span class="line"><span class="string">        quarter_consume,</span></span><br><span class="line"><span class="string">        real_punish_amount,</span></span><br><span class="line"><span class="string">        push_time</span></span><br><span class="line"><span class="string">    from</span></span><br><span class="line"><span class="string">        DF_Inspection.task</span></span><br><span class="line"><span class="string">        left join</span></span><br><span class="line"><span class="string">        DF_Inspection.violation_reason</span></span><br><span class="line"><span class="string">        on</span></span><br><span class="line"><span class="string">            task.violation_reason_third = violation_reason.reason_id</span></span><br><span class="line"><span class="string">    where</span></span><br><span class="line"><span class="string">        real_punish_type not in (0,10,11,12,20) and is_violation = 1</span></span><br><span class="line"><span class="string">        and audit_time &gt;= &#x27;<span class="variable">$&#123;BEGIN_DAY&#125;</span>&#x27; and audit_time &lt; &#x27;<span class="variable">$&#123;END_DAY&#125;</span>&#x27;</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; jc.data</span><br><span class="line">    sed -i <span class="string">&quot;1d&quot;</span> jc.data</span><br><span class="line"></span><br><span class="line">    awk -v FS=<span class="string">&#x27;\t&#x27;</span> -v OFS=<span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">        violation_basis = $7;</span></span><br><span class="line"><span class="string">        task_type = $8;</span></span><br><span class="line"><span class="string">        punish_type = $10;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        user_id = $2;</span></span><br><span class="line"><span class="string">        reason_name = $5;</span></span><br><span class="line"><span class="string">        violation_type = &quot;&quot;;</span></span><br><span class="line"><span class="string">        first_source = $4;</span></span><br><span class="line"><span class="string">        remark = &quot;&quot;;</span></span><br><span class="line"><span class="string">        audit_time = $9;</span></span><br><span class="line"><span class="string">        push_time = $13;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        if (violation_basis ~ /1/) &#123;</span></span><br><span class="line"><span class="string">            reason_name = $5; violation_type = &quot;A类&quot;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        else if (violation_basis==&quot;NULL&quot; || task_type==1 || task_type==2) &#123;</span></span><br><span class="line"><span class="string">            if (punish_type==5) &#123;reason_name = &quot;一线自查(严重)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else if (punish_type==6) &#123;reason_name = &quot;一线自查(feed)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else if (punish_type==7) &#123;reason_name = &quot;一线自查(一般)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else if (punish_type==8) &#123;reason_name = &quot;一线自查(其他)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else &#123;reason_name = &quot;一线自查&quot;;&#125;</span></span><br><span class="line"><span class="string">            violation_type = &quot;&quot;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        else &#123;</span></span><br><span class="line"><span class="string">            reason_name = $5; violation_type = &quot;非A类&quot;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        print user_id, reason_name, violation_type, first_source, remark, audit_time, push_time;</span></span><br><span class="line"><span class="string">    &#125;&#x27;</span> jc.data &gt; jc.txt</span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;get_jc end!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取批注数据</span></span><br><span class="line"><span class="keyword">function</span> download_cvremark()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;download_cvremark begin!&quot;</span></span><br><span class="line">    <span class="variable">$&#123;HADOOP_PATH&#125;</span> fs -<span class="built_in">test</span> -e <span class="variable">$&#123;CVREMARK_HDFS&#125;</span>/<span class="variable">$&#123;CVREMARK_DAY&#125;</span>/</span><br><span class="line">    <span class="keyword">if</span> [ $? -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">        cvremark_count=$(<span class="variable">$&#123;HADOOP_PATH&#125;</span> fs -ls  <span class="variable">$&#123;CVREMARK_HDFS&#125;</span>/<span class="variable">$&#123;CVREMARK_DAY&#125;</span>/userid_karemark*| wc -l)</span><br><span class="line">        <span class="keyword">if</span> [ <span class="variable">$&#123;cvremark_count&#125;</span> -gt 5 ];<span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$&#123;cvremark_count&#125;</span> greate than 5&quot;</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$&#123;cvremark_count&#125;</span> less than 5&quot;</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">        cvremark_count=$(<span class="variable">$&#123;HADOOP_PATH&#125;</span> fs -ls  <span class="variable">$&#123;CVREMARK_HDFS&#125;</span>/<span class="variable">$&#123;CVREMARK_DAY&#125;</span>/cvremark*| wc -l)</span><br><span class="line">        <span class="keyword">if</span> [ <span class="variable">$&#123;cvremark_count&#125;</span> -gt 5 ];<span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$&#123;cvremark_count&#125;</span> greate than 5&quot;</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$&#123;cvremark_count&#125;</span> less than 5&quot;</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">        <span class="variable">$&#123;HADOOP_PATH&#125;</span> fs -cat <span class="variable">$&#123;CVREMARK_HDFS&#125;</span>/<span class="variable">$&#123;CVREMARK_DAY&#125;</span>/* | sort -t $<span class="string">&#x27;\t&#x27;</span> -k 4 &gt; cvremark</span><br><span class="line">        cat cvremark | iconv -fgbk -tutf8 &gt; cvremark.utf8</span><br><span class="line">        mv cvremark cvremark.gbk</span><br><span class="line">        mv cvremark.utf8 cvremark</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;cvremark file doesn&#x27;t exist&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;download_cvremark end!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取业审数据：userid, 违规类型, 是否A类, 来源, 批注占位, 审核时间，推送时间</span></span><br><span class="line"><span class="keyword">function</span> get_ys()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;get_ys start!&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 提取时间范围内自动拒绝和二审拒绝的批注</span></span><br><span class="line">    awk -F<span class="string">&quot;\t&quot;</span> -v begin_day=<span class="variable">$&#123;BEGIN_DAY&#125;</span> -v end_day=<span class="variable">$&#123;END_DAY&#125;</span> <span class="string">&#x27;</span></span><br><span class="line"><span class="string">    ($3 ~ /系统自动拒绝.*涉嫌窃取网民隐私/ || $3 ~ /系统自动拒绝.*涉嫌劫持百度流量/ || $3 ~ /来源.*是否连坐.*违规类型.*违规位置/) &amp;&amp; $4&gt;=begin_day &amp;&amp; $4&lt;end_day</span></span><br><span class="line"><span class="string">    &#x27;</span> cvremark &gt; ys.data</span><br><span class="line">    <span class="comment"># 按照账户ID去重，保留最后一条</span></span><br><span class="line">    awk -F<span class="string">&quot;\t&quot;</span> <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">        user_id = $1;</span></span><br><span class="line"><span class="string">        reason_name = &quot;&quot;;</span></span><br><span class="line"><span class="string">        violation_type = &quot;&quot;;</span></span><br><span class="line"><span class="string">        first_source = &quot;&quot;;</span></span><br><span class="line"><span class="string">        remark = $3;</span></span><br><span class="line"><span class="string">        push_time = &quot;&quot;;</span></span><br><span class="line"><span class="string">        audit_time = $4;</span></span><br><span class="line"><span class="string">        s[$1] = user_id&quot;\t&quot;reason_name&quot;\t&quot;violation_type&quot;\t&quot;first_source&quot;\t&quot;remark&quot;\t&quot;audit_time&quot;\t&quot;push_time;</span></span><br><span class="line"><span class="string">    &#125; END &#123;</span></span><br><span class="line"><span class="string">        for(i in s)print s[i]</span></span><br><span class="line"><span class="string">    &#125;&#x27;</span> ys.data &gt; ys.txt</span><br><span class="line"></span><br><span class="line">    mysql -h<span class="variable">$&#123;HOST&#125;</span> -P<span class="variable">$&#123;PORT&#125;</span> -u<span class="variable">$&#123;USER&#125;</span> -p<span class="variable">$&#123;PASSWD&#125;</span> --default-character-set=utf8 -e <span class="string">&quot;</span></span><br><span class="line"><span class="string">    select</span></span><br><span class="line"><span class="string">        task_id,</span></span><br><span class="line"><span class="string">        user_id,</span></span><br><span class="line"><span class="string">        ys_task.product,</span></span><br><span class="line"><span class="string">        first_source,</span></span><br><span class="line"><span class="string">        reason_name,</span></span><br><span class="line"><span class="string">        reason,</span></span><br><span class="line"><span class="string">        ys_task.violation_basis,</span></span><br><span class="line"><span class="string">        task_type,</span></span><br><span class="line"><span class="string">        audit_time,</span></span><br><span class="line"><span class="string">        ys_task.punish_type,</span></span><br><span class="line"><span class="string">        quarter_consume,</span></span><br><span class="line"><span class="string">        real_punish_amount,</span></span><br><span class="line"><span class="string">        push_time</span></span><br><span class="line"><span class="string">    from</span></span><br><span class="line"><span class="string">        DF_Inspection.ys_task</span></span><br><span class="line"><span class="string">        left join</span></span><br><span class="line"><span class="string">        DF_Inspection.violation_reason</span></span><br><span class="line"><span class="string">        on</span></span><br><span class="line"><span class="string">            ys_task.violation_reason_third = violation_reason.reason_id</span></span><br><span class="line"><span class="string">    where</span></span><br><span class="line"><span class="string">        real_punish_type not in (0,10,11,12,20) and is_violation = 1</span></span><br><span class="line"><span class="string">        and audit_time &gt;= &#x27;<span class="variable">$&#123;BEGIN_DAY&#125;</span>&#x27; and audit_time &lt; &#x27;<span class="variable">$&#123;END_DAY&#125;</span>&#x27;</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; ys_jc.data</span><br><span class="line">    sed -i <span class="string">&quot;1d&quot;</span> ys_jc.data</span><br><span class="line"></span><br><span class="line">    awk -v FS=<span class="string">&#x27;\t&#x27;</span> -v OFS=<span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">        violation_basis = $7;</span></span><br><span class="line"><span class="string">        task_type = $8;</span></span><br><span class="line"><span class="string">        punish_type = $10;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        user_id = $2;</span></span><br><span class="line"><span class="string">        reason_name = $5;</span></span><br><span class="line"><span class="string">        violation_type = &quot;&quot;;</span></span><br><span class="line"><span class="string">        first_source = $4;</span></span><br><span class="line"><span class="string">        remark = &quot;&quot;;</span></span><br><span class="line"><span class="string">        audit_time = $9;</span></span><br><span class="line"><span class="string">        push_time = $13;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        if (violation_basis ~ /1/) &#123;</span></span><br><span class="line"><span class="string">            reason_name = $5; violation_type = &quot;A类&quot;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        else if (violation_basis==&quot;NULL&quot; || task_type==1 || task_type==2) &#123;</span></span><br><span class="line"><span class="string">            if (punish_type==5) &#123;reason_name = &quot;一线自查(严重)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else if (punish_type==6) &#123;reason_name = &quot;一线自查(feed)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else if (punish_type==7) &#123;reason_name = &quot;一线自查(一般)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else if (punish_type==8) &#123;reason_name = &quot;一线自查(其他)&quot;;&#125;</span></span><br><span class="line"><span class="string">            else &#123;reason_name = &quot;一线自查&quot;;&#125;</span></span><br><span class="line"><span class="string">            violation_type = &quot;&quot;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        else &#123;</span></span><br><span class="line"><span class="string">            reason_name = $5; violation_type = &quot;非A类&quot;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        print user_id, reason_name, violation_type, first_source, remark, audit_time, push_time;</span></span><br><span class="line"><span class="string">    &#125;&#x27;</span> ys_jc.data &gt; ys_jc.txt</span><br><span class="line">    cat ys_jc.txt &gt;&gt; ys.txt</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 批注为信用封禁的部分</span></span><br><span class="line">    awk -F<span class="string">&quot;\t&quot;</span> -v b=<span class="variable">$&#123;BEGIN_DAY&#125;</span> -v e=<span class="variable">$&#123;END_DAY&#125;</span> <span class="string">&#x27;($3~/来源:信用封禁;账户等级.*封禁前状态.*初始违规账户/) &amp;&amp; $4&gt;=b &amp;&amp; $4&lt;e&#x27;</span> cvremark &gt; fj.data</span><br><span class="line">    awk -F<span class="string">&quot;\t&quot;</span> <span class="string">&#x27;ARGIND==1&#123;b[$1]&#125; ARGIND==2&#123;if(!($1 in b)) s[$1]=$1&quot;\t\t\t\t&quot;$3&quot;\t&quot;$4&quot;\t&quot;&#125; END&#123;for(i in s)print s[i]&#125;&#x27;</span> ys.txt  fj.data &gt; fj.txt</span><br><span class="line"></span><br><span class="line">    cat fj.txt | python -c <span class="string">&#x27;</span></span><br><span class="line"><span class="string"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">import sys</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for line in sys.stdin:</span></span><br><span class="line"><span class="string">    parts = line.strip(&quot;\n&quot;).split(&quot;\t&quot;)</span></span><br><span class="line"><span class="string">    pz_list = parts[4].split(&quot;;&quot;)</span></span><br><span class="line"><span class="string">    level = pz_list[1].split(&quot;:&quot;)[1]</span></span><br><span class="line"><span class="string">    state_before_fj = pz_list[2].split(&quot;:&quot;)[1]</span></span><br><span class="line"><span class="string">    if (level==&quot;10101&quot; and state_before_fj in [&quot;2&quot;, &quot;3&quot;]) or (level == &quot;10104&quot; and state_before_fj in [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]):</span></span><br><span class="line"><span class="string">        print &quot;\t&quot;.join(parts)</span></span><br><span class="line"><span class="string">    &#x27;</span> &gt; fj_filte.txt</span><br><span class="line">    cat fj_filte.txt &gt;&gt; ys.txt</span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;get_ys end!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#  生成1-7列  是否监察 userid, 违规类型, 是否A类, 来源, 批注占位, 审核时间, 推送时间</span></span><br><span class="line"><span class="keyword">function</span> merge_jc_ys()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;merge_jc_ys start&quot;</span></span><br><span class="line">    <span class="comment"># 按照时间倒排顺序</span></span><br><span class="line">    cat jc.txt | sort -t $<span class="string">&#x27;\t&#x27;</span> -rk6 &gt; jc_sort</span><br><span class="line">    <span class="comment"># 整理业审数据，监察优先级高于业审</span></span><br><span class="line">    <span class="comment">#awk -F&quot;\t&quot; &#x27;ARGIND==1&#123;s[$1]=$1&quot;\t&quot;$2&quot;\t&quot;$3&quot;\t&quot;$4;audit_time[$1]=$6;push_time[$1]=$7&#125;ARGIND==2&#123;if($1 in s)print &quot;监察\t&quot;s[$1]&quot;\t&quot;$5&quot;\t&quot;$6&quot;\t&quot;push_time[$1];else print &quot;非监察\t&quot;$0&#125;&#x27; jc_sort ys.txt &gt; user_data.part1</span></span><br><span class="line">    awk -F<span class="string">&quot;\t&quot;</span> <span class="string">&#x27;ARGIND==1&#123;s[$1]=$1&quot;\t&quot;$2&quot;\t&quot;$3&quot;\t&quot;$4;audit_time[$1]=$6;push_time[$1]=$7&#125;ARGIND==2&#123;if($1 in s)print &quot;监察\t&quot;s[$1]&quot;\t&quot;$5&quot;\t&quot;audit_time[$1]&quot;\t&quot;push_time[$1];else print &quot;非监察\t&quot;$0&#125;&#x27;</span> jc_sort ys.txt &gt; user_data.part1</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 整理监察数据，(只在监察的数据)</span></span><br><span class="line">    awk -F<span class="string">&quot;\t&quot;</span> <span class="string">&#x27;ARGIND==1&#123;s[$2]=$0&#125;ARGIND==2&#123;if(!($1 in s))print &quot;监察\t&quot;$0&#125;&#x27;</span> user_data.part1 jc_sort &gt; user_data.part2</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 去重，保留最后一条记录，即时间最早的记录</span></span><br><span class="line">    cat user_data.part1 user_data.part2 | sort -t $<span class="string">&#x27;\t&#x27;</span> -k1,1r -k7,7r | awk -F<span class="string">&quot;\t&quot;</span> <span class="string">&#x27;&#123;s[$2]=$0&#125;END&#123;for(i in s)print s[i]&#125;&#x27;</span> &gt; user_data.txt</span><br><span class="line"></span><br><span class="line">    rm -f user_data.part1 user_data.part2</span><br><span class="line"></span><br><span class="line">    cat user_data.txt | awk -F<span class="string">&quot;\t&quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> &gt; uid_list.<span class="variable">$&#123;END_DAY&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 去除已推送账户</span></span><br><span class="line">    <span class="comment">#awk -F &quot;\t&quot; &#x27;ARGIND==1&#123;s[$1]&#125;ARGIND==2&#123;if(!($2 in s)) print $0&#125;&#x27; userdone user_data.txt</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;merge_jc_ys end!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新source  列 5</span></span><br><span class="line"><span class="keyword">function</span> update_source()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;update source start&quot;</span></span><br><span class="line"></span><br><span class="line">    cat user_data.txt | python -c <span class="string">&#x27;</span></span><br><span class="line"><span class="string"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">import sys</span></span><br><span class="line"><span class="string">import re</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 把监察的来源id转为文本,非监察来源做正则匹配后解析</span></span><br><span class="line"><span class="string">source_dict = &#123;&#125;</span></span><br><span class="line"><span class="string">with open(sys.argv[1],&quot;r&quot;) as f:</span></span><br><span class="line"><span class="string">    for eachline in f:</span></span><br><span class="line"><span class="string">        parts = eachline.strip(&quot;\n&quot;).split(&quot;\t&quot;)</span></span><br><span class="line"><span class="string">        source_dict[parts[0]] = parts[1]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for line in sys.stdin:</span></span><br><span class="line"><span class="string">    parts = line.strip(&quot;\n&quot;).split(&quot;\t&quot;)</span></span><br><span class="line"><span class="string">    if parts[4]:</span></span><br><span class="line"><span class="string">        parts[4] = source_dict.get(parts[4],&quot;&quot;)</span></span><br><span class="line"><span class="string">    elif re.search(r&quot;来源.*是否连坐.*违规类型.*违规位置&quot;, parts[5]):</span></span><br><span class="line"><span class="string">        try:</span></span><br><span class="line"><span class="string">            parts_new = parts[5].strip(&quot;\n&quot;).split(&quot;;&quot;)</span></span><br><span class="line"><span class="string">            parts[4] = parts_new[0].split(&quot;:&quot;)[1]</span></span><br><span class="line"><span class="string">        except Exception as e:</span></span><br><span class="line"><span class="string">            print e</span></span><br><span class="line"><span class="string">    elif re.search(r&quot;来源.*账户等级.*封禁前状态.*初始违规账户&quot;, parts[5]):</span></span><br><span class="line"><span class="string">        try:</span></span><br><span class="line"><span class="string">            parts_new = parts[5].strip(&quot;\n&quot;).split(&quot;;&quot;)</span></span><br><span class="line"><span class="string">            parts[4] = parts_new[0].split(&quot;:&quot;)[1]</span></span><br><span class="line"><span class="string">        except Exception as e:</span></span><br><span class="line"><span class="string">            print e</span></span><br><span class="line"><span class="string">    elif re.search(r&quot;系统自动拒绝&quot;, parts[5]):</span></span><br><span class="line"><span class="string">        parts[4] = &quot;系统&quot;</span></span><br><span class="line"><span class="string">    print &quot;\t&quot;.join(parts)</span></span><br><span class="line"><span class="string">    &#x27;</span> first_source.txt &gt; user_data.txt.source</span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;update source end&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新业审的来源：对于来源为巡查反馈、监察反馈、手动录入-业审举报、手动录入-风控能力建设的需要去监察和意图平台查询流转前的原始来源</span></span><br><span class="line"><span class="keyword">function</span> update_origin_source()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;update origin source start&quot;</span></span><br><span class="line"></span><br><span class="line">    mysql -h<span class="variable">$&#123;HOST&#125;</span> -P<span class="variable">$&#123;PORT&#125;</span> -u<span class="variable">$&#123;USER&#125;</span> -p<span class="variable">$&#123;PASSWD&#125;</span> --default-character-set=utf8 -e <span class="string">&quot;</span></span><br><span class="line"><span class="string">    select </span></span><br><span class="line"><span class="string">        task_id,</span></span><br><span class="line"><span class="string">        user_id,</span></span><br><span class="line"><span class="string">        task.product,</span></span><br><span class="line"><span class="string">        first_source,</span></span><br><span class="line"><span class="string">        reason_name,</span></span><br><span class="line"><span class="string">        reason,</span></span><br><span class="line"><span class="string">        task.violation_basis,</span></span><br><span class="line"><span class="string">        task_type,</span></span><br><span class="line"><span class="string">        audit_time,</span></span><br><span class="line"><span class="string">        task.punish_type</span></span><br><span class="line"><span class="string">    from</span></span><br><span class="line"><span class="string">        DF_Inspection.task</span></span><br><span class="line"><span class="string">        left join</span></span><br><span class="line"><span class="string">        DF_Inspection.violation_reason</span></span><br><span class="line"><span class="string">        on task.violation_reason_third=violation_reason.reason_id</span></span><br><span class="line"><span class="string">    where</span></span><br><span class="line"><span class="string">        real_punish_type in (10) and is_violation=1 and audit_time&gt;=&#x27;<span class="variable">$&#123;BEGIN_DAY&#125;</span>&#x27; and audit_time&lt;&#x27;<span class="variable">$&#123;END_DAY&#125;</span>&#x27;</span></span><br><span class="line"><span class="string">    order by audit_time desc&quot;</span> &gt; origin_source</span><br><span class="line">    sed -i <span class="string">&quot;1d&quot;</span> origin_source</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    mysql -h<span class="variable">$&#123;HOST&#125;</span> -P<span class="variable">$&#123;PORT&#125;</span> -u<span class="variable">$&#123;USER&#125;</span> -p<span class="variable">$&#123;PASSWD&#125;</span> --default-character-set=utf8 -e <span class="string">&quot;</span></span><br><span class="line"><span class="string">    select</span></span><br><span class="line"><span class="string">        task_id,</span></span><br><span class="line"><span class="string">        user_id,</span></span><br><span class="line"><span class="string">        ys_task.product,</span></span><br><span class="line"><span class="string">        first_source,</span></span><br><span class="line"><span class="string">        reason_name,</span></span><br><span class="line"><span class="string">        reason,</span></span><br><span class="line"><span class="string">        ys_task.violation_basis,</span></span><br><span class="line"><span class="string">        task_type,</span></span><br><span class="line"><span class="string">        audit_time,</span></span><br><span class="line"><span class="string">        ys_task.punish_type</span></span><br><span class="line"><span class="string">    from</span></span><br><span class="line"><span class="string">        DF_Inspection.ys_task</span></span><br><span class="line"><span class="string">        left join</span></span><br><span class="line"><span class="string">        DF_Inspection.violation_reason</span></span><br><span class="line"><span class="string">        on</span></span><br><span class="line"><span class="string">            ys_task.violation_reason_third=violation_reason.reason_id</span></span><br><span class="line"><span class="string">    where</span></span><br><span class="line"><span class="string">        real_punish_type in (10) and is_violation=1 and audit_time&gt;=&#x27;<span class="variable">$&#123;BEGIN_DAY&#125;</span>&#x27; and audit_time&lt;&#x27;<span class="variable">$&#123;END_DAY&#125;</span>&#x27;</span></span><br><span class="line"><span class="string">    &quot;</span> &gt; origin_source_yt</span><br><span class="line">    sed -i <span class="string">&quot;1d&quot;</span> origin_source_yt</span><br><span class="line">    cat origin_source_yt &gt;&gt; origin_source</span><br><span class="line"></span><br><span class="line">    cat user_data.txt.source | python -c <span class="string">&#x27;</span></span><br><span class="line"><span class="string"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">import sys</span></span><br><span class="line"><span class="string">import re</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 更新追溯违规来源</span></span><br><span class="line"><span class="string"># 把业审中的来源-巡查反馈 转变为真实的监察来源</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#加载监察数据中 仅下线的违规来源</span></span><br><span class="line"><span class="string">origin_source = &#123;&#125;</span></span><br><span class="line"><span class="string">with open(sys.argv[1], &quot;r&quot;) as f:</span></span><br><span class="line"><span class="string">    for eachline in f:</span></span><br><span class="line"><span class="string">        parts = eachline.strip(&quot;\n&quot;).split(&quot;\t&quot;)</span></span><br><span class="line"><span class="string">        user_id = parts[1]</span></span><br><span class="line"><span class="string">        source = parts[3]</span></span><br><span class="line"><span class="string">        origin_source[user_id] = source</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 加载source_id 和source_name 的映射</span></span><br><span class="line"><span class="string">source_dict = &#123;&#125;</span></span><br><span class="line"><span class="string">with open(sys.argv[2],&quot;r&quot;) as f:</span></span><br><span class="line"><span class="string">    for eachline in f:</span></span><br><span class="line"><span class="string">        parts = eachline.strip(&quot;\n&quot;).split(&quot;\t&quot;)</span></span><br><span class="line"><span class="string">        source_dict[parts[0]] = parts[1]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for line in sys.stdin:</span></span><br><span class="line"><span class="string">    parts = line.strip(&quot;\n&quot;).split(&quot;\t&quot;)</span></span><br><span class="line"><span class="string">    userid = parts[1]</span></span><br><span class="line"><span class="string">    source = parts[4]</span></span><br><span class="line"><span class="string">    if (source == &quot;巡查反馈&quot;) or (source == &quot;监察反馈&quot;) or (source == &quot;手动录入-业审举报&quot;) or (source == &quot;手动录入-风控能力建设&quot;):</span></span><br><span class="line"><span class="string">        origin_source_id = origin_source.get(userid,&quot;&quot;)</span></span><br><span class="line"><span class="string">        origin_source_name = source_dict.get(origin_source_id,&quot;&quot;)</span></span><br><span class="line"><span class="string">        if origin_source_name :</span></span><br><span class="line"><span class="string">            parts[4] = origin_source_name</span></span><br><span class="line"><span class="string">    print &quot;\t&quot;.join(parts)</span></span><br><span class="line"><span class="string">&#x27;</span> origin_source first_source.txt &gt; user_data.txt.<span class="variable">$&#123;END_DAY&#125;</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;update origin source end&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"># download_cvremark</span></span><br><span class="line"></span><br><span class="line">    get_jc</span><br><span class="line"></span><br><span class="line">    get_ys</span><br><span class="line"></span><br><span class="line">    merge_jc_ys</span><br><span class="line"></span><br><span class="line">    update_source</span><br><span class="line"></span><br><span class="line">    update_origin_source</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="近期首次点击时间"><a href="#近期首次点击时间" class="headerlink" title="近期首次点击时间"></a>近期首次点击时间</h2><p>使用hive统计账户的首次计费时间<br>first_clk_stat.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 所有非 0 的返回状态都需要捕获</span></span><br><span class="line"><span class="built_in">set</span> -o pipefail  <span class="comment"># 管道间错误需要捕获</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> == 1 ] ; <span class="keyword">then</span></span><br><span class="line">    INPUT_DATE=$(date -d <span class="variable">$1</span> +%Y-%m-%d)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    INPUT_DATE=$(date +%Y-%m-%d)</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间变量</span></span><br><span class="line">END_DAY=<span class="variable">$&#123;INPUT_DATE&#125;</span></span><br><span class="line">UID_TIMESTAMP=$(date +<span class="string">&quot;%Y%m%d000001&quot;</span> -d <span class="string">&quot;<span class="variable">$&#123;END_DAY&#125;</span>&quot;</span>)</span><br><span class="line">BEGIN_TIMESTAMP=$(date +<span class="string">&quot;%Y%m%d000000&quot;</span> -d <span class="string">&quot;-10 days <span class="variable">$&#123;END_DAY&#125;</span>&quot;</span>)</span><br><span class="line">END_TIMESTAMP=$(date +<span class="string">&quot;%Y%m%d000000&quot;</span> -d <span class="string">&quot;<span class="variable">$&#123;END_DAY&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># hive配置</span></span><br><span class="line">HIVE_PATH=<span class="string">&quot;/home/work/bin/hive-1.1.9/bin/hive&quot;</span></span><br><span class="line">LOCAL_INPATH=<span class="string">&quot;/home/work/tmp/wangdi17/20191222_zhiban/uid_list.<span class="variable">$&#123;END_DAY&#125;</span>&quot;</span></span><br><span class="line">OUTPUT_HDFS=<span class="string">&quot;hdfs://nmg01-mulan-hdfs.dmop.baidu.com:54310//app/ecom/aries/galaxy/luhaichuan/fc_clk/<span class="variable">$&#123;UID_TIMESTAMP&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">nohup /home/work/bin/hive-1.1.9/bin/hive -e <span class="string">&quot;</span></span><br><span class="line"><span class="string">SET hive.exec.max.created.files=1000000;</span></span><br><span class="line"><span class="string">use risk_data;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">load data local inpath &#x27;<span class="variable">$&#123;LOCAL_INPATH&#125;</span>&#x27; into table risk_data_special.sme_new_user partition(time_stamp=<span class="variable">$&#123;UID_TIMESTAMP&#125;</span>);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">INSERT OVERWRITE DIRECTORY &#x27;<span class="variable">$&#123;OUTPUT_HDFS&#125;</span>&#x27;</span></span><br><span class="line"><span class="string">select</span></span><br><span class="line"><span class="string">    fc_clk.userid,</span></span><br><span class="line"><span class="string">    min(fc_clk.clktime_t)</span></span><br><span class="line"><span class="string">from</span></span><br><span class="line"><span class="string">    (select userid from risk_data_special.sme_new_user where time_stamp=&#x27;<span class="variable">$&#123;UID_TIMESTAMP&#125;</span>&#x27;) uid_list</span></span><br><span class="line"><span class="string">    join</span></span><br><span class="line"><span class="string">    (select * from dorado_hour where time_stamp&gt;=&#x27;<span class="variable">$&#123;BEGIN_TIMESTAMP&#125;</span>&#x27; and time_stamp&lt;&#x27;<span class="variable">$&#123;END_TIMESTAMP&#125;</span>&#x27;) fc_clk</span></span><br><span class="line"><span class="string">    on</span></span><br><span class="line"><span class="string">    fc_clk.userid = uid_list.userid</span></span><br><span class="line"><span class="string">group by</span></span><br><span class="line"><span class="string">    fc_clk.userid</span></span><br><span class="line"><span class="string">&quot;</span> &gt; logs/user_first_clk.log.<span class="variable">$&#123;END_DAY&#125;</span> 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<h2 id="数据合并"><a href="#数据合并" class="headerlink" title="数据合并"></a>数据合并</h2><p>merge_to_csv.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 所有非 0 的返回状态都需要捕获</span></span><br><span class="line"><span class="built_in">set</span> -o pipefail  <span class="comment"># 管道间错误需要捕获</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> == 1 ] ; <span class="keyword">then</span></span><br><span class="line">    INPUT_DATE=$(date -d <span class="variable">$1</span> +%Y-%m-%d)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    INPUT_DATE=$(date +%Y-%m-%d)</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间变量</span></span><br><span class="line">END_DAY=<span class="variable">$&#123;INPUT_DATE&#125;</span></span><br><span class="line">UID_TIMESTAMP=$(date +<span class="string">&quot;%Y%m%d000001&quot;</span> -d <span class="string">&quot;<span class="variable">$&#123;END_DAY&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># hadoop配置</span></span><br><span class="line">HADOOP_PATH=<span class="string">&quot;/home/work/bin/hadoop-client/hadoop/bin/hadoop&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载速启数据</span></span><br><span class="line"><span class="comment"># cp ../suqi/all_data/data/suqi_report.csv .</span></span><br><span class="line"><span class="comment"># cp ../suqi/all_data/data/cdc_client.txt .</span></span><br><span class="line"></span><br><span class="line">rm -rf uid_clktime.<span class="variable">$&#123;END_DAY&#125;</span></span><br><span class="line"><span class="variable">$&#123;HADOOP_PATH&#125;</span> fs -getmerge hdfs://nmg01-mulan-hdfs.dmop.baidu.com:54310/app/ecom/aries/galaxy/luhaichuan/fc_clk/<span class="variable">$&#123;UID_TIMESTAMP&#125;</span> uid_clktime.<span class="variable">$&#123;END_DAY&#125;</span></span><br><span class="line">sed -i <span class="string">&#x27;s/\x01/\t/g&#x27;</span> uid_clktime.<span class="variable">$&#123;END_DAY&#125;</span></span><br><span class="line"></span><br><span class="line">awk -v FS=<span class="string">&#x27;\t&#x27;</span> -v OFS=<span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27;</span></span><br><span class="line"><span class="string">ARGIND==1&#123;</span></span><br><span class="line"><span class="string">    reg_eff_time[$1] = $16&quot;\t&quot;$17;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">ARGIND==2&#123;</span></span><br><span class="line"><span class="string">    if ($2 in reg_eff_time) &#123;print $2,reg_eff_time[$2]&#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span> cdc_client.txt user_data.txt.<span class="variable">$&#123;END_DAY&#125;</span> &gt; uid_regtime_efftime</span><br><span class="line"></span><br><span class="line">awk -v FS=<span class="string">&#x27;\t&#x27;</span> -v OFS=<span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27;</span></span><br><span class="line"><span class="string">ARGIND==1&#123;</span></span><br><span class="line"><span class="string">    mteff_time[$1] = $36;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">ARGIND==2&#123;</span></span><br><span class="line"><span class="string">    if ($1 in mteff_time) &#123;print $0,mteff_time[$1];&#125; else &#123;print $0,&quot;NULL&quot;;&#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span> suqi_report.csv uid_regtime_efftime &gt; uid_regtime_efftime_mtefftime</span><br><span class="line"></span><br><span class="line">awk -v FS=<span class="string">&#x27;\t&#x27;</span> -v OFS=<span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27;</span></span><br><span class="line"><span class="string">ARGIND==1&#123;</span></span><br><span class="line"><span class="string">    clktime[$1] = $2;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">ARGIND==2&#123;</span></span><br><span class="line"><span class="string">    if ($1 in clktime) &#123;print $0,substr(clktime[$1];&#125; else &#123;print $0,&quot;NULL&quot;;&#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span> uid_clktime.<span class="variable">$&#123;END_DAY&#125;</span> uid_regtime_efftime_mtefftime &gt; uid_regtime_efftime_mtefftime_clktime</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否监察 userid, 违规类型, 是否A类, 来源, 批注占位, 审核时间，推送时间</span></span><br><span class="line">awk -v FS=<span class="string">&#x27;\t&#x27;</span> -v OFS=<span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27;</span></span><br><span class="line"><span class="string">ARGIND==1&#123;</span></span><br><span class="line"><span class="string">    push_audit_time[$2] = $8&quot;\t&quot;$7;</span></span><br><span class="line"><span class="string">    other_info[$2] = $1&quot;\t&quot;$3&quot;\t&quot;$4&quot;\t&quot;$5&quot;\t&quot;$6;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">ARGIND==2&#123;</span></span><br><span class="line"><span class="string">    if ($1 in push_audit_time) &#123;print other_info[$1],$0,push_audit_time[$1];&#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span> user_data.txt.<span class="variable">$&#123;END_DAY&#125;</span> uid_regtime_efftime_mtefftime_clktime &gt; uid_regtime_efftime_mtefftime_clktime_pushtime_audittime</span><br><span class="line"></span><br><span class="line">python -c <span class="string">&#x27;</span></span><br><span class="line"><span class="string"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">import sys</span></span><br><span class="line"><span class="string">import pandas as pd</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if __name__ == &quot;__main__&quot;:</span></span><br><span class="line"><span class="string">    file_input = sys.argv[1]</span></span><br><span class="line"><span class="string">    file_output = sys.argv[2]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    tmp_data = pd.read_csv(file_input, sep = &quot;\t&quot;, header = None, encoding = &quot;utf8&quot;)</span></span><br><span class="line"><span class="string">    tmp_data.columns = [&quot;是否监察&quot;,&quot;违规类型&quot;, &quot;是否A类&quot;, &quot;来源&quot;, &quot;批注&quot;, &quot;userid&quot;, &quot;注册时间&quot;, &quot;生效时间&quot;, &quot;物料审核通过时间&quot;, &quot;点击时间&quot;, &quot;推送时间&quot;, &quot;判罚/审核时间&quot;]</span></span><br><span class="line"><span class="string">    tmp_data.to_csv(file_output, index = None, encoding = &quot;gbk&quot;)</span></span><br><span class="line"><span class="string">&#x27;</span> uid_regtime_efftime_mtefftime_clktime_pushtime_audittime result_<span class="variable">$&#123;END_DAY&#125;</span>.csv</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/example_of_practice/" data-id="ckl808sjx00168jqo3qqo3323" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-python的数据结构底层实现" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/python%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.961Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="python数据结构的底层实现"><a href="#python数据结构的底层实现" class="headerlink" title="python数据结构的底层实现"></a>python数据结构的底层实现</h1><h2 id="dict"><a href="#dict" class="headerlink" title="dict"></a>dict</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/68db5cff4872">implement a dict</a></p>
+<p>无序k-v对，典型的hash table（c++还分ordered和unordered）</p>
+<h3 id="bucket如何指定？"><a href="#bucket如何指定？" class="headerlink" title="bucket如何指定？"></a>bucket如何指定？</h3><ul>
+<li>offset，hash(hashable)%k</li>
+<li>通过二进制的hash值进行取bucket，从右向左<code>110</code>, <code>000</code>, etc.</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;dic[<span class="string">&#x27;name&#x27;</span>] = <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">bin</span>(<span class="built_in">hash</span>(<span class="string">&#x27;name&#x27;</span>))</span><br><span class="line"><span class="string">&#x27;0b101011100000110111101000101010100010011010110010100101001000110&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="键必须是可hash的"><a href="#键必须是可hash的" class="headerlink" title="键必须是可hash的"></a>键必须是可hash的</h3><p>当存在场景想使用list做key时，可以用tuple代替。<br>只有固定长度类型才能做key</p>
+<h3 id="动态扩容"><a href="#动态扩容" class="headerlink" title="动态扩容"></a>动态扩容</h3><p>迭代dict时注意不要进行update和del，当然list也不行。</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3917574/how-is-pythons-list-implemented">https://stackoverflow.com/questions/3917574/how-is-pythons-list-implemented</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    PyObject_HEAD</span><br><span class="line">    Py_ssize_t ob_size;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Vector of pointers to list elements.  list[0] is ob_item[0], etc. */</span></span><br><span class="line">    PyObject **ob_item;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* ob_item contains space for &#x27;allocated&#x27; elements.  The number</span></span><br><span class="line"><span class="comment">     * currently in use is ob_size.</span></span><br><span class="line"><span class="comment">     * Invariants:</span></span><br><span class="line"><span class="comment">     *     0 &lt;= ob_size &lt;= allocated</span></span><br><span class="line"><span class="comment">     *     len(list) == ob_size</span></span><br><span class="line"><span class="comment">     *     ob_item == NULL implies ob_size == allocated == 0</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Py_ssize_t allocated;</span><br><span class="line">&#125; PyListObject;</span><br></pre></td></tr></table></figure>
+<p>CPython uses an array of pointers</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/python%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/" data-id="ckl808si5000k8jqo1102g5z6" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-21_enforce_clarity_with_keyword" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/21_enforce_clarity_with_keyword/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.957Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Item-21-Enforce-Clarity-with-Keyword-Only-Arguments"><a href="#Item-21-Enforce-Clarity-with-Keyword-Only-Arguments" class="headerlink" title="Item 21: Enforce Clarity with Keyword-Only Arguments"></a>Item 21: Enforce Clarity with Keyword-Only Arguments</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TODO exec</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, b, c, d</span>):</span></span><br><span class="line">    print(a,b,c,d)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, b, *, c=<span class="number">1</span>, d=<span class="number">2</span></span>):</span></span><br><span class="line">    print(a,b,c,d)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/21_enforce_clarity_with_keyword/" data-id="ckl808sfp00018jqoddpnh4dl" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-function_in_python" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/function_in_python/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.951Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="call"><a href="#call" class="headerlink" title="call"></a><strong><em>call</em></strong></h1><p>函数是一等公民<br>直接作为closure使用<br>类也可以作为函数使用，通过<code>__call__</code></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">Foo()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/function_in_python/" data-id="ckl808sh0000c8jqo6h5e6g5x" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-encode_format" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/encode_format/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.945Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ENCODE-ascii-unicode-utf-8"><a href="#ENCODE-ascii-unicode-utf-8" class="headerlink" title="ENCODE: ascii unicode utf-8"></a>ENCODE: ascii unicode utf-8</h1><ol>
+<li>ascii各国自己标准</li>
+<li>unicode完全一致（<strong>映射关系</strong>）</li>
+<li>utf-8等编码方式是unicode的一种实现，</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">unicode_str = <span class="string">u&#x27;邵瑞&#x27;</span></span><br><span class="line">utf8_str = unicode_str.encode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">unicode_str_2 = utf8_str.decode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span> = <span class="string">&#x27;邵瑞&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>.decode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line"><span class="string">u&#x27;\u90b5\u745e&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">str</span>.decode(<span class="string">&#x27;gbk&#x27;</span>)</span><br><span class="line"><span class="string">u&#x27;\u95ad\u7535\u61ba&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">type</span>(<span class="built_in">str</span>.decode(<span class="string">&#x27;utf8&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>utf-8是一种<strong>编码方式</strong>，<strong>文件</strong>中要有编码格式，这样IDE打开文档时，才能显示正确的文字。<br>unicode则是<strong>内存</strong>中的格式，独一无二。不同国家的不同文字，都有唯一的unicode，但是<strong>太长</strong>了，浪费内存。这里就需要各种编码方式。utf-8…缩减长度</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/encode_format/" data-id="ckl808sgx000b8jqof7cz1bn6" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

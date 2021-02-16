@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="what is map reduce good pictures of parse 最佳实践：mapper&#x2F;filter&#x2F;reducer hadoop教程，mapreduce   map是将函数作用在list的每一个元素上（比迭代更抽象）。map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])  reduce是将所有结果进行一个mergereduce(f, [x1, x2, x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/02/16/what_is_map_reduce/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="what is map reduce good pictures of parse 最佳实践：mapper&#x2F;filter&#x2F;reducer hadoop教程，mapreduce   map是将函数作用在list的每一个元素上（比迭代更抽象）。map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])  reduce是将所有结果进行一个mergereduce(f, [x1, x2, x">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png">
+<meta property="article:published_time" content="2021-02-16T12:49:58.900Z">
+<meta property="article:modified_time" content="2021-02-16T12:49:58.900Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-what_is_map_reduce" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what_is_map_reduce/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T12:49:58.900Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-map-reduce"><a href="#what-is-map-reduce" class="headerlink" title="what is map reduce"></a>what is map reduce</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.yiibai.com/hadoop/intro-mapreduce.html">good pictures of parse</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.pythontips.com/en/latest/map_filter.html">最佳实践：mapper/filter/reducer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/hadoop/hadoop_mapreduce.htm">hadoop教程，mapreduce</a></li>
+</ul>
+<ol>
+<li><p>map是将函数作用在list的每一个元素上（比迭代更抽象）。<br><code>map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])</code></p>
+</li>
+<li><p>reduce是将所有结果进行一个merge<br><code>reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)</code></p>
+</li>
+</ol>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="built_in">map</span>(<span class="built_in">str</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fn</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">10</span> + y</span><br><span class="line">print(reduce(fn, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">char2num</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;0&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;1&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;2&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;3&#x27;</span>: <span class="number">3</span>, <span class="string">&#x27;4&#x27;</span>: <span class="number">4</span>, <span class="string">&#x27;5&#x27;</span>: <span class="number">5</span>, <span class="string">&#x27;6&#x27;</span>: <span class="number">6</span>, <span class="string">&#x27;7&#x27;</span>: <span class="number">7</span>, <span class="string">&#x27;8&#x27;</span>: <span class="number">8</span>, <span class="string">&#x27;9&#x27;</span>: <span class="number">9</span>&#125;[s]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">str2int</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> reduce(<span class="keyword">lambda</span> x,y: x*<span class="number">10</span>+y, <span class="built_in">map</span>(char2num, s))</span><br></pre></td></tr></table></figure>
+<h2 id="mr任务"><a href="#mr任务" class="headerlink" title="mr任务"></a>mr任务</h2><h5 id="mapper"><a href="#mapper" class="headerlink" title="mapper"></a>mapper</h5><blockquote>
+<p>读取上游数据，对每行按自己的方式进行组织</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    data_type = <span class="built_in">int</span>(sys.argv[<span class="number">1</span>])</span><br><span class="line">    <span class="comment"># 上游数据过来，是标准输入</span></span><br><span class="line">    <span class="keyword">for</span> eachline <span class="keyword">in</span> sys.stdin:</span><br><span class="line">        my_obj = MyClass()</span><br><span class="line">        my_obj.init_from_json(eachline.strip(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;\t&quot;</span>.join([my_obj.<span class="built_in">id</span>, eachline.strip(<span class="string">&quot;\n&quot;</span>)])</span><br></pre></td></tr></table></figure>
+<h5 id="reducer"><a href="#reducer" class="headerlink" title="reducer"></a>reducer</h5><blockquote>
+<p>读取到mapper产生的数据，『遍历』对所有行进行一个『<strong>汇总</strong>』</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    old_info = &#123;&#125;</span><br><span class="line">    check_result = []</span><br><span class="line">    <span class="comment"># 汇集mapreduce所有的输出（保存在list里面）</span></span><br><span class="line">    <span class="keyword">for</span> eachline <span class="keyword">in</span> sys.stdin:</span><br><span class="line">        line = eachline.strip(<span class="string">&quot;\n&quot;</span>).split(<span class="string">&quot;\t&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        key_id = line[<span class="number">0</span>]</span><br><span class="line">        value_json_data = json.loads(line[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        check_result += json_data.get(<span class="string">&quot;check_result&quot;</span>, [])</span><br><span class="line">        old_info[<span class="string">&quot;check_result&quot;</span>] = check_result</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span> json.dumps(old_info)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>mapreduce为了什么？更好的并发，一切为了效率？它是一种编程框架/模型，为的是更好的抽象，在不同层面上做不同的事情。</p>
+<h2 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h2><blockquote>
+<p>更好的并发，一切为了效率</p>
+</blockquote>
+<h1 id="relationship-between-hive-and-hadoop-mapreduce"><a href="#relationship-between-hive-and-hadoop-mapreduce" class="headerlink" title="relationship-between-hive-and-hadoop-mapreduce"></a>relationship-between-hive-and-hadoop-mapreduce</h1><p><strong>Map Reduce</strong> is the framework used to process the data which is stored in the HDFS, here java native language is used to writing Map Reduce programs.<br>Hive is a <strong>batch processing framework</strong>. This component process the data using a language called Hive Query Language(HQL). Hive prevents writing MapReduce programs in Java. Instead one can use SQL like language to do their daily tasks.<br>For HIVE there is <strong>no process to communicate Map/Reduce tasks directly</strong>. </p>
+<p>After the Hive finishes the <strong>query execution</strong>, the result is submitted to the <strong>JobTracker</strong>, which resides on YARN. The JobTracker consists of Map/Reduce tasks which runs the mapper and reducer job to store the final result in the <strong>HDFS</strong>. The Map task deserializes(reading) the data from the HDFS and the Reduce task serializes(writing) the data as the result of the Hive query.</p>
+<p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png" alt="hive_procecss_detail"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what_is_map_reduce/" data-id="ckl808sjh00128jqofegs2kp2" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/02/16/what_is_nginx/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/16/diff_between_partition_and_sharding/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

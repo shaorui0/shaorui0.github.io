@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="what is NGINX?nginx.confexample link 1example link 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869worker_processes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/02/16/what_is_nginx/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="what is NGINX?nginx.confexample link 1example link 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869worker_processes">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/02/16/what_is_nginx/nginx1.png">
+<meta property="og:image" content="http://example.com/2021/02/16/what_is_nginx/nginx2.png">
+<meta property="article:published_time" content="2021-02-16T13:04:24.236Z">
+<meta property="article:modified_time" content="2021-02-16T13:04:24.236Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/02/16/what_is_nginx/nginx1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-what_is_nginx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what_is_nginx/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:04:24.236Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-NGINX"><a href="#what-is-NGINX" class="headerlink" title="what is NGINX?"></a>what is NGINX?</h1><h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><p><a target="_blank" rel="noopener" href="https://www.nginx.com/resources/wiki/start/topics/examples/full/">example link 1</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">example link 2</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><p><img src="./nginx1.png" alt="架构"></p>
+<h4 id="如何做到热部署"><a href="#如何做到热部署" class="headerlink" title="如何做到热部署"></a>如何做到<strong>热部署</strong></h4><h6 id="nginx-做法："><a href="#nginx-做法：" class="headerlink" title="nginx 做法："></a>nginx 做法：</h6><ol>
+<li>Change nginx.conf</li>
+<li>The changes take effect<ul>
+<li>new some workers, new requests =&gt; new workers.</li>
+<li>old workers <strong>continue</strong> to handle unfinished requests. If a old worker completes the <strong>remaining</strong> requests, <strong>KILL</strong> it.</li>
+</ul>
+</li>
+</ol>
+<h6 id="还有可能的方案："><a href="#还有可能的方案：" class="headerlink" title="还有可能的方案："></a>还有可能的方案：</h6><p>修改配置文件nginx.conf后，主进程master负责推送给woker进程更新配置信息，woker进程收到信息后，更新进程内部的线程信息。（有点 valatile 的味道）</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><p><img src="./nginx2.png" alt="虚拟主机"></p>
+<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
+<ol>
+<li>通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
+<li>为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
+<li>静态资源包括 业务数据 和 日志数据，归属到不同域名下（目录），方便维护。</li>
+<li>IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
+</ol>
+<h3 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1. 反向代理"></a>1. 反向代理</h3><p>location:</p>
+<ul>
+<li>root: 静态返回</li>
+<li>proxy_pass: 动态转发</li>
+</ul>
+<h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2. 负载均衡"></a>2. 负载均衡</h3><ul>
+<li>upstream: nginx 定义<strong>一组</strong>后端服务，通过一些 LB 策略进行<strong>负载均衡</strong>，同时进行<strong>健康检查</strong>。</li>
+<li>proxy_pass =&gt; upstream</li>
+</ul>
+<h5 id="负载均衡有哪些策略？"><a href="#负载均衡有哪些策略？" class="headerlink" title="负载均衡有哪些策略？"></a>负载均衡有哪些策略？</h5><p>（IPHASH、加权论调、最少连接……）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer">https://github.com/shaorui0/tiny_load_balancer</a></p>
+<h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>显而易见，可以 scale up ，部署更多的 server 来处理 request 。</p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><p>本质还是『<strong>不一致</strong>』的问题。web 层面，比如用户的 session 信息不一致。（由于 request 经过 lb 到达不同的 server 端）</p>
+<h4 id="从-tiny-lb-中学到什么？"><a href="#从-tiny-lb-中学到什么？" class="headerlink" title="从 tiny_lb 中学到什么？"></a>从 tiny_lb 中学到什么？</h4><ol>
+<li>反向代理是什么东西？<br>本质是<strong>解耦</strong>，client 不知道 server 的 IP ， server 不知道 client 的 IP。两者都经过第三方 reverse_proxy_server ，更符合直觉。</li>
+<li>正向代理是什么东西？<br>典型的应用场景就是<strong>VPN</strong>，client 知道 server 的 IP，但是中间是通过第三方绕过了 WALL，对 client 透明，server 获取到的 IP 是 <strong>VPN_server.IP</strong>。</li>
+</ol>
+<h3 id="3-缓存"><a href="#3-缓存" class="headerlink" title="3. 缓存"></a>3. 缓存</h3><p>TODO</p>
+<h3 id="怎么进行高并发"><a href="#怎么进行高并发" class="headerlink" title="怎么进行高并发"></a>怎么进行高并发</h3><ol>
+<li>本质上是设计的优秀，eventloop</li>
+<li>Master - Worker(1 - n)</li>
+</ol>
+<h3 id="怎么进行高可用"><a href="#怎么进行高可用" class="headerlink" title="怎么进行高可用"></a>怎么进行高可用</h3><p>keepalive + nginx：keppalive 监控 nginx 的生命，防止单点 nginx 挂掉。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what_is_nginx/" data-id="ckl80qmsx0020s7qo29ezhjdg" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/02/16/what_is_high_concurrency/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/16/what_is_map_reduce/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

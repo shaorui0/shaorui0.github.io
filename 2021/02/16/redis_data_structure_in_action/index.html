@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="redis数据结构及其使用场景listlpushrpush 使用场景 Lpush + lpop &#x3D; stack Lpush + rpop &#x3D; queue Lpush + ltrim &#x3D; capped collection what is ltrim? Lpush + brpop &#x3D; message queue (blocking queue)  可以剪枝，只保存前多少个，后面的都去掉（一次性&#x2F;事务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/02/16/redis_data_structure_in_action/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="redis数据结构及其使用场景listlpushrpush 使用场景 Lpush + lpop &#x3D; stack Lpush + rpop &#x3D; queue Lpush + ltrim &#x3D; capped collection what is ltrim? Lpush + brpop &#x3D; message queue (blocking queue)  可以剪枝，只保存前多少个，后面的都去掉（一次性&#x2F;事务">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-02-16T13:04:24.535Z">
+<meta property="article:modified_time" content="2021-02-16T13:04:24.535Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-redis_data_structure_in_action" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/redis_data_structure_in_action/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:04:24.535Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="redis数据结构及其使用场景"><a href="#redis数据结构及其使用场景" class="headerlink" title="redis数据结构及其使用场景"></a>redis数据结构及其使用场景</h1><h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>Lpush + lpop = stack</li>
+<li>Lpush + rpop = queue</li>
+<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">what is ltrim?</a></li>
+<li>Lpush + brpop = message queue (blocking queue)</li>
+</ul>
+<p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
+<ol>
+<li>典型的就是消息队列，用于阻塞，空的时候无法获取，那会阻塞？</li>
+<li>典型的还是airticle list，有多少个文章，无需排序，仅仅是通过index去索引</li>
+</ol>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>不重复，无序<br>那么典型的什    么场景</p>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>tag<br>用户标签，对某些东西感兴趣，实现应该是一棵树？</li>
+</ol>
+<p>那zset呢？有序无序之间的区别？</p>
+<h3 id="底层是什么？"><a href="#底层是什么？" class="headerlink" title="底层是什么？"></a>底层是什么？</h3><h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><ul>
+<li>element不能重复</li>
+<li>通过score进行排序<br>有点类似学生id和学生分数</li>
+</ul>
+<p>这个分数是个什么性质，比如说我想按时间排序，能做到吗？</p>
+<h3 id="使用场景呢？"><a href="#使用场景呢？" class="headerlink" title="使用场景呢？"></a>使用场景呢？</h3><p>主要是和list的一个对比：</p>
+<ol start="0">
+<li>set家族当然就是不可重复了</li>
+<li>find，zset更快</li>
+<li>edge work，list更快，lpop、lpush</li>
+<li>排序，根据某种分数和权重，分数改变了，顺序也会改变<ul>
+<li>是可以自己指定权重方式？</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>The sorted set ensure that the key is unique. If you want to do something complex. For example, every time a user login, you add the userid to a sorted set. And there is a backend service read the sorted set and update the user’s information and action habbit. It can save a lot of work if you are using sorted set.<br>一些复杂的功能，比如每次登陆，都更新一下，按照登陆频率排序。</p>
+</blockquote>
+<blockquote>
+<p>What’s more, if the user is a premium paid member, you can set the score of his or her id higher, and refresh this user’s habbit match earlier.</p>
+</blockquote>
+<p>高级会员，放在redis set前面，这样取这个id更快</p>
+<p>总结起来，就是你需要动态排序，然后取一些顶点值的时候。如果是list，你可能要用代码实现，取top_k，但是zset就可以直接按照权重去获取。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis">https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">https://redis.io/topics/data-types-intro</a></p>
+<p><a target="_blank" rel="noopener" href="https://developpaper.com/redis-5-big-data-structure/">https://developpaper.com/redis-5-big-data-structure/</a></p>
+<h3 id="怎么实现的？"><a href="#怎么实现的？" class="headerlink" title="怎么实现的？"></a>怎么实现的？</h3><p>k-v的部分是通过hash，O(1)，排序的部分呢？</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/redis_data_structure_in_action/" data-id="ckl80qmq00019s7qo5xvlei08" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/02/16/redis_lru/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/16/redis_ttl/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/16/diff_between_post_and_put/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/airflow_intro/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/interview_about_massive_data/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/what_is_protobuf/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

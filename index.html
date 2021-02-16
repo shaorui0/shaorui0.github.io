@@ -71,15 +71,678 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-diff-between-post-and-put" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-redis-ttl" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/diff-between-post-and-put/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:45.001Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/redis-ttl/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/redis-ttl/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="How-Redis-expires-keys"><a href="#How-Redis-expires-keys" class="headerlink" title="How Redis expires keys?"></a>How Redis expires keys?</h1><p>Redis keys are expired in two ways: a passive way, and an active way.<br>使用频繁的是passive way，典型的就是只有当反问到某个key的时候，才判断它是否过期了。<br>但是这样会产生一个问题。</p>
+<ul>
+<li>如果一个key一致不被访问到，那会一直占用空间。</li>
+</ul>
+<p>解决这个问题的一个简单的思路就是：固定的时间随机找到一些key，判断这些key是否存在过期的，然后删除。<br>更进一步的，如果key的数量超过25%，重新执行一次上面的操作。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36172745/how-does-redis-expire-keys">how-does-redis-expire-keys</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/redis-ttl/" data-id="ckl80qmpz0018s7qo5hddh77n" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-21-enforce-clarity-with-keyword" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/21-enforce-clarity-with-keyword/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Item-21-Enforce-Clarity-with-Keyword-Only-Arguments"><a href="#Item-21-Enforce-Clarity-with-Keyword-Only-Arguments" class="headerlink" title="Item 21: Enforce Clarity with Keyword-Only Arguments"></a>Item 21: Enforce Clarity with Keyword-Only Arguments</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TODO exec</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, b, c, d</span>):</span></span><br><span class="line">    print(a,b,c,d)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, b, *, c=<span class="number">1</span>, d=<span class="number">2</span></span>):</span></span><br><span class="line">    print(a,b,c,d)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/21-enforce-clarity-with-keyword/" data-id="ckl80qmmk0000s7qochvz7rf6" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Elasticsearch-cold-warm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/Elasticsearch-cold-warm/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="es的冷热数据处理"><a href="#es的冷热数据处理" class="headerlink" title="es的冷热数据处理"></a>es的冷热数据处理</h1><p>思考来源于一次面试，面试提出这样的问题。<br>实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。<br>经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。<br>先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。</p>
+<h2 id="冷热数据索引特征"><a href="#冷热数据索引特征" class="headerlink" title="冷热数据索引特征"></a>冷热数据索引特征</h2><p>冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引</p>
+<p>热数据索引：查询频率高，写入压力大，一般为当天数据索引</p>
+<h2 id="为什么需要冷热节点？"><a href="#为什么需要冷热节点？" class="headerlink" title="为什么需要冷热节点？"></a>为什么需要冷热节点？</h2><p>cold、warm、hot spot 的概念并不是ES提出来的，分布式的概念中很早就有这一概念。</p>
+<p>很明显，hot spot是经常读写的，相对的，cold spot 基本就属于“历史数据”一类。<br>典型的，由于ES的数据，是保存在内存中的（TODO）]<br>概念类似“局部性原理”<br>如何设置某些时间的数据为hot，这个时间节点的设置也很关键，直接影响性能。</p>
+<p>当然，为了更好的缓解IO压力，分到多个节点效果更好。</p>
+<p>众所周知，索引是为了更快的获取数据。但是创建索引的过程会比较 expensive。<br>如果数据量太大，而ES的数据又存在内存中，导致IO负载比较大。</p>
+<p>W269N-WFGWX-YVC9B-4J6C9-T83GX</p>
+<h2 id="ES的冷热架构部署"><a href="#ES的冷热架构部署" class="headerlink" title="ES的冷热架构部署"></a>ES的冷热架构部署</h2><p>例子：比如电商数据极大。可以每个月建立一个索引，数据先写到热索引中，通过“工具”将3个月后的索引迁移到冷节点上面。</p>
+<p>典型的，热节点机器使用“垂直扩展”，高性能机器。冷节点使用水平扩展，堆机器数。这样，就能保证最大化的性能</p>
+<p>ES官方是建议使用SSD，但是成本</p>
+<h2 id="支持原理"><a href="#支持原理" class="headerlink" title="支持原理"></a>支持原理</h2><p>第一：集群节点层面支持规划节点类型，这是划分热暖节点的前提。<br>第二：索引层面支持将数据路由到给定节点，这为数据写入冷、热节点做了保障。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caoweixiong/p/11988457.html">Elasticsearch 冷热集群架构</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/Elasticsearch-cold-warm/" data-id="ckl80qmn90004s7qodcs762hs" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-coroutine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/coroutine/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/coroutine/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h1><p>tag: coroutine, subroutine, thread, concurrency, parallelism, generator, yield</p>
+<h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
+<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
+<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
+<h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
+<p>Concurrency is the separation of tasks to provide interleaved execution. Parallelism is the simultaneous execution of multiple pieces of work in order to increase speed. —<a target="_blank" rel="noopener" href="https://github.com/servo/servo/wiki/Design">https://github.com/servo/servo/wiki/Design</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/307100151/answer/894486042">如何理解：程序、进程、线程、并发、并行、高并发？ - 大宽宽的回答 - 知乎</a></p>
+<ul>
+<li>Concurrency is not Parallelism</li>
+<li>Concurrency enables parallelism &amp; makes parallelism (and scaling and everything else) easy</li>
+</ul>
+<h3 id="more-light"><a href="#more-light" class="headerlink" title="more light?"></a>more light?</h3><blockquote>
+<p>First of all if coroutines run concurrently (never in parallel), why would anyone prefer them over threads? The answer is that coroutines can provide a very high level of concurrency with very little overhead. Generally in a threaded environment you have at most 30-50 threads before the amount of overhead wasted actually scheduling these threads (by the system scheduler) significantly cuts into the amount of time the threads actually do useful work.</p>
+</blockquote>
+<p>在并发的问题上，由于线程的使用开销（创建开销（x KB - y MB）、调度开销（线程上下文））比较大，通常用户态的协程（开销与函数(subroutine)调用接近）就能解决问题。协程轻而易举的就能创建成千上万个。</p>
+<h3 id="compare-with-THREAD"><a href="#compare-with-THREAD" class="headerlink" title="compare with THREAD"></a>compare with THREAD</h3><blockquote>
+<p>Threads and coroutines are almost orthogonal features. Coroutines are about your programming model and threads are about your execution model.</p>
+</blockquote>
+<p>协程与线程的区别有点像<strong>并发与并行的区别</strong>一样，不是一个维度的。多线程最终的目的（在现代操作系统、cpu多核的环境下）还是想并行执行提高效率。但是协程，完全是为了处理<strong>并发</strong>。一个是programming model，一个是execution model。</p>
+<blockquote>
+<p> With threads, the operating system switches running threads preemptively according to its scheduler, which is an algorithm in the operating system kernel. With coroutines, the programmer and programming language determine when to switch coroutines; in other words, tasks are cooperatively multitasked by pausing and resuming functions at set points, typically (but not necessarily) within a single thread.</p>
+</blockquote>
+<p>实际上许多线程的实现更像协程。</p>
+<h5 id="线程："><a href="#线程：" class="headerlink" title="线程："></a>线程：</h5><ul>
+<li>抢占式的</li>
+<li>内核调度</li>
+<li>上下文转换expensive</li>
+</ul>
+<h5 id="协程："><a href="#协程：" class="headerlink" title="协程："></a>协程：</h5><ul>
+<li><strong>协作</strong>式的，<strong>完全由程序员指定</strong>（也因为这一点，带来的巨大好处就是<strong>基本不会在share resouce上出问题</strong>，也就是不会出现<strong>race condition</strong>。你不可能自己设计一个有缺陷的并发代码结构吧 :)）<blockquote>
+<p>Because your routines now switch between each other a pre-determined points you can now also avoid locking on shared data structures (because you would never tell your code to switch to another coroutine in the middle of a critical section)</p>
+</blockquote>
+</li>
+<li>编程框架（程序员）调度</li>
+<li>基本没有上下文转换，开销和函数调度差不多</li>
+</ul>
+<h3 id="compare-with-subroutine"><a href="#compare-with-subroutine" class="headerlink" title="compare with subroutine"></a>compare with subroutine</h3><blockquote>
+<p>Coroutines are a more generalized form of subroutines. Subroutines are entered at one point and exited at another point. Coroutines can be entered, exited, and resumed at many different points. They can be implemented with the async def statement.</p>
+</blockquote>
+<p>回想函数/子程序调用，在线程栈里面会保留<code>return address</code>然后进行跳转执行。抽象出来，我们说子程序有一个entry pointer(and exit pointer)。协程在这方面则有多个re-entry pointer，是可以持续进入的（线性的）。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Yield &#x27;remembers&#x27; where the co-routine is so when it is called again it will continue where it left off.</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 2 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Note: Coroutines may use a return, and behave just like a subroutine</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>; //Dead code</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 1 1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="why-co-routines-are-receiving-a-lot-of-attention-recently"><a href="#why-co-routines-are-receiving-a-lot-of-attention-recently" class="headerlink" title="why co-routines are receiving a lot of attention recently?"></a>why co-routines are receiving a lot of attention recently?</h4><blockquote>
+<p>And finally, co-routines are receiving a lot of attention because in some programming languages (such as Python) your threads cannot run in parallel anyway - they run concurrently just like coroutines, but without the low memory and free scheduling overhead.</p>
+</blockquote>
+<p>关于python不能用线程：<a href="">TODO 臭名昭著的GIL</a></p>
+<h2 id="when"><a href="#when" class="headerlink" title="when"></a>when</h2><p>典型的场景就是网络延迟等待了，cpu不愿意等的地方，协程当然也不愿意等。</p>
+<blockquote>
+<p>从 CPU 的角度，协程其实更符合直觉。一个处理器核心本来就<strong>没法同时处理两件事情</strong>，要同时进行多件事情本来就需要正在运行的<strong>让出处理器</strong>，然后才能去处理另一件事情。只不过这个让出的过程是线程调度器<strong>主动抢占</strong>的。所以线程调度器是假定不同的线程是毫无关系的，所以它平均的分配时间片让处理器雨露均沾。<br>但是很快人们发现这不是事情的全部，很多时候两个线程不是完全独立的，他们会操作同一个资源。这个时候人们又发明了同步锁，使得一段时间内只有一个线程可以操作这个资源，其他线程只能等待。<br>然后我们很快发现，这特么不是<strong>脱了裤子放屁</strong>么？处理器本来同一时间就只能有一个线程在运行。是线程调度器抢断划分时间片给其他线程跑，现在其他线程又说特么我要等前面那个线程用完了这个资源才能运行。<br>也就是说，<strong>在所有线程相互独立且不会阻塞的模式下，抢断式的线程调度器是不错的选择</strong>。因为它可以保证所有的线程都可以被分到时间片不被程序员的垃圾代码所累。这对于某些事情来说是至关重要的，例如计时器、回调、IO触发器（譬如说处理请求）什么的。<br>但是在<strong>线程不是相互独立，经常因为争抢而阻塞的情况下，抢断式的线程调度器</strong>就显得脱了裤子放屁了，既然你们只能一个个的跑，那抢断还有什么意义？让你们<strong>自己去让出时间片</strong>就好了。再往后，大家发现经常有阻塞的情况下，主动让出时间片的协程模式比抢占式分配的效率要好，也简单得多。</p>
+</blockquote>
+<p>结论：</p>
+<ul>
+<li>任务之间相互独立时，使用抢占式的线程更好，这样同时保证不会有某个线程过多持有CPU</li>
+<li>任务之间有依赖，经常<strong>因为争抢而阻塞</strong>的情况下，使用协程更好。本身就规定了一个一个跑（锁），那还不如用户主动出让CPU。</li>
+</ul>
+<h2 id="how"><a href="#how" class="headerlink" title="how?"></a>how?</h2><h5 id="协程写生产者消费者"><a href="#协程写生产者消费者" class="headerlink" title="协程写生产者消费者"></a>协程写生产者消费者</h5><p>可以看到，下面的代码，<strong>解耦了生产者和消费者</strong>，逻辑过程完全是<strong>主动让出</strong>的。<br>线程实现P/C问题，如果想解耦，需要有一个<strong>阻塞队列</strong>，由底层的条件变量对临界区进行空和满状态的控制（condition.wait/condition.signal）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line"></span><br><span class="line">def consumer():</span><br><span class="line">    r &#x3D; &#39;&#39;</span><br><span class="line">    while True:</span><br><span class="line">        n &#x3D; yield r# 进行第二次迭代才重新回来</span><br><span class="line">        if not n:</span><br><span class="line">            return</span><br><span class="line">        print(&#39;[CONSUMER] Consuming %s...&#39; % n)</span><br><span class="line">        time.sleep(1)</span><br><span class="line">        r &#x3D; &#39;200 OK&#39;</span><br><span class="line"></span><br><span class="line">def produce(c):</span><br><span class="line">    c.next()</span><br><span class="line">    n &#x3D; 0</span><br><span class="line">    while n &lt; 5:</span><br><span class="line">        n &#x3D; n + 1</span><br><span class="line">        print(&#39;[PRODUCER] Producing %s...&#39; % n)</span><br><span class="line">        r &#x3D; c.send(n) # 这里的send也是根据yield来的</span><br><span class="line">        print(&#39;[PRODUCER] Consumer return: %s&#39; % r) # 这里只是一个返回结果</span><br><span class="line">    c.close()</span><br><span class="line"></span><br><span class="line">if __name__&#x3D;&#x3D;&#39;__main__&#39;:</span><br><span class="line">    c &#x3D; consumer()</span><br><span class="line">    produce(c)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h2><p>这个概念很早就出现了，那么它没有解决什么问题？</p>
+<ol>
+<li>它只是让并发实现更简单了，但是基本的设计（何时采用并发，如何保证不出bug？）还是需要用户去思考和设计。</li>
+<li><strong>并行</strong>这个维度上仍然需要配合进程来调度。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>stackoverflow: what is coroutine?</li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/50185085/answer/1342613525">出于什么样的原因，诞生了「协程」这一概念？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/389262477/answer/1566255353">为什么编程语言对异步编程都是很晚近才开始支持的？</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/coroutine/" data-id="ckl80qmni0007s7qo2d94hhd6" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-between-partition-and-sharding" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff-between-partition-and-sharding/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="partition-and-sharding"><a href="#partition-and-sharding" class="headerlink" title="partition and sharding"></a>partition and sharding</h1><h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+<h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
+<ul>
+<li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of what is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
+</ul>
+<h4 id="what-is-sharding"><a href="#what-is-sharding" class="headerlink" title="what is sharding?"></a>what is sharding?</h4><ul>
+<li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
+</ul>
+<h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
+<ul>
+<li>最初的identifiers就是RDBMS中的自增id了，这种标识符称为<strong>Shard Key</strong></li>
+<li>最常用的一种key-less logic是通过字母序来决定的</li>
+<li>还有些是使用key-synchronizition system ===&gt; zookeeper（管理分布式系统）</li>
+</ul>
+<h2 id="Instagram-instance"><a href="#Instagram-instance" class="headerlink" title="Instagram instance"></a>Instagram instance</h2><ol>
+<li>开始不给系统带来太大的复杂度，比如引进分布式系统</li>
+<li>讨论方案的时候，典型的<strong>优缺点</strong>要罗列清楚（pros and cons），这样才好更容易做决策。</li>
+<li><strong>sharding</strong>的本质就是<strong>数据存放好之后（将数据分到很多桶里）我如何取的问题</strong></li>
+<li>典型的就要对id这个东西非常上心</li>
+</ol>
+<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ul>
+<li>id要以时间有序的方式排序（即使没有其他信息，也能够排序）</li>
+<li>id最理想的长度应该是64bits（更小的索引，更好的存储（比如适配redis））</li>
+<li>系统应该引入比较少的、新的’moving parts’（复杂度）</li>
+</ul>
+<h3 id="可能的解法（pros-and-cons）："><a href="#可能的解法（pros-and-cons）：" class="headerlink" title="可能的解法（pros and cons）："></a>可能的解法（pros and cons）：</h3><ol>
+<li><p>通过代码而非数据库的自增id（mongoDB’s Object）</p>
+<ul>
+<li>好处<ul>
+<li>application thread generates IDs independently</li>
+<li>使用时间戳作为第一部分，自动排序</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>保证独立需要很多storage space（为什么？线程控制，全局独立，随着id足够多…）</li>
+<li>UUID？也没有一个很好的natural sort，而且128bits长度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>某种服务专门用来产生id<br>twitter的snowflake，apache zookeeper，64-bits unique IDs</p>
+<ul>
+<li>好处<ul>
+<li>64-bits</li>
+<li>time作为第一部分</li>
+<li>分布式系统，更加可用、某些节点死了的情况下</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>引入了复杂度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>DB自动增加的能力（two ticket DBs 避免单节点失败）</p>
+<ul>
+<li>好处<ul>
+<li>很好理解，很好的预期扩展性</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>写会有瓶颈（事务带来）</li>
+<li>需要一些机器专门来管理（比如EC2）</li>
+<li>单节点可能失效，多节点可能不保证随时间的有序性（考虑两个节点交叉写的情况）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><blockquote>
+<p>现代RDBMS（PostgreSQL）提供了<strong>逻辑上的sharding</strong>，在很少的机器情况下，仍然能进行分片</p>
+</blockquote>
+<p>以上一些方案，分布式的方法更适合。但是，会引入复杂度。</p>
+<p>逻辑分片，粒度：DB =&gt;  schema =&gt; table，而不是传统的DB =&gt; schema（public）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Postgre有内置的语言，通过位运算处理三部分的id</span></span><br><span class="line"></span><br><span class="line">41bits（微秒） ===&gt; 41年</span><br><span class="line">13bits（逻辑shard）</span><br><span class="line">10bits（取模）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每微秒每个shard产生1024个ID</span></span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20771435/database-sharding-vs-partitioning">database-sharding-vs-partitionin</a></p>
+<p><a target="_blank" rel="noopener" href="https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c">EXAMPLE: handle instagram id</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-airflow-intro" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/airflow-intro/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/airflow-intro/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Airflow"><a href="#Airflow" class="headerlink" title="Airflow"></a>Airflow</h1><h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
+<p>其他依赖包括什么？</p>
+<ul>
+<li>时间依赖，crontab自身支持例行时刻和间隔</li>
+<li>外部系统依赖，需要shell自己调用接口</li>
+<li>任务间的依赖，通常通过shell函数来完成</li>
+</ul>
+<h3 id="为什么需要Airflow？"><a href="#为什么需要Airflow？" class="headerlink" title="为什么需要Airflow？"></a>为什么需要Airflow？</h3><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+<ul>
+<li>日志记录<ul>
+<li>RD介入是否方便？</li>
+<li>日志形式是否直观？</li>
+</ul>
+</li>
+<li>任务报警</li>
+<li>失败重试</li>
+</ul>
+<h3 id="额外的惊喜？"><a href="#额外的惊喜？" class="headerlink" title="额外的惊喜？"></a>额外的惊喜？</h3><p>额外的，整个调度系统是否有比较好的伸缩性？比如并发机制（<strong>多个调度任务能不能并发？甚至扩展到多机？</strong>）。涉及到这些高级功能，一般的调度方式是很难满足了。</p>
+<p>Airflow 同时拥有不错的<strong>集群扩展能力</strong>，可使用 CeleryExecuter 以及多个 Pool 来提高任务<strong>并发度</strong>。</p>
+<h3 id="ETL上的实践"><a href="#ETL上的实践" class="headerlink" title="ETL上的实践"></a>ETL上的实践</h3><p>Airflow的理念，天然的适用于 ETL 过程。Airflow 本质是通过DAG来控制任务依赖，<strong>有向无环图</strong>保证了任务之间不会有循环依赖。</p>
+<p>在现阶段的实践中，我们使用 Airflow 来同步各个数据源数据到数仓，同时定时执行一些批处理任务及带有数据依赖、资源依赖关系的计算脚本。</p>
+<ul>
+<li><p>Airflow 在 CeleryExecuter 下可以使用不同的用户启动 Worker，不同的 Worker 监听不同的 Queue，这样可以解决用户权限依赖问题。 Worker 也可以启动在多个不同的机器上，解决<strong>机器依赖</strong>的问题。</p>
+</li>
+<li><p>Airflow 可以为任意一个 Task 指定一个抽象的 Pool，每个 Pool 可以指定一个 Slot 数。 每当一个 Task 启动时，就占用一个 Slot，当 Slot 数占满时，其余的任务就处于等待状态。这样就解决了<strong>资源依赖</strong>问题。</p>
+</li>
+</ul>
+<h2 id="Airflow的升级"><a href="#Airflow的升级" class="headerlink" title="Airflow的升级"></a>Airflow的升级</h2><h3 id="涉及到pyenv和virtualenv的环境隔离"><a href="#涉及到pyenv和virtualenv的环境隔离" class="headerlink" title="涉及到pyenv和virtualenv的环境隔离"></a>涉及到pyenv和virtualenv的环境隔离</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 创建测试所需数据库</span><br><span class="line"></span><br><span class="line">1. mysql: </span><br><span class="line">DF_Airflow_test;</span><br><span class="line">DF_Airflow_Celery_test;</span><br><span class="line">2. redis: </span><br><span class="line">10.26.149.41:7000 </span><br><span class="line"></span><br><span class="line"># airflow 通用安装 e.g. py27 单机多版本注意要设置不同的家目录</span><br><span class="line">mkdir airflow-1.10.10-py-2.7.14</span><br><span class="line">cd airflow-1.10.10-py-2.7.14&#x2F;</span><br><span class="line">pyenv virtualenv 2.7.14  airflow-1.10.10-py-2.7.14</span><br><span class="line">pyenv local airflow-1.10.12-py-2.7.14</span><br><span class="line">export AIRFLOW_HOME&#x3D;~&#x2F;airflow-1.10.10-py-2.7.14</span><br><span class="line">pip install  apache-airflow[mysql,celery]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"></span><br><span class="line"># airflow 1.10.3 安装</span><br><span class="line">pip install  apache-airflow&#x3D;&#x3D;1.10.3   --use-feature&#x3D;2020-resolver</span><br><span class="line"># airflow 1.10.12 安装</span><br><span class="line">## py3</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-3.7.txt&quot;</span><br><span class="line">## py2</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># airflow 升级 py27-airflow-1.10.12 不加constraint会报错</span><br><span class="line">pip install -U  apache-airflow&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># fbac前端创建用户</span><br><span class="line">airflow create_user -r Admin -u admin -e qinyufeng@baidu.com -f qin -l yufeng -p admin</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90282578">&gt; REF BLOG</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff-ipc/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/diff-ipc/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ipc"><a href="#ipc" class="headerlink" title="ipc"></a>ipc</h1><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
+<h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
+<ol>
+<li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
+<li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
+</ol>
+<p>Benchmark and Message Boundary: </p>
+<ul>
+<li><strong>Pipe</strong> I/O is the fastest but needs a <strong>parent/child relationship</strong> to work.</li>
+<li>Sysv IPC has a defined message boundary and can connect disparate processes locally, for example, <strong>MQ</strong></li>
+<li>UNIX sockets can connect disparate processes <strong>locally</strong> and has <strong>higher bandwidth</strong> but no inherent message boundaries.</li>
+<li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
+</ul>
+<h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
+<li><p>anonymous pipe: </p>
+<ul>
+<li>usage: cat file | grep word</li>
+<li>单向</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
+</ul>
+</li>
+<li><p>named pipe:<br>  <img src="./operator_system/process/ipc/fifo.png" alt="fifo"></p>
+<ul>
+<li>半双工</li>
+<li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
+</ul>
+</li>
+<li><p>signal</p>
+<ul>
+<li>fork + signal</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell">implement: tiny shell</a></li>
+</ul>
+</li>
+<li><p>file lock</p>
+</li>
+<li><p>Semaphores</p>
+<ul>
+<li>某种同步原语，当需要锁功能或者生产消费一定数量的资源时</li>
+</ul>
+</li>
+<li><p>socket</p>
+<ul>
+<li>全双工，本机或网络</li>
+<li>TODO web server</li>
+</ul>
+</li>
+<li><p>mmap</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">what is mmap?</a><ul>
+<li>mmap是什么？</li>
+<li>为什么需要mmap()</li>
+<li>pros and cons</li>
+<li>一些可以运行的例子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>shared memory</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-multi-process-multi-thread-io-resue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff-multi-process-multi-thread-io-resue/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/diff-multi-process-multi-thread-io-resue/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="多线程、多进程、io复用"><a href="#多线程、多进程、io复用" class="headerlink" title="多线程、多进程、io复用"></a>多线程、多进程、io复用</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
+<ol>
+<li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
+</ol>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><ol>
+<li><p>开销：</p>
+<ul>
+<li>进程创建</li>
+<li>进程调度（上下文转换）</li>
+</ul>
+</li>
+<li><p>数据共享：IPC</p>
+</li>
+<li><p>debug麻烦，一些工具比如<code>GDB</code>都不太好使用了</p>
+</li>
+</ol>
+<h2 id="io复用"><a href="#io复用" class="headerlink" title="io复用"></a>io复用</h2><h4 id="pros-1"><a href="#pros-1" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>【利好程序员】更好的控制。典型的场景，处理多个客户端的时候（event-drive）。（多进程并发模型需要每次close(listenfd)）TODO why？如果不close？test</li>
+<li>同一进程的缘故，共享数据更方便。</li>
+</ol>
+<h4 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>想要处理的事件（类型）越多，代码结构复杂</li>
+<li>partial read问题（EOF），多进程信号处理很方便。</li>
+<li>【并发粒度】并发多少条指令（时间片）？(CSAPP)</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h4 id="pros-2"><a href="#pros-2" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>开销比进程小</li>
+<li>多核上可以并行</li>
+<li>更好的共享信息（除了thread stack各自维护，其他segment都是共享的，包括：heap、read-only(const data), read-write(global/static), code, share memory(mmap, .so)）</li>
+</ol>
+<h4 id="cons-2"><a href="#cons-2" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>由于共享的问题，潜在的并发问题都出现了：deadlock、race condition</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工业上比较好的方式：one loop(io reuse) per thread (muduo)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-hash-btree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff-hash-btree/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/diff-hash-btree/">effective-py</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="hash-b-tree"><a href="#hash-b-tree" class="headerlink" title="hash / b-tree"></a>hash / b-tree</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
+<p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
+<h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
+<p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
+</blockquote>
+<blockquote>
+<p>The trade off for tree algorithms is small and they are suitable for almost every use case and thus are default.</p>
+</blockquote>
+<p>处理规模化的数据时，hash维护key会显著变慢（冲突处理）</p>
+<ul>
+<li><p>hash时间复杂度可能落入到O(n)</p>
+</li>
+<li><p>b-tree更平衡，平均复杂度为O(log n)</p>
+</li>
+</ul>
+<h5 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h5><blockquote>
+<p>The difference between using a b-tree and a hash table is that the former allows you to use column comparisons in expressions that use the =, &gt;, &gt;=, &lt;, &lt;=, or BETWEEN operators, while the latter is used only for equality comparisons that use the = or &lt;=&gt; operators.</p>
+</blockquote>
+<p>就存取特征而言，hash table是离散的，只能以O(1)的时间复杂度寻找特定值，而不支持range query（<strong>主要原因</strong>）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff-hash-btree/" data-id="ckl80qmnv000es7qo7vg20eoy" data-title="effective-py" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-between-post-and-put" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff-between-post-and-put/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/diff-between-post-and-put/">effective-py</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -120,517 +783,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-between-post-and-put/" data-id="ckl80qmnx000fs7qo88un2ydl" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-airflow-intro" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/airflow-intro/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.940Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Airflow"><a href="#Airflow" class="headerlink" title="Airflow"></a>Airflow</h1><h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
-<p>其他依赖包括什么？</p>
-<ul>
-<li>时间依赖，crontab自身支持例行时刻和间隔</li>
-<li>外部系统依赖，需要shell自己调用接口</li>
-<li>任务间的依赖，通常通过shell函数来完成</li>
-</ul>
-<h3 id="为什么需要Airflow？"><a href="#为什么需要Airflow？" class="headerlink" title="为什么需要Airflow？"></a>为什么需要Airflow？</h3><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
-<ul>
-<li>日志记录<ul>
-<li>RD介入是否方便？</li>
-<li>日志形式是否直观？</li>
-</ul>
-</li>
-<li>任务报警</li>
-<li>失败重试</li>
-</ul>
-<h3 id="额外的惊喜？"><a href="#额外的惊喜？" class="headerlink" title="额外的惊喜？"></a>额外的惊喜？</h3><p>额外的，整个调度系统是否有比较好的伸缩性？比如并发机制（<strong>多个调度任务能不能并发？甚至扩展到多机？</strong>）。涉及到这些高级功能，一般的调度方式是很难满足了。</p>
-<p>Airflow 同时拥有不错的<strong>集群扩展能力</strong>，可使用 CeleryExecuter 以及多个 Pool 来提高任务<strong>并发度</strong>。</p>
-<h3 id="ETL上的实践"><a href="#ETL上的实践" class="headerlink" title="ETL上的实践"></a>ETL上的实践</h3><p>Airflow的理念，天然的适用于 ETL 过程。Airflow 本质是通过DAG来控制任务依赖，<strong>有向无环图</strong>保证了任务之间不会有循环依赖。</p>
-<p>在现阶段的实践中，我们使用 Airflow 来同步各个数据源数据到数仓，同时定时执行一些批处理任务及带有数据依赖、资源依赖关系的计算脚本。</p>
-<ul>
-<li><p>Airflow 在 CeleryExecuter 下可以使用不同的用户启动 Worker，不同的 Worker 监听不同的 Queue，这样可以解决用户权限依赖问题。 Worker 也可以启动在多个不同的机器上，解决<strong>机器依赖</strong>的问题。</p>
-</li>
-<li><p>Airflow 可以为任意一个 Task 指定一个抽象的 Pool，每个 Pool 可以指定一个 Slot 数。 每当一个 Task 启动时，就占用一个 Slot，当 Slot 数占满时，其余的任务就处于等待状态。这样就解决了<strong>资源依赖</strong>问题。</p>
-</li>
-</ul>
-<h2 id="Airflow的升级"><a href="#Airflow的升级" class="headerlink" title="Airflow的升级"></a>Airflow的升级</h2><h3 id="涉及到pyenv和virtualenv的环境隔离"><a href="#涉及到pyenv和virtualenv的环境隔离" class="headerlink" title="涉及到pyenv和virtualenv的环境隔离"></a>涉及到pyenv和virtualenv的环境隔离</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 创建测试所需数据库</span><br><span class="line"></span><br><span class="line">1. mysql: </span><br><span class="line">DF_Airflow_test;</span><br><span class="line">DF_Airflow_Celery_test;</span><br><span class="line">2. redis: </span><br><span class="line">10.26.149.41:7000 </span><br><span class="line"></span><br><span class="line"># airflow 通用安装 e.g. py27 单机多版本注意要设置不同的家目录</span><br><span class="line">mkdir airflow-1.10.10-py-2.7.14</span><br><span class="line">cd airflow-1.10.10-py-2.7.14&#x2F;</span><br><span class="line">pyenv virtualenv 2.7.14  airflow-1.10.10-py-2.7.14</span><br><span class="line">pyenv local airflow-1.10.12-py-2.7.14</span><br><span class="line">export AIRFLOW_HOME&#x3D;~&#x2F;airflow-1.10.10-py-2.7.14</span><br><span class="line">pip install  apache-airflow[mysql,celery]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"></span><br><span class="line"># airflow 1.10.3 安装</span><br><span class="line">pip install  apache-airflow&#x3D;&#x3D;1.10.3   --use-feature&#x3D;2020-resolver</span><br><span class="line"># airflow 1.10.12 安装</span><br><span class="line">## py3</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-3.7.txt&quot;</span><br><span class="line">## py2</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># airflow 升级 py27-airflow-1.10.12 不加constraint会报错</span><br><span class="line">pip install -U  apache-airflow&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># fbac前端创建用户</span><br><span class="line">airflow create_user -r Admin -u admin -e qinyufeng@baidu.com -f qin -l yufeng -p admin</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90282578">&gt; REF BLOG</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-interview-about-massive-data" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/interview-about-massive-data/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.913Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="海量数据问题"><a href="#海量数据问题" class="headerlink" title="海量数据问题"></a>海量数据问题</h1><h4 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h4><p>这是一个 ip 地址 127.0.0.1<br>假设有<strong>100亿</strong>个这样的 ip 地址存在文件中<br>这个文件大小大约是 <strong>100GB</strong><br>问题：要统计出100亿个 ip 中，<strong>重复出现次数最多的前10个</strong><br>限制：1台机器，<strong>内存1G</strong>, 磁盘可以随便用</p>
-<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>分桶：</p>
-<ul>
-<li>大体思路没错，用堆进行对每个桶取top-k，但是产生问题是，可能一个频率很高的ip被分到多个桶中，<strong>频率被稀释</strong>了。</li>
-<li>所以现在的问题就变成了，需要保证特定的ip只进入到一个桶里面</li>
-<li>当时回答了『外部排序』（比如B-tree），其实本质上是没必要严格排序的，只需要保证比较弱的『单一桶』条件即可。</li>
-<li>下来以后发现，是可以进行<strong>hash</strong>来分的，ip%100 =&gt; 分到100桶里面，这样不就保证了吗？</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/interview-about-massive-data/" data-id="ckl80qmp2000us7qoa81r0v53" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-what-is-protobuf" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-protobuf/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.909Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="What-is-Protobuf"><a href="#What-is-Protobuf" class="headerlink" title="What is Protobuf?"></a>What is Protobuf?</h1><p>NOTICE: the protobuf <strong>is not for humans</strong>, serialized data is compiled bytes and hard for the human reading. There are two ways to solve it: </p>
-<ol>
-<li><p>read strcture of proto by watching the .proto file, pay attention to keywords ‘optional’(not in <strong>pb3</strong>).</p>
-</li>
-<li><p>MessageToJson</p>
-</li>
-</ol>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> google.protobuf.json_format <span class="keyword">import</span> MessageToJson</span><br><span class="line">jsonObj = MessageToJson(pb)</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="why-protobuf"><a href="#why-protobuf" class="headerlink" title="why protobuf?"></a>why protobuf?</h1><p>Some scenarios require <strong>schema</strong> (Define once, use everywhere).<br>【速度】</p>
-<ul>
-<li>编解码的方式和传统的二进制不太一样，</li>
-<li>三个部分分别是长度、key_num、value（这样编解码起来快了很多），主要节省的地方就在key不用使用字符串，同时长度是固定的，直接读就行，而不需要通过解析，比如遇到括号或者逗号这样</li>
-<li>float在json中的编解码也慢（not designed for numbers）</li>
-</ul>
-<p>【schema带来的】</p>
-<ul>
-<li>easier to bind to objects；json是典型的string。</li>
-</ul>
-<p>【可读性】</p>
-<ul>
-<li>json更可读</li>
-</ul>
-<p>【普适性】<br>pb基本使用量级是赶不上json的</p>
-<p><a target="_blank" rel="noopener" href="https://www.bizety.com/2018/11/12/protocol-buffers-vs-json/#:~:text=Protobuf%20is%20easier%20to%20bind,is%20not%20designed%20for%20numbers.&amp;text=The%20library%20implementation%20for%20Protobuf,be%20a%20faster%20format%20overall">https://www.bizety.com/2018/11/12/protocol-buffers-vs-json/#:~:text=Protobuf%20is%20easier%20to%20bind,is%20not%20designed%20for%20numbers.&amp;text=The%20library%20implementation%20for%20Protobuf,be%20a%20faster%20format%20overall</a></p>
-<h3 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h3><p>think XML, but smaller, faster, and simpler(really?).</p>
-<ul>
-<li>Performance:<ul>
-<li><strong>easier to bind to objects</strong> and faster.</li>
-<li>As JSON is textual, its <strong>integers</strong> and <strong>floats</strong> can be slow to encode and decode.</li>
-</ul>
-</li>
-<li>Smaller size(<em>why faster than Json?</em>):<ul>
-<li>Protobuf binary format Serialization</li>
-<li>Benchmark see <a target="_blank" rel="noopener" href="https://blog.usejournal.com/what-the-hell-is-protobuf-4aff084c5db4">faster than json - Benchmark</a>）</li>
-</ul>
-</li>
-<li>Others:<ul>
-<li>RPC support</li>
-</ul>
-</li>
-</ul>
-<h3 id="cons-JSON-can-solve-it"><a href="#cons-JSON-can-solve-it" class="headerlink" title="cons(JSON can solve it)"></a>cons(JSON can solve it)</h3><ul>
-<li>JSON is widely accepted by almost all programming languages and highly popular.</li>
-<li>Non-human readability</li>
-<li>Data from the service is directly consumed by a web browser</li>
-<li>Your server side application is written in JavaScript</li>
-<li>You aren’t prepared to tie the data model to a schema</li>
-<li>You don’t have the bandwidth to add another tool to your arsenal</li>
-<li>The operational burden of running a different kind of network service is too great</li>
-</ul>
-<h3 id="优势-TODO"><a href="#优势-TODO" class="headerlink" title="优势 TODO"></a>优势 TODO</h3><h1 id="protobuf有什么优势？"><a href="#protobuf有什么优势？" class="headerlink" title="protobuf有什么优势？"></a>protobuf有什么优势？</h1><ol start="0">
-<li><p>JSON没有紧凑的动作，单个pack数据量也比较大</p>
-</li>
-<li><p>PB编解码速度快，有schema，二进制过程进行了“紧凑”（典型就是</p>
-</li>
-<li><p>向前兼容（旧代码也能读新数据），当然，这需要在修改schema定义的时候，有注意事项。比如数字不能瞎改、不能删除required等<br> field_tag(replace key_content) + type + length + value_content<br> 这就意味着：</p>
-<ul>
-<li>可以更改key的名称（field_tag只记录了数字），那显然的，数字不能修改</li>
-<li>添加字段只能是可选的，或者具有默认值</li>
-<li>repeated的设计思想在于“前后兼容性”<ul>
-<li>optional =&gt; repeated</li>
-<li>旧代码看新数据，只能看到最后一个元素</li>
-<li>新代码看旧数据，看到的是0/1个元素的list</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>向后兼容（代码通常更新最快，数据可能也会跟着更新，但是会不会有旧数据过来？比如说上游，比如说协调还没有完全一致）</p>
-</li>
-<li><p>支持的数据格式也比较多，JSON对数字（整数、浮点数）支持不好，编解码速度也会比较慢</p>
-</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://www.bizety.com/2018/11/12/protocol-buffers-vs-json/#:~:text=Protobuf%20is%20easier%20to%20bind,is%20not%20designed%20for%20numbers.&amp;text=The%20library%20implementation%20for%20Protobuf,be%20a%20faster%20format%20overall">https://www.bizety.com/2018/11/12/protocol-buffers-vs-json/#:~:text=Protobuf%20is%20easier%20to%20bind,is%20not%20designed%20for%20numbers.&amp;text=The%20library%20implementation%20for%20Protobuf,be%20a%20faster%20format%20overall</a></p>
-<p><a target="_blank" rel="noopener" href="https://vonng.gitbooks.io/ddia-cn/content/ch4.html">https://vonng.gitbooks.io/ddia-cn/content/ch4.html</a></p>
-<h1 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls *.proto | awk &#39;&#123;print &quot;protoc -I&#x3D;. --python_out&#x3D;. .&#x2F;&quot;$0&#125;&#39; | sh</span><br></pre></td></tr></table></figure>
-<h2 id="proto-message-parse"><a href="#proto-message-parse" class="headerlink" title="proto message parse"></a>proto message parse</h2><h3 id="recursive-resolution-based-on-DESCRIPTOR-fields"><a href="#recursive-resolution-based-on-DESCRIPTOR-fields" class="headerlink" title="recursive resolution based on DESCRIPTOR.fields"></a>recursive resolution based on DESCRIPTOR.fields</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dump_object</span>(<span class="params">obj</span>):</span></span><br><span class="line">    <span class="keyword">for</span> descriptor <span class="keyword">in</span> obj.DESCRIPTOR.fields:</span><br><span class="line">        value = <span class="built_in">getattr</span>(obj, descriptor.name)</span><br><span class="line">        <span class="keyword">if</span> descriptor.<span class="built_in">type</span> == descriptor.TYPE_MESSAGE:</span><br><span class="line">            <span class="keyword">if</span> descriptor.label == descriptor.LABEL_REPEATED:</span><br><span class="line">                <span class="built_in">map</span>(dump_object, value)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dump_object(value)</span><br><span class="line">        <span class="keyword">elif</span> descriptor.<span class="built_in">type</span> == descriptor.TYPE_ENUM:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> descriptor.<span class="built_in">type</span> == descriptor.TYPE_BYTES:</span><br><span class="line">                <span class="comment"># TODO 转码</span></span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<h3 id="iterative-resolution-based-on-proto-schema"><a href="#iterative-resolution-based-on-proto-schema" class="headerlink" title="iterative resolution based on proto schema"></a>iterative resolution based on proto schema</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_general_field</span>(<span class="params">pb</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(pb.general_ad_field.ad_packs) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">    product_id = pb.product_id</span><br><span class="line">    sub_app_id = pb.sub_app_id</span><br><span class="line">    arr_material = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ad_pack <span class="keyword">in</span> pb.general_ad_field.ad_packs:</span><br><span class="line">        user_id = <span class="built_in">str</span>(get_user_id(ad_pack))</span><br><span class="line">        <span class="keyword">for</span> ad_elem <span class="keyword">in</span> ad_pack.ad_elems_array:</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 过滤非增量</span></span><br><span class="line">            <span class="keyword">if</span> ad_elem.element_result.audit_channel_type != ad_review_util_pb2.kAd_AutoIncreaseAudit:</span><br><span class="line">               <span class="keyword">continue</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 过滤非通过</span></span><br><span class="line">            <span class="keyword">if</span> ad_elem.element_result.review_result == ad_review_util_pb2.kAd_APPROVED:</span><br><span class="line">               <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            ad_id = get_ad_id(ad_elem)</span><br><span class="line">            <span class="comment"># 遍历不同类型的广告内容</span></span><br><span class="line">            ad_content_fields = [</span><br><span class="line">                <span class="string">&quot;word_text_cont_array&quot;</span>, <span class="string">&quot;idea_text_cont_array&quot;</span>,</span><br><span class="line">            ]</span><br><span class="line">            <span class="keyword">for</span> ad_content_field <span class="keyword">in</span> ad_content_fields:</span><br><span class="line">                ad_contents = <span class="built_in">getattr</span>(ad_elem, ad_content_field)</span><br><span class="line">                <span class="comment"># 遍历广告内容</span></span><br><span class="line">                text_cont_list = []</span><br><span class="line">                text_type = <span class="literal">None</span></span><br><span class="line">                <span class="keyword">for</span> ad_content <span class="keyword">in</span> ad_contents:</span><br><span class="line">                    (ad_type, ad_cont) = get_ad_type_and_cont(ad_content, is_general=<span class="literal">True</span>)</span><br><span class="line">                    <span class="keyword">if</span> ad_type <span class="keyword">in</span> (<span class="string">&#x27;word&#x27;</span>, <span class="string">&#x27;idea&#x27;</span>):</span><br><span class="line">                        text_cont_list.append(ad_cont)</span><br><span class="line">                        text_type = ad_type</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(text_cont_list) != <span class="number">0</span>:</span><br><span class="line">                    arr_material.append((product_id, user_id, text_type, <span class="string">&#x27;  &#x27;</span>.join(text_cont_list)))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> arr_material</span><br></pre></td></tr></table></figure>
-<h3 id="run-demo"><a href="#run-demo" class="headerlink" title="run demo"></a>run demo</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> proto_pb <span class="keyword">import</span> ad_review_service_pb2</span><br><span class="line"><span class="keyword">from</span> proto_pb <span class="keyword">import</span> ad_review_util_pb2</span><br><span class="line"><span class="keyword">import</span> hdfs_seq_file_reader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_item</span>(<span class="params">key, value</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; do_item</span></span><br><span class="line"><span class="string">        key: pipelet-point-seq, value:...</span></span><br><span class="line"><span class="string">        return: pb</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    ads = ad_review_service_pb2.AdReviewService()</span><br><span class="line">    ads.ParseFromString(value)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">&quot;&#123;&#125;&quot;</span>.<span class="built_in">format</span>(ads))</span><br><span class="line">    <span class="keyword">return</span> ads</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    input_path = sys.argv[<span class="number">1</span>]</span><br><span class="line">    fin = hdfs_seq_file_reader.HdfsSeqfileReader(input_path)</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">True</span>):</span><br><span class="line">        key, value = fin.get_next()</span><br><span class="line">        <span class="keyword">if</span> (key <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">and</span> value <span class="keyword">is</span> <span class="literal">None</span>):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            ret = do_item(key, value)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> ex:</span><br><span class="line">            print(<span class="string">&quot;key:&#123;&#125;, ex:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(key, ex))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="parse-HdfsSeqfile"><a href="#parse-HdfsSeqfile" class="headerlink" title="parse HdfsSeqfile"></a>parse HdfsSeqfile</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HdfsSeqfileReader</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; HdfsSeqfileReader</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, fpath</span>):</span></span><br><span class="line">        self.fn = fpath</span><br><span class="line">        self.fin = <span class="built_in">open</span>(self.fn)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_next</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot; get_next</span></span><br><span class="line"><span class="string">            Return:</span></span><br><span class="line"><span class="string">                (Key, Value)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        key_len_byte = self.fin.read(<span class="number">4</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> key_len_byte:</span><br><span class="line">            <span class="keyword">return</span> (<span class="literal">None</span>, <span class="literal">None</span>)</span><br><span class="line">        key_len = struct.unpack(<span class="string">&#x27;&lt;I&#x27;</span>, key_len_byte)[<span class="number">0</span>]</span><br><span class="line">        key_byte = self.fin.read(key_len)</span><br><span class="line">        key_fm = <span class="string">&#x27;&gt;%ds&#x27;</span> % (key_len)</span><br><span class="line">        key = struct.unpack(key_fm, key_byte)[<span class="number">0</span>]</span><br><span class="line">        val_len_byte = self.fin.read(<span class="number">4</span>)</span><br><span class="line">        val_len = struct.unpack(<span class="string">&#x27;&lt;I&#x27;</span>, val_len_byte)[<span class="number">0</span>]</span><br><span class="line">        val_byte = self.fin.read(val_len)</span><br><span class="line">        val_fm = <span class="string">&#x27;&gt;%ds&#x27;</span> % (val_len)</span><br><span class="line">        val = struct.unpack(val_fm, val_byte)[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> (key, val)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="a-example-of-proto"><a href="#a-example-of-proto" class="headerlink" title="a example of .proto"></a>a example of .proto</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; @brief 物料接口 </span><br><span class="line">package aka;</span><br><span class="line">import &quot;audit_exclusive_field.proto&quot;;</span><br><span class="line">import &quot;ad_review_util.proto&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 风控使用java包</span><br><span class="line">option cc_generic_services &#x3D; true;</span><br><span class="line">option py_generic_services &#x3D; true;</span><br><span class="line">option java_multiple_files &#x3D; false;</span><br><span class="line">option java_package &#x3D; &quot;com.baidu.fengkong.proto&quot;;</span><br><span class="line">option java_outer_classname &#x3D; &quot;GeneralAdFieldClass&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 物料域</span><br><span class="line">message GeneralAdField &#123;</span><br><span class="line">    repeated GeneralAdPack ad_packs                &#x3D; 1;   &#x2F;&#x2F; 审核广告体包，审核结果在相应result字段中</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; @brief 广告包体</span><br><span class="line">message GeneralAdPack &#123;</span><br><span class="line">    optional uint64 action_id                          &#x3D; 1;   &#x2F;&#x2F; 本次审核请求唯一标识，相当于logid，应用方提供</span><br><span class="line">    repeated IdInfo id_infos                           &#x3D; 2;   &#x2F;&#x2F; 广告级以上的id信息</span><br><span class="line">    repeated AdElem ad_elems_array                     &#x3D; 3;   &#x2F;&#x2F; 广告元素列表</span><br><span class="line">    optional bytes app_pack_trans_field                &#x3D; 4;   &#x2F;&#x2F; 应用方透传的域，审核方无需关心直接透传</span><br><span class="line">    optional AuditPackExclusiveField audit_pack_field  &#x3D; 5;   &#x2F;&#x2F; 审核专用内部字段,应用方无需关注 </span><br><span class="line">    optional uint32 data_stream_type                   &#x3D; 6[default &#x3D; 0];  &#x2F;&#x2F; 参考ad_review_util下的DataStreamType</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; @brief id类型</span><br><span class="line">enum IdType &#123; </span><br><span class="line">    kPlanid                                         &#x3D; 0;</span><br><span class="line">    kGroupid                                        &#x3D; 1;</span><br><span class="line">    kUnitid                                         &#x3D; 2;</span><br><span class="line">    kWinfoid                                        &#x3D; 3;</span><br><span class="line">    kIdeaid                                         &#x3D; 4;</span><br><span class="line">    kUserid                                         &#x3D; 5;</span><br><span class="line">    kMcid                                           &#x3D; 6;</span><br><span class="line">    kProviderid                                     &#x3D; 7;</span><br><span class="line">    kBrandid                                        &#x3D; 8;</span><br><span class="line">    kMtid                                           &#x3D; 9;&#x2F;&#x2F;展现样式id，若无展现样式id，填0</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; @brief id包信息</span><br><span class="line">message IdInfo &#123;</span><br><span class="line">    required IdType id_type                         &#x3D; 1;   &#x2F;&#x2F; id的类型</span><br><span class="line">    required uint64 id                              &#x3D; 2;   &#x2F;&#x2F; 具体的id值</span><br><span class="line">    optional bytes id_content                       &#x3D; 3;   &#x2F;&#x2F; id描述或字段信息</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;&#x2F; @brief 具体广告元素</span><br><span class="line">message AdElem &#123;</span><br><span class="line">    optional uint32 ad_version                      &#x3D; 1;   &#x2F;&#x2F; 广告版本，防止审核结果覆盖</span><br><span class="line">    optional AdType ad_type                         &#x3D; 2;  &#x2F;&#x2F; 广告类型</span><br><span class="line">    repeated IdInfo ad_ids                          &#x3D; 3;   &#x2F;&#x2F; 唯一标示一条广告的id组合</span><br><span class="line">    optional ElemResult element_result              &#x3D; 4;   &#x2F;&#x2F; 广告元素审核结果 </span><br><span class="line">    &#x2F;&#x2F; 具体的广告内容,审核优先级word &gt; idea &gt; url &gt; media</span><br><span class="line">    repeated AdContent word_text_cont_array         &#x3D; 5; &#x2F;&#x2F; 因为审核策略可能不同,关键词和创意分开</span><br><span class="line">    repeated AdContent idea_text_cont_array         &#x3D; 6;</span><br><span class="line">    repeated AdContent url_cont_array               &#x3D; 7;</span><br><span class="line">    repeated BdMediaCont bdmedia_cont               &#x3D; 8;   &#x2F;&#x2F; 北斗&#x2F;BES广告媒体内容</span><br><span class="line">    optional uint32 ad_add_time                     &#x3D; 9;   &#x2F;&#x2F; 广告添加时间 </span><br><span class="line">    optional uint32 ad_mod_time                     &#x3D; 10;   &#x2F;&#x2F; 广告修改时间</span><br><span class="line">    optional bytes app_elem_trans_field             &#x3D; 11;   &#x2F;&#x2F; 应用方透传的域，审核方无需关注</span><br><span class="line">    optional AuditElemExclusiveField audit_elem_excl_field &#x3D; 12;   &#x2F;&#x2F; 审核专属域,应用方无需关注 </span><br><span class="line">    repeated QsMediaCont qsmedia_cont               &#x3D; 13;   &#x2F;&#x2F; 移动DSP(秋实)广告媒体内容</span><br><span class="line">    optional QsCreativeCont qscreative_cont         &#x3D; 14;   &#x2F;&#x2F; 移动DSP(秋实)广告创意内容</span><br><span class="line">    repeated MediaCont media_cont                   &#x3D; 15;   &#x2F;&#x2F; 通用广告媒体内容(除秋实北斗特定产品线,多媒体内容都此字段)</span><br><span class="line">    optional CreativeAttribute creative_attr        &#x3D; 16;   &#x2F;&#x2F; 0-DSP creative属性信息</span><br><span class="line">    optional uint32 restrict_tag                    &#x3D; 17;  &#x2F;&#x2F; 医疗限制标签，枚举RestrictTagType</span><br><span class="line">    optional bool is_new_reason                        &#x3D; 18[default &#x3D; false]; &#x2F;&#x2F; 业务方是否使用新拒绝理由</span><br><span class="line">&#125; </span><br><span class="line">&#x2F;&#x2F; @brief 单个广告元素内容</span><br><span class="line">message AdContent &#123;</span><br><span class="line">    required bytes cont                             &#x3D; 1;   &#x2F;&#x2F; 广告元素内容</span><br><span class="line">    optional bool is_need_audit                     &#x3D; 2[default &#x3D; true]; &#x2F;&#x2F; 是否需要审核，</span><br><span class="line">                                                                         &#x2F;&#x2F; 默认为均需要审核</span><br><span class="line">    optional uint64 rev_options                     &#x3D; 3;  &#x2F;&#x2F; 审核选项,选填</span><br><span class="line">    optional AdElemType type                        &#x3D; 4;  &#x2F;&#x2F; 元素内容类型,选填  </span><br><span class="line">    optional bool is_sublink                        &#x3D; 5[default &#x3D; false];  &#x2F;&#x2F; 元素内容是否属于子链</span><br><span class="line">    optional uint32 sublink_id                      &#x3D; 6;  &#x2F;&#x2F; 所属的子链id</span><br><span class="line">    optional bool is_need_human_audit               &#x3D; 7[default &#x3D; true]; &#x2F;&#x2F; 是否需要人工审核，若为false，人工审核无需审核</span><br><span class="line">                                                                         &#x2F;&#x2F; 默认为均需要人工审核</span><br><span class="line">    optional bytes cont_add_info                    &#x3D; 8;  &#x2F;&#x2F; 广告元素内容附加信息</span><br><span class="line">    optional uint32 ad_cont_id                      &#x3D; 9;  &#x2F;&#x2F; 广告元素内容id</span><br><span class="line">    optional bytes detail_info                      &#x3D; 10; &#x2F;&#x2F; 审核内部附加信息，如url pattern id. </span><br><span class="line">    optional uint32 ad_cont_level                   &#x3D; 11; &#x2F;&#x2F; URL类目级别，主要针对电商类物料，落地页审参照对该字段进行审核流量控制</span><br><span class="line">    optional bytes cont_desc                        &#x3D; 12; &#x2F;&#x2F; 业务方字段名描述，例如&quot;标题&quot;</span><br><span class="line">&#125;</span><br><span class="line">message BdMediaCont &#123;</span><br><span class="line">    optional bytes cont                             &#x3D; 1;   &#x2F;&#x2F; 广告元素内容</span><br><span class="line">    optional bool is_need_audit                     &#x3D; 2[default &#x3D; true];</span><br><span class="line">    optional AdElemType type                        &#x3D; 3;  &#x2F;&#x2F; 元素内容类型  </span><br><span class="line">    optional uint32 width                           &#x3D; 4;  &#x2F;&#x2F; 图片等的宽  </span><br><span class="line">    optional uint32 height                          &#x3D; 5;  &#x2F;&#x2F;  </span><br><span class="line">    optional bool is_smart                          &#x3D; 6;  &#x2F;&#x2F; 是否为智能创意 </span><br><span class="line">    optional uint64 template_id                     &#x3D; 7;  &#x2F;&#x2F; </span><br><span class="line">    optional uint32 promotion_type                  &#x3D; 8;  &#x2F;&#x2F; </span><br><span class="line">    optional uint64 advertiser_id                   &#x3D; 9;  &#x2F;&#x2F; </span><br><span class="line">    optional uint64 ori_advertiser_id               &#x3D; 10; &#x2F;&#x2F; </span><br><span class="line">    optional uint64 mc_media_id                     &#x3D; 11; &#x2F;&#x2F; </span><br><span class="line">    optional uint64 mc_version_id                   &#x3D; 12; &#x2F;&#x2F;  </span><br><span class="line">    optional uint32 category_id                     &#x3D; 13; &#x2F;&#x2F; </span><br><span class="line">    optional uint32 dsp_type                        &#x3D; 14; &#x2F;&#x2F; </span><br><span class="line">    optional uint64 unit_tag                        &#x3D; 15; &#x2F;&#x2F; 标注</span><br><span class="line">    optional uint32 trade_id                        &#x3D; 16; &#x2F;&#x2F; 行业id</span><br><span class="line">    optional bool trade_modified                    &#x3D; 17[default &#x3D; false]; &#x2F;&#x2F; 行业id是否修改</span><br><span class="line">    optional bool tag_modified                      &#x3D; 18[default &#x3D; false]; &#x2F;&#x2F; 标注是否修改</span><br><span class="line">    optional bytes media_src_url                    &#x3D; 19; &#x2F;&#x2F; 媒体的url</span><br><span class="line">    optional bytes media_detail_infos               &#x3D; 20; &#x2F;&#x2F;flash解析json串</span><br><span class="line">    optional uint64 creative_id                     &#x3D; 21; &#x2F;&#x2F; </span><br><span class="line">    optional uint64 ori_creative_id                 &#x3D; 22; &#x2F;&#x2F; </span><br><span class="line">    optional uint64 admaker_template_id             &#x3D; 23 [default &#x3D; 0]; &#x2F;&#x2F; admaker模板id</span><br><span class="line">    optional uint64 mc_id                           &#x3D; 24; &#x2F;&#x2F; BES物料mcid</span><br><span class="line">    optional bytes media_murmur64                   &#x3D; 25; &#x2F;&#x2F; murmur64十进制数的定长字符串(20个字符)</span><br><span class="line">&#125;</span><br><span class="line">message QsMediaCont &#123;</span><br><span class="line">    optional bytes cont                             &#x3D; 1;  &#x2F;&#x2F; 广告元素内容</span><br><span class="line">    optional bool is_need_audit                     &#x3D; 2[default &#x3D; true];</span><br><span class="line">    optional AdElemType type                        &#x3D; 3;  &#x2F;&#x2F; 元素内容类型</span><br><span class="line">    optional bytes media_src_url                    &#x3D; 4;  &#x2F;&#x2F; 媒体的url</span><br><span class="line">    optional uint32 width                           &#x3D; 5;  &#x2F;&#x2F; 图片、视频、富媒体等的宽度</span><br><span class="line">    optional uint32 height                          &#x3D; 6;  &#x2F;&#x2F; 图片、视频、富媒体等的高度</span><br><span class="line">    optional bytes media_murmur64                   &#x3D; 7; &#x2F;&#x2F; murmur64十进制数的定长字符串(20个字符)</span><br><span class="line">&#125;</span><br><span class="line">message QsCreativeCont &#123;</span><br><span class="line">    optional uint32 promotion_type                  &#x3D; 1;  &#x2F;&#x2F; 广告推广类型，取值AdPromotionType</span><br><span class="line">    optional uint32 trade_id                        &#x3D; 2;  &#x2F;&#x2F; 行业id</span><br><span class="line">    optional bytes logo_url                         &#x3D; 3;  &#x2F;&#x2F; logo访问链接</span><br><span class="line">    optional bytes app_url                          &#x3D; 4;  &#x2F;&#x2F; app下载链接</span><br><span class="line">    optional bool has_indicator_btn                 &#x3D; 5;  &#x2F;&#x2F; 是否有指示按钮</span><br><span class="line">    optional bytes task_desc                        &#x3D; 6;  &#x2F;&#x2F; 积分墙下载任务描述</span><br><span class="line">    optional bytes name                             &#x3D; 7;  &#x2F;&#x2F; 名称（只有信息流使用了）</span><br><span class="line">    optional bytes app_data                         &#x3D; 8;  &#x2F;&#x2F; app信息json串</span><br><span class="line">    optional bytes other_data                       &#x3D; 9;  &#x2F;&#x2F; 创意其他信息json串</span><br><span class="line">    optional uint32 ad_flow_type                    &#x3D; 10; &#x2F;&#x2F; 广告流量类型，取值AdFlowType</span><br><span class="line">&#125;</span><br><span class="line">message MediaCont &#123;</span><br><span class="line">    optional bytes cont                             &#x3D; 1;  &#x2F;&#x2F; 广告元素内容</span><br><span class="line">    optional bool is_need_audit                     &#x3D; 2[default &#x3D; true];</span><br><span class="line">    optional AdElemType type                        &#x3D; 3;  &#x2F;&#x2F; 元素内容类型</span><br><span class="line">    optional bytes media_src_url                    &#x3D; 4;  &#x2F;&#x2F; 媒体的url</span><br><span class="line">    optional uint32 width                           &#x3D; 5;  &#x2F;&#x2F; 图片、视频、富媒体等的宽度</span><br><span class="line">    optional uint32 height                          &#x3D; 6;  &#x2F;&#x2F; 图片、视频、富媒体等的高度</span><br><span class="line">    optional bool is_sublink                        &#x3D; 7[default &#x3D; false];  &#x2F;&#x2F; 元素内容是否属于子链</span><br><span class="line">    optional uint32 sublink_id                      &#x3D; 8;  &#x2F;&#x2F; 所属的子链id</span><br><span class="line">    optional bytes cont_add_info                    &#x3D; 9;  &#x2F;&#x2F; 广告元素内容附加信息</span><br><span class="line">    optional uint32 ad_cont_id                      &#x3D; 10; &#x2F;&#x2F; 广告元素内容id</span><br><span class="line">    optional uint64 media_id                        &#x3D; 11; &#x2F;&#x2F; ubmc多媒体id</span><br><span class="line">    enum MediaSourceType &#123;</span><br><span class="line">        kSource_LOCAL     &#x3D; 1;  &#x2F;&#x2F; 本地上传</span><br><span class="line">        kSource_RAINBOW   &#x3D; 2;  &#x2F;&#x2F; 霓裳导入</span><br><span class="line">        kSource_MIGRATION &#x3D; 3;  &#x2F;&#x2F; 数据迁移</span><br><span class="line">        kSource_SMART     &#x3D; 4;  &#x2F;&#x2F; 智能创意</span><br><span class="line">    &#125;</span><br><span class="line">    optional MediaSourceType media_src              &#x3D; 12; &#x2F;&#x2F; 多媒体来源</span><br><span class="line">    optional bytes media_detail_infos               &#x3D; 13; &#x2F;&#x2F; media解析json串</span><br><span class="line">    optional bytes media_md5value                   &#x3D; 14; &#x2F;&#x2F; media的md5值</span><br><span class="line">    optional bytes media_murmur64                   &#x3D; 15; &#x2F;&#x2F; murmur64十进制数的定长字符串(20个字符)</span><br><span class="line">    optional bytes video_detail_infos               &#x3D; 16; &#x2F;&#x2F; video解析信息</span><br><span class="line">    repeated Frame video_keyframe                   &#x3D; 17; &#x2F;&#x2F; 抽取的视频帧信息</span><br><span class="line">    optional bool is_gif                            &#x3D; 18[default &#x3D; false];  &#x2F;&#x2F; 该图片是否是gif图</span><br><span class="line">    optional bytes video_des_info                   &#x3D; 19;  &#x2F;&#x2F; 视频综合性描述</span><br><span class="line">    optional bytes audio_risk_info                  &#x3D; 20;  &#x2F;&#x2F; 音频风险信息</span><br><span class="line">    optional bytes cont_desc                        &#x3D; 21; &#x2F;&#x2F; 业务方字段名描述,例如&quot;封面图&quot;</span><br><span class="line">&#125;</span><br><span class="line">message CreativeAttribute &#123;</span><br><span class="line">    enum DeviceType &#123;</span><br><span class="line">        kDevice_PC        &#x3D; 1;  &#x2F;&#x2F; PC</span><br><span class="line">        kDevice_MOBILE    &#x3D; 2;  &#x2F;&#x2F; 移动</span><br><span class="line">        kDevice_PC_MOBILE &#x3D; 3;  &#x2F;&#x2F; 整合营销</span><br><span class="line">    &#125;</span><br><span class="line">    enum ActionType &#123;</span><br><span class="line">        kAction_NONE      &#x3D; 1;  &#x2F;&#x2F; 无交互动作</span><br><span class="line">        kAction_MESSAGE   &#x3D; 2;  &#x2F;&#x2F; 短信</span><br><span class="line">        kAction_FORWORD   &#x3D; 3;  &#x2F;&#x2F; 跳转</span><br><span class="line">        kAction_PHONE     &#x3D; 4;  &#x2F;&#x2F; 电话</span><br><span class="line">    &#125;</span><br><span class="line">    optional uint32 creative_template_id            &#x3D; 1;  &#x2F;&#x2F; 创意模板id</span><br><span class="line">    optional DeviceType device_type                 &#x3D; 2;  &#x2F;&#x2F; 设备类型</span><br><span class="line">    optional ActionType action_type                 &#x3D; 3;  &#x2F;&#x2F; 交互动作类型</span><br><span class="line">    optional bytes pc_click_link                    &#x3D; 4;  &#x2F;&#x2F; pc点击链接（设备类型为移动时无效，为PC或整合营销时必填）</span><br><span class="line">    optional bytes mobile_click_link                &#x3D; 5;  &#x2F;&#x2F; 移动点击链接（设备类型为PC时无效，为移动时必填，为整合营销时选填）</span><br><span class="line">    optional bytes phone_number                     &#x3D; 6;  &#x2F;&#x2F; 电话号码</span><br><span class="line">    optional bytes message_number                   &#x3D; 7;  &#x2F;&#x2F; 短信号码</span><br><span class="line">    optional bytes message_content                  &#x3D; 8;  &#x2F;&#x2F; 短信内容</span><br><span class="line">    optional uint64 mc_id                           &#x3D; 9;  &#x2F;&#x2F; 物料mcid</span><br><span class="line">    optional uint64 mc_version                      &#x3D; 10; &#x2F;&#x2F; 物料version</span><br><span class="line">    optional uint32 trade_id                        &#x3D; 11; &#x2F;&#x2F; 行业id</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><br><span class="line">&#x2F;&#x2F; @brief 审核结果接口</span><br><span class="line">&#x2F;&#x2F; @brief 广告元素审核结果</span><br><span class="line">message ElemResult &#123;</span><br><span class="line">    optional ReviewResult review_result             &#x3D; 1[default &#x3D; kAd_APPROVED];   &#x2F;&#x2F; 审核结果</span><br><span class="line">    repeated ResAttribute res_attribute             &#x3D; 2;   &#x2F;&#x2F; 结果属性</span><br><span class="line">    optional uint32 audit_time                      &#x3D; 3;   &#x2F;&#x2F; 审核时间</span><br><span class="line">    optional uint64 audit_user                      &#x3D; 4;   &#x2F;&#x2F; 审核员id</span><br><span class="line">    &#x2F;&#x2F; 下面字段应用方无需关注</span><br><span class="line">    optional AuditElemResExclusiveField audit_elem_res_field &#x3D; 5;</span><br><span class="line">    optional AuditType audit_type                   &#x3D; 6;   &#x2F;&#x2F; 区分网盟物料一审二审</span><br><span class="line">    optional bool result_modified                   &#x3D; 7[default &#x3D; true];   &#x2F;&#x2F; 网盟审核结果是否修改(一审:true 二审:true&#x2F;false)</span><br><span class="line">    optional uint32 trade_id                        &#x3D; 8;   &#x2F;&#x2F; 行业id（若行业id修改，填写该字段为新值）</span><br><span class="line">    optional bool is_need_write                     &#x3D; 9[default &#x3D; true];   &#x2F;&#x2F; 审核结果是否需要写库</span><br><span class="line">    optional AuditChannelType audit_channel_type    &#x3D; 10[default &#x3D; kAd_AutoIncreaseAudit]; &#x2F;&#x2F;审核通道  </span><br><span class="line">    optional uint32 lp_rsnid_mask                   &#x3D; 11[default &#x3D; 0];   &#x2F;&#x2F; lp db rsnid mask</span><br><span class="line">    optional uint32 text_rsnid_mask                 &#x3D; 12[default &#x3D; 0];  &#x2F;&#x2F; text db rsnid mask,包含机器文本与人工(文本)</span><br><span class="line">    optional uint32 guidance_result                 &#x3D; 13[default &#x3D; 2]; &#x2F;&#x2F; 审核建议结果, 2:通过;4:违规;3:打不开;9:关联违规;</span><br><span class="line">    optional bytes guidance_msg                     &#x3D; 14; &#x2F;&#x2F; 审核建议操作(可传json)</span><br><span class="line">    &#x2F;&#x2F; @brief 审核员账户体系类型</span><br><span class="line">    enum AuditUserType &#123;</span><br><span class="line">        kUc            &#x3D; 1;  &#x2F;&#x2F; uc账户体系</span><br><span class="line">        kUuap          &#x3D; 2;  &#x2F;&#x2F; uuap账户体系</span><br><span class="line">        kPassport      &#x3D; 3;  &#x2F;&#x2F; passport账户体系</span><br><span class="line">    &#125;</span><br><span class="line">    optional AuditUserType audit_user_type          &#x3D; 15[default &#x3D; kUc]; &#x2F;&#x2F; 审核员id所属账户体系类型, 1:uc;2:uuap;3:passport;</span><br><span class="line">    optional bytes risk_infos                       &#x3D; 16; &#x2F;&#x2F; 风险信息(json格式)</span><br><span class="line">    repeated StrategyAttribute strategy_attribute   &#x3D; 17; &#x2F;&#x2F; 策略属性</span><br><span class="line">    optional uint64 dep_sevice_code                 &#x3D; 18[default &#x3D; 0]; &#x2F;&#x2F;附加外部服务状态</span><br><span class="line">    optional bool is_secure                         &#x3D; 19; &#x2F;&#x2F; 是否为安全库物料</span><br><span class="line">    optional bytes whole_reason                     &#x3D; 20; &#x2F;&#x2F; 风控拼接的拒绝理由</span><br><span class="line">    optional uint32 audit_piling                    &#x3D; 21[default &#x3D; 0]; &#x2F;&#x2F; 默认为0，审核打桩为1</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; @brief 审核结果属性  </span><br><span class="line">message ResAttribute &#123;</span><br><span class="line">    optional uint32 rsnid                                &#x3D; 1;   &#x2F;&#x2F; 拒绝理由id</span><br><span class="line">    optional bytes reason                                &#x3D; 2;   &#x2F;&#x2F; 拒绝理由字面</span><br><span class="line">    optional uint32 ad_cont_id                           &#x3D; 3;   &#x2F;&#x2F; 拒绝理由对应的广告元素内容id</span><br><span class="line">    optional AdDisapproveReasonIdCategory rsnid_category &#x3D; 4;   &#x2F;&#x2F; 拒绝理由类别</span><br><span class="line">    optional uint32 auditor_rsnid                        &#x3D; 5;   &#x2F;&#x2F; 审核内部拒绝理由id，取值AdDisapproveReasonId</span><br><span class="line">    repeated RiskTag risk_tag                            &#x3D; 6;</span><br><span class="line">    optional bytes label                                 &#x3D; 7;  &#x2F;&#x2F; 人工标结果  </span><br><span class="line">    optional bytes remark                                &#x3D; 8;  &#x2F;&#x2F; 人工备注</span><br><span class="line">    optional AdElemType type                             &#x3D; 9;  &#x2F;&#x2F; 拒绝元素内容类型,选填</span><br><span class="line">    optional uint64 ad_id                                &#x3D; 10;  &#x2F;&#x2F; 拒绝物料id,(废弃)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; @brief 策略属性</span><br><span class="line">message StrategyAttribute &#123;</span><br><span class="line">    optional uint32 ad_cont_id                &#x3D; 1; &#x2F;&#x2F; 策略属性对应的广告元素内容id</span><br><span class="line">    repeated RiskTag risk_tag                 &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;@brief 视频帧属性，业务方无需关注</span><br><span class="line">message Frame &#123;</span><br><span class="line">    required bytes frame_url               &#x3D; 1; &#x2F;&#x2F;视频帧url</span><br><span class="line">    optional bytes image_tag               &#x3D; 2; &#x2F;&#x2F;视频单帧标签，人工显示</span><br><span class="line">    optional bytes cont_add_info           &#x3D; 3; &#x2F;&#x2F;附加字段</span><br><span class="line">    optional uint64 pts                    &#x3D; 4; &#x2F;&#x2F;Presentation Time Stamp, 展现时间戳(ms)</span><br><span class="line">    optional bytes reason                  &#x3D; 5; &#x2F;&#x2F;视频单帧拒绝理由</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><p><a target="_blank" rel="noopener" href="https://codeclimate.com/blog/choose-protocol-buffers/">https://codeclimate.com/blog/choose-protocol-buffers/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-protobuf/" data-id="ckl80qmsf001rs7qo7drg58uy" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-what-is-dns" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-dns/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.901Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><h2 id="DNS属于哪一层？"><a href="#DNS属于哪一层？" class="headerlink" title="DNS属于哪一层？"></a>DNS属于哪一层？</h2><p>应用层，但这个问题的本质是 TCP/IP 协议栈的四层的功能分别是什么？</p>
-<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
-<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
-<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC</p>
-<h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
-<h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
-<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/dns-works-on-tcp-and-udp">REF: dns-works-on-tcp-and-udp</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://serverfault.com/questions/404840/when-do-dns-queries-use-tcp-instead-of-udp">REF: when-do-dns-queries-use-tcp-instead-of-udp</a></p>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-dns/" data-id="ckl80qmqj001is7qo9pzicure" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-tcp-status-machine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/tcp-status-machine/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.886Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="TCP-状态机"><a href="#TCP-状态机" class="headerlink" title="TCP 状态机"></a>TCP 状态机</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
-<h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
-<ol>
-<li>client -&gt; server, FIN</li>
-<li>server -&gt; client, ACK</li>
-<li>server -&gt; client, FIN</li>
-<li>client -&gt; server, ACK</li>
-</ol>
-<blockquote>
-<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
-</blockquote>
-<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
-<h3 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h3><blockquote>
-<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
-</blockquote>
-<p>重试一段时间后 reset 连接。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/tcp-status-machine/" data-id="ckl80qmq4001bs7qo8ljef55b" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-diff-static-link-and-dynamic-link" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/diff-static-link-and-dynamic-link/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.876Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="diff-static-link-and-dynamic-link"><a href="#diff-static-link-and-dynamic-link" class="headerlink" title="diff static link and dynamic link"></a>diff static link and dynamic link</h1><h2 id="对比的角度"><a href="#对比的角度" class="headerlink" title="对比的角度"></a>对比的角度</h2><ol>
-<li>快（performance），加载过程的时间不同</li>
-<li>编译兼容性（mantainable）</li>
-<li>底层用到的工具不同：linker(.a)/loader(.so)。</li>
-</ol>
-<h3 id="静态编译："><a href="#静态编译：" class="headerlink" title="静态编译："></a>静态编译：</h3><p>高级语言 =&gt; 汇编语言 =&gt; 机器语言（.o）===&gt; 合并多个（本质是一个扩充声明为定义的过程，静态连接器）=&gt; 加载到OS =&gt; 执行</p>
-<h5 id="静态的好处："><a href="#静态的好处：" class="headerlink" title="静态的好处："></a>静态的好处：</h5><ol>
-<li>更快，本质上是一起工作的，可预期编译时长（但代码会显著扩展，所有的外部函数调用都扩展成相应的代码）</li>
-<li>不会有版本问题，一起编译。</li>
-</ol>
-<h3 id="动态编译："><a href="#动态编译：" class="headerlink" title="动态编译："></a>动态编译：</h3><p>动态文件/库一般是在<strong>运行时</strong>通过加载到OS中（进程地址空间的<strong>共享内存</strong>中）</p>
-<h5 id="动态的好处："><a href="#动态的好处：" class="headerlink" title="动态的好处："></a>动态的好处：</h5><blockquote>
-<p>Additionally dynamic libraries aren’t necessarily loaded – they’re usually loaded when first called – and can be shared among components that use the same library (multiple data loads, one code load).</p>
-</blockquote>
-<ol>
-<li>可独自升级（debug）</li>
-<li><strong>占用资源更少</strong>，多个进程可以<strong>共享</strong>（<strong>共享内存</strong>）。而静态module则都需要copy到最终的可执行文件</li>
-</ol>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>动态库是一种更让人倾向的方案，但之前出过问题 (google DLL hell)</p>
-<p><img src="./src_pic/static_link.png" alt="静态过程"></p>
-<p><img src="./src_pic/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" alt="进程地址空间"></p>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47116485/differences-between-static-libraries-and-dynamic-libraries-ignoring-how-they-are">diff 1</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.quora.com/What-is-the-difference-between-static-and-dynamic-linking">diff 2</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/61553723/whats-the-difference-between-statically-linked-and-not-a-dynamic-executable">diff 3</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-static-link-and-dynamic-link/" data-id="ckl80qmny000gs7qofpw565w7" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-what-is-memory-management" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-memory-management/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.862Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h1><p>分为三个维度</p>
-<ol>
-<li>虚拟内存最核心的功能是作为缓存<ul>
-<li>虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的</li>
-<li>磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM）</li>
-<li>缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大了内存的逻辑容量，看上去更大了，而不是更快了。</li>
-<li>有很多要考虑的问题（请求式的页面换入换出）<ul>
-<li>当前需要的虚拟页是否已缓存</li>
-<li>如果缓存，对应的物理页在哪里？</li>
-<li>如果未缓存，还要去磁盘找，在磁盘的哪里？</li>
-<li>还需要一个替换算法，选中一个牺牲页，与磁盘上的DRAM进行替换</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>虚拟内存帮助内存管理<ul>
-<li>每个进程有一个独立的页表（地址空间）。页面调度与独立地址空间相结合，对内存管理造成了深远的影响。<ul>
-<li>简化了编译、汇编、链接、加载的过程，都会有磁盘和内存之间的交互（.c/.o/etc）</li>
-<li>简化了内存分配的过程，需要哪些？用户层是malloc分配heap，stack自动增长等。典型的就是虚拟地址连续，但是物理地址不用连续。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>虚拟内存作为内存保护<ul>
-<li>每个虚拟页的地址头，都有SUP段，用于判断是否允许用户态访问。</li>
-</ul>
-</li>
-</ol>
-<h1 id="说一下内存管理"><a href="#说一下内存管理" class="headerlink" title="说一下内存管理"></a>说一下内存管理</h1><p>从哪些维度来说？</p>
-<ol start="0">
-<li>内存的最主要的功能是什么<ul>
-<li>充当磁盘和CPU之间的cache</li>
-</ul>
-</li>
-<li>内存分配与回收<ul>
-<li>分页式</li>
-<li>分段式</li>
-<li>段页式</li>
-<li>涉及到的页面置换算法</li>
-</ul>
-</li>
-<li>内存保护<ul>
-<li>分页系统的地址映射机制</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-memory-management/" data-id="ckl80qms9001os7qoe0krck8d" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.850Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="what-is-polymorphism-what-is-it-for-and-how-is-it-used"><a href="#what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="headerlink" title="what_is_polymorphism_what_is_it_for_and_how_is_it_used"></a>what_is_polymorphism_what_is_it_for_and_how_is_it_used</h1><p>就是不同类型使用同一套上层接口，但底层实现不同。</p>
-<p>最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）<br>整数和浮点数都有 <code>+</code>/<code>-</code>/<code>*</code>/<code>/</code>的操作，但底层的实现上会有不同<br>在C++里面，不同类型的<code>+</code>操作，都会调用<code>operator+()</code>的类函数。</p>
-<p>当然，经常用的一个例子就是<code>Shape</code>派生出来的square, circle, dodecahedron, irregular polygon, splat。</p>
-<p>如果没有多态<code>square.draw()</code>可能会变成<code>drawSquare()</code>, <code>drawCircle()</code>。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used">https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" data-id="ckl80qmsd001qs7qo9etog6r0" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-how-to-use-and-implement-blocking-queue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/how-to-use-and-implement-blocking-queue/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.837Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h1><h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本质：作为任务存放的容器。</p>
-<p>多线程的环境下，一个任务过来，不是立即执行的。一个路由thread进行分发，一些worker thread来取。那worker从哪里取呢？典型的就是『先进先出』的队列。</p>
-<p>一个典型的过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 任务过来</span><br><span class="line">2. 分发线程将任务存到queue中</span><br><span class="line">3. 如果有线程闲置，就会去取</span><br><span class="line">    3.1. queue会将task传递给线程</span><br><span class="line">    3.2. queue会同时将task pop掉（4、5过程原子性）</span><br></pre></td></tr></table></figure>
-<p>但是这个队列既然是在并发环境，就得防止<strong>竞争</strong>，哪个环节会出现竞争？『存』、『取』操作。</p>
-<ul>
-<li>存，可能多个任务同时存放，导致抢占queue，需要对queue进行加锁。</li>
-<li>取，多个线程同时取task，这就需要对queue进行加锁，每次只能让单个线程进来</li>
-</ul>
-<h2 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h2><h4 id="单个线程"><a href="#单个线程" class="headerlink" title="单个线程"></a>单个线程</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">The queue module implements multi-producer, multi-consumer queues. It is especially useful in threaded programming when information must be exchanged safely between multiple threads. The Queue class in this module implements all the required locking semantics.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> threading, queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">q = queue.Queue()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.get()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        q.task_done()</span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">True</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    q.put(item)</span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()</span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="多线程配合队列"><a href="#多线程配合队列" class="headerlink" title="多线程配合队列"></a>多线程配合队列</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> queue </span><br><span class="line"><span class="keyword">import</span> threading </span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"></span><br><span class="line">thread_exit_Flag = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sample_Thread</span> (<span class="params">threading.Thread</span>):</span> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, threadID, name, q</span>):</span> </span><br><span class="line">        threading.Thread.__init__(self) </span><br><span class="line">        self.threadID = threadID </span><br><span class="line">        self.name = name </span><br><span class="line">        self.q = q </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span> </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;initializing &quot;</span> + self.name) </span><br><span class="line">        process_data(self.name, self.q) </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;Exiting &quot;</span> + self.name) </span><br><span class="line"></span><br><span class="line"><span class="comment"># helper function to process data</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_data</span>(<span class="params">threadName, q</span>):</span> </span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> thread_exit_Flag: <span class="comment"># 如果有任务，就一直获取任务</span></span><br><span class="line">        queueLock.acquire() </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> workQueue.empty(): </span><br><span class="line">            data = q.get_nowait() </span><br><span class="line">            queueLock.release() </span><br><span class="line">            <span class="built_in">print</span> (<span class="string">&quot;% s processing % s&quot;</span> % (threadName, data)) </span><br><span class="line">            workQueue.task_done() <span class="comment"># 如果要使用queue.join，就必须每次标记task_done</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            queueLock.release() </span><br><span class="line">            time.sleep(<span class="number">1</span>) </span><br><span class="line">  </span><br><span class="line">thread_list = [<span class="string">&quot;Thread-1&quot;</span>, <span class="string">&quot;Thread-2&quot;</span>, <span class="string">&quot;Thread-3&quot;</span>] </span><br><span class="line">name_list = [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>] </span><br><span class="line">queueLock = threading.Lock() </span><br><span class="line">workQueue = queue.Queue(<span class="number">10</span>) </span><br><span class="line">threads = [] </span><br><span class="line">threadID = <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Create new threads </span></span><br><span class="line"><span class="keyword">for</span> thread_name <span class="keyword">in</span> thread_list: </span><br><span class="line">    thread = sample_Thread(threadID, thread_name, workQueue) </span><br><span class="line">    thread.start() </span><br><span class="line">    threads.append(thread) </span><br><span class="line">    threadID += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Fill the queue </span></span><br><span class="line">queueLock.acquire() </span><br><span class="line"><span class="keyword">for</span> items <span class="keyword">in</span> name_list: </span><br><span class="line">    workQueue.put(items) </span><br><span class="line">  </span><br><span class="line">queueLock.release() </span><br><span class="line">  </span><br><span class="line"><span class="comment"># Wait for the queue to empty </span></span><br><span class="line">workQueue.join() <span class="comment"># 需要在每个任务完成的时候加上task_done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Notify threads it&#x27;s time to exit </span></span><br><span class="line">thread_exit_Flag = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Wait for all threads to complete </span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads: </span><br><span class="line">    t.join() </span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Exit Main Thread&quot;</span>) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations"><a href="#Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations" class="headerlink" title="Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?"></a>Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?</h2><p>【问】当你碰见什么样的场景，你需要使用『阻塞队列』？<br>显然，当我需要某种场合<strong>阻塞/等待</strong>的时候需要阻塞队列，扩展开就是当：</p>
-<ol>
-<li>希望队列中元素到达一定数量停止放入（put），等消费者先消费完现有的。（BoundedBlockingQueue特有）。</li>
-<li>希望队列中没有元素时，消费者<strong>等待</strong>再次出现元素，此时应该是生产者忙碌的时候。</li>
-</ol>
-<p>典型的，普通queue也可以完成『等待』的操作，但是需要『busy wait』，这样太消耗CPU。</p>
-<h2 id="DIFF-normal-blocking-queue-and-bounded-blocking-queue"><a href="#DIFF-normal-blocking-queue-and-bounded-blocking-queue" class="headerlink" title="DIFF normal blocking queue and bounded blocking queue"></a>DIFF normal blocking queue and bounded blocking queue</h2><p>这两种容器各是什么场景下使用？</p>
-<blockquote>
-<p>In a pooling application, a blocking “put” is <strong>not appropriate</strong>. Controlling the maximum size of the queue is the job of the pool manager—it decides when to create or destroy resources for the pool. Clients of the pool borrow and return resources from the pool. Adding a new object, or returning a previously borrowed object to the pool should be fast, non-blocking operations. So, a bounded capacity queue is not a good choice for pools.</p>
-</blockquote>
-<p>如果作为『池』的属性，一般是不适合有『容量』的限制，也就是『满』的概念（这个是pool manager的责任）。池仅仅作为仓库。这种情况，使用BlockingQueue更好。</p>
-<p>另一种情况，如果是一个web server。某个用户发出请求太多，此时生产数量将远远超过消费数量，消费者需要一定的时间去消化，导致<strong>延迟</strong>会特别高。在<strong>业务层面</strong>，消费者也不希望等待太长的时间，另可request丢失。这种情况，使用BoundedBlockingQueue更好。</p>
-<h1 id="how-to-implement-a-blocking-queue"><a href="#how-to-implement-a-blocking-queue" class="headerlink" title="how to implement a blocking queue"></a>how to implement a blocking queue</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBlockQueue</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, max_size</span>):</span></span><br><span class="line">        self.max_size = max_size</span><br><span class="line">        self.lock = threading.Lock()</span><br><span class="line"></span><br><span class="line">        self.not_empty = threading.Condition(self.lock)</span><br><span class="line">        self.not_full = threading.Condition(self.lock)</span><br><span class="line">        self.queue = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qsize</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == self.max_size</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">empty</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">take</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.not_empty.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.empty(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_empty.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.empty()</span><br><span class="line">        item = self.queue[<span class="number">0</span>]</span><br><span class="line">        self.queue.remove(item)</span><br><span class="line"></span><br><span class="line">        self.not_full.notify()</span><br><span class="line"></span><br><span class="line">        self.not_empty.release()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, item</span>):</span></span><br><span class="line">        self.not_full.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.full(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_full.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.full()</span><br><span class="line">        self.queue.append(item)</span><br><span class="line">        print(self.queue)</span><br><span class="line"></span><br><span class="line">        self.not_empty.notify()</span><br><span class="line"></span><br><span class="line">        self.not_full.release()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">join</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># TODO too simple to implement</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.empty():</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">q = BoundedBlockQueue(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.take()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">False</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    print(item)</span><br><span class="line">    q.put(item)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()<span class="comment"># Error implement?</span></span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line">os._exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/how-to-use-and-implement-blocking-queue/" data-id="ckl80qmog000os7qo9n19f37r" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-between-post-and-put/" data-id="ckl80qmnx000fs7qo88un2ydl" data-title="effective-py" class="article-share-link">分享</a>
       
       
       
@@ -646,7 +799,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
   </nav>
 
 </section>
@@ -678,23 +831,23 @@
       <ul>
         
           <li>
-            <a href="/2021/02/16/diff-between-post-and-put/">(no title)</a>
+            <a href="/2021/02/16/redis-ttl/">effective-py</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/airflow-intro/">(no title)</a>
+            <a href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/interview-about-massive-data/">(no title)</a>
+            <a href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/what-is-protobuf/">(no title)</a>
+            <a href="/2021/02/16/coroutine/">effective-py</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/what-is-dns/">(no title)</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
           </li>
         
       </ul>

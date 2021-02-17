@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>effective-py | Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>(python) iterator, generator and decorator | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="python的三大器装饰器what is ? 一种语法糖，能够使得修改函数变得容易 典型的实现是通过使用闭包def foo(x): def bar(y): # do something to y   return bar(x) * x  why need?其实就是为了能够更好的在普通函数上增加一些额外的功能通过在语言级别加一些语法糖，能够更方便的使用功能，一切为了简单。 in action日志：普">
 <meta property="og:type" content="article">
-<meta property="og:title" content="effective-py">
+<meta property="og:title" content="(python) iterator, generator and decorator">
 <meta property="og:url" content="http://example.com/2021/02/16/python-generator-iterator-decorator/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
 <meta property="og:description" content="python的三大器装饰器what is ? 一种语法糖，能够使得修改函数变得容易 典型的实现是通过使用闭包def foo(x): def bar(y): # do something to y   return bar(x) * x  why need?其实就是为了能够更好的在普通函数上增加一些额外的功能通过在语言级别加一些语法糖，能够更方便的使用功能，一切为了简单。 in action日志：普">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-16T14:03:10.190Z">
+<meta property="article:modified_time" content="2021-02-17T14:36:08.567Z">
 <meta property="article:author" content="Shao Rui">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Surely You're Joking, Mr. Feynman!" type="application/atom+xml">
@@ -87,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      effective-py
+      (python) iterator, generator and decorator
     </h1>
   
 
@@ -126,29 +127,31 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="(python) iterator, generator and decorator" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2021/02/16/tcp-status-machine/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/16/mutable-obj/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          effective-py
+          mutable object
         
       </div>
     </a>
   
   
-    <a href="/2021/02/16/mutable-obj/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/16/transaction-isolation/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">effective-py</div>
+      <div class="article-nav-title">(DB) transaction - isolation</div>
     </a>
   
 </nav>
@@ -165,9 +168,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-networking/" rel="tag">Computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES-data/" rel="tag">ES, data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS-multi-process/" rel="tag">OS, multi-process</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-networking/" rel="tag">computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diff-OS/" rel="tag">diff, OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language-python/" rel="tag">programming language, python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-networking/" style="font-size: 10px;">Computer networking</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/ES-data/" style="font-size: 10px;">ES, data</a> <a href="/tags/OS/" style="font-size: 20px;">OS</a> <a href="/tags/OS-multi-process/" style="font-size: 10px;">OS, multi-process</a> <a href="/tags/computer-networking/" style="font-size: 10px;">computer networking</a> <a href="/tags/data/" style="font-size: 15px;">data</a> <a href="/tags/data-DB/" style="font-size: 10px;">data, DB</a> <a href="/tags/diff-OS/" style="font-size: 10px;">diff, OS</a> <a href="/tags/programming-language/" style="font-size: 15px;">programming language</a> <a href="/tags/programming-language-python/" style="font-size: 10px;">programming language, python</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/python/" style="font-size: 10px;">python,</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/web/" style="font-size: 15px;">web</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -186,23 +203,23 @@
       <ul>
         
           <li>
-            <a href="/2021/02/16/redis-ttl/">effective-py</a>
+            <a href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
+            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/coroutine/">effective-py</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
+            <a href="/2021/02/16/airflow-intro/">Airflow Intro</a>
           </li>
         
       </ul>

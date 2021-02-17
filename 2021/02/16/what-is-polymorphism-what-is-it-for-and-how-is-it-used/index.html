@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>what is polymorphism? | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="what_is_polymorphism_what_is_it_for_and_how_is_it_used就是不同类型使用同一套上层接口，但底层实现不同。 最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）整数和浮点数都有 +&#x2F;-&#x2F;*&#x2F;&#x2F;的操作，但底层的实现上会有不同在C++里面，不同类型的+操作，都会调用operator+()的类函数。 当然，经常用的一个例子就是">
+  <meta name="description" content="what is polymorphism?就是不同类型使用同一套上层接口，但底层实现不同。 最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）整数和浮点数都有 +&#x2F;-&#x2F;*&#x2F;&#x2F;的操作，但底层的实现上会有不同在C++里面，不同类型的+操作，都会调用operator+()的类函数。 当然，经常用的一个例子就是Shape派生出来的square, circle, dodecah">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:title" content="what is polymorphism?">
 <meta property="og:url" content="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="what_is_polymorphism_what_is_it_for_and_how_is_it_used就是不同类型使用同一套上层接口，但底层实现不同。 最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）整数和浮点数都有 +&#x2F;-&#x2F;*&#x2F;&#x2F;的操作，但底层的实现上会有不同在C++里面，不同类型的+操作，都会调用operator+()的类函数。 当然，经常用的一个例子就是">
+<meta property="og:description" content="what is polymorphism?就是不同类型使用同一套上层接口，但底层实现不同。 最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）整数和浮点数都有 +&#x2F;-&#x2F;*&#x2F;&#x2F;的操作，但底层的实现上会有不同在C++里面，不同类型的+操作，都会调用operator+()的类函数。 当然，经常用的一个例子就是Shape派生出来的square, circle, dodecah">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-02-16T13:21:40.850Z">
-<meta property="article:modified_time" content="2021-02-16T13:21:40.850Z">
+<meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
+<meta property="article:modified_time" content="2021-02-17T14:41:38.981Z">
 <meta property="article:author" content="Shao Rui">
+<meta property="article:tag" content="programming language">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Surely You're Joking, Mr. Feynman!" type="application/atom+xml">
@@ -76,16 +77,26 @@
         <section id="main"><article id="post-what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.850Z" itemprop="datePublished">2021-02-16</time>
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      what is polymorphism?
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="what-is-polymorphism-what-is-it-for-and-how-is-it-used"><a href="#what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="headerlink" title="what_is_polymorphism_what_is_it_for_and_how_is_it_used"></a>what_is_polymorphism_what_is_it_for_and_how_is_it_used</h1><p>就是不同类型使用同一套上层接口，但底层实现不同。</p>
+        <h1 id="what-is-polymorphism"><a href="#what-is-polymorphism" class="headerlink" title="what is polymorphism?"></a>what is polymorphism?</h1><p>就是不同类型使用同一套上层接口，但底层实现不同。</p>
 <p>最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）<br>整数和浮点数都有 <code>+</code>/<code>-</code>/<code>*</code>/<code>/</code>的操作，但底层的实现上会有不同<br>在C++里面，不同类型的<code>+</code>操作，都会调用<code>operator+()</code>的类函数。</p>
 <p>当然，经常用的一个例子就是<code>Shape</code>派生出来的square, circle, dodecahedron, irregular polygon, splat。</p>
 <p>如果没有多态<code>square.draw()</code>可能会变成<code>drawSquare()</code>, <code>drawCircle()</code>。</p>
@@ -94,29 +105,31 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" data-id="ckl80qmsd001qs7qo9etog6r0" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" data-id="ckl80qmsd001qs7qo9etog6r0" data-title="what is polymorphism?" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2021/02/16/what-is-memory-management/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/16/what-is-nginx/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          (no title)
+          what is NGINX?
         
       </div>
     </a>
   
   
-    <a href="/2021/02/16/why-stack-can-overflow-but-heap/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/16/what-is-protobuf/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">What is Protobuf?</div>
     </a>
   
 </nav>
@@ -133,9 +146,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-networking/" rel="tag">Computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES-data/" rel="tag">ES, data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS-multi-process/" rel="tag">OS, multi-process</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-networking/" rel="tag">computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diff-OS/" rel="tag">diff, OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language-python/" rel="tag">programming language, python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-networking/" style="font-size: 10px;">Computer networking</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/ES-data/" style="font-size: 10px;">ES, data</a> <a href="/tags/OS/" style="font-size: 20px;">OS</a> <a href="/tags/OS-multi-process/" style="font-size: 10px;">OS, multi-process</a> <a href="/tags/computer-networking/" style="font-size: 10px;">computer networking</a> <a href="/tags/data/" style="font-size: 15px;">data</a> <a href="/tags/data-DB/" style="font-size: 10px;">data, DB</a> <a href="/tags/diff-OS/" style="font-size: 10px;">diff, OS</a> <a href="/tags/programming-language/" style="font-size: 15px;">programming language</a> <a href="/tags/programming-language-python/" style="font-size: 10px;">programming language, python</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/python/" style="font-size: 10px;">python,</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/web/" style="font-size: 15px;">web</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -154,23 +181,23 @@
       <ul>
         
           <li>
-            <a href="/2021/02/16/redis-ttl/">effective-py</a>
+            <a href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
+            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/coroutine/">effective-py</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
+            <a href="/2021/02/16/airflow-intro/">Airflow Intro</a>
           </li>
         
       </ul>

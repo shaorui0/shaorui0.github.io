@@ -71,9 +71,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-tcp-status-machine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-what-is-event-driven-model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/tcp-status-machine/" class="article-date">
+    <a href="/2021/02/16/what-is-event-driven-model/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -85,7 +85,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/tcp-status-machine/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/what-is-event-driven-model/">what is event driven model</a>
     </h1>
   
 
@@ -93,32 +93,196 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="TCP-状态机"><a href="#TCP-状态机" class="headerlink" title="TCP 状态机"></a>TCP 状态机</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
-<h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
+        <h1 id="event-driven-model"><a href="#event-driven-model" class="headerlink" title="event driven model"></a>event driven model</h1><h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
+<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
+</blockquote>
+<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
+<ul>
+<li>blocking io<br><img src="blocking_io.png" alt="blocking_io"></li>
+<li>non-blocking io<br><img src="non_blocking_io.png" alt="non_blocking_io"></li>
+</ul>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
+</li>
+</ul>
+<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
+<li><p><a href="./echo_server_event_driven.py">server</a></p>
+</li>
+<li><p><a href="./echo_client.py">client</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what-is-event-driven-model/" data-id="ckl80qms1001ks7qo4c6jhv21" data-title="what is event driven model" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-what-is-high-concurrency" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what-is-high-concurrency/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/what-is-high-concurrency/">what is high concurrency?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h1><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/307100151/answer/894486042">如何理解：程序、进程、线程、并发、并行、高并发？ - 大宽宽的回答 - 知乎</a></p>
+<blockquote>
+<p>【高并发】是指可以让软件系统在一段时间内能够处理大量的请求。比如每秒钟可以完成10万个请求。这是互联网系统的一个重要的特征。</p>
+</blockquote>
+<blockquote>
+<p>不像【并发】说的是“处理”，【并行】说的是“执行”，【高并发】说的是最终效果。只要能达到效果，不管怎么实现都行。因此，极端一点【高并发】甚至并不一定需要【并行】，只要处理速度快的足够满足要求就可以。如启动一个nginx的【OS进程】，它只能用到一个CPU核心，也就不可能【并行】。但是他如果能每秒能处理10万个请求，而业务需求只要求8万个请求就可以了，那么这个单进程的nginx本身就算【高并发】了</p>
+</blockquote>
+<p>高并发更多的涉及分布式的概念，在极端情况下，可能不需要保证并行，比如nginx这种，开一个进程就能轻松解决10w QPS的问题了。</p>
+<p>除了【并发】和【并行】，【高并发】还需要：</p>
+<ul>
+<li>数据表普遍被分库分表，否则单机放不下，或者<strong>查询性能</strong>不足</li>
+<li>解决分布式事务</li>
+<li>因为机器都可能坏，为了保证少数机器坏掉不会影响处理的性能，必须引入<strong>HA机制</strong></li>
+<li>因为系统都有极限，超过极限响应能力就会急剧下降。因此必须引入<strong>限流</strong>的方案来保护系统</li>
+<li>这么复杂的系统会涉及到N个service，N个存储，N个队列…… 这些资源的管理又成为了新的问题，这又需要对<strong>集群和服务做管理</strong></li>
+<li>这么多服务，肯定要解决分布式的Tracing和报警问题</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what-is-high-concurrency/" data-id="ckl80qms3001ls7qo47cp4kwm" data-title="what is high concurrency?" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-what-is-gil" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what-is-gil/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/what-is-gil/">What is the Python Global Interpreter Lock (GIL)?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="What-is-the-Python-Global-Interpreter-Lock-GIL"><a href="#What-is-the-Python-Global-Interpreter-Lock-GIL" class="headerlink" title="What is the Python Global Interpreter Lock (GIL)?"></a>What is the Python Global Interpreter Lock (GIL)?</h1><blockquote>
+<p>Python is multithreaded, it just doesn’t allow two threads to run Python code concurrently.<br>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1824418/a-clean-lightweight-alternative-to-pythons-twisted">from stackoverflow: a-clean-lightweight-alternative-to-pythons-twisted</a>]</p>
+</blockquote>
+<h2 id="聊聊python的多线程"><a href="#聊聊python的多线程" class="headerlink" title="聊聊python的多线程"></a>聊聊python的多线程</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/29270818/why-is-a-python-i-o-bound-task-not-blocked-by-the-gil">why-is-a-python-i-o-bound-task-not-blocked-by-the-gil</a></p>
+<blockquote>
+<p>The GIL in CPython1 is only concerned with Python code being executed. A thread-safe C extension that uses a lot of CPU might release the GIL as long as it doesn’t need to interact with the Python runtime.</p>
+</blockquote>
 <ol>
-<li>client -&gt; server, FIN</li>
-<li>server -&gt; client, ACK</li>
-<li>server -&gt; client, FIN</li>
-<li>client -&gt; server, ACK</li>
+<li>搞清楚GIL的级别（抽象在哪一层？）。GIL只是<strong>限制多线程读取Cpython的bytecode</strong>，一次只能有一个线程<strong>execute python bytecode</strong>，但是所有的线程此时都是<strong>running</strong>。</li>
+<li>所以Cpython的C扩展部分，是不限制多线程的。（很多库，比如multithreading或者numpy是C扩展，这个是可以多线程的）</li>
 </ol>
 <blockquote>
-<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
+<p>Releasing the GIL around I/O (blocking or not, using CPU or not) is the same thing - until the data is moved into Python there is no reason to acquire the GIL.</p>
 </blockquote>
-<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
-<h3 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h3><blockquote>
-<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
+<ol start="3">
+<li>所以关于python的IO bounding，多线程的适用场景完全合适。</li>
+</ol>
+<p>本质是需要理解GIL锁了哪些东西，<strong>瓶颈</strong>在哪里？</p>
+<h2 id="GIL解决了什么问题？"><a href="#GIL解决了什么问题？" class="headerlink" title="GIL解决了什么问题？"></a>GIL解决了什么问题？</h2><p>GIL本质上解决的是<strong>内存安全</strong>问题。</p>
+<p>关于内存安全，一些程序语言是手工处理（c/c++），一些语言是gc（java），而python（也还有其他的）是GIL。</p>
+<p>python中，内存对象主要通过<strong>引用计数</strong>管理生命周期。而引用计数需要通过锁机制来避免产生『<strong>race condition</strong>』。但是锁的引入又会导致『<strong>dead lock</strong>』（<strong>必须超过两把锁</strong>）的问题。</p>
+<p>GIL刚好从源头解决了这个问题（只有一把锁）。</p>
+<h3 id="内存安全问题"><a href="#内存安全问题" class="headerlink" title="内存安全问题"></a>内存安全问题</h3><p><a href="xxx">todo 内存安全分类</a></p>
+<h2 id="为什么是GIL？"><a href="#为什么是GIL？" class="headerlink" title="为什么是GIL？"></a>为什么是GIL？</h2><p>存在各种处理内存安全的解决方案，为什么是GIL？</p>
+<ol>
+<li>GIL的实现上很简单，引入的复杂度很低（这也是一直以来python没有去掉GIL的重要原因）。</li>
+<li>python语言被设计出来的时候，并没有thread的概念，GIL的引入直接提升了语言的易用性。</li>
+<li>许多扩展都是c，而一般的c语言系统调用都是<strong>线程不安全</strong>的，这些c扩展需要线程安全的内存管理措施（如GIL）。有了GIL，各种线程不安全的扩展能够轻松整合进来。</li>
+<li>全局只有一把锁从根本上消除了产生『死锁』的可能性。</li>
+</ol>
+<h3 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h3><p>典型的问题就是cpu-bound task执行起来只能<strong>线性执行</strong>。如果使用并发的架构去执行，甚至消耗的时间更多（上下文转换）。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">total = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safe_increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        lock.acquire()</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_in_x_threads</span>(<span class="params">x, func, n</span>):</span></span><br><span class="line">    threads = [threading.Thread(target=func, args=(n,)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(x)]</span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    begin = time.time()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">&#x27;finished in &#123;&#125;s.\ntotal: &#123;&#125;\nexpected: &#123;&#125;\ndifference: &#123;&#125; (&#123;&#125; %)&#x27;</span></span><br><span class="line">           .<span class="built_in">format</span>(time.time()-begin, total, n*x, n*x-total, <span class="number">100</span>-total/n/x*<span class="number">100</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;unsafe:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, increment_n_times, <span class="number">100000</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;\nwith locks:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, safe_increment_n_times, <span class="number">100000</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="也没有那么坏"><a href="#也没有那么坏" class="headerlink" title="也没有那么坏"></a>也没有那么坏</h3><p>最本质的原因就是performance。如果去掉GIL，性能会不会下降？（多线程的CPU密集型任务那没话说，但是单线程任务和多线程IO密集型的任务呢？）</p>
+<h4 id="py3为什么还是没有解决这个问题？"><a href="#py3为什么还是没有解决这个问题？" class="headerlink" title="py3为什么还是没有解决这个问题？"></a>py3为什么还是没有解决这个问题？</h4><blockquote>
+<p>py3明明已经不需要向后兼容了（没有了历史包袱），为什么没有解决这个问题？</p>
 </blockquote>
-<p>重试一段时间后 reset 连接。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
+<p>归根结底还是<strong>单线程任务和多线程IO密集型的任务</strong>性能的问题。</p>
+<p>但，python3在这方面也有<strong>改进</strong>。全局只有一把锁意味着不同的任务要<strong>抢锁</strong>，对于cpu密集型的任务，抢锁是比较『容易』的，并且持有锁的时间会比较长（相对IO-bound task）（在操作系统的层面中称为『长作业』，其中有一种任务调度算法称为『短作业优先调度算法』）。python解释器指定了一个『fixed interval』（通过<code>sys.getcheckinterval()</code>获取），执行完固定长度的时间以后，其他任务有机会获取GIL。那么有没有可能导致IO-bound task<strong>饥饿</strong>？python是如何处理这个问题的？</p>
+<blockquote>
+<p>The problem in this mechanism was that <strong>most of the time the CPU-bound thread would reacquire the GIL itself before other threads could acquire it.</strong> This was researched by David Beazley and visualizations can be found here.</p>
+</blockquote>
+<blockquote>
+<p>This problem was fixed in Python 3.2 in 2009 by Antoine Pitrou who added a mechanism of looking at the number of GIL acquisition requests by other threads that got dropped and not allowing the current thread to reacquire GIL before other threads got a chance to run.</p>
+</blockquote>
+<h3 id="目前有什么比较好的解决方式？"><a href="#目前有什么比较好的解决方式？" class="headerlink" title="目前有什么比较好的解决方式？"></a>目前有什么比较好的解决方式？</h3><ol>
+<li><p>Multi-processing</p>
+<p> <a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
+</li>
+</ol>
+<ol start="2">
+<li><p>Alternative Python interpreters</p>
+<p> CPython, Jython, IronPython and PyPy…</p>
+</li>
+</ol>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://realpython.com/python-gil/#what-problem-did-the-gil-solve-for-python">what-problem-did-the-gil-solve-for-python</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://medium.com/python-features/pythons-gil-a-hurdle-to-multithreaded-program-d04ad9c1a63#:~:text=Python%20threads%20can%27t%20run,the%20same%20time%20as%20computation">pythons-gil-a-hurdle-to-multithreaded-program</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40072873/why-do-we-need-locks-for-threads-if-we-have-gil">why-do-we-need-locks-for-threads-if-we-have-gil</a></p>
+</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/tcp-status-machine/" data-id="ckl80qmq4001bs7qo8ljef55b" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-gil/" data-id="ckl80qms5001ms7qo6qmie0h6" data-title="What is the Python Global Interpreter Lock (GIL)?" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
     </footer>
   </div>
   
@@ -127,9 +291,9 @@
 
 
   
-    <article id="post-python-generator-iterator-decorator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-what-is-map-reduce" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/python-generator-iterator-decorator/" class="article-date">
+    <a href="/2021/02/16/what-is-map-reduce/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -141,7 +305,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/python-generator-iterator-decorator/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/what-is-map-reduce/">what is map reduce</a>
     </h1>
   
 
@@ -149,41 +313,44 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="python的三大器"><a href="#python的三大器" class="headerlink" title="python的三大器"></a>python的三大器</h1><h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="what-is"><a href="#what-is" class="headerlink" title="what is ?"></a>what is ?</h3><ol>
-<li>一种语法糖，能够使得修改函数变得容易</li>
-<li>典型的实现是通过使用闭包<br>def foo(x):<br> def bar(y):<pre><code> # do something to y
-</code></pre>
- return bar(x) * x</li>
+        <h1 id="what-is-map-reduce"><a href="#what-is-map-reduce" class="headerlink" title="what is map reduce"></a>what is map reduce</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.yiibai.com/hadoop/intro-mapreduce.html">good pictures of parse</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.pythontips.com/en/latest/map_filter.html">最佳实践：mapper/filter/reducer</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/hadoop/hadoop_mapreduce.htm">hadoop教程，mapreduce</a></li>
+</ul>
+<ol>
+<li><p>map是将函数作用在list的每一个元素上（比迭代更抽象）。<br><code>map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])</code></p>
+</li>
+<li><p>reduce是将所有结果进行一个merge<br><code>reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)</code></p>
+</li>
 </ol>
-<h3 id="why-need"><a href="#why-need" class="headerlink" title="why need?"></a>why need?</h3><p>其实就是为了能够更好的在普通函数上增加一些额外的功能<br>通过在语言级别加一些语法糖，能够更方便的使用功能，一切为了简单。</p>
-<h3 id="in-action"><a href="#in-action" class="headerlink" title="in action"></a>in action</h3><p>日志：普通函数、扩展类成员函数</p>
-<h1 id="迭代器、生成器"><a href="#迭代器、生成器" class="headerlink" title="迭代器、生成器"></a>迭代器、生成器</h1><p>为什么两个要一起说。生成器是在可迭代对象的基础上工作的。</p>
-<h2 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h2><p>在python里面，能够for-in遍历的，都是可迭代对象</p>
-<p>可迭代对象的底层是两个函数实现 <code>__iter__</code>, <code>__getitem__</code>，<br>显然list、dict、tuple、str都是可迭代的</p>
-<h3 id="iter-iterable-obj-gt-iterator"><a href="#iter-iterable-obj-gt-iterator" class="headerlink" title="iter(iterable_obj) =&gt; iterator"></a>iter(iterable_obj) =&gt; iterator</h3><p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/149093.htm">https://www.jb51.net/article/149093.htm</a></p>
-<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>迭代器是访问集合元素的一种方式。能通过for-in遍历，<strong>并且能够使用next()进行迭代</strong><br>主要的不同点就是可以使用next()进行遍历，并且对长度未知，比如一个典型的fib功能可以无限迭代。<br>同时是惰性的，边迭代边求值。</p>
-<p>TODO 写一个典型的迭代器class fib</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Fib:</span><br><span class="line">    def __init__(self):</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    def __iter__self):</span><br><span class="line">        return self</span><br><span class="line">    </span><br><span class="line">    def __next__self):</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><code>next(obj) =&gt; obj.__next__()</code></p>
-<p>基础的数据类型（list等）都不是迭代器，因为没有next()方法</p>
-<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><blockquote>
-<p>Objects are data with methods attached, closures are functions with data attached.<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18274051/closure-in-python">closure-in-python</a></p>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="built_in">map</span>(<span class="built_in">str</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fn</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">10</span> + y</span><br><span class="line">print(reduce(fn, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">char2num</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;0&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;1&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;2&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;3&#x27;</span>: <span class="number">3</span>, <span class="string">&#x27;4&#x27;</span>: <span class="number">4</span>, <span class="string">&#x27;5&#x27;</span>: <span class="number">5</span>, <span class="string">&#x27;6&#x27;</span>: <span class="number">6</span>, <span class="string">&#x27;7&#x27;</span>: <span class="number">7</span>, <span class="string">&#x27;8&#x27;</span>: <span class="number">8</span>, <span class="string">&#x27;9&#x27;</span>: <span class="number">9</span>&#125;[s]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">str2int</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> reduce(<span class="keyword">lambda</span> x,y: x*<span class="number">10</span>+y, <span class="built_in">map</span>(char2num, s))</span><br></pre></td></tr></table></figure>
+<h2 id="mr任务"><a href="#mr任务" class="headerlink" title="mr任务"></a>mr任务</h2><h5 id="mapper"><a href="#mapper" class="headerlink" title="mapper"></a>mapper</h5><blockquote>
+<p>读取上游数据，对每行按自己的方式进行组织</p>
 </blockquote>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_counter</span>():</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">counter</span>():</span> <span class="comment"># counter() is a closure</span></span><br><span class="line">        <span class="keyword">nonlocal</span> i <span class="comment"># python3</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> i</span><br><span class="line">    <span class="keyword">return</span> counter</span><br><span class="line"></span><br><span class="line">c1 = make_counter()</span><br><span class="line">c2 = make_counter()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (c1(), c1(), c2(), c2())</span><br><span class="line"><span class="comment"># -&gt; 1 2 1 2</span></span><br></pre></td></tr></table></figure>
-<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>yield相当于提供了一个语言层面的功能来帮助实现生成器</p>
-<blockquote>
-<p>A generator is simply a function which returns an object on which you can call next, such that for every call it returns some value, until it raises a StopIteration exception, signaling that all values have been generated. Such an object is called an iterator.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    data_type = <span class="built_in">int</span>(sys.argv[<span class="number">1</span>])</span><br><span class="line">    <span class="comment"># 上游数据过来，是标准输入</span></span><br><span class="line">    <span class="keyword">for</span> eachline <span class="keyword">in</span> sys.stdin:</span><br><span class="line">        my_obj = MyClass()</span><br><span class="line">        my_obj.init_from_json(eachline.strip(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;\t&quot;</span>.join([my_obj.<span class="built_in">id</span>, eachline.strip(<span class="string">&quot;\n&quot;</span>)])</span><br></pre></td></tr></table></figure>
+<h5 id="reducer"><a href="#reducer" class="headerlink" title="reducer"></a>reducer</h5><blockquote>
+<p>读取到mapper产生的数据，『遍历』对所有行进行一个『<strong>汇总</strong>』</p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1756096/understanding-generators-in-python">generators-in-python</a></p>
-<p>其实本质就是建立在迭代器之上，但是这个迭代器是一个对象，通过yield对这个对象进行迭代，直到<code>StopIteration</code> exception</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    old_info = &#123;&#125;</span><br><span class="line">    check_result = []</span><br><span class="line">    <span class="comment"># 汇集mapreduce所有的输出（保存在list里面）</span></span><br><span class="line">    <span class="keyword">for</span> eachline <span class="keyword">in</span> sys.stdin:</span><br><span class="line">        line = eachline.strip(<span class="string">&quot;\n&quot;</span>).split(<span class="string">&quot;\t&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        key_id = line[<span class="number">0</span>]</span><br><span class="line">        value_json_data = json.loads(line[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        check_result += json_data.get(<span class="string">&quot;check_result&quot;</span>, [])</span><br><span class="line">        old_info[<span class="string">&quot;check_result&quot;</span>] = check_result</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span> json.dumps(old_info)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>mapreduce为了什么？更好的并发，一切为了效率？它是一种编程框架/模型，为的是更好的抽象，在不同层面上做不同的事情。</p>
+<h2 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h2><blockquote>
+<p>更好的并发，一切为了效率</p>
+</blockquote>
+<h1 id="relationship-between-hive-and-hadoop-mapreduce"><a href="#relationship-between-hive-and-hadoop-mapreduce" class="headerlink" title="relationship-between-hive-and-hadoop-mapreduce"></a>relationship-between-hive-and-hadoop-mapreduce</h1><p><strong>Map Reduce</strong> is the framework used to process the data which is stored in the HDFS, here java native language is used to writing Map Reduce programs.<br>Hive is a <strong>batch processing framework</strong>. This component process the data using a language called Hive Query Language(HQL). Hive prevents writing MapReduce programs in Java. Instead one can use SQL like language to do their daily tasks.<br>For HIVE there is <strong>no process to communicate Map/Reduce tasks directly</strong>. </p>
+<p>After the Hive finishes the <strong>query execution</strong>, the result is submitted to the <strong>JobTracker</strong>, which resides on YARN. The JobTracker consists of Map/Reduce tasks which runs the mapper and reducer job to store the final result in the <strong>HDFS</strong>. The Map task deserializes(reading) the data from the HDFS and the Reduce task serializes(writing) the data as the result of the Hive query.</p>
+<p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png" alt="hive_procecss_detail"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-map-reduce/" data-id="ckl80qms7001ns7qobnki86vu" data-title="what is map reduce" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li></ul>
+
     </footer>
   </div>
   
@@ -192,9 +359,9 @@
 
 
   
-    <article id="post-mutable-obj" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-what-is-memory-management" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/mutable-obj/" class="article-date">
+    <a href="/2021/02/16/what-is-memory-management/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -206,7 +373,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/mutable-obj/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/what-is-memory-management/">virtual memory</a>
     </h1>
   
 
@@ -214,16 +381,191 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="可变与不可变对象"><a href="#可变与不可变对象" class="headerlink" title="可变与不可变对象"></a>可变与不可变对象</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
-<p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
+        <h1 id="virtual-memory"><a href="#virtual-memory" class="headerlink" title="virtual memory"></a>virtual memory</h1><p>分为三个维度</p>
+<ol>
+<li>虚拟内存最核心的功能是作为缓存<ul>
+<li>虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的</li>
+<li>磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM）</li>
+<li>缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大了内存的逻辑容量，看上去更大了，而不是更快了。</li>
+<li>有很多要考虑的问题（请求式的页面换入换出）<ul>
+<li>当前需要的虚拟页是否已缓存</li>
+<li>如果缓存，对应的物理页在哪里？</li>
+<li>如果未缓存，还要去磁盘找，在磁盘的哪里？</li>
+<li>还需要一个替换算法，选中一个牺牲页，与磁盘上的DRAM进行替换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>虚拟内存帮助内存管理<ul>
+<li>每个进程有一个独立的页表（地址空间）。页面调度与独立地址空间相结合，对内存管理造成了深远的影响。<ul>
+<li>简化了编译、汇编、链接、加载的过程，都会有磁盘和内存之间的交互（.c/.o/etc）</li>
+<li>简化了内存分配的过程，需要哪些？用户层是malloc分配heap，stack自动增长等。典型的就是虚拟地址连续，但是物理地址不用连续。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>虚拟内存作为内存保护<ul>
+<li>每个虚拟页的地址头，都有SUP段，用于判断是否允许用户态访问。</li>
+</ul>
+</li>
+</ol>
+<h1 id="说一下内存管理"><a href="#说一下内存管理" class="headerlink" title="说一下内存管理"></a>说一下内存管理</h1><p>从哪些维度来说？</p>
+<ol start="0">
+<li>内存的最主要的功能是什么<ul>
+<li>充当磁盘和CPU之间的cache</li>
+</ul>
+</li>
+<li>内存分配与回收<ul>
+<li>分页式</li>
+<li>分段式</li>
+<li>段页式</li>
+<li>涉及到的页面置换算法</li>
+</ul>
+</li>
+<li>内存保护<ul>
+<li>分页系统的地址映射机制</li>
+</ul>
+</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/mutable-obj/" data-id="ckl81d7w80000akqo4nnlaltu" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-memory-management/" data-id="ckl80qms9001os7qoe0krck8d" data-title="virtual memory" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-what-is-nginx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what-is-nginx/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/what-is-nginx/">what is NGINX?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-NGINX"><a href="#what-is-NGINX" class="headerlink" title="what is NGINX?"></a>what is NGINX?</h1><h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><p><a target="_blank" rel="noopener" href="https://www.nginx.com/resources/wiki/start/topics/examples/full/">example link 1</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">example link 2</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><p><img src="./nginx1.png" alt="架构"></p>
+<h4 id="如何做到热部署"><a href="#如何做到热部署" class="headerlink" title="如何做到热部署"></a>如何做到<strong>热部署</strong></h4><h6 id="nginx-做法："><a href="#nginx-做法：" class="headerlink" title="nginx 做法："></a>nginx 做法：</h6><ol>
+<li>Change nginx.conf</li>
+<li>The changes take effect<ul>
+<li>new some workers, new requests =&gt; new workers.</li>
+<li>old workers <strong>continue</strong> to handle unfinished requests. If a old worker completes the <strong>remaining</strong> requests, <strong>KILL</strong> it.</li>
+</ul>
+</li>
+</ol>
+<h6 id="还有可能的方案："><a href="#还有可能的方案：" class="headerlink" title="还有可能的方案："></a>还有可能的方案：</h6><p>修改配置文件nginx.conf后，主进程master负责推送给woker进程更新配置信息，woker进程收到信息后，更新进程内部的线程信息。（有点 valatile 的味道）</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><p><img src="./nginx2.png" alt="虚拟主机"></p>
+<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
+<ol>
+<li>通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
+<li>为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
+<li>静态资源包括 业务数据 和 日志数据，归属到不同域名下（目录），方便维护。</li>
+<li>IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
+</ol>
+<h3 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1. 反向代理"></a>1. 反向代理</h3><p>location:</p>
+<ul>
+<li>root: 静态返回</li>
+<li>proxy_pass: 动态转发</li>
+</ul>
+<h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2. 负载均衡"></a>2. 负载均衡</h3><ul>
+<li>upstream: nginx 定义<strong>一组</strong>后端服务，通过一些 LB 策略进行<strong>负载均衡</strong>，同时进行<strong>健康检查</strong>。</li>
+<li>proxy_pass =&gt; upstream</li>
+</ul>
+<h5 id="负载均衡有哪些策略？"><a href="#负载均衡有哪些策略？" class="headerlink" title="负载均衡有哪些策略？"></a>负载均衡有哪些策略？</h5><p>（IPHASH、加权论调、最少连接……）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer">https://github.com/shaorui0/tiny_load_balancer</a></p>
+<h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>显而易见，可以 scale up ，部署更多的 server 来处理 request 。</p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><p>本质还是『<strong>不一致</strong>』的问题。web 层面，比如用户的 session 信息不一致。（由于 request 经过 lb 到达不同的 server 端）</p>
+<h4 id="从-tiny-lb-中学到什么？"><a href="#从-tiny-lb-中学到什么？" class="headerlink" title="从 tiny_lb 中学到什么？"></a>从 tiny_lb 中学到什么？</h4><ol>
+<li>反向代理是什么东西？<br>本质是<strong>解耦</strong>，client 不知道 server 的 IP ， server 不知道 client 的 IP。两者都经过第三方 reverse_proxy_server ，更符合直觉。</li>
+<li>正向代理是什么东西？<br>典型的应用场景就是<strong>VPN</strong>，client 知道 server 的 IP，但是中间是通过第三方绕过了 WALL，对 client 透明，server 获取到的 IP 是 <strong>VPN_server.IP</strong>。</li>
+</ol>
+<h3 id="3-缓存"><a href="#3-缓存" class="headerlink" title="3. 缓存"></a>3. 缓存</h3><p>TODO</p>
+<h3 id="怎么进行高并发"><a href="#怎么进行高并发" class="headerlink" title="怎么进行高并发"></a>怎么进行高并发</h3><ol>
+<li>本质上是设计的优秀，eventloop</li>
+<li>Master - Worker(1 - n)</li>
+</ol>
+<h3 id="怎么进行高可用"><a href="#怎么进行高可用" class="headerlink" title="怎么进行高可用"></a>怎么进行高可用</h3><p>keepalive + nginx：keppalive 监控 nginx 的生命，防止单点 nginx 挂掉。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what-is-nginx/" data-id="ckl80qmsb001ps7qo6o10ddp7" data-title="what is NGINX?" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/">what is polymorphism?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-polymorphism"><a href="#what-is-polymorphism" class="headerlink" title="what is polymorphism?"></a>what is polymorphism?</h1><p>就是不同类型使用同一套上层接口，但底层实现不同。</p>
+<p>最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）<br>整数和浮点数都有 <code>+</code>/<code>-</code>/<code>*</code>/<code>/</code>的操作，但底层的实现上会有不同<br>在C++里面，不同类型的<code>+</code>操作，都会调用<code>operator+()</code>的类函数。</p>
+<p>当然，经常用的一个例子就是<code>Shape</code>派生出来的square, circle, dodecahedron, irregular polygon, splat。</p>
+<p>如果没有多态<code>square.draw()</code>可能会变成<code>drawSquare()</code>, <code>drawCircle()</code>。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used">https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" data-id="ckl80qmsd001qs7qo9etog6r0" data-title="what is polymorphism?" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
+
     </footer>
   </div>
   
@@ -235,12 +577,22 @@
     <article id="post-what-is-protobuf" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/what-is-protobuf/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.909Z" itemprop="datePublished">2021-02-16</time>
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/what-is-protobuf/">What is Protobuf?</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -335,202 +687,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-protobuf/" data-id="ckl80qmsf001rs7qo7drg58uy" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-protobuf/" data-id="ckl80qmsf001rs7qo7drg58uy" data-title="What is Protobuf?" class="article-share-link">分享</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li></ul>
 
-
-
-  
-    <article id="post-what-is-dns" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-dns/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.901Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><h2 id="DNS属于哪一层？"><a href="#DNS属于哪一层？" class="headerlink" title="DNS属于哪一层？"></a>DNS属于哪一层？</h2><p>应用层，但这个问题的本质是 TCP/IP 协议栈的四层的功能分别是什么？</p>
-<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
-<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
-<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC</p>
-<h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
-<h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
-<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/dns-works-on-tcp-and-udp">REF: dns-works-on-tcp-and-udp</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://serverfault.com/questions/404840/when-do-dns-queries-use-tcp-instead-of-udp">REF: when-do-dns-queries-use-tcp-instead-of-udp</a></p>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-dns/" data-id="ckl80qmqj001is7qo9pzicure" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-what-is-memory-management" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-memory-management/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.862Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h1><p>分为三个维度</p>
-<ol>
-<li>虚拟内存最核心的功能是作为缓存<ul>
-<li>虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的</li>
-<li>磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM）</li>
-<li>缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大了内存的逻辑容量，看上去更大了，而不是更快了。</li>
-<li>有很多要考虑的问题（请求式的页面换入换出）<ul>
-<li>当前需要的虚拟页是否已缓存</li>
-<li>如果缓存，对应的物理页在哪里？</li>
-<li>如果未缓存，还要去磁盘找，在磁盘的哪里？</li>
-<li>还需要一个替换算法，选中一个牺牲页，与磁盘上的DRAM进行替换</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>虚拟内存帮助内存管理<ul>
-<li>每个进程有一个独立的页表（地址空间）。页面调度与独立地址空间相结合，对内存管理造成了深远的影响。<ul>
-<li>简化了编译、汇编、链接、加载的过程，都会有磁盘和内存之间的交互（.c/.o/etc）</li>
-<li>简化了内存分配的过程，需要哪些？用户层是malloc分配heap，stack自动增长等。典型的就是虚拟地址连续，但是物理地址不用连续。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>虚拟内存作为内存保护<ul>
-<li>每个虚拟页的地址头，都有SUP段，用于判断是否允许用户态访问。</li>
-</ul>
-</li>
-</ol>
-<h1 id="说一下内存管理"><a href="#说一下内存管理" class="headerlink" title="说一下内存管理"></a>说一下内存管理</h1><p>从哪些维度来说？</p>
-<ol start="0">
-<li>内存的最主要的功能是什么<ul>
-<li>充当磁盘和CPU之间的cache</li>
-</ul>
-</li>
-<li>内存分配与回收<ul>
-<li>分页式</li>
-<li>分段式</li>
-<li>段页式</li>
-<li>涉及到的页面置换算法</li>
-</ul>
-</li>
-<li>内存保护<ul>
-<li>分页系统的地址映射机制</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-memory-management/" data-id="ckl80qms9001os7qoe0krck8d" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.850Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="what-is-polymorphism-what-is-it-for-and-how-is-it-used"><a href="#what-is-polymorphism-what-is-it-for-and-how-is-it-used" class="headerlink" title="what_is_polymorphism_what_is_it_for_and_how_is_it_used"></a>what_is_polymorphism_what_is_it_for_and_how_is_it_used</h1><p>就是不同类型使用同一套上层接口，但底层实现不同。</p>
-<p>最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）<br>整数和浮点数都有 <code>+</code>/<code>-</code>/<code>*</code>/<code>/</code>的操作，但底层的实现上会有不同<br>在C++里面，不同类型的<code>+</code>操作，都会调用<code>operator+()</code>的类函数。</p>
-<p>当然，经常用的一个例子就是<code>Shape</code>派生出来的square, circle, dodecahedron, irregular polygon, splat。</p>
-<p>如果没有多态<code>square.draw()</code>可能会变成<code>drawSquare()</code>, <code>drawCircle()</code>。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used">https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" data-id="ckl80qmsd001qs7qo9etog6r0" data-title="" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-why-stack-can-overflow-but-heap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/why-stack-can-overflow-but-heap/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.780Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="why-stack-can-overflow-but-heap-cannot"><a href="#why-stack-can-overflow-but-heap-cannot" class="headerlink" title="why stack can overflow but heap cannot?"></a>why stack can overflow but heap cannot?</h1><h2 id="stack"><a href="#stack" class="headerlink" title="stack"></a>stack</h2><p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/operator_system/memory/mmap/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" alt="进程地址空间"></p>
-<p>一个32bit字长OS，进程栈大小通常是8MB。一些比较危险的操作（<code>gets()</code>，分配一个指定大小的buffer，通过<code>while(gets(buf) != 0)</code>，可以一直读下去。）输入过多会导致栈溢出，甚至直接覆盖栈其他部分。比如<strong>ret addr</strong>，这样可能导致跳转到不可控的一个函数上—-著名的『<strong>缓冲区溢出攻击</strong>』。</p>
-<h2 id="heap"><a href="#heap" class="headerlink" title="heap"></a>heap</h2><p>heap内存的申请，C语言中通过<code>malloc</code>完成。底层的实现大致为，一个链表维护所有空闲碎片，通过某种迭代算法去寻找可用的内存。如果找到，则返回内存，并把多余的碎片继续用链表维护。一般迭代一次找不到后，会对碎片进行一个整理。如果还是不行，则返回NULL。（现代操作系统malloc申请大小大于<code>MMAP_THRESHOLD</code>时，会直接调用<code>mmap</code>）。</p>
-<blockquote>
-<p>Normally, malloc() allocates memory from the heap, and adjusts the size of the heap as required, using sbrk(2). When allocating blocks of memory larger than MMAP_THRESHOLD bytes, the glibc malloc() implementation allocates the memory as a private anonymous mapping using mmap(2). MMAP_THRESHOLD is 128 kB by default, but is adjustable using mallopt(3). Allocations performed using mmap(2) are unaffected by the RLIMIT_DATA resource limit (see getrlimit(2)). <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33128587/why-does-malloc-rely-on-mmap-starting-from-a-certain-threshold">why-does-malloc-rely-on-mmap-starting-from-a-certain-threshold</a></p>
-</blockquote>
-<h4 id="关于sbrk和mmap的对比"><a href="#关于sbrk和mmap的对比" class="headerlink" title="关于sbrk和mmap的对比"></a>关于sbrk和mmap的对比</h4><ul>
-<li>用<code>sbrk</code>，<code>free</code>释放后，内存还为当前进程所有。</li>
-<li>用<code>mmap</code>，<code>munmap</code>释放后，就释放给了全局，毕竟是从磁盘直接映射的。调用时不会阻塞（应该），而第一次使用时，才会真正的执行<ul>
-<li>zero set是为了防止泄露数据给其他进程。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>mmap does not actually allocate the pages; it just manipulates the page map for your process</strong>. That should typically be a <strong>non-blocking operation.</strong> (Although I admit I am not 100% sure about this.)</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/why-stack-can-overflow-but-heap/" data-id="ckl80qmt50024s7qo3su0ae6y" data-title="" class="article-share-link">分享</a>
-      
-      
-      
     </footer>
   </div>
   
@@ -542,12 +704,22 @@
     <article id="post-what-is-zombie-process" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/what-is-zombie-process/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.757Z" itemprop="datePublished">2021-02-16</time>
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/what-is-zombie-process/">Zombie process</a>
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -572,10 +744,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-zombie-process/" data-id="ckl80qmsh001ss7qoex7i1gci" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-zombie-process/" data-id="ckl80qmsh001ss7qoex7i1gci" data-title="Zombie process" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -584,44 +758,54 @@
 
 
   
-    <article id="post-waitpid-flag-set" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-why-stack-can-overflow-but-heap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/waitpid-flag-set/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:21:40.671Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/16/why-stack-can-overflow-but-heap/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/why-stack-can-overflow-but-heap/">why stack can overflow but heap cannot?</a>
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="waitpid的一些使用"><a href="#waitpid的一些使用" class="headerlink" title="waitpid的一些使用"></a>waitpid的一些使用</h1><h2 id="WNOHANG"><a href="#WNOHANG" class="headerlink" title="WNOHANG"></a>WNOHANG</h2><blockquote>
-<p>If a child <strong>died</strong>, its pid will be returned by wait()/waitpid() and your process can act on that. If nothing died, then the returned pid is 0.</p>
-</blockquote>
-<ul>
-<li>非阻塞，做其他事情</li>
-<li>检查children是否为zoobie（CTRL+C），让内核去回收（waitpid collect the status）</li>
-</ul>
-<h2 id="WUNTRACED"><a href="#WUNTRACED" class="headerlink" title="WUNTRACED"></a>WUNTRACED</h2><blockquote>
-<p>WUNTRACED allows your parent to be returned from wait()/waitpid() if a child gets stopped as well as exiting or being killed. </p>
-</blockquote>
+        <h1 id="why-stack-can-overflow-but-heap-cannot"><a href="#why-stack-can-overflow-but-heap-cannot" class="headerlink" title="why stack can overflow but heap cannot?"></a>why stack can overflow but heap cannot?</h1><h2 id="stack"><a href="#stack" class="headerlink" title="stack"></a>stack</h2><p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/operator_system/memory/mmap/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" alt="进程地址空间"></p>
+<p>一个32bit字长OS，进程栈大小通常是8MB。一些比较危险的操作（<code>gets()</code>，分配一个指定大小的buffer，通过<code>while(gets(buf) != 0)</code>，可以一直读下去。）输入过多会导致栈溢出，甚至直接覆盖栈其他部分。比如<strong>ret addr</strong>，这样可能导致跳转到不可控的一个函数上—-著名的『<strong>缓冲区溢出攻击</strong>』。</p>
+<h2 id="heap"><a href="#heap" class="headerlink" title="heap"></a>heap</h2><p>heap内存的申请，C语言中通过<code>malloc</code>完成。底层的实现大致为，一个链表维护所有空闲碎片，通过某种迭代算法去寻找可用的内存。如果找到，则返回内存，并把多余的碎片继续用链表维护。一般迭代一次找不到后，会对碎片进行一个整理。如果还是不行，则返回NULL。（现代操作系统malloc申请大小大于<code>MMAP_THRESHOLD</code>时，会直接调用<code>mmap</code>）。</p>
 <blockquote>
-<p>your parent has a chance to send it a SIGCONT to continue it, kill it, assign its tasks to another child, whatever.</p>
+<p>Normally, malloc() allocates memory from the heap, and adjusts the size of the heap as required, using sbrk(2). When allocating blocks of memory larger than MMAP_THRESHOLD bytes, the glibc malloc() implementation allocates the memory as a private anonymous mapping using mmap(2). MMAP_THRESHOLD is 128 kB by default, but is adjustable using mallopt(3). Allocations performed using mmap(2) are unaffected by the RLIMIT_DATA resource limit (see getrlimit(2)). <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33128587/why-does-malloc-rely-on-mmap-starting-from-a-certain-threshold">why-does-malloc-rely-on-mmap-starting-from-a-certain-threshold</a></p>
 </blockquote>
-<ul>
-<li>parent不想做其他事，仅等待进程执行终止。</li>
-<li>但，当STOP发生的时候，一般的行为不会通知到wait/waitpid，该函数也就无法返回，此时会产生『死锁』，除非重新执行（continued）</li>
-<li>所以需要有一个机制防止这种情况。其场景是，当<code>SIGSTOP</code>发生，也能退出wait/waitpid，未来也就能执行<code>CONTINUE</code>.</li>
+<h4 id="关于sbrk和mmap的对比"><a href="#关于sbrk和mmap的对比" class="headerlink" title="关于sbrk和mmap的对比"></a>关于sbrk和mmap的对比</h4><ul>
+<li>用<code>sbrk</code>，<code>free</code>释放后，内存还为当前进程所有。</li>
+<li>用<code>mmap</code>，<code>munmap</code>释放后，就释放给了全局，毕竟是从磁盘直接映射的。调用时不会阻塞（应该），而第一次使用时，才会真正的执行<ul>
+<li>zero set是为了防止泄露数据给其他进程。</li>
 </ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>mmap does not actually allocate the pages; it just manipulates the page map for your process</strong>. That should typically be a <strong>non-blocking operation.</strong> (Although I admit I am not 100% sure about this.)</p>
+</blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/waitpid-flag-set/" data-id="ckl80qmqh001hs7qoaj3l0kks" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/why-stack-can-overflow-but-heap/" data-id="ckl80qmt50024s7qo3su0ae6y" data-title="why stack can overflow but heap cannot?" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -645,9 +829,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-networking/" rel="tag">Computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES-data/" rel="tag">ES, data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS-multi-process/" rel="tag">OS, multi-process</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-networking/" rel="tag">computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diff-OS/" rel="tag">diff, OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language-python/" rel="tag">programming language, python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-networking/" style="font-size: 10px;">Computer networking</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/ES-data/" style="font-size: 10px;">ES, data</a> <a href="/tags/OS/" style="font-size: 20px;">OS</a> <a href="/tags/OS-multi-process/" style="font-size: 10px;">OS, multi-process</a> <a href="/tags/computer-networking/" style="font-size: 10px;">computer networking</a> <a href="/tags/data/" style="font-size: 15px;">data</a> <a href="/tags/data-DB/" style="font-size: 10px;">data, DB</a> <a href="/tags/diff-OS/" style="font-size: 10px;">diff, OS</a> <a href="/tags/programming-language/" style="font-size: 15px;">programming language</a> <a href="/tags/programming-language-python/" style="font-size: 10px;">programming language, python</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/python/" style="font-size: 10px;">python,</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/web/" style="font-size: 15px;">web</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -666,23 +864,23 @@
       <ul>
         
           <li>
-            <a href="/2021/02/16/redis-ttl/">effective-py</a>
+            <a href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
+            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/coroutine/">effective-py</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
+            <a href="/2021/02/16/airflow-intro/">Airflow Intro</a>
           </li>
         
       </ul>

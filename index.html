@@ -71,9 +71,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-redis-ttl" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-waitpid-flag-set" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/redis-ttl/" class="article-date">
+    <a href="/2021/02/16/waitpid-flag-set/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -85,7 +85,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/redis-ttl/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
     </h1>
   
 
@@ -93,20 +93,34 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="How-Redis-expires-keys"><a href="#How-Redis-expires-keys" class="headerlink" title="How Redis expires keys?"></a>How Redis expires keys?</h1><p>Redis keys are expired in two ways: a passive way, and an active way.<br>使用频繁的是passive way，典型的就是只有当反问到某个key的时候，才判断它是否过期了。<br>但是这样会产生一个问题。</p>
+        <h1 id="Waitpid-usage"><a href="#Waitpid-usage" class="headerlink" title="Waitpid usage"></a>Waitpid usage</h1><h2 id="WNOHANG"><a href="#WNOHANG" class="headerlink" title="WNOHANG"></a>WNOHANG</h2><blockquote>
+<p>If a child <strong>died</strong>, its pid will be returned by wait()/waitpid() and your process can act on that. If nothing died, then the returned pid is 0.</p>
+</blockquote>
 <ul>
-<li>如果一个key一致不被访问到，那会一直占用空间。</li>
+<li>非阻塞，做其他事情</li>
+<li>检查children是否为zoobie（CTRL+C），让内核去回收（waitpid collect the status）</li>
 </ul>
-<p>解决这个问题的一个简单的思路就是：固定的时间随机找到一些key，判断这些key是否存在过期的，然后删除。<br>更进一步的，如果key的数量超过25%，重新执行一次上面的操作。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36172745/how-does-redis-expire-keys">how-does-redis-expire-keys</a></p>
+<h2 id="WUNTRACED"><a href="#WUNTRACED" class="headerlink" title="WUNTRACED"></a>WUNTRACED</h2><blockquote>
+<p>WUNTRACED allows your parent to be returned from wait()/waitpid() if a child gets stopped as well as exiting or being killed. </p>
+</blockquote>
+<blockquote>
+<p>your parent has a chance to send it a SIGCONT to continue it, kill it, assign its tasks to another child, whatever.</p>
+</blockquote>
+<ul>
+<li>parent不想做其他事，仅等待进程执行终止。</li>
+<li>但，当STOP发生的时候，一般的行为不会通知到wait/waitpid，该函数也就无法返回，此时会产生『死锁』，除非重新执行（continued）</li>
+<li>所以需要有一个机制防止这种情况。其场景是，当<code>SIGSTOP</code>发生，也能退出wait/waitpid，未来也就能执行<code>CONTINUE</code>.</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/redis-ttl/" data-id="ckl80qmpz0018s7qo5hddh77n" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/waitpid-flag-set/" data-id="ckl80qmqh001hs7qoaj3l0kks" data-title="Waitpid usage" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -115,9 +129,9 @@
 
 
   
-    <article id="post-21-enforce-clarity-with-keyword" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-DIFF-blocking-non-blocking-synchronism-asynchronism" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/21-enforce-clarity-with-keyword/" class="article-date">
+    <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -129,7 +143,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
     </h1>
   
 
@@ -137,65 +151,47 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Item-21-Enforce-Clarity-with-Keyword-Only-Arguments"><a href="#Item-21-Enforce-Clarity-with-Keyword-Only-Arguments" class="headerlink" title="Item 21: Enforce Clarity with Keyword-Only Arguments"></a>Item 21: Enforce Clarity with Keyword-Only Arguments</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TODO exec</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, b, c, d</span>):</span></span><br><span class="line">    print(a,b,c,d)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">a, b, *, c=<span class="number">1</span>, d=<span class="number">2</span></span>):</span></span><br><span class="line">    print(a,b,c,d)</span><br><span class="line"></span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">foo(<span class="number">1</span>, <span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/21-enforce-clarity-with-keyword/" data-id="ckl80qmmk0000s7qochvz7rf6" data-title="effective-py" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Elasticsearch-cold-warm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/Elasticsearch-cold-warm/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="es的冷热数据处理"><a href="#es的冷热数据处理" class="headerlink" title="es的冷热数据处理"></a>es的冷热数据处理</h1><p>思考来源于一次面试，面试提出这样的问题。<br>实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。<br>经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。<br>先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。</p>
-<h2 id="冷热数据索引特征"><a href="#冷热数据索引特征" class="headerlink" title="冷热数据索引特征"></a>冷热数据索引特征</h2><p>冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引</p>
-<p>热数据索引：查询频率高，写入压力大，一般为当天数据索引</p>
-<h2 id="为什么需要冷热节点？"><a href="#为什么需要冷热节点？" class="headerlink" title="为什么需要冷热节点？"></a>为什么需要冷热节点？</h2><p>cold、warm、hot spot 的概念并不是ES提出来的，分布式的概念中很早就有这一概念。</p>
-<p>很明显，hot spot是经常读写的，相对的，cold spot 基本就属于“历史数据”一类。<br>典型的，由于ES的数据，是保存在内存中的（TODO）]<br>概念类似“局部性原理”<br>如何设置某些时间的数据为hot，这个时间节点的设置也很关键，直接影响性能。</p>
-<p>当然，为了更好的缓解IO压力，分到多个节点效果更好。</p>
-<p>众所周知，索引是为了更快的获取数据。但是创建索引的过程会比较 expensive。<br>如果数据量太大，而ES的数据又存在内存中，导致IO负载比较大。</p>
-<p>W269N-WFGWX-YVC9B-4J6C9-T83GX</p>
-<h2 id="ES的冷热架构部署"><a href="#ES的冷热架构部署" class="headerlink" title="ES的冷热架构部署"></a>ES的冷热架构部署</h2><p>例子：比如电商数据极大。可以每个月建立一个索引，数据先写到热索引中，通过“工具”将3个月后的索引迁移到冷节点上面。</p>
-<p>典型的，热节点机器使用“垂直扩展”，高性能机器。冷节点使用水平扩展，堆机器数。这样，就能保证最大化的性能</p>
-<p>ES官方是建议使用SSD，但是成本</p>
-<h2 id="支持原理"><a href="#支持原理" class="headerlink" title="支持原理"></a>支持原理</h2><p>第一：集群节点层面支持规划节点类型，这是划分热暖节点的前提。<br>第二：索引层面支持将数据路由到给定节点，这为数据写入冷、热节点做了保障。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caoweixiong/p/11988457.html">Elasticsearch 冷热集群架构</a></p>
+        <h1 id="Non-blocking-A-synchrony"><a href="#Non-blocking-A-synchrony" class="headerlink" title="(Non)blocking / (A)synchrony"></a>(Non)blocking / (A)synchrony</h1><h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><p>本质上，异步是指是否『接收方』会通知你取结果，这是调用方式的不同；阻塞和非阻塞，是指，是否需要在某个地方等着，而不能去干其他的事情。比如信号，注册好之后，接收方完成，就会通知os内核，从而通知发出方来取</p>
+<h2 id="还是不同层次的问题。"><a href="#还是不同层次的问题。" class="headerlink" title="还是不同层次的问题。"></a>还是不同层次的问题。</h2><blockquote>
+<p>这个过程同样适合另一个问题，<strong>当你在浏览器打上url并回车的时候发生的什么？</strong></p>
+</blockquote>
+<p>先梳理一下层次：</p>
+<ol>
+<li>A端业务代码调用软件框架</li>
+<li>软件框架与操作系统内核交互</li>
+<li>从操作系统内核到网卡</li>
+<li>操作系统通过网卡发出数据，经过路由器和交换机等设计，层层转发，到达B端网卡</li>
+<li>B端网卡到操作系统</li>
+<li>操作系统到B端软件框架</li>
+<li>B端软件框架到B的业务代码</li>
+</ol>
+<p>只有在单独一级的调用上，可以说同步还是异步的问题。</p>
+<ul>
+<li>同步：是指调用协议中结果在调用完成时返回，这样调用的过程中参与双方都处于一个状态同步的过程。</li>
+<li>异步：是指调用方<strong>发出请求就立即返回</strong>，<strong>请求甚至可能还没到达接收方</strong>，比如说放到了某个缓冲区中，等待对方取走或者第三方转交。</li>
+</ul>
+<p>而结果，是通过轮询或者接收方主动推送来获得。</p>
+<h3 id="1-7过程"><a href="#1-7过程" class="headerlink" title="1/7过程"></a>1/7过程</h3><p>用户代码层面，一个接口是可以设计成异步接口的。比如：</p>
+<ul>
+<li>某个beginXXX函数，调用完直接返回</li>
+<li>回调函数，将回调函数作为参数传递，回调函数在完成时调用（python中<code>func</code>与<code>func()</code>的区别）</li>
+<li>协程模型，调用接口后立即返回，切换到其他协程</li>
+</ul>
+<h3 id="2-6过程"><a href="#2-6过程" class="headerlink" title="2/6过程"></a>2/6过程</h3><p>系统调用层面。本质上，都是数据在用户空间和内核空间搬来搬去，都是同步接口。之用调用了一些特殊的API（IOCP），所以这一级是同步的。<strong>阻塞与非阻塞的区别其实是影响调用接口的结果（在特定条件下是否提前返回结果），而不是调用方式。</strong><br>    是否提前返回结果，也是返回了结果，这是这是个什么样的结果。比如 FALSE, FALSE, FALSE … TRUE!<br>TODO 陈硕图</p>
+<h3 id="3-5过程"><a href="#3-5过程" class="headerlink" title="3/5过程"></a>3/5过程</h3><p>内核一般通过缓冲区，使用<code>DMI</code>来传输数据，所以这一步又是异步的。</p>
+<h3 id="4过程"><a href="#4过程" class="headerlink" title="4过程"></a>4过程</h3><p>以太网是个<strong>同步时序逻辑</strong>，<strong>随信号传输时钟</strong>，必须两边设备<strong>同时就绪了</strong>才能开始传输数据，这又是同步的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于通常<strong>异步的框架</strong>都需要在2中使用<strong>非阻塞</strong>的接口，的确会有很多人把非阻塞和异步混为一谈。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/117012135">同步/异步，阻塞/非阻塞</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/Elasticsearch-cold-warm/" data-id="ckl80qmn90004s7qodcs762hs" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/" data-id="ckl80qmn60002s7qobx27g991" data-title="(Non)blocking / (A)synchrony" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -218,7 +214,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/coroutine/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/coroutine/">Coroutine</a>
     </h1>
   
 
@@ -300,10 +296,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/coroutine/" data-id="ckl80qmni0007s7qo2d94hhd6" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/coroutine/" data-id="ckl80qmni0007s7qo2d94hhd6" data-title="Coroutine" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
+
     </footer>
   </div>
   
@@ -326,7 +324,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
     </h1>
   
 
@@ -418,10 +416,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="diff partition and sharding" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li></ul>
+
     </footer>
   </div>
   
@@ -444,7 +444,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/airflow-intro/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/airflow-intro/">Airflow Intro</a>
     </h1>
   
 
@@ -452,14 +452,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Airflow"><a href="#Airflow" class="headerlink" title="Airflow"></a>Airflow</h1><h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
-<p>其他依赖包括什么？</p>
-<ul>
-<li>时间依赖，crontab自身支持例行时刻和间隔</li>
-<li>外部系统依赖，需要shell自己调用接口</li>
-<li>任务间的依赖，通常通过shell函数来完成</li>
-</ul>
-<h3 id="为什么需要Airflow？"><a href="#为什么需要Airflow？" class="headerlink" title="为什么需要Airflow？"></a>为什么需要Airflow？</h3><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+        <h1 id="Airflow-Intro"><a href="#Airflow-Intro" class="headerlink" title="Airflow Intro"></a>Airflow Intro</h1><h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
 <ul>
 <li>日志记录<ul>
 <li>RD介入是否方便？</li>
@@ -468,6 +461,13 @@
 </li>
 <li>任务报警</li>
 <li>失败重试</li>
+</ul>
+<h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
+<p>其他依赖包括什么？</p>
+<ul>
+<li>时间依赖，crontab自身支持例行时刻和间隔</li>
+<li>外部系统依赖，需要shell自己调用接口</li>
+<li>任务间的依赖，通常通过shell函数来完成</li>
 </ul>
 <h3 id="额外的惊喜？"><a href="#额外的惊喜？" class="headerlink" title="额外的惊喜？"></a>额外的惊喜？</h3><p>额外的，整个调度系统是否有比较好的伸缩性？比如并发机制（<strong>多个调度任务能不能并发？甚至扩展到多机？</strong>）。涉及到这些高级功能，一般的调度方式是很难满足了。</p>
 <p>Airflow 同时拥有不错的<strong>集群扩展能力</strong>，可使用 CeleryExecuter 以及多个 Pool 来提高任务<strong>并发度</strong>。</p>
@@ -485,10 +485,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="Airflow Intro" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li></ul>
+
     </footer>
   </div>
   
@@ -511,7 +513,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-ipc/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-ipc/">IPC - Intro</a>
     </h1>
   
 
@@ -519,7 +521,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="ipc"><a href="#ipc" class="headerlink" title="ipc"></a>ipc</h1><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
+        <h1 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h1><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
 <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
 <ol>
 <li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
@@ -583,10 +585,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="IPC - Intro" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -609,7 +613,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-multi-process-multi-thread-io-resue/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-multi-process-multi-thread-io-resue/">process, thread and IO reuse</a>
     </h1>
   
 
@@ -617,7 +621,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="多线程、多进程、io复用"><a href="#多线程、多进程、io复用" class="headerlink" title="多线程、多进程、io复用"></a>多线程、多进程、io复用</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
+        <h1 id="多进程、多线程、io复用"><a href="#多进程、多线程、io复用" class="headerlink" title="多进程、多线程、io复用"></a>多进程、多线程、io复用</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
 <ol>
 <li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
 </ol>
@@ -655,10 +659,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="process, thread and IO reuse" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -681,7 +687,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-hash-btree/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-hash-btree/">DB - Index</a>
     </h1>
   
 
@@ -712,10 +718,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-hash-btree/" data-id="ckl80qmnv000es7qo7vg20eoy" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-hash-btree/" data-id="ckl80qmnv000es7qo7vg20eoy" data-title="DB - Index" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DB/" rel="tag">DB</a></li></ul>
+
     </footer>
   </div>
   
@@ -738,7 +746,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-between-post-and-put/">effective-py</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-between-post-and-put/">Basic knowledge of web development</a>
     </h1>
   
 
@@ -783,10 +791,78 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-between-post-and-put/" data-id="ckl80qmnx000fs7qo88un2ydl" data-title="effective-py" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-between-post-and-put/" data-id="ckl80qmnx000fs7qo88un2ydl" data-title="Basic knowledge of web development" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-static-link-and-dynamic-link" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/16/diff-static-link-and-dynamic-link/" class="article-date">
+  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/16/diff-static-link-and-dynamic-link/">diff static link and dynamic link</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="diff-static-link-and-dynamic-link"><a href="#diff-static-link-and-dynamic-link" class="headerlink" title="diff static link and dynamic link"></a>diff static link and dynamic link</h1><h2 id="对比的角度"><a href="#对比的角度" class="headerlink" title="对比的角度"></a>对比的角度</h2><ol>
+<li>快（performance），加载过程的时间不同</li>
+<li>编译兼容性（mantainable）</li>
+<li>底层用到的工具不同：linker(.a)/loader(.so)。</li>
+</ol>
+<h3 id="静态编译："><a href="#静态编译：" class="headerlink" title="静态编译："></a>静态编译：</h3><p>高级语言 =&gt; 汇编语言 =&gt; 机器语言（.o）===&gt; 合并多个（本质是一个扩充声明为定义的过程，静态连接器）=&gt; 加载到OS =&gt; 执行</p>
+<h5 id="静态的好处："><a href="#静态的好处：" class="headerlink" title="静态的好处："></a>静态的好处：</h5><ol>
+<li>更快，本质上是一起工作的，可预期编译时长（但代码会显著扩展，所有的外部函数调用都扩展成相应的代码）</li>
+<li>不会有版本问题，一起编译。</li>
+</ol>
+<h3 id="动态编译："><a href="#动态编译：" class="headerlink" title="动态编译："></a>动态编译：</h3><p>动态文件/库一般是在<strong>运行时</strong>通过加载到OS中（进程地址空间的<strong>共享内存</strong>中）</p>
+<h5 id="动态的好处："><a href="#动态的好处：" class="headerlink" title="动态的好处："></a>动态的好处：</h5><blockquote>
+<p>Additionally dynamic libraries aren’t necessarily loaded – they’re usually loaded when first called – and can be shared among components that use the same library (multiple data loads, one code load).</p>
+</blockquote>
+<ol>
+<li>可独自升级（debug）</li>
+<li><strong>占用资源更少</strong>，多个进程可以<strong>共享</strong>（<strong>共享内存</strong>）。而静态module则都需要copy到最终的可执行文件</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>动态库是一种更让人倾向的方案，但之前出过问题 (google DLL hell)</p>
+<p><img src="./src_pic/static_link.png" alt="静态过程"></p>
+<p><img src="./src_pic/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" alt="进程地址空间"></p>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47116485/differences-between-static-libraries-and-dynamic-libraries-ignoring-how-they-are">diff 1</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.quora.com/What-is-the-difference-between-static-and-dynamic-linking">diff 2</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/61553723/whats-the-difference-between-statically-linked-and-not-a-dynamic-executable">diff 3</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/16/diff-static-link-and-dynamic-link/" data-id="ckl80qmny000gs7qofpw565w7" data-title="diff static link and dynamic link" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/diff-OS/" rel="tag">diff, OS</a></li></ul>
+
     </footer>
   </div>
   
@@ -810,9 +886,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-networking/" rel="tag">Computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/" rel="tag">DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES-data/" rel="tag">ES, data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS-multi-process/" rel="tag">OS, multi-process</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-networking/" rel="tag">computer networking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diff-OS/" rel="tag">diff, OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming-language-python/" rel="tag">programming language, python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python,</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Computer-networking/" style="font-size: 10px;">Computer networking</a> <a href="/tags/DB/" style="font-size: 12.5px;">DB</a> <a href="/tags/ES-data/" style="font-size: 10px;">ES, data</a> <a href="/tags/OS/" style="font-size: 20px;">OS</a> <a href="/tags/OS-multi-process/" style="font-size: 10px;">OS, multi-process</a> <a href="/tags/computer-networking/" style="font-size: 10px;">computer networking</a> <a href="/tags/data/" style="font-size: 15px;">data</a> <a href="/tags/data-DB/" style="font-size: 10px;">data, DB</a> <a href="/tags/diff-OS/" style="font-size: 10px;">diff, OS</a> <a href="/tags/programming-language/" style="font-size: 15px;">programming language</a> <a href="/tags/programming-language-python/" style="font-size: 10px;">programming language, python</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/python/" style="font-size: 10px;">python,</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/web/" style="font-size: 15px;">web</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -831,23 +921,23 @@
       <ul>
         
           <li>
-            <a href="/2021/02/16/redis-ttl/">effective-py</a>
+            <a href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/21-enforce-clarity-with-keyword/">effective-py</a>
+            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/Elasticsearch-cold-warm/">effective-py</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/coroutine/">effective-py</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">effective-py</a>
+            <a href="/2021/02/16/airflow-intro/">Airflow Intro</a>
           </li>
         
       </ul>

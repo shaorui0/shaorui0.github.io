@@ -93,7 +93,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h1><h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本质：作为任务存放的容器。</p>
+        <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本质：作为任务存放的容器。</p>
 <p>多线程的环境下，一个任务过来，不是立即执行的。一个路由thread进行分发，一些worker thread来取。那worker从哪里取呢？典型的就是『先进先出』的队列。</p>
 <p>一个典型的过程：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 任务过来</span><br><span class="line">2. 分发线程将任务存到queue中</span><br><span class="line">3. 如果有线程闲置，就会去取</span><br><span class="line">    3.1. queue会将task传递给线程</span><br><span class="line">    3.2. queue会同时将task pop掉（4、5过程原子性）</span><br></pre></td></tr></table></figure>
@@ -159,7 +159,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="how-to-use-pdb"><a href="#how-to-use-pdb" class="headerlink" title="how to use pdb"></a>how to use pdb</h1><ul>
+        <ul>
 <li><code>next</code> 碰见子程序会直接获取到调用结果</li>
 <li><code>step</code> 会进入子程序，相当于是一个子程序扩展</li>
 <li><code>quit</code> 粗暴退出</li>
@@ -202,7 +202,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/python-memory-management/">(python) memory management</a>
+      <a class="p-name article-title" href="/2021/02/16/python-memory-management/">memory management</a>
     </h1>
   
 
@@ -210,7 +210,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="python怎么管理内存"><a href="#python怎么管理内存" class="headerlink" title="python怎么管理内存"></a>python怎么管理内存</h1><p>python怎么管理内存？</p>
+        <p>python怎么管理内存？</p>
 <ul>
 <li>引用语义<br>  一个对象，多个指针指向它，这也就是 is 和 == 的不同指出，检查是否是同一个对象，以及对象的值是否相同</li>
 <li>GC<br>  python的GC，典型的ref_count=0的时候；循环引用能被释放</li>
@@ -246,7 +246,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/python-memory-management/" data-id="ckl80qmpo0014s7qofqijbykw" data-title="(python) memory management" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/python-memory-management/" data-id="ckl80qmpo0014s7qofqijbykw" data-title="memory management" class="article-share-link">分享</a>
       
       
       
@@ -361,7 +361,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/redis-data-structure-in-action/">redis数据结构及其使用场景</a>
+      <a class="p-name article-title" href="/2021/02/16/redis-data-structure-in-action/">Redis - data structure</a>
     </h1>
   
 
@@ -369,11 +369,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="redis数据结构及其使用场景"><a href="#redis数据结构及其使用场景" class="headerlink" title="redis数据结构及其使用场景"></a>redis数据结构及其使用场景</h1><h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
+        <h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
 <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
 <li>Lpush + lpop = stack</li>
 <li>Lpush + rpop = queue</li>
-<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">what is ltrim?</a></li>
+<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">What is ltrim?</a></li>
 <li>Lpush + brpop = message queue (blocking queue)</li>
 </ul>
 <p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
@@ -418,7 +418,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/redis-data-structure-in-action/" data-id="ckl80qmpx0017s7qocxn91dbd" data-title="redis数据结构及其使用场景" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/redis-data-structure-in-action/" data-id="ckl80qmpx0017s7qocxn91dbd" data-title="Redis - data structure" class="article-share-link">分享</a>
       
       
       
@@ -492,7 +492,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/tcp-status-machine/">TCP 状态机</a>
+      <a class="p-name article-title" href="/2021/02/16/tcp-status-machine/">TCP state machine</a>
     </h1>
   
 
@@ -500,7 +500,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="TCP-状态机"><a href="#TCP-状态机" class="headerlink" title="TCP 状态机"></a>TCP 状态机</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
 <h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
 <ol>
 <li>client -&gt; server, FIN</li>
@@ -522,7 +522,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/tcp-status-machine/" data-id="ckl80qmq4001bs7qo8ljef55b" data-title="TCP 状态机" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/tcp-status-machine/" data-id="ckl80qmq4001bs7qo8ljef55b" data-title="TCP state machine" class="article-share-link">分享</a>
       
       
       
@@ -558,7 +558,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="ES的冷热数据处理"><a href="#ES的冷热数据处理" class="headerlink" title="ES的冷热数据处理"></a>ES的冷热数据处理</h1><p>思考来源于一次面试，面试提出这样的问题。<br>实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。<br>经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。<br>先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。</p>
+        <ol start="0">
+<li>思考来源于一次面试，面试提出这样的问题。</li>
+<li>实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。</li>
+<li>先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。</li>
+</ol>
 <h2 id="冷热数据索引特征"><a href="#冷热数据索引特征" class="headerlink" title="冷热数据索引特征"></a>冷热数据索引特征</h2><p>冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引</p>
 <p>热数据索引：查询频率高，写入压力大，一般为当天数据索引</p>
 <h2 id="为什么需要冷热节点？"><a href="#为什么需要冷热节点？" class="headerlink" title="为什么需要冷热节点？"></a>为什么需要冷热节点？</h2><p>cold、warm、hot spot 的概念并不是ES提出来的，分布式的概念中很早就有这一概念。</p>
@@ -603,7 +607,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/what-is-dns/">what is DNS</a>
+      <a class="p-name article-title" href="/2021/02/16/what-is-dns/">What is DNS</a>
     </h1>
   
 
@@ -628,7 +632,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-dns/" data-id="ckl80qmqj001is7qo9pzicure" data-title="what is DNS" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-dns/" data-id="ckl80qmqj001is7qo9pzicure" data-title="What is DNS" class="article-share-link">分享</a>
       
       
       
@@ -656,7 +660,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/what-is-duck-typing/">what is duck typing</a>
+      <a class="p-name article-title" href="/2021/02/16/what-is-duck-typing/">What is duck typing</a>
     </h1>
   
 
@@ -664,8 +668,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="duck-typing"><a href="#duck-typing" class="headerlink" title="duck typing"></a>duck typing</h1><blockquote>
-<p>Duck typing means that an operation does not formally specify the requirements that its operands have to meet, but just <strong>tries</strong> it out with what is given.</p>
+        <blockquote>
+<p>Duck typing means that an operation does not formally specify the requirements that its operands have to meet, but just <strong>tries</strong> it out with What is given.</p>
 </blockquote>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    x.Quack()</span><br></pre></td></tr></table></figure>
 <p>不管x传进来的是什么，当x有<code>Quack</code>方法时，这个程序就能正常执行，当x没有这个方法，程序就会在<code>runtime</code>保报错。</p>
@@ -676,7 +680,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-duck-typing/" data-id="ckl80qmrw001js7qoayyoff8k" data-title="what is duck typing" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-duck-typing/" data-id="ckl80qmrw001js7qoayyoff8k" data-title="What is duck typing" class="article-share-link">分享</a>
       
       
       
@@ -752,7 +756,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

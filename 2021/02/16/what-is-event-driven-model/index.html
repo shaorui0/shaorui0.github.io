@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>what is event driven model | Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>What is event driven model | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="event driven modelwhy need event driven model In a sense, this isn’t really different from what you might do with threaded I&#x2F;O, but it has much reduced overhead in the form of memory, context switchin">
+  <meta name="description" content="why need event driven model In a sense, this isn’t really different from what you might do with threaded I&#x2F;O, but it has much reduced overhead in the form of memory, context switching, and general “ho">
 <meta property="og:type" content="article">
-<meta property="og:title" content="what is event driven model">
+<meta property="og:title" content="What is event driven model">
 <meta property="og:url" content="http://example.com/2021/02/16/what-is-event-driven-model/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="event driven modelwhy need event driven model In a sense, this isn’t really different from what you might do with threaded I&#x2F;O, but it has much reduced overhead in the form of memory, context switchin">
+<meta property="og:description" content="why need event driven model In a sense, this isn’t really different from what you might do with threaded I&#x2F;O, but it has much reduced overhead in the form of memory, context switching, and general “ho">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/16/what-is-event-driven-model/blocking_io.png">
 <meta property="og:image" content="http://example.com/2021/02/16/what-is-event-driven-model/non_blocking_io.png">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-17T14:51:02.812Z">
+<meta property="article:modified_time" content="2021-02-17T15:00:28.092Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
@@ -91,7 +91,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      what is event driven model
+      What is event driven model
     </h1>
   
 
@@ -99,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="event-driven-model"><a href="#event-driven-model" class="headerlink" title="event driven model"></a>event driven model</h1><h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
+        <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
 <p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
 </blockquote>
 <p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
@@ -123,7 +123,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-event-driven-model/" data-id="ckl80qms1001ks7qo4c6jhv21" data-title="what is event driven model" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-event-driven-model/" data-id="ckl80qms1001ks7qo4c6jhv21" data-title="What is event driven model" class="article-share-link">分享</a>
       
       
       
@@ -139,7 +139,7 @@
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          what is duck typing
+          What is duck typing
         
       </div>
     </a>
@@ -147,7 +147,7 @@
   
     <a href="/2021/02/16/what-is-high-concurrency/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">what is high concurrency?</div>
+      <div class="article-nav-title">What is high concurrency?</div>
     </a>
   
 </nav>
@@ -211,7 +211,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

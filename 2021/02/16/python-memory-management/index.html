@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>(python) memory management | Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>memory management | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="python怎么管理内存python怎么管理内存？  引用语义  一个对象，多个指针指向它，这也就是 is 和 &#x3D;&#x3D; 的不同指出，检查是否是同一个对象，以及对象的值是否相同 GC  python的GC，典型的ref_count&#x3D;0的时候；循环引用能被释放 内存池 内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统 Pymalloc机制：python的内存池机制，管理小块的内存申请">
+  <meta name="description" content="python怎么管理内存？  引用语义  一个对象，多个指针指向它，这也就是 is 和 &#x3D;&#x3D; 的不同指出，检查是否是同一个对象，以及对象的值是否相同 GC  python的GC，典型的ref_count&#x3D;0的时候；循环引用能被释放 内存池 内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统 Pymalloc机制：python的内存池机制，管理小块的内存申请和释放 不同python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(python) memory management">
+<meta property="og:title" content="memory management">
 <meta property="og:url" content="http://example.com/2021/02/16/python-memory-management/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="python怎么管理内存python怎么管理内存？  引用语义  一个对象，多个指针指向它，这也就是 is 和 &#x3D;&#x3D; 的不同指出，检查是否是同一个对象，以及对象的值是否相同 GC  python的GC，典型的ref_count&#x3D;0的时候；循环引用能被释放 内存池 内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统 Pymalloc机制：python的内存池机制，管理小块的内存申请">
+<meta property="og:description" content="python怎么管理内存？  引用语义  一个对象，多个指针指向它，这也就是 is 和 &#x3D;&#x3D; 的不同指出，检查是否是同一个对象，以及对象的值是否相同 GC  python的GC，典型的ref_count&#x3D;0的时候；循环引用能被释放 内存池 内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统 Pymalloc机制：python的内存池机制，管理小块的内存申请和释放 不同python">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-17T14:36:23.557Z">
+<meta property="article:modified_time" content="2021-02-17T14:59:23.028Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -88,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      (python) memory management
+      memory management
     </h1>
   
 
@@ -96,7 +96,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="python怎么管理内存"><a href="#python怎么管理内存" class="headerlink" title="python怎么管理内存"></a>python怎么管理内存</h1><p>python怎么管理内存？</p>
+        <p>python怎么管理内存？</p>
 <ul>
 <li>引用语义<br>  一个对象，多个指针指向它，这也就是 is 和 == 的不同指出，检查是否是同一个对象，以及对象的值是否相同</li>
 <li>GC<br>  python的GC，典型的ref_count=0的时候；循环引用能被释放</li>
@@ -132,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/python-memory-management/" data-id="ckl80qmpo0014s7qofqijbykw" data-title="(python) memory management" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/python-memory-management/" data-id="ckl80qmpo0014s7qofqijbykw" data-title="memory management" class="article-share-link">分享</a>
       
       
       
@@ -220,7 +220,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

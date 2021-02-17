@@ -151,7 +151,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Non-blocking-A-synchrony"><a href="#Non-blocking-A-synchrony" class="headerlink" title="(Non)blocking / (A)synchrony"></a>(Non)blocking / (A)synchrony</h1><h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><p>本质上，异步是指是否『接收方』会通知你取结果，这是调用方式的不同；阻塞和非阻塞，是指，是否需要在某个地方等着，而不能去干其他的事情。比如信号，注册好之后，接收方完成，就会通知os内核，从而通知发出方来取</p>
+        <h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><p>本质上，异步是指是否『接收方』会通知你取结果，这是调用方式的不同；阻塞和非阻塞，是指，是否需要在某个地方等着，而不能去干其他的事情。比如信号，注册好之后，接收方完成，就会通知os内核，从而通知发出方来取</p>
 <h2 id="还是不同层次的问题。"><a href="#还是不同层次的问题。" class="headerlink" title="还是不同层次的问题。"></a>还是不同层次的问题。</h2><blockquote>
 <p>这个过程同样适合另一个问题，<strong>当你在浏览器打上url并回车的时候发生的什么？</strong></p>
 </blockquote>
@@ -222,8 +222,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h1><p>tag: coroutine, subroutine, thread, concurrency, parallelism, generator, yield</p>
-<h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
+        <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
 <p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
 <p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
 <h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
@@ -288,7 +287,7 @@
 <li><strong>并行</strong>这个维度上仍然需要配合进程来调度。</li>
 </ol>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>stackoverflow: what is coroutine?</li>
+<li>stackoverflow: What is coroutine?</li>
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/50185085/answer/1342613525">出于什么样的原因，诞生了「协程」这一概念？</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/389262477/answer/1566255353">为什么编程语言对异步编程都是很晚近才开始支持的？</a></li>
 </ul>
@@ -324,7 +323,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
     </h1>
   
 
@@ -332,13 +331,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="partition-and-sharding"><a href="#partition-and-sharding" class="headerlink" title="partition and sharding"></a>partition and sharding</h1><h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+        <h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
 <h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
 <ul>
 <li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
-<li>sharding is one <strong>specific</strong> type of partitioning, part of what is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
 </ul>
-<h4 id="what-is-sharding"><a href="#what-is-sharding" class="headerlink" title="what is sharding?"></a>what is sharding?</h4><ul>
+<h4 id="What-is-sharding"><a href="#What-is-sharding" class="headerlink" title="What is sharding?"></a>What is sharding?</h4><ul>
 <li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
 </ul>
 <h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
@@ -416,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="diff partition and sharding" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="partition and sharding" class="article-share-link">分享</a>
       
       
       
@@ -452,7 +451,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Airflow-Intro"><a href="#Airflow-Intro" class="headerlink" title="Airflow Intro"></a>Airflow Intro</h1><h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+        <h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
 <ul>
 <li>日志记录<ul>
 <li>RD介入是否方便？</li>
@@ -569,7 +568,7 @@
 </li>
 <li><p>mmap</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">what is mmap?</a><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">What is mmap?</a><ul>
 <li>mmap是什么？</li>
 <li>为什么需要mmap()</li>
 <li>pros and cons</li>
@@ -613,7 +612,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-multi-process-multi-thread-io-resue/">process, thread and IO reuse</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-multi-process-multi-thread-io-resue/">multi process, multi thread and IO reuse</a>
     </h1>
   
 
@@ -621,7 +620,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="多进程、多线程、io复用"><a href="#多进程、多线程、io复用" class="headerlink" title="多进程、多线程、io复用"></a>多进程、多线程、io复用</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
+        <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
 <ol>
 <li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
 </ol>
@@ -659,7 +658,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="process, thread and IO reuse" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="multi process, multi thread and IO reuse" class="article-share-link">分享</a>
       
       
       
@@ -687,7 +686,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-hash-btree/">DB - Index</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-hash-btree/">Index</a>
     </h1>
   
 
@@ -695,7 +694,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="hash-b-tree"><a href="#hash-b-tree" class="headerlink" title="hash / b-tree"></a>hash / b-tree</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
+        <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
 <p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
 <h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
 <p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
@@ -718,7 +717,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-hash-btree/" data-id="ckl80qmnv000es7qo7vg20eoy" data-title="DB - Index" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-hash-btree/" data-id="ckl80qmnv000es7qo7vg20eoy" data-title="Index" class="article-share-link">分享</a>
       
       
       
@@ -754,7 +753,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Basic-knowledge-of-web-development"><a href="#Basic-knowledge-of-web-development" class="headerlink" title="Basic knowledge of web development"></a>Basic knowledge of web development</h1><h2 id="put-and-post"><a href="#put-and-post" class="headerlink" title="put and post"></a>put and post</h2><h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><ul>
+        <h2 id="put-and-post"><a href="#put-and-post" class="headerlink" title="put and post"></a>put and post</h2><h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><ul>
 <li><p>PUT puts a file or resource at a specific URI, and exactly at that URI.<br>  没有任何其他的功能，只作『创建』和『替换』功能</p>
 </li>
 <li><p><strong>幂等</strong>的（多次执行，效果相同）</p>
@@ -819,7 +818,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-static-link-and-dynamic-link/">diff static link and dynamic link</a>
+      <a class="p-name article-title" href="/2021/02/16/diff-static-link-and-dynamic-link/">static link and dynamic link</a>
     </h1>
   
 
@@ -827,7 +826,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="diff-static-link-and-dynamic-link"><a href="#diff-static-link-and-dynamic-link" class="headerlink" title="diff static link and dynamic link"></a>diff static link and dynamic link</h1><h2 id="对比的角度"><a href="#对比的角度" class="headerlink" title="对比的角度"></a>对比的角度</h2><ol>
+        <h2 id="对比的角度"><a href="#对比的角度" class="headerlink" title="对比的角度"></a>对比的角度</h2><ol>
 <li>快（performance），加载过程的时间不同</li>
 <li>编译兼容性（mantainable）</li>
 <li>底层用到的工具不同：linker(.a)/loader(.so)。</li>
@@ -857,7 +856,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-static-link-and-dynamic-link/" data-id="ckl80qmny000gs7qofpw565w7" data-title="diff static link and dynamic link" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-static-link-and-dynamic-link/" data-id="ckl80qmny000gs7qofpw565w7" data-title="static link and dynamic link" class="article-share-link">分享</a>
       
       
       
@@ -933,7 +932,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

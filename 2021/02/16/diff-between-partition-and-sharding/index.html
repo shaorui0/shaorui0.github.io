@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>diff partition and sharding | Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>partition and sharding | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="partition and shardingwhy need sharding？When the amount of data starts to grow and performance starts to become a bottleneck, horizontal scaling and distributed processing is a good approach. diff par">
+  <meta name="description" content="why need sharding？When the amount of data starts to grow and performance starts to become a bottleneck, horizontal scaling and distributed processing is a good approach. diff partition and shardingpar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="diff partition and sharding">
+<meta property="og:title" content="partition and sharding">
 <meta property="og:url" content="http://example.com/2021/02/16/diff-between-partition-and-sharding/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="partition and shardingwhy need sharding？When the amount of data starts to grow and performance starts to become a bottleneck, horizontal scaling and distributed processing is a good approach. diff par">
+<meta property="og:description" content="why need sharding？When the amount of data starts to grow and performance starts to become a bottleneck, horizontal scaling and distributed processing is a good approach. diff partition and shardingpar">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-17T14:30:56.226Z">
+<meta property="article:modified_time" content="2021-02-17T14:58:07.492Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="data, DB">
 <meta name="twitter:card" content="summary">
@@ -88,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      diff partition and sharding
+      partition and sharding
     </h1>
   
 
@@ -96,13 +96,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="partition-and-sharding"><a href="#partition-and-sharding" class="headerlink" title="partition and sharding"></a>partition and sharding</h1><h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+        <h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
 <h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
 <ul>
 <li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
-<li>sharding is one <strong>specific</strong> type of partitioning, part of what is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
 </ul>
-<h4 id="what-is-sharding"><a href="#what-is-sharding" class="headerlink" title="what is sharding?"></a>what is sharding?</h4><ul>
+<h4 id="What-is-sharding"><a href="#What-is-sharding" class="headerlink" title="What is sharding?"></a>What is sharding?</h4><ul>
 <li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
 </ul>
 <h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
@@ -180,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="diff partition and sharding" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="partition and sharding" class="article-share-link">分享</a>
       
       
       
@@ -268,7 +268,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

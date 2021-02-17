@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>what is NGINX? | Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>What is NGINX? | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="what is NGINX?nginx.confexample link 1example link 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869worker_processes">
+  <meta name="description" content="nginx.confexample link 1example link 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869worker_processes  5;  ## Default">
 <meta property="og:type" content="article">
-<meta property="og:title" content="what is NGINX?">
+<meta property="og:title" content="What is NGINX?">
 <meta property="og:url" content="http://example.com/2021/02/16/what-is-nginx/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="what is NGINX?nginx.confexample link 1example link 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869worker_processes">
+<meta property="og:description" content="nginx.confexample link 1example link 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869worker_processes  5;  ## Default">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/16/what-is-nginx/nginx1.png">
 <meta property="og:image" content="http://example.com/2021/02/16/what-is-nginx/nginx2.png">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-17T14:42:01.018Z">
+<meta property="article:modified_time" content="2021-02-17T15:00:42.620Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary">
@@ -91,7 +91,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      what is NGINX?
+      What is NGINX?
     </h1>
   
 
@@ -99,7 +99,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="what-is-NGINX"><a href="#what-is-NGINX" class="headerlink" title="what is NGINX?"></a>what is NGINX?</h1><h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><p><a target="_blank" rel="noopener" href="https://www.nginx.com/resources/wiki/start/topics/examples/full/">example link 1</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">example link 2</a></p>
+        <h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><p><a target="_blank" rel="noopener" href="https://www.nginx.com/resources/wiki/start/topics/examples/full/">example link 1</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">example link 2</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><p><img src="./nginx1.png" alt="架构"></p>
@@ -147,7 +147,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/what-is-nginx/" data-id="ckl80qmsb001ps7qo6o10ddp7" data-title="what is NGINX?" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/what-is-nginx/" data-id="ckl80qmsb001ps7qo6o10ddp7" data-title="What is NGINX?" class="article-share-link">分享</a>
       
       
       
@@ -171,7 +171,7 @@
   
     <a href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">what is polymorphism?</div>
+      <div class="article-nav-title">What is polymorphism?</div>
     </a>
   
 </nav>
@@ -235,7 +235,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

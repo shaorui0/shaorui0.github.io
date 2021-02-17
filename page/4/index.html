@@ -93,7 +93,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="why-need-type-system"><a href="#why-need-type-system" class="headerlink" title="why need type system?"></a>why need type system?</h1><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
+        <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
 <ol>
 <li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
 <li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
@@ -143,7 +143,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="可变与不可变对象"><a href="#可变与不可变对象" class="headerlink" title="可变与不可变对象"></a>可变与不可变对象</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
+        <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
 <p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
 
       
@@ -177,7 +177,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/python-generator-iterator-decorator/">(python) iterator, generator and decorator</a>
+      <a class="p-name article-title" href="/2021/02/16/python-generator-iterator-decorator/">iterator, generator and decorator</a>
     </h1>
   
 
@@ -185,7 +185,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="python的三大器"><a href="#python的三大器" class="headerlink" title="python的三大器"></a>python的三大器</h1><h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="what-is"><a href="#what-is" class="headerlink" title="what is ?"></a>what is ?</h3><ol>
+        <h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="What-is"><a href="#What-is" class="headerlink" title="What is ?"></a>What is ?</h3><ol>
 <li>一种语法糖，能够使得修改函数变得容易</li>
 <li>典型的实现是通过使用闭包<br>def foo(x):<br> def bar(y):<pre><code> # do something to y
 </code></pre>
@@ -216,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="(python) iterator, generator and decorator" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="iterator, generator and decorator" class="article-share-link">分享</a>
       
       
       
@@ -244,7 +244,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/transaction-isolation/">(DB) transaction - isolation</a>
+      <a class="p-name article-title" href="/2021/02/16/transaction-isolation/">transaction - isolation</a>
     </h1>
   
 
@@ -297,7 +297,7 @@
 <h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
 <li>快照隔离。MVCC。</li>
 </ul>
-<h5 id="what-is-MVCC"><a href="#what-is-MVCC" class="headerlink" title="what is MVCC?"></a>what is MVCC?</h5><p><img src="./src/MVCC.jpg" alt="hive_procecss_detail"></p>
+<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><p><img src="./src/MVCC.jpg" alt="hive_procecss_detail"></p>
 <ol>
 <li><strong>多版本</strong>是指某个对象的某个版本</li>
 <li>一个事务一个id（txid，自增长）。</li>
@@ -357,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/transaction-isolation/" data-id="ckl81d7wj0002akqo52v67lex" data-title="(DB) transaction - isolation" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/transaction-isolation/" data-id="ckl81d7wj0002akqo52v67lex" data-title="transaction - isolation" class="article-share-link">分享</a>
       
       
       
@@ -433,7 +433,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">diff partition and sharding</a>
+            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>

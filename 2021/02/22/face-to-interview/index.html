@@ -20,20 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="LRU algorithm and LRU implementation of Redis【问】如何设计一个redis的内存淘汰机制？面试过程的遇到过这个问题。  典型的内存淘汰机制是LRU LRU的常规实现是双向链表  但问题并不只是这么简单。一个典型的面试场景是这样的：  如果一个key在里面，再次访问需要拿到前面来，那么如何拿？ 基于目前的情况，只能是遍历。   遍历是不是太慢了？ 脱口而出">
+  <meta name="description" content="https:&#x2F;&#x2F;www.1point3acres.com&#x2F;bbs&#x2F;thread-433722-1-1.html 最近准备换工作来地里潜水， 看了很多刷题经验和刷题交流， 这里我简单谈谈从我从面试官角度出发， 考察的重点与我的心理活动。 说的不一定完全正确， 大家自己对号入座。 发帖目的第一是帮助新人， 第二是求点大米去去看别人的帖子。 我就不隐藏了， 大家随便发表意见， 不要拍砖。 本人简介： 曾">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis - LRU">
-<meta property="og:url" content="http://example.com/2021/02/16/redis-lru/index.html">
+<meta property="og:title" content="转--face-to-interview">
+<meta property="og:url" content="http://example.com/2021/02/22/face-to-interview/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="LRU algorithm and LRU implementation of Redis【问】如何设计一个redis的内存淘汰机制？面试过程的遇到过这个问题。  典型的内存淘汰机制是LRU LRU的常规实现是双向链表  但问题并不只是这么简单。一个典型的面试场景是这样的：  如果一个key在里面，再次访问需要拿到前面来，那么如何拿？ 基于目前的情况，只能是遍历。   遍历是不是太慢了？ 脱口而出">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.1point3acres.com&#x2F;bbs&#x2F;thread-433722-1-1.html 最近准备换工作来地里潜水， 看了很多刷题经验和刷题交流， 这里我简单谈谈从我从面试官角度出发， 考察的重点与我的心理活动。 说的不一定完全正确， 大家自己对号入座。 发帖目的第一是帮助新人， 第二是求点大米去去看别人的帖子。 我就不隐藏了， 大家随便发表意见， 不要拍砖。 本人简介： 曾">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-22T07:43:58.390Z">
+<meta property="article:published_time" content="2021-02-22T14:21:50.000Z">
+<meta property="article:modified_time" content="2021-02-22T14:22:40.558Z">
 <meta property="article:author" content="Shao Rui">
-<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/02/16/redis-lru/">
+<link rel="canonical" href="http://example.com/2021/02/22/face-to-interview/">
 
 
 <script id="page-configurations">
@@ -46,7 +45,7 @@
   };
 </script>
 
-  <title>Redis - LRU | Surely You're Joking, Mr. Feynman!</title>
+  <title>转--face-to-interview | Surely You're Joking, Mr. Feynman!</title>
   
 
 
@@ -151,7 +150,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-lru/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/22/face-to-interview/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -164,7 +163,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Redis - LRU
+          转--face-to-interview
         </h1>
 
         <div class="post-meta">
@@ -173,16 +172,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+              <time title="创建时间：2021-02-22 22:21:50 / 修改时间：22:22:40" itemprop="dateCreated datePublished" datetime="2021-02-22T22:21:50+08:00">2021-02-22</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:43:58" itemprop="dateModified" datetime="2021-02-22T15:43:58+08:00">2021-02-22</time>
-              </span>
 
           
 
@@ -195,58 +188,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="LRU-algorithm-and-LRU-implementation-of-Redis"><a href="#LRU-algorithm-and-LRU-implementation-of-Redis" class="headerlink" title="LRU algorithm and LRU implementation of Redis"></a>LRU algorithm and LRU implementation of Redis</h1><h3 id="【问】如何设计一个redis的内存淘汰机制？"><a href="#【问】如何设计一个redis的内存淘汰机制？" class="headerlink" title="【问】如何设计一个redis的内存淘汰机制？"></a>【问】如何设计一个redis的内存淘汰机制？</h3><p>面试过程的遇到过这个问题。</p>
-<ol start="0">
-<li>典型的内存淘汰机制是LRU</li>
-<li>LRU的常规实现是双向链表</li>
-</ol>
-<p>但问题并不只是这么简单。一个典型的面试场景是这样的：</p>
+        <p><a target="_blank" rel="noopener" href="https://www.1point3acres.com/bbs/thread-433722-1-1.html">https://www.1point3acres.com/bbs/thread-433722-1-1.html</a></p>
+<p>最近准备换工作来地里潜水， 看了很多刷题经验和刷题交流， 这里我简单谈谈从我从面试官角度出发， 考察的重点与我的心理活动。 说的不一定完全正确， 大家自己对号入座。 发帖目的第一是帮助新人， 第二是求点大米去去看别人的帖子。 我就不隐藏了， 大家随便发表意见， 不要拍砖。</p>
+<p>本人简介： 曾经微软dev, 35+， 10年经验， 有FLG offer.  去年加入一个start up 公司， 最近前景不明， 在犹豫要不要去个稳定点的大公司。  我从sde开始面试其他人， 到现在估计面试过100+人次的面试和debrief。 我面过coding, problem solving, design, behavior.  本帖子只谈论纯粹coding, 视情况讨论要不要再开帖子讨论其他方面。</p>
+<p>本文涉及下面几个问题：</p>
 <ul>
-<li>如果一个key在里面，再次访问需要拿到前面来，那么如何拿？<ul>
-<li>基于目前的情况，只能是<strong>遍历</strong>。</li>
+<li>1） 我刷过这个题目， 还要不要伪装</li>
+<li>2） 我觉得这题很简单， 但是不知道为什么就挂了</li>
+<li>3） 我觉得面试官不是很友好， 没提示</li>
+<li>4） 我一定要bug free才能被录取吗</li>
+<li>5） leet code的hard问题真的会被问到吗？ 考起来有什么意义？</li>
 </ul>
+<p>我们从一个非常经典的， 大家可能都刷过的题目开始。 序列化／反序列化 二叉树。先说个背景， 能面到我这里的， 基本需要面试者有3-5年的面试经验。 做为应聘任何微软或者flg的高级dev (63 and above, T4/E4 and above), 面试官其实都是假设你刷过不少题目的。 我假设你刷过这个题目， 所以我并不关心你写的到底有多快，写的是不是完全bug free， 我更关心的是你做事的方式和沟通问题的能力。 具体请看下面。  </p>
+<ol>
+<li><p>提出问题， 请序列化／反序列化二叉树。<br>什么？ 面试者不知道什么是序列化， 反序列化？ 那我就问个多线程爬虫， timing LRU 一类的。 如果多线程, 锁也不会， 那说明这个面试者的项目经验很不足。 为了和其他有经验的人相match, 往往我会给一个很open的问题， 或者一个很难的hard coding (取决于他已经被考察了哪个方面). 我个人觉得很少有面试官上来会考你 very hard coding question, 只是当某个面试者与其他面试人比显得相当缺少项目经验， 那他除非能在聪明敏捷或者下苦功方面有突出表现， 否则很难击败其他候选人。</p>
 </li>
-<li>遍历是不是太慢了？<ul>
-<li>脱口而出 排序 + 二分</li>
-</ul>
-</li>
-<li>那么排序后，『优先级』的信息是不是丢失了？<ul>
-<li>排序肯定是错误的。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
-<li>想到维护一个树的话，查找速度从 n =&gt; logn，这是一个进步。</li>
-</ul>
-</li>
-<li>什么样的树呢？<ul>
-<li>为了保证树不会退化到链表，需要维护<strong>平衡</strong>，这里想到了<strong>红黑树</strong></li>
-</ul>
-</li>
-<li>那么一开始为什么不使用红黑树而要使用双向链表？<ul>
-<li>其实是两个数据结构联合实现的<ul>
-<li>【index 解决 search 的问题】查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
-<li>【双向链表解决 write 的问题】维护优先级的问题通过双向链表解决</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>解决方案：</p>
-<ul>
-<li>(key, addr) 在 hash table 中，</li>
-<li>(key, value) 在 two-way chain table 中。</li>
-</ul>
-<p>TODO 实现</p>
-<h3 id="真正到工业级的redis的实现，又和严格LRU的有一些出入"><a href="#真正到工业级的redis的实现，又和严格LRU的有一些出入" class="headerlink" title="真正到工业级的redis的实现，又和严格LRU的有一些出入"></a>真正到工业级的redis的实现，又和严格LRU的有一些出入</h3><ol>
-<li><p>维护严格的LRU比较耗费空间（大量的前后指针）。</p>
-<ul>
-<li>能想到怎么优化吗？将n减少到常数级别，只对少量的kv进行维护。</li>
-<li>这里涉及到一个『采样』的问题。有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？<code>maxmemory-samples 5 </code></li>
-</ul>
-</li>
-<li><p>redis提供了多种驱逐策略，应该怎么选用？</p>
-<p> 业务中的使用场景有关</p>
+<li><p>交流阶段<br>如果面试者马上开始写程序， 或者马上给出他的想法， 我会觉得面试者太过于着急了。 在实际项目中， 你很熟悉的地方可能成为项目中的滑铁卢， 因为你熟悉的地方可能有变化， 可能有个big change你不知道， 可能很快你熟悉的api就不工作了。 你总是要有很好的沟通能力， 确保大家知道你在做什么， 及早的发现你的错误。 在code review甚至是test 阶段被人发现问题对项目来说就是个灾难。</p>
 </li>
 </ol>
-<p>TODO 更深入的接触到redis后，进行进一步的了解。</p>
-<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">LRU cache</a><br><a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-lru-implementation-of-redis.html">如何实现一个kv形式的严格LRU策略</a></p>
+<p>我期望面试者能够在这个阶段提出一些问题， 例如，有什么限制条件吗？ 二叉树的value是什么类型？ 这个api谁来使用， 内部的还是public的？ 这个api更注重speed还是space?  我需要多线程吗？ 如果面试者没问任何问题马上开始照着leetcode的signature开始coding, 甚至class 名字也叫solution(很多人）， 我会觉得面试者做事的方式不够成熟。 可能以后工作中会很毛躁， 需要人来指导。</p>
+<ol start="3">
+<li>无论你提出的建议是什么， 例如你说你觉得speed更重要， 我可能会说我更期待space. 这样做是避免陷入你最熟悉的套路。  假设我说， 我更需要序列化之后的空间占用最小。 这时候一般的候选人不会刷到这么深， 开始思考。<br>如果候选人根本没有办法优化空间， 那我会认为他give up too early.  我希望候选人能安静的思考， 提出几种方案， 哪怕方案不成立。<br>如果候选人提出过多的方案， 没有问help, 这些方案也不工作， 我就认为候选人沟通有问题， 无法把握好度。</li>
+</ol>
+<p>举个leetcode的例子来说明问题的深入， leetcode的序列化格式中， ‘,’是必要的吗？ ‘[’是必要的吗？ 有没有办法用byte直接序列化？ byte还能变长吗？ base64是什么？ zip会有帮助吗？</p>
+<ol start="4">
+<li><p>候选人选定方案后， 我希望他能和我沟通， 看看是不是在有限时间内能够写完。 项目中， 很多时候谁都知道什么design是正确的， 什么是bad smell, 最聪明的人不是能做出最好design的， 而是在有限时间内能给出大家都能接受的solution的人。  如果空间优化非常好， 但是代码将超级复杂， 无法写完， 那么面试者应该及时和我交流。 我也会偶尔提醒一下这样能不能在40分钟内写完。 如果面试者坚持， 我不会坚持， 我会看他是不是能写完。 这就是either strong hire or fail.</p>
+</li>
+<li><p>候选人可能这时候说太复杂了， 我们简化一下， 简化到他熟悉的， 刷过的coding.</p>
+</li>
+<li><p>coding 开始<br>到这一步， 如果你做了2，3，4，5中的大部分， 并且code看起来似乎是work的， 没有什么致命的问题，我不会纠结于比如正负数， nullpointer, int.min, coding是不是整洁一类的无聊问题。  一般就开始7. 如果你2，3，4，5都skip, 那么一般我就希望你bug free, 否则你没办法和其他候选者做比较。往往bug free又要求你code组织很好， 否则谁都很难一眼看出你有没有问题。</p>
+</li>
+<li><p>follow up<br>还有什么能改进的吗？ 这是考察面试者的知识面， 也看你是不是耐心。 很多时候， 很多面试者做出题目高兴的得意忘形， 到这里就开始语无伦次的乱说， 这不会影响到是不是hire， 但是可能会影响是不是strong hire, 也可能影响到你的level.</p>
+</li>
+</ol>
+<p>举例子： 我觉得还需要写点java doc啊，unit test, regression test, performance tuning, benchmarking, A/B testing, 等等。</p>
+<p>总结： 如果你能想到1-7中的所有点， 谁会在乎你是不是刷过这个题目？ 即使你刷过这个题目， 我也十分确定你刷的比别人好很多， 你就是我心中想要的那个同事。 反之， 如果你只做到了6#， 但是别人做了1，2，3，4，5，6，7， 那你又怎么能面试成功呢？</p>
+<p>有感而发， 组织的不是很严密， 大家去粗取精， 也说说你们的想法。</p>
 
     </div>
 
@@ -255,9 +232,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/redis/" rel="tag"># redis</a>
-          </div>
 
         
 
@@ -265,13 +239,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/16/redis-data-structure-in-action/" rel="prev" title="Redis - data structure">
-      <i class="fa fa-chevron-left"></i> Redis - data structure
+    <a href="/2021/02/22/consistent-cache-RDBMS/" rel="prev" title="consistent-cache-RDBMS">
+      <i class="fa fa-chevron-left"></i> consistent-cache-RDBMS
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/02/16/python-memory-management/" rel="next" title="memory management">
-      memory management <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -330,7 +301,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LRU-algorithm-and-LRU-implementation-of-Redis"><span class="nav-number">1.</span> <span class="nav-text">LRU algorithm and LRU implementation of Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%90%E9%97%AE%E3%80%91%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AAredis%E7%9A%84%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">【问】如何设计一个redis的内存淘汰机制？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E5%88%B0%E5%B7%A5%E4%B8%9A%E7%BA%A7%E7%9A%84redis%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%8C%E5%8F%88%E5%92%8C%E4%B8%A5%E6%A0%BCLRU%E7%9A%84%E6%9C%89%E4%B8%80%E4%BA%9B%E5%87%BA%E5%85%A5"><span class="nav-number">1.0.2.</span> <span class="nav-text">真正到工业级的redis的实现，又和严格LRU的有一些出入</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

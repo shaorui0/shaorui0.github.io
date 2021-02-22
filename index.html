@@ -145,6 +145,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/22/face-to-interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/22/face-to-interview/" class="post-title-link" itemprop="url">转--face-to-interview</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-22 22:21:50 / 修改时间：22:22:40" itemprop="dateCreated datePublished" datetime="2021-02-22T22:21:50+08:00">2021-02-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a target="_blank" rel="noopener" href="https://www.1point3acres.com/bbs/thread-433722-1-1.html">https://www.1point3acres.com/bbs/thread-433722-1-1.html</a></p>
+<p>最近准备换工作来地里潜水， 看了很多刷题经验和刷题交流， 这里我简单谈谈从我从面试官角度出发， 考察的重点与我的心理活动。 说的不一定完全正确， 大家自己对号入座。 发帖目的第一是帮助新人， 第二是求点大米去去看别人的帖子。 我就不隐藏了， 大家随便发表意见， 不要拍砖。</p>
+<p>本人简介： 曾经微软dev, 35+， 10年经验， 有FLG offer.  去年加入一个start up 公司， 最近前景不明， 在犹豫要不要去个稳定点的大公司。  我从sde开始面试其他人， 到现在估计面试过100+人次的面试和debrief。 我面过coding, problem solving, design, behavior.  本帖子只谈论纯粹coding, 视情况讨论要不要再开帖子讨论其他方面。</p>
+<p>本文涉及下面几个问题：</p>
+<ul>
+<li>1） 我刷过这个题目， 还要不要伪装</li>
+<li>2） 我觉得这题很简单， 但是不知道为什么就挂了</li>
+<li>3） 我觉得面试官不是很友好， 没提示</li>
+<li>4） 我一定要bug free才能被录取吗</li>
+<li>5） leet code的hard问题真的会被问到吗？ 考起来有什么意义？</li>
+</ul>
+<p>我们从一个非常经典的， 大家可能都刷过的题目开始。 序列化／反序列化 二叉树。先说个背景， 能面到我这里的， 基本需要面试者有3-5年的面试经验。 做为应聘任何微软或者flg的高级dev (63 and above, T4/E4 and above), 面试官其实都是假设你刷过不少题目的。 我假设你刷过这个题目， 所以我并不关心你写的到底有多快，写的是不是完全bug free， 我更关心的是你做事的方式和沟通问题的能力。 具体请看下面。  </p>
+<ol>
+<li><p>提出问题， 请序列化／反序列化二叉树。<br>什么？ 面试者不知道什么是序列化， 反序列化？ 那我就问个多线程爬虫， timing LRU 一类的。 如果多线程, 锁也不会， 那说明这个面试者的项目经验很不足。 为了和其他有经验的人相match, 往往我会给一个很open的问题， 或者一个很难的hard coding (取决于他已经被考察了哪个方面). 我个人觉得很少有面试官上来会考你 very hard coding question, 只是当某个面试者与其他面试人比显得相当缺少项目经验， 那他除非能在聪明敏捷或者下苦功方面有突出表现， 否则很难击败其他候选人。</p>
+</li>
+<li><p>交流阶段<br>如果面试者马上开始写程序， 或者马上给出他的想法， 我会觉得面试者太过于着急了。 在实际项目中， 你很熟悉的地方可能成为项目中的滑铁卢， 因为你熟悉的地方可能有变化， 可能有个big change你不知道， 可能很快你熟悉的api就不工作了。 你总是要有很好的沟通能力， 确保大家知道你在做什么， 及早的发现你的错误。 在code review甚至是test 阶段被人发现问题对项目来说就是个灾难。</p>
+</li>
+</ol>
+<p>我期望面试者能够在这个阶段提出一些问题， 例如，有什么限制条件吗？ 二叉树的value是什么类型？ 这个api谁来使用， 内部的还是public的？ 这个api更注重speed还是space?  我需要多线程吗？ 如果面试者没问任何问题马上开始照着leetcode的signature开始coding, 甚至class 名字也叫solution(很多人）， 我会觉得面试者做事的方式不够成熟。 可能以后工作中会很毛躁， 需要人来指导。</p>
+<ol start="3">
+<li>无论你提出的建议是什么， 例如你说你觉得speed更重要， 我可能会说我更期待space. 这样做是避免陷入你最熟悉的套路。  假设我说， 我更需要序列化之后的空间占用最小。 这时候一般的候选人不会刷到这么深， 开始思考。<br>如果候选人根本没有办法优化空间， 那我会认为他give up too early.  我希望候选人能安静的思考， 提出几种方案， 哪怕方案不成立。<br>如果候选人提出过多的方案， 没有问help, 这些方案也不工作， 我就认为候选人沟通有问题， 无法把握好度。</li>
+</ol>
+<p>举个leetcode的例子来说明问题的深入， leetcode的序列化格式中， ‘,’是必要的吗？ ‘[’是必要的吗？ 有没有办法用byte直接序列化？ byte还能变长吗？ base64是什么？ zip会有帮助吗？</p>
+<ol start="4">
+<li><p>候选人选定方案后， 我希望他能和我沟通， 看看是不是在有限时间内能够写完。 项目中， 很多时候谁都知道什么design是正确的， 什么是bad smell, 最聪明的人不是能做出最好design的， 而是在有限时间内能给出大家都能接受的solution的人。  如果空间优化非常好， 但是代码将超级复杂， 无法写完， 那么面试者应该及时和我交流。 我也会偶尔提醒一下这样能不能在40分钟内写完。 如果面试者坚持， 我不会坚持， 我会看他是不是能写完。 这就是either strong hire or fail.</p>
+</li>
+<li><p>候选人可能这时候说太复杂了， 我们简化一下， 简化到他熟悉的， 刷过的coding.</p>
+</li>
+<li><p>coding 开始<br>到这一步， 如果你做了2，3，4，5中的大部分， 并且code看起来似乎是work的， 没有什么致命的问题，我不会纠结于比如正负数， nullpointer, int.min, coding是不是整洁一类的无聊问题。  一般就开始7. 如果你2，3，4，5都skip, 那么一般我就希望你bug free, 否则你没办法和其他候选者做比较。往往bug free又要求你code组织很好， 否则谁都很难一眼看出你有没有问题。</p>
+</li>
+<li><p>follow up<br>还有什么能改进的吗？ 这是考察面试者的知识面， 也看你是不是耐心。 很多时候， 很多面试者做出题目高兴的得意忘形， 到这里就开始语无伦次的乱说， 这不会影响到是不是hire， 但是可能会影响是不是strong hire, 也可能影响到你的level.</p>
+</li>
+</ol>
+<p>举例子： 我觉得还需要写点java doc啊，unit test, regression test, performance tuning, benchmarking, A/B testing, 等等。</p>
+<p>总结： 如果你能想到1-7中的所有点， 谁会在乎你是不是刷过这个题目？ 即使你刷过这个题目， 我也十分确定你刷的比别人好很多， 你就是我心中想要的那个同事。 反之， 如果你只做到了6#， 但是别人做了1，2，3，4，5，6，7， 那你又怎么能面试成功呢？</p>
+<p>有感而发， 组织的不是很严密， 大家去粗取精， 也说说你们的想法。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/22/consistent-cache-RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -791,7 +885,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/coroutine/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-dns/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -805,7 +899,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/coroutine/" class="post-title-link" itemprop="url">Coroutine</a>
+            <a href="/2021/02/16/what-is-dns/" class="post-title-link" itemprop="url">What is DNS</a>
         </h2>
 
         <div class="post-meta">
@@ -822,7 +916,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 22:58:00" itemprop="dateModified" datetime="2021-02-17T22:58:00+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-22 15:44:24" itemprop="dateModified" datetime="2021-02-22T15:44:24+08:00">2021-02-22</time>
               </span>
 
           
@@ -836,74 +930,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
-<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
-<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
-<h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
-<p>Concurrency is the separation of tasks to provide interleaved execution. Parallelism is the simultaneous execution of multiple pieces of work in order to increase speed. —<a target="_blank" rel="noopener" href="https://github.com/servo/servo/wiki/Design">https://github.com/servo/servo/wiki/Design</a></p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/307100151/answer/894486042">如何理解：程序、进程、线程、并发、并行、高并发？ - 大宽宽的回答 - 知乎</a></p>
-<ul>
-<li>Concurrency is not Parallelism</li>
-<li>Concurrency enables parallelism &amp; makes parallelism (and scaling and everything else) easy</li>
-</ul>
-<h3 id="more-light"><a href="#more-light" class="headerlink" title="more light?"></a>more light?</h3><blockquote>
-<p>First of all if coroutines run concurrently (never in parallel), why would anyone prefer them over threads? The answer is that coroutines can provide a very high level of concurrency with very little overhead. Generally in a threaded environment you have at most 30-50 threads before the amount of overhead wasted actually scheduling these threads (by the system scheduler) significantly cuts into the amount of time the threads actually do useful work.</p>
-</blockquote>
-<p>在并发的问题上，由于线程的使用开销（创建开销（x KB - y MB）、调度开销（线程上下文））比较大，通常用户态的协程（开销与函数(subroutine)调用接近）就能解决问题。协程轻而易举的就能创建成千上万个。</p>
-<h3 id="compare-with-THREAD"><a href="#compare-with-THREAD" class="headerlink" title="compare with THREAD"></a>compare with THREAD</h3><blockquote>
-<p>Threads and coroutines are almost orthogonal features. Coroutines are about your programming model and threads are about your execution model.</p>
-</blockquote>
-<p>协程与线程的区别有点像<strong>并发与并行的区别</strong>一样，不是一个维度的。多线程最终的目的（在现代操作系统、cpu多核的环境下）还是想并行执行提高效率。但是协程，完全是为了处理<strong>并发</strong>。一个是programming model，一个是execution model。</p>
-<blockquote>
-<p> With threads, the operating system switches running threads preemptively according to its scheduler, which is an algorithm in the operating system kernel. With coroutines, the programmer and programming language determine when to switch coroutines; in other words, tasks are cooperatively multitasked by pausing and resuming functions at set points, typically (but not necessarily) within a single thread.</p>
-</blockquote>
-<p>实际上许多线程的实现更像协程。</p>
-<h5 id="线程："><a href="#线程：" class="headerlink" title="线程："></a>线程：</h5><ul>
-<li>抢占式的</li>
-<li>内核调度</li>
-<li>上下文转换expensive</li>
-</ul>
-<h5 id="协程："><a href="#协程：" class="headerlink" title="协程："></a>协程：</h5><ul>
-<li><strong>协作</strong>式的，<strong>完全由程序员指定</strong>（也因为这一点，带来的巨大好处就是<strong>基本不会在share resouce上出问题</strong>，也就是不会出现<strong>race condition</strong>。你不可能自己设计一个有缺陷的并发代码结构吧 :)）<blockquote>
-<p>Because your routines now switch between each other a pre-determined points you can now also avoid locking on shared data structures (because you would never tell your code to switch to another coroutine in the middle of a critical section)</p>
-</blockquote>
+          <h2 id="DNS属于哪一层？"><a href="#DNS属于哪一层？" class="headerlink" title="DNS属于哪一层？"></a>DNS属于哪一层？</h2><p>应用层，但这个问题的本质是 TCP/IP 协议栈的四层的功能分别是什么？</p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
+<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC</p>
+<h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
+<h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/dns-works-on-tcp-and-udp">REF: dns-works-on-tcp-and-udp</a></p>
 </li>
-<li>编程框架（程序员）调度</li>
-<li>基本没有上下文转换，开销和函数调度差不多</li>
-</ul>
-<h3 id="compare-with-subroutine"><a href="#compare-with-subroutine" class="headerlink" title="compare with subroutine"></a>compare with subroutine</h3><blockquote>
-<p>Coroutines are a more generalized form of subroutines. Subroutines are entered at one point and exited at another point. Coroutines can be entered, exited, and resumed at many different points. They can be implemented with the async def statement.</p>
-</blockquote>
-<p>回想函数/子程序调用，在线程栈里面会保留<code>return address</code>然后进行跳转执行。抽象出来，我们说子程序有一个entry pointer(and exit pointer)。协程在这方面则有多个re-entry pointer，是可以持续进入的（线性的）。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Yield &#x27;remembers&#x27; where the co-routine is so when it is called again it will continue where it left off.</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 2 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Note: Coroutines may use a return, and behave just like a subroutine</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>; //Dead code</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 1 1</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="why-co-routines-are-receiving-a-lot-of-attention-recently"><a href="#why-co-routines-are-receiving-a-lot-of-attention-recently" class="headerlink" title="why co-routines are receiving a lot of attention recently?"></a>why co-routines are receiving a lot of attention recently?</h4><blockquote>
-<p>And finally, co-routines are receiving a lot of attention because in some programming languages (such as Python) your threads cannot run in parallel anyway - they run concurrently just like coroutines, but without the low memory and free scheduling overhead.</p>
-</blockquote>
-<p>关于python不能用线程：<a href="">TODO 臭名昭著的GIL</a></p>
-<h2 id="when"><a href="#when" class="headerlink" title="when"></a>when</h2><p>典型的场景就是网络延迟等待了，cpu不愿意等的地方，协程当然也不愿意等。</p>
-<blockquote>
-<p>从 CPU 的角度，协程其实更符合直觉。一个处理器核心本来就<strong>没法同时处理两件事情</strong>，要同时进行多件事情本来就需要正在运行的<strong>让出处理器</strong>，然后才能去处理另一件事情。只不过这个让出的过程是线程调度器<strong>主动抢占</strong>的。所以线程调度器是假定不同的线程是毫无关系的，所以它平均的分配时间片让处理器雨露均沾。<br>但是很快人们发现这不是事情的全部，很多时候两个线程不是完全独立的，他们会操作同一个资源。这个时候人们又发明了同步锁，使得一段时间内只有一个线程可以操作这个资源，其他线程只能等待。<br>然后我们很快发现，这特么不是<strong>脱了裤子放屁</strong>么？处理器本来同一时间就只能有一个线程在运行。是线程调度器抢断划分时间片给其他线程跑，现在其他线程又说特么我要等前面那个线程用完了这个资源才能运行。<br>也就是说，<strong>在所有线程相互独立且不会阻塞的模式下，抢断式的线程调度器是不错的选择</strong>。因为它可以保证所有的线程都可以被分到时间片不被程序员的垃圾代码所累。这对于某些事情来说是至关重要的，例如计时器、回调、IO触发器（譬如说处理请求）什么的。<br>但是在<strong>线程不是相互独立，经常因为争抢而阻塞的情况下，抢断式的线程调度器</strong>就显得脱了裤子放屁了，既然你们只能一个个的跑，那抢断还有什么意义？让你们<strong>自己去让出时间片</strong>就好了。再往后，大家发现经常有阻塞的情况下，主动让出时间片的协程模式比抢占式分配的效率要好，也简单得多。</p>
-</blockquote>
-<p>结论：</p>
-<ul>
-<li>任务之间相互独立时，使用抢占式的线程更好，这样同时保证不会有某个线程过多持有CPU</li>
-<li>任务之间有依赖，经常<strong>因为争抢而阻塞</strong>的情况下，使用协程更好。本身就规定了一个一个跑（锁），那还不如用户主动出让CPU。</li>
-</ul>
-<h2 id="how"><a href="#how" class="headerlink" title="how?"></a>how?</h2><h5 id="协程写生产者消费者"><a href="#协程写生产者消费者" class="headerlink" title="协程写生产者消费者"></a>协程写生产者消费者</h5><p>可以看到，下面的代码，<strong>解耦了生产者和消费者</strong>，逻辑过程完全是<strong>主动让出</strong>的。<br>线程实现P/C问题，如果想解耦，需要有一个<strong>阻塞队列</strong>，由底层的条件变量对临界区进行空和满状态的控制（condition.wait/condition.signal）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line"></span><br><span class="line">def consumer():</span><br><span class="line">    r &#x3D; &#39;&#39;</span><br><span class="line">    while True:</span><br><span class="line">        n &#x3D; yield r# 进行第二次迭代才重新回来</span><br><span class="line">        if not n:</span><br><span class="line">            return</span><br><span class="line">        print(&#39;[CONSUMER] Consuming %s...&#39; % n)</span><br><span class="line">        time.sleep(1)</span><br><span class="line">        r &#x3D; &#39;200 OK&#39;</span><br><span class="line"></span><br><span class="line">def produce(c):</span><br><span class="line">    c.next()</span><br><span class="line">    n &#x3D; 0</span><br><span class="line">    while n &lt; 5:</span><br><span class="line">        n &#x3D; n + 1</span><br><span class="line">        print(&#39;[PRODUCER] Producing %s...&#39; % n)</span><br><span class="line">        r &#x3D; c.send(n) # 这里的send也是根据yield来的</span><br><span class="line">        print(&#39;[PRODUCER] Consumer return: %s&#39; % r) # 这里只是一个返回结果</span><br><span class="line">    c.close()</span><br><span class="line"></span><br><span class="line">if __name__&#x3D;&#x3D;&#39;__main__&#39;:</span><br><span class="line">    c &#x3D; consumer()</span><br><span class="line">    produce(c)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h2><p>这个概念很早就出现了，那么它没有解决什么问题？</p>
-<ol>
-<li>它只是让并发实现更简单了，但是基本的设计（何时采用并发，如何保证不出bug？）还是需要用户去思考和设计。</li>
-<li><strong>并行</strong>这个维度上仍然需要配合进程来调度。</li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>stackoverflow: What is coroutine?</li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/50185085/answer/1342613525">出于什么样的原因，诞生了「协程」这一概念？</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/389262477/answer/1566255353">为什么编程语言对异步编程都是很晚近才开始支持的？</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://serverfault.com/questions/404840/when-do-dns-queries-use-tcp-instead-of-udp">REF: when-do-dns-queries-use-tcp-instead-of-udp</a></p>
+</li>
 </ul>
 
       
@@ -971,80 +1009,6 @@
       
           <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
 <p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
-<ol>
-<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
-<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
-</ol>
-<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
-<ul>
-<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
-<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
-</ul>
 
       
     </div>
@@ -1400,7 +1364,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

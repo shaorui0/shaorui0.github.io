@@ -341,7 +341,7 @@
 <h1 id="relationship-between-hive-and-hadoop-mapreduce"><a href="#relationship-between-hive-and-hadoop-mapreduce" class="headerlink" title="relationship-between-hive-and-hadoop-mapreduce"></a>relationship-between-hive-and-hadoop-mapreduce</h1><p><strong>Map Reduce</strong> is the framework used to process the data which is stored in the HDFS, here java native language is used to writing Map Reduce programs.<br>Hive is a <strong>batch processing framework</strong>. This component process the data using a language called Hive Query Language(HQL). Hive prevents writing MapReduce programs in Java. Instead one can use SQL like language to do their daily tasks.<br>For HIVE there is <strong>no process to communicate Map/Reduce tasks directly</strong>. </p>
 <p>After the Hive finishes the <strong>query execution</strong>, the result is submitted to the <strong>JobTracker</strong>, which resides on YARN. The JobTracker consists of Map/Reduce tasks which runs the mapper and reducer job to store the final result in the <strong>HDFS</strong>. The Map task deserializes(reading) the data from the HDFS and the Reduce task serializes(writing) the data as the result of the Hive query.</p>
 <p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png" alt="hive_procecss_detail"></p>
-
+<img src="/2021/02/16/what-is-map-reduce/hive_procecss_detail.png" class title="hive_procecss_detail">
       
     </div>
     <footer class="article-footer">

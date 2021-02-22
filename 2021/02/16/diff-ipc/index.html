@@ -6,16 +6,16 @@
   
   <title>IPC - Intro | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="IPCref docscomparing-unix-linux-ipc &gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchm">
+  <meta name="description" content="&gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchmark and Message Boundary:   Pipe I&#x2F;O">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IPC - Intro">
 <meta property="og:url" content="http://example.com/2021/02/16/diff-ipc/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="IPCref docscomparing-unix-linux-ipc &gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchm">
+<meta property="og:description" content="&gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchmark and Message Boundary:   Pipe I&#x2F;O">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/16/diff-ipc/fifo.png">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-22T07:16:28.064Z">
+<meta property="article:modified_time" content="2021-02-22T07:39:30.516Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
@@ -98,8 +98,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h1><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
-<h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
+        <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
 <ol>
 <li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
 <li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
@@ -159,6 +158,7 @@
 <li><p>shared memory</p>
 </li>
 </ul>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
 
       
     </div>

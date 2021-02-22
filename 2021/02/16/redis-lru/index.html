@@ -6,15 +6,15 @@
   
   <title>Redis - LRU | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="LRU algorithm and LRU implementation of Redis【问】如何设计一个redis的内存淘汰机制？面试过程的遇到过这个问题。  典型的内存淘汰机制是LRU LRU的常规实现是双向链表  但问题并不只是这么简单，但是面试提出如何树的概念，这个逻辑是这样形成的。一个典型的面试场景是这样的：  如果一个key在里面，再次访问需要拿到前面来，那么如何拿？ 基于目前的情况">
+  <meta name="description" content="LRU algorithm and LRU implementation of Redis【问】如何设计一个redis的内存淘汰机制？面试过程的遇到过这个问题。  典型的内存淘汰机制是LRU LRU的常规实现是双向链表  但问题并不只是这么简单。一个典型的面试场景是这样的：  如果一个key在里面，再次访问需要拿到前面来，那么如何拿？ 基于目前的情况，只能是遍历。   遍历是不是太慢了？ 脱口而出">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis - LRU">
 <meta property="og:url" content="http://example.com/2021/02/16/redis-lru/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="LRU algorithm and LRU implementation of Redis【问】如何设计一个redis的内存淘汰机制？面试过程的遇到过这个问题。  典型的内存淘汰机制是LRU LRU的常规实现是双向链表  但问题并不只是这么简单，但是面试提出如何树的概念，这个逻辑是这样形成的。一个典型的面试场景是这样的：  如果一个key在里面，再次访问需要拿到前面来，那么如何拿？ 基于目前的情况">
+<meta property="og:description" content="LRU algorithm and LRU implementation of Redis【问】如何设计一个redis的内存淘汰机制？面试过程的遇到过这个问题。  典型的内存淘汰机制是LRU LRU的常规实现是双向链表  但问题并不只是这么简单。一个典型的面试场景是这样的：  如果一个key在里面，再次访问需要拿到前面来，那么如何拿？ 基于目前的情况，只能是遍历。   遍历是不是太慢了？ 脱口而出">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-17T14:36:49.508Z">
+<meta property="article:modified_time" content="2021-02-22T07:43:58.390Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
@@ -101,19 +101,19 @@
 <li>典型的内存淘汰机制是LRU</li>
 <li>LRU的常规实现是双向链表</li>
 </ol>
-<p>但问题并不只是这么简单，但是面试提出如何树的概念，这个逻辑是这样形成的。一个典型的面试场景是这样的：</p>
-<ol start="2">
+<p>但问题并不只是这么简单。一个典型的面试场景是这样的：</p>
+<ul>
 <li>如果一个key在里面，再次访问需要拿到前面来，那么如何拿？<ul>
 <li>基于目前的情况，只能是<strong>遍历</strong>。</li>
 </ul>
 </li>
 <li>遍历是不是太慢了？<ul>
-<li>脱口而出排序 + 二分</li>
+<li>脱口而出 排序 + 二分</li>
 </ul>
 </li>
 <li>那么排序后，『优先级』的信息是不是丢失了？<ul>
-<li>排序肯定是错误的了。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
-<li>想到维护一个树的话，查找速度从n =&gt; logn，这是一个进步。</li>
+<li>排序肯定是错误的。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
+<li>想到维护一个树的话，查找速度从 n =&gt; logn，这是一个进步。</li>
 </ul>
 </li>
 <li>什么样的树呢？<ul>
@@ -121,28 +121,33 @@
 </ul>
 </li>
 <li>那么一开始为什么不使用红黑树而要使用双向链表？<ul>
-<li>这个问题没有回答好，看了资料以后，发现是需要这个两个数据结构联合实现的<ul>
-<li>查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
-<li>维护优先级的问题通过双向链表解决<br>典型的解决方案就出来了，key-addr在hash table中，(key, value)在two-way chain table中</li>
+<li>其实是两个数据结构联合实现的<ul>
+<li>【index 解决 search 的问题】查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
+<li>【双向链表解决 write 的问题】维护优先级的问题通过双向链表解决</li>
 </ul>
 </li>
 </ul>
 </li>
-</ol>
+</ul>
+<p>解决方案：</p>
+<ul>
+<li>(key, addr) 在 hash table 中，</li>
+<li>(key, value) 在 two-way chain table 中。</li>
+</ul>
 <p>TODO 实现</p>
 <h3 id="真正到工业级的redis的实现，又和严格LRU的有一些出入"><a href="#真正到工业级的redis的实现，又和严格LRU的有一些出入" class="headerlink" title="真正到工业级的redis的实现，又和严格LRU的有一些出入"></a>真正到工业级的redis的实现，又和严格LRU的有一些出入</h3><ol>
 <li><p>维护严格的LRU比较耗费空间（大量的前后指针）。</p>
 <ul>
-<li>能想到怎么优化吗？典型的就是将n减少到常数级别，只对少量的kv进行维护。</li>
-<li>这里涉及到一个『采样』的问题，有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？<code>maxmemory-samples 5 </code></li>
+<li>能想到怎么优化吗？将n减少到常数级别，只对少量的kv进行维护。</li>
+<li>这里涉及到一个『采样』的问题。有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？<code>maxmemory-samples 5 </code></li>
 </ul>
 </li>
 <li><p>redis提供了多种驱逐策略，应该怎么选用？</p>
-<p> 和业务中redis的使用场景有关，可能一般的都是作为缓存，基本都隔离了『配置』这块。</p>
+<p> 业务中的使用场景有关</p>
 </li>
 </ol>
 <p>TODO 更深入的接触到redis后，进行进一步的了解。</p>
-<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">官方, LRU cache</a><br><a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-lru-implementation-of-redis.html">如何实现一个kv形式的严格LRU策略</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">LRU cache</a><br><a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-lru-implementation-of-redis.html">如何实现一个kv形式的严格LRU策略</a></p>
 
       
     </div>

@@ -262,7 +262,8 @@
 </ul>
 <h2 id="各个隔离级别解决了什么问题？"><a href="#各个隔离级别解决了什么问题？" class="headerlink" title="各个隔离级别解决了什么问题？"></a>各个隔离级别解决了什么问题？</h2><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>读 x 1, 写 x 1（关键字：部分对象）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">init x&#x3D;0, y&#x3D;0</span><br><span class="line"></span><br><span class="line">update x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1, y&#x3D;0 (不一致)</span><br><span class="line">update y &#x3D; 2</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">final: x &#x3D; 1, y &#x3D; 2</span><br></pre></td></tr></table></figure>
-<p><img src="./src/%E8%84%8F%E8%AF%BB.jpg" alt="hive_procecss_detail"></p>
+<img src="/2021/02/16/transaction-isolation/%E8%84%8F%E8%AF%BB.jpg" class title="脏读">
+
 <ul>
 <li>用户2可能看到<strong>部分</strong>用户1修改的数据，可能在<strong>一致性</strong>上不合法。比如用户看到新的未读电子邮件（对象1），但看不到更新的计数器（对象2）。</li>
 <li>用户2如果事务中止需要<strong>回滚</strong>，用户1可能读到回滚前的数据。</li>
@@ -274,20 +275,25 @@
 <h4 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h4><h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p><del>两个对同一个对象的写，后提交的数据覆盖了前面提交的数据</del></p>
 <p>这里还和之前理解的不太一样。脏写真正的含义是，两个用户写入多个对象</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">update x &#x3D; 1</span><br><span class="line">                update x &#x3D; 2</span><br><span class="line">                update y &#x3D; 2</span><br><span class="line">update y &#x3D; 1</span><br><span class="line">final: x &#x3D; 2, y &#x3D; 1</span><br></pre></td></tr></table></figure>
-<p><img src="./src/%E8%84%8F%E5%86%99.jpg" alt="hive_procecss_detail"></p>
+<img src="/2021/02/16/transaction-isolation/%E8%84%8F%E5%86%99.jpg" class title="脏写">
+
 <h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
 <li>行锁</li>
 </ul>
 <h5 id="没有解决什么？（丢失更新）"><a href="#没有解决什么？（丢失更新）" class="headerlink" title="没有解决什么？（丢失更新）"></a>没有解决什么？（丢失更新）</h5><p>典型的计数器递增，主要的错误是<strong>读</strong>的过程出了问题。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1</span><br><span class="line">update x +&#x3D; 1(2)</span><br><span class="line">                update x +&#x3D; 1(2)</span><br><span class="line">final: x &#x3D; 2</span><br></pre></td></tr></table></figure>
-<p><img src="./src/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" alt="hive_procecss_detail"></p>
+<img src="/2021/02/16/transaction-isolation/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" class title="丢失更新">
+
+
+
 <p>以上的隔离级别基本解决了一些常见的麻烦。</p>
 <ul>
 <li>读取不完整的事务结果</li>
 <li>并排写入的并发</li>
 </ul>
 <h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>持续时间长的事务，由于没有阻塞其他写，导致时间跨度较长的前后时间点读取的某个对象的数据不一致。</p>
-<p><img src="./src/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" alt="hive_procecss_detail"></p>
+<img src="/2021/02/16/transaction-isolation/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" class title="可重复读">
+
 <h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><ol>
 <li><p>备份，<strong>持续时间长</strong>。这段时间，肯定是接受写入操作的。如果想从这个备份进行恢复，那么不一致就会变成永久的。</p>
 </li>
@@ -297,7 +303,8 @@
 <h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
 <li>快照隔离。MVCC。</li>
 </ul>
-<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><p><img src="./src/MVCC.jpg" alt="hive_procecss_detail"></p>
+<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><img src="/2021/02/16/transaction-isolation/MVCC.jpg" class title="MVCC">
+
 <ol>
 <li><strong>多版本</strong>是指某个对象的某个版本</li>
 <li>一个事务一个id（txid，自增长）。</li>
@@ -336,7 +343,8 @@
 </ol>
 <h3 id="写入偏差与幻读"><a href="#写入偏差与幻读" class="headerlink" title="写入偏差与幻读"></a>写入偏差与幻读</h3><p>前面说的，<strong>脏写、丢失更新</strong>，主要是并发写入相同对象。那么不同对象呢（但又影响最终结果）？</p>
 <p><strong>写入偏差</strong>视为<strong>丢失更新</strong>问题的一般化。</p>
-<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><p><img src="./src/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg" alt="hive_procecss_detail"></p>
+<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><img src="/2021/02/16/transaction-isolation/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg" class title="写入偏差">
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get x</span><br><span class="line">                get x</span><br><span class="line">check x</span><br><span class="line">                check x</span><br><span class="line">update y</span><br><span class="line">                update y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h4 id="为什么会出现写入偏差"><a href="#为什么会出现写入偏差" class="headerlink" title="为什么会出现写入偏差"></a>为什么会出现写入偏差</h4><p>幻读</p>
 <p>所有这些例子都遵循类似的模式：</p>

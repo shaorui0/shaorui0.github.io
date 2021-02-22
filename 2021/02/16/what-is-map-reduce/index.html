@@ -13,14 +13,13 @@
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
 <meta property="og:description" content="good pictures of parse 最佳实践：mapper&#x2F;filter&#x2F;reducer hadoop教程，mapreduce   map是将函数作用在list的每一个元素上（比迭代更抽象）。map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9])  reduce是将所有结果进行一个mergereduce(f, [x1, x2, x3, x4]) &#x3D; f(f(f(x1">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png">
 <meta property="og:image" content="http://example.com/2021/02/16/what-is-map-reduce/hive_procecss_detail.png">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-22T07:12:49.874Z">
+<meta property="article:modified_time" content="2021-02-22T07:14:12.998Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="data">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png">
+<meta name="twitter:image" content="http://example.com/2021/02/16/what-is-map-reduce/hive_procecss_detail.png">
   
     <link rel="alternate" href="/atom.xml" title="Surely You're Joking, Mr. Feynman!" type="application/atom+xml">
   
@@ -126,7 +125,6 @@
 </blockquote>
 <h1 id="relationship-between-hive-and-hadoop-mapreduce"><a href="#relationship-between-hive-and-hadoop-mapreduce" class="headerlink" title="relationship-between-hive-and-hadoop-mapreduce"></a>relationship-between-hive-and-hadoop-mapreduce</h1><p><strong>Map Reduce</strong> is the framework used to process the data which is stored in the HDFS, here java native language is used to writing Map Reduce programs.<br>Hive is a <strong>batch processing framework</strong>. This component process the data using a language called Hive Query Language(HQL). Hive prevents writing MapReduce programs in Java. Instead one can use SQL like language to do their daily tasks.<br>For HIVE there is <strong>no process to communicate Map/Reduce tasks directly</strong>. </p>
 <p>After the Hive finishes the <strong>query execution</strong>, the result is submitted to the <strong>JobTracker</strong>, which resides on YARN. The JobTracker consists of Map/Reduce tasks which runs the mapper and reducer job to store the final result in the <strong>HDFS</strong>. The Map task deserializes(reading) the data from the HDFS and the Reduce task serializes(writing) the data as the result of the Hive query.</p>
-<p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/distributed_system/hive_procecss_detail.png" alt="hive_procecss_detail"></p>
 <img src="/2021/02/16/what-is-map-reduce/hive_procecss_detail.png" class title="hive_procecss_detail">
       
     </div>

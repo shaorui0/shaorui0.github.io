@@ -541,7 +541,8 @@
 <li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
 </ul>
 </li>
-<li><p>named pipe:<br>  <img src="./operator_system/process/ipc/fifo.png" alt="fifo"></p>
+<li><p>named pipe: </p>
+  <img src="/2021/02/16/diff-ipc/fifo.png" class title="fifo">
 <ul>
 <li>半双工</li>
 <li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
@@ -845,8 +846,9 @@
 <li><strong>占用资源更少</strong>，多个进程可以<strong>共享</strong>（<strong>共享内存</strong>）。而静态module则都需要copy到最终的可执行文件</li>
 </ol>
 <h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>动态库是一种更让人倾向的方案，但之前出过问题 (google DLL hell)</p>
-<p><img src="./src_pic/static_link.png" alt="静态过程"></p>
-<p><img src="./src_pic/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" alt="进程地址空间"></p>
+<img src="/2021/02/16/diff-static-link-and-dynamic-link/static_link.png" class title="静态过程">
+<img src="/2021/02/16/diff-static-link-and-dynamic-link/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" class title="进程地址空间">
+
 <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47116485/differences-between-static-libraries-and-dynamic-libraries-ignoring-how-they-are">diff 1</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.quora.com/What-is-the-difference-between-static-and-dynamic-linking">diff 2</a></li>

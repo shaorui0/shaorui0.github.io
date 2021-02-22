@@ -14,7 +14,7 @@
 <meta property="og:description" content="一致性的问题，只有在 huge traffic and high concurrency 时，才会产生重要的影响。一般的场景使用简单的『Cache Expiry』和『Cache Aside』就可以了。 1. Cache Expiry naive solutions.  关于一致性，设置TTL核心问题是『你能承受多长时间读脏数据  30 mins? 可能时间过长 1 min? 仍然可能时间过长。（h">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-22T11:18:50.000Z">
-<meta property="article:modified_time" content="2021-02-22T11:23:07.143Z">
+<meta property="article:modified_time" content="2021-02-22T11:28:19.254Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="data">
 <meta property="article:tag" content="DB">
@@ -130,7 +130,7 @@
 <li>【保证最终一致性】场景一<br> 假设命令都能正确执行<ul>
 <li>(A - 1) A update new value to mysql</li>
 <li>(B) B read old value from redis, and return</li>
-<li>(A - 2) A delete redis key<br>此时 B 读到了脏数据（TODO DB中这种情况叫做什么？《ddia》）</li>
+<li>(A - 2) A delete redis key<br>此时 B 读到了脏数据（但能保证最终一致性）</li>
 </ul>
 </li>
 <li>【不保证最终一致性】场景二<br> 如果场景一的（A - 2）执行失败 =&gt; old value in redis and new value in mysql =&gt; 无法保证最终一致性</li>

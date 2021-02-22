@@ -125,7 +125,7 @@
 <li>【保证最终一致性】场景一<br> 假设命令都能正确执行<ul>
 <li>(A - 1) A update new value to mysql</li>
 <li>(B) B read old value from redis, and return</li>
-<li>(A - 2) A delete redis key<br>此时 B 读到了脏数据（TODO DB中这种情况叫做什么？《ddia》）</li>
+<li>(A - 2) A delete redis key<br>此时 B 读到了脏数据（但能保证最终一致性）</li>
 </ul>
 </li>
 <li>【不保证最终一致性】场景二<br> 如果场景一的（A - 2）执行失败 =&gt; old value in redis and new value in mysql =&gt; 无法保证最终一致性</li>

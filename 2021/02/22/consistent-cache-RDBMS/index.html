@@ -14,7 +14,7 @@
 <meta property="og:description" content="一致性的问题，只有在 huge traffic and high concurrency 时，才会产生重要的影响。一般的场景使用简单的『Cache Expiry』和『Cache Aside』就可以了。 1. Cache Expiry naive solutions.  关于一致性，设置TTL核心问题是『你能承受多长时间读脏数据  30 mins? 可能时间过长 1 min? 仍然可能时间过长。（h">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-22T11:18:50.000Z">
-<meta property="article:modified_time" content="2021-02-22T11:21:24.877Z">
+<meta property="article:modified_time" content="2021-02-22T11:23:07.143Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="data">
 <meta property="article:tag" content="DB">
@@ -126,7 +126,6 @@
 </ul>
 </li>
 </ul>
-<p>TODO pic</p>
 <h3 id="corner-case"><a href="#corner-case" class="headerlink" title="corner case"></a>corner case</h3><ol>
 <li>【保证最终一致性】场景一<br> 假设命令都能正确执行<ul>
 <li>(A - 1) A update new value to mysql</li>
@@ -198,7 +197,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="Read-Through"><a href="#Read-Through" class="headerlink" title="Read Through"></a>Read Through</h2><p>The algorithm for read through pattern is:</p>
+<h2 id="5-Read-Through"><a href="#5-Read-Through" class="headerlink" title="5. Read Through"></a>5. Read Through</h2><p>The algorithm for read through pattern is:</p>
 <ul>
 <li>For immutable operations (read):<ul>
 <li>Client will always simply read from cache. Either cache hit or cache miss is transparent to the client. If it is a cache miss, the cache should have the ability to automatically fetch from the database.</li>
@@ -210,14 +209,14 @@
 <li>if cache miss, cache 层自动从 storage 层获取数据</li>
 </ol>
 <h3 id="cons"><a href="#cons" class="headerlink" title="cons:"></a>cons:</h3><p>许多缓存层可能不支持它。例如，Redis将无法自动从MySQL获取（除非您为Redis编写插件）。</p>
-<h2 id="Write-Through"><a href="#Write-Through" class="headerlink" title="Write Through"></a>Write Through</h2><ul>
+<h2 id="6-Write-Through"><a href="#6-Write-Through" class="headerlink" title="6. Write Through"></a>6. Write Through</h2><ul>
 <li>For mutable operations (create, update, delete):<ul>
 <li>The client only needs to create, update or delete the entry in Redis. The cache layer has to atomically synchronize this change to MySQL.</li>
 </ul>
 </li>
 </ul>
 <p>与 cache 的功能理念相违背，这种方式是把 redis 当做 storage 了，即使 redis 有持久化技术（RDB and AOF），仍然不推荐使用</p>
-<h2 id="Write-Behind"><a href="#Write-Behind" class="headerlink" title="Write Behind"></a>Write Behind</h2><ul>
+<h2 id="7-Write-Behind"><a href="#7-Write-Behind" class="headerlink" title="7. Write Behind"></a>7. Write Behind</h2><ul>
 <li>For mutable operations (create, update, delete):<ul>
 <li>The client only needs to create, update or delete the entry in Redis. The cache layer saves the change into a message queue and returns success to the client. The change is replicated to MySQL asynchronously and may happen after Redis sends success response to the client.</li>
 </ul>
@@ -231,7 +230,7 @@
 <li>许多缓存层本身不支持此功能。</li>
 <li>其次，使用的消息队列必须是<strong>FIFO</strong>。否则，对MySQL的更新可能会混乱，因此最终结果可能不正确。</li>
 </ol>
-<h2 id="Double-Delete"><a href="#Double-Delete" class="headerlink" title="Double Delete"></a>Double Delete</h2><blockquote>
+<h2 id="8-Double-Delete"><a href="#8-Double-Delete" class="headerlink" title="8. Double Delete"></a>8. Double Delete</h2><blockquote>
 <p>原始的 cache aside 的变体。</p>
 </blockquote>
 <p>The algorithm for double delete pattern is:</p>
@@ -313,7 +312,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
     </div>
   </div>
 
@@ -334,15 +333,15 @@
           </li>
         
           <li>
+            <a href="/2021/02/18/transaction-isolation/">transaction - isolation</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/17/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/transaction-isolation/">transaction - isolation</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
       </ul>

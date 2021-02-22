@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-why-need-type-system" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-diff-multi-process-multi-thread-io-resue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/why-need-type-system/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/05/diff-multi-process-multi-thread-io-resue/" class="article-date">
+  <time class="dt-published" datetime="2021-02-05T13:55:13.000Z" itemprop="datePublished">2021-02-05</time>
 </a>
     
   </div>
@@ -85,7 +85,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/why-need-type-system/">why need type system?</a>
+      <a class="p-name article-title" href="/2021/02/05/diff-multi-process-multi-thread-io-resue/">multi process, multi thread and IO reuse</a>
     </h1>
   
 
@@ -93,121 +93,45 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
+        <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
 <ol>
-<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
-<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
+<li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
 </ol>
-<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><ol>
+<li><p>开销：</p>
 <ul>
-<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
-<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
+<li>进程创建</li>
+<li>进程调度（上下文转换）</li>
 </ul>
+</li>
+<li><p>数据共享：IPC</p>
+</li>
+<li><p>debug麻烦，一些工具比如<code>GDB</code>都不太好使用了</p>
+</li>
+</ol>
+<h2 id="io复用"><a href="#io复用" class="headerlink" title="io复用"></a>io复用</h2><h4 id="pros-1"><a href="#pros-1" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>【利好程序员】更好的控制。典型的场景，处理多个客户端的时候（event-drive）。（多进程并发模型需要每次close(listenfd)）TODO why？如果不close？test</li>
+<li>同一进程的缘故，共享数据更方便。</li>
+</ol>
+<h4 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>想要处理的事件（类型）越多，代码结构复杂</li>
+<li>partial read问题（EOF），多进程信号处理很方便。</li>
+<li>【并发粒度】并发多少条指令（时间片）？(CSAPP)</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h4 id="pros-2"><a href="#pros-2" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>开销比进程小</li>
+<li>多核上可以并行</li>
+<li>更好的共享信息（除了thread stack各自维护，其他segment都是共享的，包括：heap、read-only(const data), read-write(global/static), code, share memory(mmap, .so)）</li>
+</ol>
+<h4 id="cons-2"><a href="#cons-2" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>由于共享的问题，潜在的并发问题都出现了：deadlock、race condition</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工业上比较好的方式：one loop(io reuse) per thread (muduo)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/why-need-type-system/" data-id="ckl80qmtf0028s7qoeyi03blz" data-title="why need type system?" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-mutable-obj" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/mutable-obj/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/mutable-obj/">mutable object</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
-<p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/mutable-obj/" data-id="ckl81d7w80000akqo4nnlaltu" data-title="mutable object" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-waitpid-flag-set" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/waitpid-flag-set/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="WNOHANG"><a href="#WNOHANG" class="headerlink" title="WNOHANG"></a>WNOHANG</h2><blockquote>
-<p>If a child <strong>died</strong>, its pid will be returned by wait()/waitpid() and your process can act on that. If nothing died, then the returned pid is 0.</p>
-</blockquote>
-<ul>
-<li>非阻塞，做其他事情</li>
-<li>检查children是否为zoobie（CTRL+C），让内核去回收（waitpid collect the status）</li>
-</ul>
-<h2 id="WUNTRACED"><a href="#WUNTRACED" class="headerlink" title="WUNTRACED"></a>WUNTRACED</h2><blockquote>
-<p>WUNTRACED allows your parent to be returned from wait()/waitpid() if a child gets stopped as well as exiting or being killed. </p>
-</blockquote>
-<blockquote>
-<p>your parent has a chance to send it a SIGCONT to continue it, kill it, assign its tasks to another child, whatever.</p>
-</blockquote>
-<ul>
-<li>parent不想做其他事，仅等待进程执行终止。</li>
-<li>但，当STOP发生的时候，一般的行为不会通知到wait/waitpid，该函数也就无法返回，此时会产生『死锁』，除非重新执行（continued）</li>
-<li>所以需要有一个机制防止这种情况。其场景是，当<code>SIGSTOP</code>发生，也能退出wait/waitpid，未来也就能执行<code>CONTINUE</code>.</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/waitpid-flag-set/" data-id="ckl80qmqh001hs7qoaj3l0kks" data-title="Waitpid usage" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/05/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="multi process, multi thread and IO reuse" class="article-share-link">分享</a>
       
       
       
@@ -278,10 +202,10 @@
 
 
   
-    <article id="post-airflow-intro" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-diff-ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/16/airflow-intro/" class="article-date">
-  <time class="dt-published" datetime="2021-01-16T11:55:13.000Z" itemprop="datePublished">2021-01-16</time>
+    <a href="/2021/01/15/diff-ipc/" class="article-date">
+  <time class="dt-published" datetime="2021-01-15T13:55:13.000Z" itemprop="datePublished">2021-01-15</time>
 </a>
     
   </div>
@@ -292,7 +216,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/16/airflow-intro/">Airflow Intro</a>
+      <a class="p-name article-title" href="/2021/01/15/diff-ipc/">IPC - Intro</a>
     </h1>
   
 
@@ -300,44 +224,194 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+        <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
+<ol>
+<li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
+<li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
+</ol>
+<p>Benchmark and Message Boundary: </p>
 <ul>
-<li>日志记录<ul>
-<li>RD介入是否方便？</li>
-<li>日志形式是否直观？</li>
+<li><strong>Pipe</strong> I/O is the fastest but needs a <strong>parent/child relationship</strong> to work.</li>
+<li>Sysv IPC has a defined message boundary and can connect disparate processes locally, for example, <strong>MQ</strong></li>
+<li>UNIX sockets can connect disparate processes <strong>locally</strong> and has <strong>higher bandwidth</strong> but no inherent message boundaries.</li>
+<li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
+</ul>
+<h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
+<li><p>anonymous pipe: </p>
+<ul>
+<li>usage: cat file | grep word</li>
+<li>单向</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
 </ul>
 </li>
-<li>任务报警</li>
-<li>失败重试</li>
-</ul>
-<h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
-<p>其他依赖包括什么？</p>
+<li><p>named pipe: </p>
+  <img src="/2021/01/15/diff-ipc/fifo.png" class title="fifo">
 <ul>
-<li>时间依赖，crontab自身支持例行时刻和间隔</li>
-<li>外部系统依赖，需要shell自己调用接口</li>
-<li>任务间的依赖，通常通过shell函数来完成</li>
+<li>半双工</li>
+<li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
 </ul>
-<h3 id="额外的惊喜？"><a href="#额外的惊喜？" class="headerlink" title="额外的惊喜？"></a>额外的惊喜？</h3><p>额外的，整个调度系统是否有比较好的伸缩性？比如并发机制（<strong>多个调度任务能不能并发？甚至扩展到多机？</strong>）。涉及到这些高级功能，一般的调度方式是很难满足了。</p>
-<p>Airflow 同时拥有不错的<strong>集群扩展能力</strong>，可使用 CeleryExecuter 以及多个 Pool 来提高任务<strong>并发度</strong>。</p>
-<h3 id="ETL上的实践"><a href="#ETL上的实践" class="headerlink" title="ETL上的实践"></a>ETL上的实践</h3><p>Airflow的理念，天然的适用于 ETL 过程。Airflow 本质是通过DAG来控制任务依赖，<strong>有向无环图</strong>保证了任务之间不会有循环依赖。</p>
-<p>在现阶段的实践中，我们使用 Airflow 来同步各个数据源数据到数仓，同时定时执行一些批处理任务及带有数据依赖、资源依赖关系的计算脚本。</p>
+</li>
+<li><p>signal</p>
 <ul>
-<li><p>Airflow 在 CeleryExecuter 下可以使用不同的用户启动 Worker，不同的 Worker 监听不同的 Queue，这样可以解决用户权限依赖问题。 Worker 也可以启动在多个不同的机器上，解决<strong>机器依赖</strong>的问题。</p>
+<li>fork + signal</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell">implement: tiny shell</a></li>
+</ul>
 </li>
-<li><p>Airflow 可以为任意一个 Task 指定一个抽象的 Pool，每个 Pool 可以指定一个 Slot 数。 每当一个 Task 启动时，就占用一个 Slot，当 Slot 数占满时，其余的任务就处于等待状态。这样就解决了<strong>资源依赖</strong>问题。</p>
+<li><p>file lock</p>
+</li>
+<li><p>Semaphores</p>
+<ul>
+<li>某种同步原语，当需要锁功能或者生产消费一定数量的资源时</li>
+</ul>
+</li>
+<li><p>socket</p>
+<ul>
+<li>全双工，本机或网络</li>
+<li>TODO web server</li>
+</ul>
+</li>
+<li><p>mmap</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">What is mmap?</a><ul>
+<li>mmap是什么？</li>
+<li>为什么需要mmap()</li>
+<li>pros and cons</li>
+<li>一些可以运行的例子</li>
+</ul>
 </li>
 </ul>
-<h2 id="Airflow的升级"><a href="#Airflow的升级" class="headerlink" title="Airflow的升级"></a>Airflow的升级</h2><h3 id="涉及到pyenv和virtualenv的环境隔离"><a href="#涉及到pyenv和virtualenv的环境隔离" class="headerlink" title="涉及到pyenv和virtualenv的环境隔离"></a>涉及到pyenv和virtualenv的环境隔离</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 创建测试所需数据库</span><br><span class="line"></span><br><span class="line">1. mysql: </span><br><span class="line">DF_Airflow_test;</span><br><span class="line">DF_Airflow_Celery_test;</span><br><span class="line">2. redis: </span><br><span class="line">10.26.149.41:7000 </span><br><span class="line"></span><br><span class="line"># airflow 通用安装 e.g. py27 单机多版本注意要设置不同的家目录</span><br><span class="line">mkdir airflow-1.10.10-py-2.7.14</span><br><span class="line">cd airflow-1.10.10-py-2.7.14&#x2F;</span><br><span class="line">pyenv virtualenv 2.7.14  airflow-1.10.10-py-2.7.14</span><br><span class="line">pyenv local airflow-1.10.12-py-2.7.14</span><br><span class="line">export AIRFLOW_HOME&#x3D;~&#x2F;airflow-1.10.10-py-2.7.14</span><br><span class="line">pip install  apache-airflow[mysql,celery]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"></span><br><span class="line"># airflow 1.10.3 安装</span><br><span class="line">pip install  apache-airflow&#x3D;&#x3D;1.10.3   --use-feature&#x3D;2020-resolver</span><br><span class="line"># airflow 1.10.12 安装</span><br><span class="line">## py3</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-3.7.txt&quot;</span><br><span class="line">## py2</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># airflow 升级 py27-airflow-1.10.12 不加constraint会报错</span><br><span class="line">pip install -U  apache-airflow&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># fbac前端创建用户</span><br><span class="line">airflow create_user -r Admin -u admin -e qinyufeng@baidu.com -f qin -l yufeng -p admin</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90282578">&gt; REF BLOG</a></p>
+</li>
+<li><p>shared memory</p>
+</li>
+</ul>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="Airflow Intro" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/01/15/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="IPC - Intro" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-how-use-pdb" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/16/how-use-pdb/" class="article-date">
+  <time class="dt-published" datetime="2020-12-16T13:55:13.000Z" itemprop="datePublished">2020-12-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/16/how-use-pdb/">how to use pdb</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><code>next</code> 碰见子程序会直接获取到调用结果</li>
+<li><code>step</code> 会进入子程序，相当于是一个子程序扩展</li>
+<li><code>quit</code> 粗暴退出</li>
+<li><code>continue</code>跑到程序终点</li>
+<li><code>print</code>打印变量</li>
+<li><code>list</code> 打印现在在哪</li>
+<li><code>!a = &quot;xxx&quot;</code> 可能比较有用的：动态设置变量</li>
+</ul>
+<h1 id="测试代码："><a href="#测试代码：" class="headerlink" title="测试代码："></a>测试代码：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pdb</span><br><span class="line"></span><br><span class="line">def combine(s1,s2):      # define subroutine combine, which...</span><br><span class="line">    s3 &#x3D; s1 + s2 + s1    # sandwiches s2 between copies of s1, ...</span><br><span class="line">    s3 &#x3D; &#39;&quot;&#39; + s3 +&#39;&quot;&#39;   # encloses it in double quotes,...</span><br><span class="line">    return s3            # and returns it.</span><br><span class="line"></span><br><span class="line">a &#x3D; &quot;aaa&quot;</span><br><span class="line">pdb.set_trace()</span><br><span class="line">b &#x3D; &quot;bbb&quot;</span><br><span class="line">c &#x3D; &quot;ccc&quot;</span><br><span class="line">final &#x3D; combine(a,b)</span><br><span class="line">print final</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4228637/getting-started-with-the-python-debugger-pdb">参考</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/16/how-use-pdb/" data-id="ckl80qmoq000ss7qo970n21ja" data-title="how to use pdb" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-python-generator-iterator-decorator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/16/python-generator-iterator-decorator/" class="article-date">
+  <time class="dt-published" datetime="2020-12-16T13:55:13.000Z" itemprop="datePublished">2020-12-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/16/python-generator-iterator-decorator/">iterator, generator and decorator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="What-is"><a href="#What-is" class="headerlink" title="What is ?"></a>What is ?</h3><ol>
+<li>一种语法糖，能够使得修改函数变得容易</li>
+<li>典型的实现是通过使用闭包<br>def foo(x):<br> def bar(y):<pre><code> # do something to y
+</code></pre>
+ return bar(x) * x</li>
+</ol>
+<h3 id="why-need"><a href="#why-need" class="headerlink" title="why need?"></a>why need?</h3><p>其实就是为了能够更好的在普通函数上增加一些额外的功能<br>通过在语言级别加一些语法糖，能够更方便的使用功能，一切为了简单。</p>
+<h3 id="in-action"><a href="#in-action" class="headerlink" title="in action"></a>in action</h3><p>日志：普通函数、扩展类成员函数</p>
+<h1 id="迭代器、生成器"><a href="#迭代器、生成器" class="headerlink" title="迭代器、生成器"></a>迭代器、生成器</h1><p>为什么两个要一起说。生成器是在可迭代对象的基础上工作的。</p>
+<h2 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h2><p>在python里面，能够for-in遍历的，都是可迭代对象</p>
+<p>可迭代对象的底层是两个函数实现 <code>__iter__</code>, <code>__getitem__</code>，<br>显然list、dict、tuple、str都是可迭代的</p>
+<h3 id="iter-iterable-obj-gt-iterator"><a href="#iter-iterable-obj-gt-iterator" class="headerlink" title="iter(iterable_obj) =&gt; iterator"></a>iter(iterable_obj) =&gt; iterator</h3><p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/149093.htm">https://www.jb51.net/article/149093.htm</a></p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>迭代器是访问集合元素的一种方式。能通过for-in遍历，<strong>并且能够使用next()进行迭代</strong><br>主要的不同点就是可以使用next()进行遍历，并且对长度未知，比如一个典型的fib功能可以无限迭代。<br>同时是惰性的，边迭代边求值。</p>
+<p>TODO 写一个典型的迭代器class fib</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Fib:</span><br><span class="line">    def __init__(self):</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    def __iter__self):</span><br><span class="line">        return self</span><br><span class="line">    </span><br><span class="line">    def __next__self):</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>next(obj) =&gt; obj.__next__()</code></p>
+<p>基础的数据类型（list等）都不是迭代器，因为没有next()方法</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><blockquote>
+<p>Objects are data with methods attached, closures are functions with data attached.<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18274051/closure-in-python">closure-in-python</a></p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_counter</span>():</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">counter</span>():</span> <span class="comment"># counter() is a closure</span></span><br><span class="line">        <span class="keyword">nonlocal</span> i <span class="comment"># python3</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> i</span><br><span class="line">    <span class="keyword">return</span> counter</span><br><span class="line"></span><br><span class="line">c1 = make_counter()</span><br><span class="line">c2 = make_counter()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (c1(), c1(), c2(), c2())</span><br><span class="line"><span class="comment"># -&gt; 1 2 1 2</span></span><br></pre></td></tr></table></figure>
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>yield相当于提供了一个语言层面的功能来帮助实现生成器</p>
+<blockquote>
+<p>A generator is simply a function which returns an object on which you can call next, such that for every call it returns some value, until it raises a StopIteration exception, signaling that all values have been generated. Such an object is called an iterator.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1756096/understanding-generators-in-python">generators-in-python</a></p>
+<p>其实本质就是建立在迭代器之上，但是这个迭代器是一个对象，通过yield对这个对象进行迭代，直到<code>StopIteration</code> exception</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="iterator, generator and decorator" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
 
     </footer>
   </div>
@@ -384,7 +458,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
     </div>
   </div>
 
@@ -405,15 +479,15 @@
           </li>
         
           <li>
+            <a href="/2021/02/18/transaction-isolation/">transaction - isolation</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/17/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/transaction-isolation/">transaction - isolation</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
       </ul>

@@ -4,22 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>IPC - Intro | Surely You&#39;re Joking, Mr. Feynman!</title>
+  <title>multi process, multi thread and IO reuse | Surely You&#39;re Joking, Mr. Feynman!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="&gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchmark and Message Boundary:   Pipe I&#x2F;O">
+  <meta name="description" content="进程pros虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：  由于不『轻易』共享数据（TODO 父子进程共享什么东西？），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。  cons 开销：  进程创建 进程调度（上下文转换）   数据共享：IPC  debug麻烦，一些工具比">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IPC - Intro">
-<meta property="og:url" content="http://example.com/2021/02/16/diff-ipc/index.html">
+<meta property="og:title" content="multi process, multi thread and IO reuse">
+<meta property="og:url" content="http://example.com/2021/02/05/diff-multi-process-multi-thread-io-resue/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="&gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchmark and Message Boundary:   Pipe I&#x2F;O">
+<meta property="og:description" content="进程pros虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：  由于不『轻易』共享数据（TODO 父子进程共享什么东西？），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。  cons 开销：  进程创建 进程调度（上下文转换）   数据共享：IPC  debug麻烦，一些工具比">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/02/16/diff-ipc/fifo.png">
-<meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-22T07:39:30.516Z">
+<meta property="article:published_time" content="2021-02-05T13:55:13.000Z">
+<meta property="article:modified_time" content="2021-02-22T11:25:44.292Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/02/16/diff-ipc/fifo.png">
   
     <link rel="alternate" href="/atom.xml" title="Surely You're Joking, Mr. Feynman!" type="application/atom+xml">
   
@@ -76,10 +74,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-diff-ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-diff-multi-process-multi-thread-io-resue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/diff-ipc/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
+    <a href="/2021/02/05/diff-multi-process-multi-thread-io-resue/" class="article-date">
+  <time class="dt-published" datetime="2021-02-05T13:55:13.000Z" itemprop="datePublished">2021-02-05</time>
 </a>
     
   </div>
@@ -90,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      IPC - Intro
+      multi process, multi thread and IO reuse
     </h1>
   
 
@@ -98,72 +96,45 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
+        <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
 <ol>
-<li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
-<li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
+<li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
 </ol>
-<p>Benchmark and Message Boundary: </p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><ol>
+<li><p>开销：</p>
 <ul>
-<li><strong>Pipe</strong> I/O is the fastest but needs a <strong>parent/child relationship</strong> to work.</li>
-<li>Sysv IPC has a defined message boundary and can connect disparate processes locally, for example, <strong>MQ</strong></li>
-<li>UNIX sockets can connect disparate processes <strong>locally</strong> and has <strong>higher bandwidth</strong> but no inherent message boundaries.</li>
-<li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
-</ul>
-<h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
-<li><p>anonymous pipe: </p>
-<ul>
-<li>usage: cat file | grep word</li>
-<li>单向</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
+<li>进程创建</li>
+<li>进程调度（上下文转换）</li>
 </ul>
 </li>
-<li><p>named pipe: </p>
-  <img src="/2021/02/16/diff-ipc/fifo.png" class title="fifo">
-<ul>
-<li>半双工</li>
-<li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
-</ul>
+<li><p>数据共享：IPC</p>
 </li>
-<li><p>signal</p>
-<ul>
-<li>fork + signal</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell">implement: tiny shell</a></li>
-</ul>
+<li><p>debug麻烦，一些工具比如<code>GDB</code>都不太好使用了</p>
 </li>
-<li><p>file lock</p>
-</li>
-<li><p>Semaphores</p>
-<ul>
-<li>某种同步原语，当需要锁功能或者生产消费一定数量的资源时</li>
-</ul>
-</li>
-<li><p>socket</p>
-<ul>
-<li>全双工，本机或网络</li>
-<li>TODO web server</li>
-</ul>
-</li>
-<li><p>mmap</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">What is mmap?</a><ul>
-<li>mmap是什么？</li>
-<li>为什么需要mmap()</li>
-<li>pros and cons</li>
-<li>一些可以运行的例子</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>shared memory</p>
-</li>
-</ul>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
+</ol>
+<h2 id="io复用"><a href="#io复用" class="headerlink" title="io复用"></a>io复用</h2><h4 id="pros-1"><a href="#pros-1" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>【利好程序员】更好的控制。典型的场景，处理多个客户端的时候（event-drive）。（多进程并发模型需要每次close(listenfd)）TODO why？如果不close？test</li>
+<li>同一进程的缘故，共享数据更方便。</li>
+</ol>
+<h4 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>想要处理的事件（类型）越多，代码结构复杂</li>
+<li>partial read问题（EOF），多进程信号处理很方便。</li>
+<li>【并发粒度】并发多少条指令（时间片）？(CSAPP)</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h4 id="pros-2"><a href="#pros-2" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>开销比进程小</li>
+<li>多核上可以并行</li>
+<li>更好的共享信息（除了thread stack各自维护，其他segment都是共享的，包括：heap、read-only(const data), read-write(global/static), code, share memory(mmap, .so)）</li>
+</ol>
+<h4 id="cons-2"><a href="#cons-2" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>由于共享的问题，潜在的并发问题都出现了：deadlock、race condition</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工业上比较好的方式：one loop(io reuse) per thread (muduo)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="IPC - Intro" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/05/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="multi process, multi thread and IO reuse" class="article-share-link">分享</a>
       
       
       
@@ -175,19 +146,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/02/16/transaction-isolation/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/06/DIFF-blocking-non-blocking-synchronism-asynchronism/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          transaction - isolation
+          (Non)blocking / (A)synchrony
         
       </div>
     </a>
   
   
-    <a href="/2021/02/16/diff-multi-process-multi-thread-io-resue/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/20/Elasticsearch-cold-warm/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">multi process, multi thread and IO reuse</div>
+      <div class="article-nav-title">(ES) hot and cold data architecture</div>
     </a>
   
 </nav>
@@ -226,7 +197,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
     </div>
   </div>
 
@@ -247,15 +218,15 @@
           </li>
         
           <li>
+            <a href="/2021/02/18/transaction-isolation/">transaction - isolation</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/17/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/transaction-isolation/">transaction - isolation</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
       </ul>

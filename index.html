@@ -121,7 +121,6 @@
 </ul>
 </li>
 </ul>
-<p>TODO pic</p>
 <h3 id="corner-case"><a href="#corner-case" class="headerlink" title="corner case"></a>corner case</h3><ol>
 <li>【保证最终一致性】场景一<br> 假设命令都能正确执行<ul>
 <li>(A - 1) A update new value to mysql</li>
@@ -193,7 +192,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="Read-Through"><a href="#Read-Through" class="headerlink" title="Read Through"></a>Read Through</h2><p>The algorithm for read through pattern is:</p>
+<h2 id="5-Read-Through"><a href="#5-Read-Through" class="headerlink" title="5. Read Through"></a>5. Read Through</h2><p>The algorithm for read through pattern is:</p>
 <ul>
 <li>For immutable operations (read):<ul>
 <li>Client will always simply read from cache. Either cache hit or cache miss is transparent to the client. If it is a cache miss, the cache should have the ability to automatically fetch from the database.</li>
@@ -205,14 +204,14 @@
 <li>if cache miss, cache 层自动从 storage 层获取数据</li>
 </ol>
 <h3 id="cons"><a href="#cons" class="headerlink" title="cons:"></a>cons:</h3><p>许多缓存层可能不支持它。例如，Redis将无法自动从MySQL获取（除非您为Redis编写插件）。</p>
-<h2 id="Write-Through"><a href="#Write-Through" class="headerlink" title="Write Through"></a>Write Through</h2><ul>
+<h2 id="6-Write-Through"><a href="#6-Write-Through" class="headerlink" title="6. Write Through"></a>6. Write Through</h2><ul>
 <li>For mutable operations (create, update, delete):<ul>
 <li>The client only needs to create, update or delete the entry in Redis. The cache layer has to atomically synchronize this change to MySQL.</li>
 </ul>
 </li>
 </ul>
 <p>与 cache 的功能理念相违背，这种方式是把 redis 当做 storage 了，即使 redis 有持久化技术（RDB and AOF），仍然不推荐使用</p>
-<h2 id="Write-Behind"><a href="#Write-Behind" class="headerlink" title="Write Behind"></a>Write Behind</h2><ul>
+<h2 id="7-Write-Behind"><a href="#7-Write-Behind" class="headerlink" title="7. Write Behind"></a>7. Write Behind</h2><ul>
 <li>For mutable operations (create, update, delete):<ul>
 <li>The client only needs to create, update or delete the entry in Redis. The cache layer saves the change into a message queue and returns success to the client. The change is replicated to MySQL asynchronously and may happen after Redis sends success response to the client.</li>
 </ul>
@@ -226,7 +225,7 @@
 <li>许多缓存层本身不支持此功能。</li>
 <li>其次，使用的消息队列必须是<strong>FIFO</strong>。否则，对MySQL的更新可能会混乱，因此最终结果可能不正确。</li>
 </ol>
-<h2 id="Double-Delete"><a href="#Double-Delete" class="headerlink" title="Double Delete"></a>Double Delete</h2><blockquote>
+<h2 id="8-Double-Delete"><a href="#8-Double-Delete" class="headerlink" title="8. Double Delete"></a>8. Double Delete</h2><blockquote>
 <p>原始的 cache aside 的变体。</p>
 </blockquote>
 <p>The algorithm for double delete pattern is:</p>
@@ -359,6 +358,155 @@
 
 
   
+    <article id="post-transaction-isolation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/18/transaction-isolation/" class="article-date">
+  <time class="dt-published" datetime="2021-02-18T13:55:13.000Z" itemprop="datePublished">2021-02-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/18/transaction-isolation/">transaction - isolation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="为什么会需要隔离性"><a href="#为什么会需要隔离性" class="headerlink" title="为什么会需要隔离性"></a>为什么会需要隔离性</h2><p>如果<strong>两个事务</strong>不触及相同的数据，它们可以安全地并行（parallel） 运行，因为两者都不依赖于另一个。当一个事务读取由另一个事务同时修改的数据时，或者当两个事务试图同时修改相同的数据时，并发问题（<strong>竞争条件</strong>）才会出现。</p>
+<h2 id="先说概念"><a href="#先说概念" class="headerlink" title="先说概念"></a>先说概念</h2><p>四种隔离级别：</p>
+<ul>
+<li>读未提交</li>
+<li>读已提交</li>
+<li>可重复读</li>
+<li>可串行化</li>
+</ul>
+<h2 id="各个隔离级别解决了什么问题？"><a href="#各个隔离级别解决了什么问题？" class="headerlink" title="各个隔离级别解决了什么问题？"></a>各个隔离级别解决了什么问题？</h2><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>读 x 1, 写 x 1（关键字：部分对象）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">init x&#x3D;0, y&#x3D;0</span><br><span class="line"></span><br><span class="line">update x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1, y&#x3D;0 (不一致)</span><br><span class="line">update y &#x3D; 2</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">final: x &#x3D; 1, y &#x3D; 2</span><br></pre></td></tr></table></figure>
+<img src="/2021/02/18/transaction-isolation/%E8%84%8F%E8%AF%BB.jpg" class title="脏读">
+
+<ul>
+<li>用户2可能看到<strong>部分</strong>用户1修改的数据，可能在<strong>一致性</strong>上不合法。比如用户看到新的未读电子邮件（对象1），但看不到更新的计数器（对象2）。</li>
+<li>用户2如果事务中止需要<strong>回滚</strong>，用户1可能读到回滚前的数据。</li>
+</ul>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
+<li>读写锁？效果并不好，可能某一方长时间占用锁</li>
+<li>临时变量保存写的对象，让读可以读这个var，避免读被写阻塞</li>
+</ul>
+<h4 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h4><h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p><del>两个对同一个对象的写，后提交的数据覆盖了前面提交的数据</del></p>
+<p>这里还和之前理解的不太一样。脏写真正的含义是，两个用户写入多个对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">update x &#x3D; 1</span><br><span class="line">                update x &#x3D; 2</span><br><span class="line">                update y &#x3D; 2</span><br><span class="line">update y &#x3D; 1</span><br><span class="line">final: x &#x3D; 2, y &#x3D; 1</span><br></pre></td></tr></table></figure>
+<img src="/2021/02/18/transaction-isolation/%E8%84%8F%E5%86%99.jpg" class title="脏写">
+
+<h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
+<li>行锁</li>
+</ul>
+<h5 id="没有解决什么？（丢失更新）"><a href="#没有解决什么？（丢失更新）" class="headerlink" title="没有解决什么？（丢失更新）"></a>没有解决什么？（丢失更新）</h5><p>典型的计数器递增，主要的错误是<strong>读</strong>的过程出了问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1</span><br><span class="line">update x +&#x3D; 1(2)</span><br><span class="line">                update x +&#x3D; 1(2)</span><br><span class="line">final: x &#x3D; 2</span><br></pre></td></tr></table></figure>
+<img src="/2021/02/18/transaction-isolation/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" class title="丢失更新">
+
+
+
+<p>以上的隔离级别基本解决了一些常见的麻烦。</p>
+<ul>
+<li>读取不完整的事务结果</li>
+<li>并排写入的并发</li>
+</ul>
+<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>持续时间长的事务，由于没有阻塞其他写，导致时间跨度较长的前后时间点读取的某个对象的数据不一致。</p>
+<img src="/2021/02/18/transaction-isolation/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" class title="可重复读">
+
+<h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><ol>
+<li><p>备份，<strong>持续时间长</strong>。这段时间，肯定是接受写入操作的。如果想从这个备份进行恢复，那么不一致就会变成永久的。</p>
+</li>
+<li><p>分析查询和完整性检查</p>
+</li>
+</ol>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
+<li>快照隔离。MVCC。</li>
+</ul>
+<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><img src="/2021/02/18/transaction-isolation/MVCC.jpg" class title="MVCC">
+
+<ol>
+<li><strong>多版本</strong>是指某个对象的某个版本</li>
+<li>一个事务一个id（txid，自增长）。</li>
+<li>每当一个事务写入内容，他所写入的数据都会标记上写入者的事务ID。（create_by, delete_by）</li>
+</ol>
+<p>MVCC也可以用在读已提交上面，主要实现是保留两个版本的快照，为每个查询适用单独的快照</p>
+<h5 id="索引在快照隔离上起作用"><a href="#索引在快照隔离上起作用" class="headerlink" title="索引在快照隔离上起作用"></a>索引在快照隔离上起作用</h5><ul>
+<li>一种选择是使用索引简单的指向对象的<strong>所有版本</strong>，并通过索引查询<strong>过滤</strong>当前事务不可见的任何对象版本</li>
+<li>也有一些数据库选用了仅追加的B-tree，每个写入的事务都创建新的树</li>
+</ul>
+<h3 id="防止丢失更新"><a href="#防止丢失更新" class="headerlink" title="防止丢失更新"></a>防止丢失更新</h3><p>只读事务 在 并发写入时看到什么？<strong>读已提交、快照隔离。</strong></p>
+<p>那么写事务进行并发写入呢？（计数器递增）</p>
+<ol>
+<li><p>原子写</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE counters <span class="keyword">SET</span> <span class="keyword">value</span> <span class="operator">=</span> <span class="keyword">value</span> <span class="operator">+</span> <span class="number">1</span> <span class="keyword">WHERE</span> key <span class="operator">=</span> <span class="string">&#x27;foo&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p> 游标稳定性（cursor stability）</p>
+</li>
+<li><p>显式锁定<br> <code>FOR UPDATE</code>对select返回的所有行<strong>加锁</strong></p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> figures</span><br><span class="line">    <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;robot&#x27;</span> <span class="keyword">AND</span> game_id <span class="operator">=</span> <span class="number">222</span></span><br><span class="line"><span class="keyword">FOR</span> UPDATE;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查玩家的操作是否有效，然后更新先前SELECT返回棋子的位置。</span></span><br><span class="line">UPDATE figures <span class="keyword">SET</span> position <span class="operator">=</span> <span class="string">&#x27;c4&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>自动检测丢失的更新</p>
+<ul>
+<li>允许并发写入，写入过后对结果进行检查（中止事务，强制重试 read-update-commit）</li>
+</ul>
+</li>
+<li><p>比较并设置（CAS）</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 根据数据库的实现情况，这可能也可能不安全</span></span><br><span class="line">UPDATE wiki_pages <span class="keyword">SET</span> content <span class="operator">=</span> <span class="string">&#x27;新内容&#x27;</span></span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span> <span class="keyword">AND</span> content <span class="operator">=</span> <span class="string">&#x27;旧内容&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p> 也可能不安全，where从旧的快照中获取数据（MVCC带来的问题）</p>
+</li>
+<li><p>冲突解决和复制（<strong>分布式的场景</strong>，多节点）</p>
+<ul>
+<li>复制数据库中，多对个『<strong>兄弟</strong>』值应用代码进行处理</li>
+<li>如果有可交换性，最终结果也能一致。例如，递增计数器或向集合添加元素是可<strong>交换的操作</strong>。</li>
+<li><strong>最后写入为准</strong>（LWW）的冲突解决方法很容易丢失更新。不幸的是，LWW是许多复制数据库中的默认值。</li>
+</ul>
+</li>
+</ol>
+<h3 id="写入偏差与幻读"><a href="#写入偏差与幻读" class="headerlink" title="写入偏差与幻读"></a>写入偏差与幻读</h3><p>前面说的，<strong>脏写、丢失更新</strong>，主要是并发写入相同对象。那么不同对象呢（但又影响最终结果）？</p>
+<p><strong>写入偏差</strong>视为<strong>丢失更新</strong>问题的一般化。</p>
+<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><img src="/2021/02/18/transaction-isolation/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg" class title="写入偏差">
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get x</span><br><span class="line">                get x</span><br><span class="line">check x</span><br><span class="line">                check x</span><br><span class="line">update y</span><br><span class="line">                update y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="为什么会出现写入偏差"><a href="#为什么会出现写入偏差" class="headerlink" title="为什么会出现写入偏差"></a>为什么会出现写入偏差</h4><p>幻读</p>
+<p>所有这些例子都遵循类似的模式：</p>
+<ol>
+<li><p>一个SELECT查询找出符合条件的行，并检查是否符合一些要求。（例如：至少有两名医生在值班；不存在对该会议室同一时段的预定；棋盘上的位置没有被其他棋子占据；用户名还没有被抢注；账户里还有足够余额）</p>
+</li>
+<li><p>按照第一个查询的结果，应用代码决定是否继续。（可能会继续操作，也可能中止并报错）</p>
+</li>
+<li><p>如果应用决定继续操作，就执行写入（插入、更新或删除），并提交事务。</p>
+</li>
+</ol>
+<p>这个<strong>写入</strong>的效果改变了步骤2 中的先决条件。换句话说，如果在提交写入后，重复执行一次步骤1 的<strong>SELECT</strong>查询，将会得到<strong>不同的结果</strong>。因为<strong>写入改变符合搜索条件的行集</strong>（现在少了一个医生值班，那时候的会议室现在已经被预订了，棋盘上的这个位置已经被占据了，用户名已经被抢注，账户余额不够了）。</p>
+<p>这些步骤可能以不同的顺序发生。例如可以首先进行写入，然后进行SELECT查询，最后根据查询结果决定是放弃还是提交。</p>
+<p>在医生值班的例子中，在步骤3中修改的行，是步骤1中返回的行之一，所以我们可以通过锁定步骤1 中的行（<strong>SELECT FOR UPDATE</strong>）来使事务安全并避免写入偏差。但是其他四个例子是不同的：它们检查是否不存在某些满足条件的行，写入会添加一个匹配相同条件的行。<strong>如果步骤1中的查询没有返回任何行，则SELECT FOR UPDATE锁不了任何东西</strong>。</p>
+<p>这种效应：<strong>一个事务中的写入改变另一个事务的搜索查询的结果，被称为幻读</strong>【3】。快照隔离避免了只读查询中幻读，但是在像我们讨论的例子那样的读写事务中，幻影会导致特别棘手的写歪斜情况。</p>
+<p>总结：某些情况可以使用<code>SELECT FOR UPDATE</code>防止幻读，但是如果<code>SELECT FOR UPDATE</code>没有结果行，锁不住任何东西，潜在还是会出错。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/18/transaction-isolation/" data-id="ckl81d7wj0002akqo52v67lex" data-title="transaction - isolation" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DB/" rel="tag">DB</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-diff-between-partition-and-sharding" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/17/diff-between-partition-and-sharding/" class="article-date">
@@ -479,9 +627,9 @@
 
 
   
-    <article id="post-DIFF-blocking-non-blocking-synchronism-asynchronism" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-coroutine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/" class="article-date">
+    <a href="/2021/02/16/coroutine/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -493,7 +641,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
+      <a class="p-name article-title" href="/2021/02/16/coroutine/">Coroutine</a>
     </h1>
   
 
@@ -501,46 +649,84 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><p>本质上，异步是指是否『接收方』会通知你取结果，这是调用方式的不同；阻塞和非阻塞，是指是否需要在某个地方等着，而不能去干其他的事情。比如信号，注册好之后，接收方完成，就会通知os内核，从而通知发出方来取。</p>
-<h2 id="还是不同层次的问题。"><a href="#还是不同层次的问题。" class="headerlink" title="还是不同层次的问题。"></a>还是不同层次的问题。</h2><blockquote>
-<p>这个过程同样适合另一个问题，<strong>当你在浏览器打上url并回车的时候发生的什么？</strong></p>
+        <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
+<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
+<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
+<h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
+<p>Concurrency is the separation of tasks to provide interleaved execution. Parallelism is the simultaneous execution of multiple pieces of work in order to increase speed. —<a target="_blank" rel="noopener" href="https://github.com/servo/servo/wiki/Design">https://github.com/servo/servo/wiki/Design</a></p>
 </blockquote>
-<p>先梳理一下层次：</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/307100151/answer/894486042">如何理解：程序、进程、线程、并发、并行、高并发？ - 大宽宽的回答 - 知乎</a></p>
+<ul>
+<li>Concurrency is not Parallelism</li>
+<li>Concurrency enables parallelism &amp; makes parallelism (and scaling and everything else) easy</li>
+</ul>
+<h3 id="more-light"><a href="#more-light" class="headerlink" title="more light?"></a>more light?</h3><blockquote>
+<p>First of all if coroutines run concurrently (never in parallel), why would anyone prefer them over threads? The answer is that coroutines can provide a very high level of concurrency with very little overhead. Generally in a threaded environment you have at most 30-50 threads before the amount of overhead wasted actually scheduling these threads (by the system scheduler) significantly cuts into the amount of time the threads actually do useful work.</p>
+</blockquote>
+<p>在并发的问题上，由于线程的使用开销（创建开销（x KB - y MB）、调度开销（线程上下文））比较大，通常用户态的协程（开销与函数(subroutine)调用接近）就能解决问题。协程轻而易举的就能创建成千上万个。</p>
+<h3 id="compare-with-THREAD"><a href="#compare-with-THREAD" class="headerlink" title="compare with THREAD"></a>compare with THREAD</h3><blockquote>
+<p>Threads and coroutines are almost orthogonal features. Coroutines are about your programming model and threads are about your execution model.</p>
+</blockquote>
+<p>协程与线程的区别有点像<strong>并发与并行的区别</strong>一样，不是一个维度的。多线程最终的目的（在现代操作系统、cpu多核的环境下）还是想并行执行提高效率。但是协程，完全是为了处理<strong>并发</strong>。一个是programming model，一个是execution model。</p>
+<blockquote>
+<p> With threads, the operating system switches running threads preemptively according to its scheduler, which is an algorithm in the operating system kernel. With coroutines, the programmer and programming language determine when to switch coroutines; in other words, tasks are cooperatively multitasked by pausing and resuming functions at set points, typically (but not necessarily) within a single thread.</p>
+</blockquote>
+<p>实际上许多线程的实现更像协程。</p>
+<h5 id="线程："><a href="#线程：" class="headerlink" title="线程："></a>线程：</h5><ul>
+<li>抢占式的</li>
+<li>内核调度</li>
+<li>上下文转换expensive</li>
+</ul>
+<h5 id="协程："><a href="#协程：" class="headerlink" title="协程："></a>协程：</h5><ul>
+<li><strong>协作</strong>式的，<strong>完全由程序员指定</strong>（也因为这一点，带来的巨大好处就是<strong>基本不会在share resouce上出问题</strong>，也就是不会出现<strong>race condition</strong>。你不可能自己设计一个有缺陷的并发代码结构吧 :)）<blockquote>
+<p>Because your routines now switch between each other a pre-determined points you can now also avoid locking on shared data structures (because you would never tell your code to switch to another coroutine in the middle of a critical section)</p>
+</blockquote>
+</li>
+<li>编程框架（程序员）调度</li>
+<li>基本没有上下文转换，开销和函数调度差不多</li>
+</ul>
+<h3 id="compare-with-subroutine"><a href="#compare-with-subroutine" class="headerlink" title="compare with subroutine"></a>compare with subroutine</h3><blockquote>
+<p>Coroutines are a more generalized form of subroutines. Subroutines are entered at one point and exited at another point. Coroutines can be entered, exited, and resumed at many different points. They can be implemented with the async def statement.</p>
+</blockquote>
+<p>回想函数/子程序调用，在线程栈里面会保留<code>return address</code>然后进行跳转执行。抽象出来，我们说子程序有一个entry pointer(and exit pointer)。协程在这方面则有多个re-entry pointer，是可以持续进入的（线性的）。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Yield &#x27;remembers&#x27; where the co-routine is so when it is called again it will continue where it left off.</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 2 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Note: Coroutines may use a return, and behave just like a subroutine</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>; //Dead code</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 1 1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="why-co-routines-are-receiving-a-lot-of-attention-recently"><a href="#why-co-routines-are-receiving-a-lot-of-attention-recently" class="headerlink" title="why co-routines are receiving a lot of attention recently?"></a>why co-routines are receiving a lot of attention recently?</h4><blockquote>
+<p>And finally, co-routines are receiving a lot of attention because in some programming languages (such as Python) your threads cannot run in parallel anyway - they run concurrently just like coroutines, but without the low memory and free scheduling overhead.</p>
+</blockquote>
+<p>关于python不能用线程：<a href="">TODO 臭名昭著的GIL</a></p>
+<h2 id="when"><a href="#when" class="headerlink" title="when"></a>when</h2><p>典型的场景就是网络延迟等待了，cpu不愿意等的地方，协程当然也不愿意等。</p>
+<blockquote>
+<p>从 CPU 的角度，协程其实更符合直觉。一个处理器核心本来就<strong>没法同时处理两件事情</strong>，要同时进行多件事情本来就需要正在运行的<strong>让出处理器</strong>，然后才能去处理另一件事情。只不过这个让出的过程是线程调度器<strong>主动抢占</strong>的。所以线程调度器是假定不同的线程是毫无关系的，所以它平均的分配时间片让处理器雨露均沾。<br>但是很快人们发现这不是事情的全部，很多时候两个线程不是完全独立的，他们会操作同一个资源。这个时候人们又发明了同步锁，使得一段时间内只有一个线程可以操作这个资源，其他线程只能等待。<br>然后我们很快发现，这特么不是<strong>脱了裤子放屁</strong>么？处理器本来同一时间就只能有一个线程在运行。是线程调度器抢断划分时间片给其他线程跑，现在其他线程又说特么我要等前面那个线程用完了这个资源才能运行。<br>也就是说，<strong>在所有线程相互独立且不会阻塞的模式下，抢断式的线程调度器是不错的选择</strong>。因为它可以保证所有的线程都可以被分到时间片不被程序员的垃圾代码所累。这对于某些事情来说是至关重要的，例如计时器、回调、IO触发器（譬如说处理请求）什么的。<br>但是在<strong>线程不是相互独立，经常因为争抢而阻塞的情况下，抢断式的线程调度器</strong>就显得脱了裤子放屁了，既然你们只能一个个的跑，那抢断还有什么意义？让你们<strong>自己去让出时间片</strong>就好了。再往后，大家发现经常有阻塞的情况下，主动让出时间片的协程模式比抢占式分配的效率要好，也简单得多。</p>
+</blockquote>
+<p>结论：</p>
+<ul>
+<li>任务之间相互独立时，使用抢占式的线程更好，这样同时保证不会有某个线程过多持有CPU</li>
+<li>任务之间有依赖，经常<strong>因为争抢而阻塞</strong>的情况下，使用协程更好。本身就规定了一个一个跑（锁），那还不如用户主动出让CPU。</li>
+</ul>
+<h2 id="how"><a href="#how" class="headerlink" title="how?"></a>how?</h2><h5 id="协程写生产者消费者"><a href="#协程写生产者消费者" class="headerlink" title="协程写生产者消费者"></a>协程写生产者消费者</h5><p>可以看到，下面的代码，<strong>解耦了生产者和消费者</strong>，逻辑过程完全是<strong>主动让出</strong>的。<br>线程实现P/C问题，如果想解耦，需要有一个<strong>阻塞队列</strong>，由底层的条件变量对临界区进行空和满状态的控制（condition.wait/condition.signal）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line"></span><br><span class="line">def consumer():</span><br><span class="line">    r &#x3D; &#39;&#39;</span><br><span class="line">    while True:</span><br><span class="line">        n &#x3D; yield r# 进行第二次迭代才重新回来</span><br><span class="line">        if not n:</span><br><span class="line">            return</span><br><span class="line">        print(&#39;[CONSUMER] Consuming %s...&#39; % n)</span><br><span class="line">        time.sleep(1)</span><br><span class="line">        r &#x3D; &#39;200 OK&#39;</span><br><span class="line"></span><br><span class="line">def produce(c):</span><br><span class="line">    c.next()</span><br><span class="line">    n &#x3D; 0</span><br><span class="line">    while n &lt; 5:</span><br><span class="line">        n &#x3D; n + 1</span><br><span class="line">        print(&#39;[PRODUCER] Producing %s...&#39; % n)</span><br><span class="line">        r &#x3D; c.send(n) # 这里的send也是根据yield来的</span><br><span class="line">        print(&#39;[PRODUCER] Consumer return: %s&#39; % r) # 这里只是一个返回结果</span><br><span class="line">    c.close()</span><br><span class="line"></span><br><span class="line">if __name__&#x3D;&#x3D;&#39;__main__&#39;:</span><br><span class="line">    c &#x3D; consumer()</span><br><span class="line">    produce(c)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h2><p>这个概念很早就出现了，那么它没有解决什么问题？</p>
 <ol>
-<li>A端业务代码调用软件框架</li>
-<li>软件框架与操作系统内核交互</li>
-<li>从操作系统内核到网卡</li>
-<li>操作系统通过网卡发出数据，经过路由器和交换机等设计，层层转发，到达B端网卡</li>
-<li>B端网卡到操作系统</li>
-<li>操作系统到B端软件框架</li>
-<li>B端软件框架到B的业务代码</li>
+<li>它只是让并发实现更简单了，但是基本的设计（何时采用并发，如何保证不出bug？）还是需要用户去思考和设计。</li>
+<li><strong>并行</strong>这个维度上仍然需要配合进程来调度。</li>
 </ol>
-<p>只有在单独一级的调用上，可以说同步还是异步的问题。</p>
-<ul>
-<li>同步：是指调用协议中结果在调用完成时返回，这样调用的过程中参与双方都处于一个状态同步的过程。</li>
-<li>异步：是指调用方<strong>发出请求就立即返回</strong>，<strong>请求甚至可能还没到达接收方</strong>，比如说放到了某个缓冲区中，等待对方取走或者第三方转交。</li>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>stackoverflow: What is coroutine?</li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/50185085/answer/1342613525">出于什么样的原因，诞生了「协程」这一概念？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/389262477/answer/1566255353">为什么编程语言对异步编程都是很晚近才开始支持的？</a></li>
 </ul>
-<p>而结果，是通过轮询或者接收方主动推送来获得。</p>
-<h3 id="1-7过程"><a href="#1-7过程" class="headerlink" title="1/7过程"></a>1/7过程</h3><p>用户代码层面，一个接口是可以设计成异步接口的。比如：</p>
-<ul>
-<li>某个beginXXX函数，调用完直接返回</li>
-<li>回调函数，将回调函数作为参数传递，回调函数在完成时调用（python中<code>func</code>与<code>func()</code>的区别）</li>
-<li>协程模型，调用接口后立即返回，切换到其他协程</li>
-</ul>
-<h3 id="2-6过程"><a href="#2-6过程" class="headerlink" title="2/6过程"></a>2/6过程</h3><p>系统调用层面。本质上，都是数据在用户空间和内核空间搬来搬去，都是同步接口。之用调用了一些特殊的API（IOCP），所以这一级是同步的。<strong>阻塞与非阻塞的区别其实是影响调用接口的结果（在特定条件下是否提前返回结果），而不是调用方式。</strong><br>    是否提前返回结果，也是返回了结果，这是这是个什么样的结果。比如 FALSE, FALSE, FALSE … TRUE!<br>TODO 陈硕图</p>
-<h3 id="3-5过程"><a href="#3-5过程" class="headerlink" title="3/5过程"></a>3/5过程</h3><p>内核一般通过缓冲区，使用<code>DMI</code>来传输数据，所以这一步又是异步的。</p>
-<h3 id="4过程"><a href="#4过程" class="headerlink" title="4过程"></a>4过程</h3><p>以太网是个<strong>同步时序逻辑</strong>，<strong>随信号传输时钟</strong>，必须两边设备<strong>同时就绪了</strong>才能开始传输数据，这又是同步的。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于通常<strong>异步的框架</strong>都需要在2中使用<strong>非阻塞</strong>的接口，的确会有很多人把非阻塞和异步混为一谈。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/117012135">同步/异步，阻塞/非阻塞</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/" data-id="ckl80qmn60002s7qobx27g991" data-title="(Non)blocking / (A)synchrony" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/coroutine/" data-id="ckl80qmni0007s7qo2d94hhd6" data-title="Coroutine" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
 
     </footer>
   </div>
@@ -550,9 +736,9 @@
 
 
   
-    <article id="post-transaction-isolation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-mutable-obj" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/transaction-isolation/" class="article-date">
+    <a href="/2021/02/16/mutable-obj/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -564,7 +750,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/transaction-isolation/">transaction - isolation</a>
+      <a class="p-name article-title" href="/2021/02/16/mutable-obj/">mutable object</a>
     </h1>
   
 
@@ -572,124 +758,17 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="为什么会需要隔离性"><a href="#为什么会需要隔离性" class="headerlink" title="为什么会需要隔离性"></a>为什么会需要隔离性</h2><p>如果<strong>两个事务</strong>不触及相同的数据，它们可以安全地并行（parallel） 运行，因为两者都不依赖于另一个。当一个事务读取由另一个事务同时修改的数据时，或者当两个事务试图同时修改相同的数据时，并发问题（<strong>竞争条件</strong>）才会出现。</p>
-<h2 id="先说概念"><a href="#先说概念" class="headerlink" title="先说概念"></a>先说概念</h2><p>四种隔离级别：</p>
-<ul>
-<li>读未提交</li>
-<li>读已提交</li>
-<li>可重复读</li>
-<li>可串行化</li>
-</ul>
-<h2 id="各个隔离级别解决了什么问题？"><a href="#各个隔离级别解决了什么问题？" class="headerlink" title="各个隔离级别解决了什么问题？"></a>各个隔离级别解决了什么问题？</h2><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>读 x 1, 写 x 1（关键字：部分对象）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">init x&#x3D;0, y&#x3D;0</span><br><span class="line"></span><br><span class="line">update x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1, y&#x3D;0 (不一致)</span><br><span class="line">update y &#x3D; 2</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">final: x &#x3D; 1, y &#x3D; 2</span><br></pre></td></tr></table></figure>
-<img src="/2021/02/16/transaction-isolation/%E8%84%8F%E8%AF%BB.jpg" class title="脏读">
-
-<ul>
-<li>用户2可能看到<strong>部分</strong>用户1修改的数据，可能在<strong>一致性</strong>上不合法。比如用户看到新的未读电子邮件（对象1），但看不到更新的计数器（对象2）。</li>
-<li>用户2如果事务中止需要<strong>回滚</strong>，用户1可能读到回滚前的数据。</li>
-</ul>
-<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
-<li>读写锁？效果并不好，可能某一方长时间占用锁</li>
-<li>临时变量保存写的对象，让读可以读这个var，避免读被写阻塞</li>
-</ul>
-<h4 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h4><h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p><del>两个对同一个对象的写，后提交的数据覆盖了前面提交的数据</del></p>
-<p>这里还和之前理解的不太一样。脏写真正的含义是，两个用户写入多个对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">update x &#x3D; 1</span><br><span class="line">                update x &#x3D; 2</span><br><span class="line">                update y &#x3D; 2</span><br><span class="line">update y &#x3D; 1</span><br><span class="line">final: x &#x3D; 2, y &#x3D; 1</span><br></pre></td></tr></table></figure>
-<img src="/2021/02/16/transaction-isolation/%E8%84%8F%E5%86%99.jpg" class title="脏写">
-
-<h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
-<li>行锁</li>
-</ul>
-<h5 id="没有解决什么？（丢失更新）"><a href="#没有解决什么？（丢失更新）" class="headerlink" title="没有解决什么？（丢失更新）"></a>没有解决什么？（丢失更新）</h5><p>典型的计数器递增，主要的错误是<strong>读</strong>的过程出了问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1</span><br><span class="line">update x +&#x3D; 1(2)</span><br><span class="line">                update x +&#x3D; 1(2)</span><br><span class="line">final: x &#x3D; 2</span><br></pre></td></tr></table></figure>
-<img src="/2021/02/16/transaction-isolation/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" class title="丢失更新">
-
-
-
-<p>以上的隔离级别基本解决了一些常见的麻烦。</p>
-<ul>
-<li>读取不完整的事务结果</li>
-<li>并排写入的并发</li>
-</ul>
-<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>持续时间长的事务，由于没有阻塞其他写，导致时间跨度较长的前后时间点读取的某个对象的数据不一致。</p>
-<img src="/2021/02/16/transaction-isolation/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" class title="可重复读">
-
-<h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><ol>
-<li><p>备份，<strong>持续时间长</strong>。这段时间，肯定是接受写入操作的。如果想从这个备份进行恢复，那么不一致就会变成永久的。</p>
-</li>
-<li><p>分析查询和完整性检查</p>
-</li>
-</ol>
-<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
-<li>快照隔离。MVCC。</li>
-</ul>
-<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><img src="/2021/02/16/transaction-isolation/MVCC.jpg" class title="MVCC">
-
-<ol>
-<li><strong>多版本</strong>是指某个对象的某个版本</li>
-<li>一个事务一个id（txid，自增长）。</li>
-<li>每当一个事务写入内容，他所写入的数据都会标记上写入者的事务ID。（create_by, delete_by）</li>
-</ol>
-<p>MVCC也可以用在读已提交上面，主要实现是保留两个版本的快照，为每个查询适用单独的快照</p>
-<h5 id="索引在快照隔离上起作用"><a href="#索引在快照隔离上起作用" class="headerlink" title="索引在快照隔离上起作用"></a>索引在快照隔离上起作用</h5><ul>
-<li>一种选择是使用索引简单的指向对象的<strong>所有版本</strong>，并通过索引查询<strong>过滤</strong>当前事务不可见的任何对象版本</li>
-<li>也有一些数据库选用了仅追加的B-tree，每个写入的事务都创建新的树</li>
-</ul>
-<h3 id="防止丢失更新"><a href="#防止丢失更新" class="headerlink" title="防止丢失更新"></a>防止丢失更新</h3><p>只读事务 在 并发写入时看到什么？<strong>读已提交、快照隔离。</strong></p>
-<p>那么写事务进行并发写入呢？（计数器递增）</p>
-<ol>
-<li><p>原子写</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE counters <span class="keyword">SET</span> <span class="keyword">value</span> <span class="operator">=</span> <span class="keyword">value</span> <span class="operator">+</span> <span class="number">1</span> <span class="keyword">WHERE</span> key <span class="operator">=</span> <span class="string">&#x27;foo&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p> 游标稳定性（cursor stability）</p>
-</li>
-<li><p>显式锁定<br> <code>FOR UPDATE</code>对select返回的所有行<strong>加锁</strong></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> figures</span><br><span class="line">    <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;robot&#x27;</span> <span class="keyword">AND</span> game_id <span class="operator">=</span> <span class="number">222</span></span><br><span class="line"><span class="keyword">FOR</span> UPDATE;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查玩家的操作是否有效，然后更新先前SELECT返回棋子的位置。</span></span><br><span class="line">UPDATE figures <span class="keyword">SET</span> position <span class="operator">=</span> <span class="string">&#x27;c4&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>自动检测丢失的更新</p>
-<ul>
-<li>允许并发写入，写入过后对结果进行检查（中止事务，强制重试 read-update-commit）</li>
-</ul>
-</li>
-<li><p>比较并设置（CAS）</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 根据数据库的实现情况，这可能也可能不安全</span></span><br><span class="line">UPDATE wiki_pages <span class="keyword">SET</span> content <span class="operator">=</span> <span class="string">&#x27;新内容&#x27;</span></span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span> <span class="keyword">AND</span> content <span class="operator">=</span> <span class="string">&#x27;旧内容&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p> 也可能不安全，where从旧的快照中获取数据（MVCC带来的问题）</p>
-</li>
-<li><p>冲突解决和复制（<strong>分布式的场景</strong>，多节点）</p>
-<ul>
-<li>复制数据库中，多对个『<strong>兄弟</strong>』值应用代码进行处理</li>
-<li>如果有可交换性，最终结果也能一致。例如，递增计数器或向集合添加元素是可<strong>交换的操作</strong>。</li>
-<li><strong>最后写入为准</strong>（LWW）的冲突解决方法很容易丢失更新。不幸的是，LWW是许多复制数据库中的默认值。</li>
-</ul>
-</li>
-</ol>
-<h3 id="写入偏差与幻读"><a href="#写入偏差与幻读" class="headerlink" title="写入偏差与幻读"></a>写入偏差与幻读</h3><p>前面说的，<strong>脏写、丢失更新</strong>，主要是并发写入相同对象。那么不同对象呢（但又影响最终结果）？</p>
-<p><strong>写入偏差</strong>视为<strong>丢失更新</strong>问题的一般化。</p>
-<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><img src="/2021/02/16/transaction-isolation/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg" class title="写入偏差">
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get x</span><br><span class="line">                get x</span><br><span class="line">check x</span><br><span class="line">                check x</span><br><span class="line">update y</span><br><span class="line">                update y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="为什么会出现写入偏差"><a href="#为什么会出现写入偏差" class="headerlink" title="为什么会出现写入偏差"></a>为什么会出现写入偏差</h4><p>幻读</p>
-<p>所有这些例子都遵循类似的模式：</p>
-<ol>
-<li><p>一个SELECT查询找出符合条件的行，并检查是否符合一些要求。（例如：至少有两名医生在值班；不存在对该会议室同一时段的预定；棋盘上的位置没有被其他棋子占据；用户名还没有被抢注；账户里还有足够余额）</p>
-</li>
-<li><p>按照第一个查询的结果，应用代码决定是否继续。（可能会继续操作，也可能中止并报错）</p>
-</li>
-<li><p>如果应用决定继续操作，就执行写入（插入、更新或删除），并提交事务。</p>
-</li>
-</ol>
-<p>这个<strong>写入</strong>的效果改变了步骤2 中的先决条件。换句话说，如果在提交写入后，重复执行一次步骤1 的<strong>SELECT</strong>查询，将会得到<strong>不同的结果</strong>。因为<strong>写入改变符合搜索条件的行集</strong>（现在少了一个医生值班，那时候的会议室现在已经被预订了，棋盘上的这个位置已经被占据了，用户名已经被抢注，账户余额不够了）。</p>
-<p>这些步骤可能以不同的顺序发生。例如可以首先进行写入，然后进行SELECT查询，最后根据查询结果决定是放弃还是提交。</p>
-<p>在医生值班的例子中，在步骤3中修改的行，是步骤1中返回的行之一，所以我们可以通过锁定步骤1 中的行（<strong>SELECT FOR UPDATE</strong>）来使事务安全并避免写入偏差。但是其他四个例子是不同的：它们检查是否不存在某些满足条件的行，写入会添加一个匹配相同条件的行。<strong>如果步骤1中的查询没有返回任何行，则SELECT FOR UPDATE锁不了任何东西</strong>。</p>
-<p>这种效应：<strong>一个事务中的写入改变另一个事务的搜索查询的结果，被称为幻读</strong>【3】。快照隔离避免了只读查询中幻读，但是在像我们讨论的例子那样的读写事务中，幻影会导致特别棘手的写歪斜情况。</p>
-<p>总结：某些情况可以使用<code>SELECT FOR UPDATE</code>防止幻读，但是如果<code>SELECT FOR UPDATE</code>没有结果行，锁不住任何东西，潜在还是会出错。</p>
+        <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
+<p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/transaction-isolation/" data-id="ckl81d7wj0002akqo52v67lex" data-title="transaction - isolation" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/mutable-obj/" data-id="ckl81d7w80000akqo4nnlaltu" data-title="mutable object" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DB/" rel="tag">DB</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
 
     </footer>
   </div>
@@ -699,9 +778,9 @@
 
 
   
-    <article id="post-diff-ipc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-why-need-type-system" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/diff-ipc/" class="article-date">
+    <a href="/2021/02/16/why-need-type-system/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -713,7 +792,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-ipc/">IPC - Intro</a>
+      <a class="p-name article-title" href="/2021/02/16/why-need-type-system/">why need type system?</a>
     </h1>
   
 
@@ -721,150 +800,25 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
+        <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
 <ol>
-<li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
-<li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
+<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
+<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
 </ol>
-<p>Benchmark and Message Boundary: </p>
+<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
 <ul>
-<li><strong>Pipe</strong> I/O is the fastest but needs a <strong>parent/child relationship</strong> to work.</li>
-<li>Sysv IPC has a defined message boundary and can connect disparate processes locally, for example, <strong>MQ</strong></li>
-<li>UNIX sockets can connect disparate processes <strong>locally</strong> and has <strong>higher bandwidth</strong> but no inherent message boundaries.</li>
-<li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
+<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
+<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
 </ul>
-<h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
-<li><p>anonymous pipe: </p>
-<ul>
-<li>usage: cat file | grep word</li>
-<li>单向</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
-</ul>
-</li>
-<li><p>named pipe: </p>
-  <img src="/2021/02/16/diff-ipc/fifo.png" class title="fifo">
-<ul>
-<li>半双工</li>
-<li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
-</ul>
-</li>
-<li><p>signal</p>
-<ul>
-<li>fork + signal</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell">implement: tiny shell</a></li>
-</ul>
-</li>
-<li><p>file lock</p>
-</li>
-<li><p>Semaphores</p>
-<ul>
-<li>某种同步原语，当需要锁功能或者生产消费一定数量的资源时</li>
-</ul>
-</li>
-<li><p>socket</p>
-<ul>
-<li>全双工，本机或网络</li>
-<li>TODO web server</li>
-</ul>
-</li>
-<li><p>mmap</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">What is mmap?</a><ul>
-<li>mmap是什么？</li>
-<li>为什么需要mmap()</li>
-<li>pros and cons</li>
-<li>一些可以运行的例子</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>shared memory</p>
-</li>
-</ul>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-ipc/" data-id="ckl80qmnn000as7qo2f1sanxx" data-title="IPC - Intro" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/why-need-type-system/" data-id="ckl80qmtf0028s7qoeyi03blz" data-title="why need type system?" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-diff-multi-process-multi-thread-io-resue" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/diff-multi-process-multi-thread-io-resue/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-multi-process-multi-thread-io-resue/">multi process, multi thread and IO reuse</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
-<ol>
-<li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
-</ol>
-<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><ol>
-<li><p>开销：</p>
-<ul>
-<li>进程创建</li>
-<li>进程调度（上下文转换）</li>
-</ul>
-</li>
-<li><p>数据共享：IPC</p>
-</li>
-<li><p>debug麻烦，一些工具比如<code>GDB</code>都不太好使用了</p>
-</li>
-</ol>
-<h2 id="io复用"><a href="#io复用" class="headerlink" title="io复用"></a>io复用</h2><h4 id="pros-1"><a href="#pros-1" class="headerlink" title="pros"></a>pros</h4><ol>
-<li>【利好程序员】更好的控制。典型的场景，处理多个客户端的时候（event-drive）。（多进程并发模型需要每次close(listenfd)）TODO why？如果不close？test</li>
-<li>同一进程的缘故，共享数据更方便。</li>
-</ol>
-<h4 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h4><ol>
-<li>想要处理的事件（类型）越多，代码结构复杂</li>
-<li>partial read问题（EOF），多进程信号处理很方便。</li>
-<li>【并发粒度】并发多少条指令（时间片）？(CSAPP)</li>
-</ol>
-<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h4 id="pros-2"><a href="#pros-2" class="headerlink" title="pros"></a>pros</h4><ol>
-<li>开销比进程小</li>
-<li>多核上可以并行</li>
-<li>更好的共享信息（除了thread stack各自维护，其他segment都是共享的，包括：heap、read-only(const data), read-write(global/static), code, share memory(mmap, .so)）</li>
-</ol>
-<h4 id="cons-2"><a href="#cons-2" class="headerlink" title="cons"></a>cons</h4><ol>
-<li>由于共享的问题，潜在的并发问题都出现了：deadlock、race condition</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工业上比较好的方式：one loop(io reuse) per thread (muduo)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-multi-process-multi-thread-io-resue/" data-id="ckl80qmnq000bs7qo56dt0ikc" data-title="multi process, multi thread and IO reuse" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
 
     </footer>
   </div>
@@ -1110,7 +1064,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li></ul>
     </div>
   </div>
 
@@ -1131,15 +1085,15 @@
           </li>
         
           <li>
+            <a href="/2021/02/18/transaction-isolation/">transaction - isolation</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/17/diff-between-partition-and-sharding/">partition and sharding</a>
           </li>
         
           <li>
-            <a href="/2021/02/16/DIFF-blocking-non-blocking-synchronism-asynchronism/">(Non)blocking / (A)synchrony</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/transaction-isolation/">transaction - isolation</a>
+            <a href="/2021/02/16/coroutine/">Coroutine</a>
           </li>
         
       </ul>

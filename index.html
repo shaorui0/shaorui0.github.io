@@ -71,6 +71,212 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-what-is-nginx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/20/what-is-nginx/" class="article-date">
+  <time class="dt-published" datetime="2021-02-20T13:55:13.000Z" itemprop="datePublished">2021-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/20/what-is-nginx/">what is NGINX?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-NGINX"><a href="#what-is-NGINX" class="headerlink" title="what is NGINX?"></a>what is NGINX?</h1><h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><img src="/2021/02/20/what-is-nginx/nginx1.png" class title="nginx1">
+
+<h4 id="如何做到热部署"><a href="#如何做到热部署" class="headerlink" title="如何做到热部署"></a>如何做到<strong>热部署</strong></h4><h6 id="nginx-做法："><a href="#nginx-做法：" class="headerlink" title="nginx 做法："></a>nginx 做法：</h6><ol>
+<li>Change nginx.conf</li>
+<li>The changes take effect<ul>
+<li>new some workers, new requests =&gt; new workers.</li>
+<li>old workers <strong>continue</strong> to handle unfinished requests. If a old worker completes the <strong>remaining</strong> requests, <strong>KILL</strong> it.</li>
+</ul>
+</li>
+</ol>
+<h6 id="还有可能的方案："><a href="#还有可能的方案：" class="headerlink" title="还有可能的方案："></a>还有可能的方案：</h6><p>修改配置文件nginx.conf后，主进程master负责推送给woker进程更新配置信息，woker进程收到信息后，更新进程内部的线程信息。（有点 valatile 的味道）</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><img src="/2021/02/20/what-is-nginx/nginx2.png" class title="虚拟主机">
+
+<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
+<ol>
+<li>通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
+<li>为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
+<li>静态资源包括 业务数据 和 日志数据，归属到不同域名下（目录），方便维护。</li>
+<li>IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
+</ol>
+<h3 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1. 反向代理"></a>1. 反向代理</h3><p>location:</p>
+<ul>
+<li>root: 静态返回</li>
+<li>proxy_pass: 动态转发</li>
+</ul>
+<h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2. 负载均衡"></a>2. 负载均衡</h3><ul>
+<li>upstream: nginx 定义<strong>一组</strong>后端服务，通过一些 LB 策略进行<strong>负载均衡</strong>，同时进行<strong>健康检查</strong>。</li>
+<li>proxy_pass =&gt; upstream</li>
+</ul>
+<h5 id="负载均衡有哪些策略？"><a href="#负载均衡有哪些策略？" class="headerlink" title="负载均衡有哪些策略？"></a>负载均衡有哪些策略？</h5><p>（IPHASH、加权论调、最少连接……）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer">https://github.com/shaorui0/tiny_load_balancer</a></p>
+<h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>显而易见，可以 scale up ，部署更多的 server 来处理 request。</p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><p>本质还是『<strong>一致性</strong>』问题。web 层面，比如用户的 session 信息不一致。（由于 request 经过 lb 到达不同的 server 端）</p>
+<h4 id="从-tiny-lb-中学到什么？"><a href="#从-tiny-lb-中学到什么？" class="headerlink" title="从 tiny_lb 中学到什么？"></a>从 tiny_lb 中学到什么？</h4><ol>
+<li>反向代理是什么东西？<br>本质是<strong>解耦</strong>，client 不知道 server 的 IP ， server 不知道 client 的 IP。两者都经过第三方 reverse_proxy_server ，更符合直觉。</li>
+<li>正向代理是什么东西？<br>典型的应用场景就是<strong>VPN</strong>，client 知道 server 的 IP，但是中间是通过第三方绕过了 WALL，对 client 透明，server 获取到的 IP 是 <strong>VPN_server.IP</strong>。</li>
+</ol>
+<h3 id="3-缓存"><a href="#3-缓存" class="headerlink" title="3. 缓存"></a>3. 缓存</h3><p>TODO</p>
+<h3 id="怎么进行高并发"><a href="#怎么进行高并发" class="headerlink" title="怎么进行高并发"></a>怎么进行高并发</h3><ol>
+<li>优秀的架构设计，eventloop…</li>
+<li>Master - Worker  (1 - n)</li>
+</ol>
+<h3 id="怎么进行高可用"><a href="#怎么进行高可用" class="headerlink" title="怎么进行高可用"></a>怎么进行高可用</h3><p>[keepalive + nginx] keppalive 监控 nginx 的生命，防止单点 nginx 挂掉。</p>
+<h2 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># https:&#x2F;&#x2F;www.nginx.com&#x2F;resources&#x2F;wiki&#x2F;start&#x2F;topics&#x2F;examples&#x2F;full&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34943332">reference blog</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">nginx config example</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/20/what-is-nginx/" data-id="ckl80qmsb001ps7qo6o10ddp7" data-title="what is NGINX?" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-diff-between-partition-and-sharding" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/17/diff-between-partition-and-sharding/" class="article-date">
+  <time class="dt-published" datetime="2021-02-17T13:55:13.000Z" itemprop="datePublished">2021-02-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/17/diff-between-partition-and-sharding/">partition and sharding</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+<h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
+<ul>
+<li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
+</ul>
+<h4 id="What-is-sharding"><a href="#What-is-sharding" class="headerlink" title="What is sharding?"></a>What is sharding?</h4><ul>
+<li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
+</ul>
+<h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
+<ul>
+<li>最初的identifiers就是RDBMS中的自增id了，这种标识符称为<strong>Shard Key</strong></li>
+<li>最常用的一种key-less logic是通过字母序来决定的</li>
+<li>还有些是使用key-synchronizition system ===&gt; zookeeper（管理分布式系统）</li>
+</ul>
+<h2 id="Instagram-instance"><a href="#Instagram-instance" class="headerlink" title="Instagram instance"></a>Instagram instance</h2><ol>
+<li>开始不给系统带来太大的复杂度，比如引进分布式系统</li>
+<li>讨论方案的时候，典型的<strong>优缺点</strong>要罗列清楚（pros and cons），这样才好更容易做决策。</li>
+<li><strong>sharding</strong>的本质就是<strong>数据存放好之后（将数据分到很多桶里）我如何取的问题</strong></li>
+<li>典型的就要对id这个东西非常上心</li>
+</ol>
+<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ul>
+<li>id要以时间有序的方式排序（即使没有其他信息，也能够排序）</li>
+<li>id最理想的长度应该是64bits（更小的索引，更好的存储（比如适配redis））</li>
+<li>系统应该引入比较少的、新的’moving parts’（复杂度）</li>
+</ul>
+<h3 id="可能的解法（pros-and-cons）："><a href="#可能的解法（pros-and-cons）：" class="headerlink" title="可能的解法（pros and cons）："></a>可能的解法（pros and cons）：</h3><ol>
+<li><p>通过代码而非数据库的自增id（mongoDB’s Object）</p>
+<ul>
+<li>好处<ul>
+<li>application thread generates IDs independently</li>
+<li>使用时间戳作为第一部分，自动排序</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>保证独立需要很多storage space（为什么？线程控制，全局独立，随着id足够多…）</li>
+<li>UUID？也没有一个很好的natural sort，而且128bits长度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>某种服务专门用来产生id<br>twitter的snowflake，apache zookeeper，64-bits unique IDs</p>
+<ul>
+<li>好处<ul>
+<li>64-bits</li>
+<li>time作为第一部分</li>
+<li>分布式系统，更加可用、某些节点死了的情况下</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>引入了复杂度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>DB自动增加的能力（two ticket DBs 避免单节点失败）</p>
+<ul>
+<li>好处<ul>
+<li>很好理解，很好的预期扩展性</li>
+</ul>
+</li>
+<li>坏处<ul>
+<li>写会有瓶颈（事务带来）</li>
+<li>需要一些机器专门来管理（比如EC2）</li>
+<li>单节点可能失效，多节点可能不保证随时间的有序性（考虑两个节点交叉写的情况）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><blockquote>
+<p>现代RDBMS（PostgreSQL）提供了<strong>逻辑上的sharding</strong>，在很少的机器情况下，仍然能进行分片</p>
+</blockquote>
+<p>以上一些方案，分布式的方法更适合。但是，会引入复杂度。</p>
+<p>逻辑分片，粒度：DB =&gt;  schema =&gt; table，而不是传统的DB =&gt; schema（public）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Postgre有内置的语言，通过位运算处理三部分的id</span></span><br><span class="line"></span><br><span class="line">41bits（微秒） ===&gt; 41年</span><br><span class="line">13bits（逻辑shard）</span><br><span class="line">10bits（取模）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每微秒每个shard产生1024个ID</span></span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20771435/database-sharding-vs-partitioning">database-sharding-vs-partitionin</a></p>
+<p><a target="_blank" rel="noopener" href="https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c">EXAMPLE: handle instagram id</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/17/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="partition and sharding" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-waitpid-flag-set" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/02/16/waitpid-flag-set/" class="article-date">
@@ -200,9 +406,9 @@
 
 
   
-    <article id="post-coroutine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-python-generator-iterator-decorator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/02/16/coroutine/" class="article-date">
+    <a href="/2021/02/16/python-generator-iterator-decorator/" class="article-date">
   <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
 </a>
     
@@ -214,7 +420,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/coroutine/">Coroutine</a>
+      <a class="p-name article-title" href="/2021/02/16/python-generator-iterator-decorator/">iterator, generator and decorator</a>
     </h1>
   
 
@@ -222,273 +428,42 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
-<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
-<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
-<h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><h3 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h3><blockquote>
-<p>Concurrency is the separation of tasks to provide interleaved execution. Parallelism is the simultaneous execution of multiple pieces of work in order to increase speed. —<a target="_blank" rel="noopener" href="https://github.com/servo/servo/wiki/Design">https://github.com/servo/servo/wiki/Design</a></p>
+        <h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="What-is"><a href="#What-is" class="headerlink" title="What is ?"></a>What is ?</h3><ol>
+<li>一种语法糖，能够使得修改函数变得容易</li>
+<li>典型的实现是通过使用闭包<br>def foo(x):<br> def bar(y):<pre><code> # do something to y
+</code></pre>
+ return bar(x) * x</li>
+</ol>
+<h3 id="why-need"><a href="#why-need" class="headerlink" title="why need?"></a>why need?</h3><p>其实就是为了能够更好的在普通函数上增加一些额外的功能<br>通过在语言级别加一些语法糖，能够更方便的使用功能，一切为了简单。</p>
+<h3 id="in-action"><a href="#in-action" class="headerlink" title="in action"></a>in action</h3><p>日志：普通函数、扩展类成员函数</p>
+<h1 id="迭代器、生成器"><a href="#迭代器、生成器" class="headerlink" title="迭代器、生成器"></a>迭代器、生成器</h1><p>为什么两个要一起说。生成器是在可迭代对象的基础上工作的。</p>
+<h2 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h2><p>在python里面，能够for-in遍历的，都是可迭代对象</p>
+<p>可迭代对象的底层是两个函数实现 <code>__iter__</code>, <code>__getitem__</code>，<br>显然list、dict、tuple、str都是可迭代的</p>
+<h3 id="iter-iterable-obj-gt-iterator"><a href="#iter-iterable-obj-gt-iterator" class="headerlink" title="iter(iterable_obj) =&gt; iterator"></a>iter(iterable_obj) =&gt; iterator</h3><p><a target="_blank" rel="noopener" href="https://www.jb51.net/article/149093.htm">https://www.jb51.net/article/149093.htm</a></p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>迭代器是访问集合元素的一种方式。能通过for-in遍历，<strong>并且能够使用next()进行迭代</strong><br>主要的不同点就是可以使用next()进行遍历，并且对长度未知，比如一个典型的fib功能可以无限迭代。<br>同时是惰性的，边迭代边求值。</p>
+<p>TODO 写一个典型的迭代器class fib</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Fib:</span><br><span class="line">    def __init__(self):</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    def __iter__self):</span><br><span class="line">        return self</span><br><span class="line">    </span><br><span class="line">    def __next__self):</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>next(obj) =&gt; obj.__next__()</code></p>
+<p>基础的数据类型（list等）都不是迭代器，因为没有next()方法</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><blockquote>
+<p>Objects are data with methods attached, closures are functions with data attached.<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18274051/closure-in-python">closure-in-python</a></p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/307100151/answer/894486042">如何理解：程序、进程、线程、并发、并行、高并发？ - 大宽宽的回答 - 知乎</a></p>
-<ul>
-<li>Concurrency is not Parallelism</li>
-<li>Concurrency enables parallelism &amp; makes parallelism (and scaling and everything else) easy</li>
-</ul>
-<h3 id="more-light"><a href="#more-light" class="headerlink" title="more light?"></a>more light?</h3><blockquote>
-<p>First of all if coroutines run concurrently (never in parallel), why would anyone prefer them over threads? The answer is that coroutines can provide a very high level of concurrency with very little overhead. Generally in a threaded environment you have at most 30-50 threads before the amount of overhead wasted actually scheduling these threads (by the system scheduler) significantly cuts into the amount of time the threads actually do useful work.</p>
-</blockquote>
-<p>在并发的问题上，由于线程的使用开销（创建开销（x KB - y MB）、调度开销（线程上下文））比较大，通常用户态的协程（开销与函数(subroutine)调用接近）就能解决问题。协程轻而易举的就能创建成千上万个。</p>
-<h3 id="compare-with-THREAD"><a href="#compare-with-THREAD" class="headerlink" title="compare with THREAD"></a>compare with THREAD</h3><blockquote>
-<p>Threads and coroutines are almost orthogonal features. Coroutines are about your programming model and threads are about your execution model.</p>
-</blockquote>
-<p>协程与线程的区别有点像<strong>并发与并行的区别</strong>一样，不是一个维度的。多线程最终的目的（在现代操作系统、cpu多核的环境下）还是想并行执行提高效率。但是协程，完全是为了处理<strong>并发</strong>。一个是programming model，一个是execution model。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_counter</span>():</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">counter</span>():</span> <span class="comment"># counter() is a closure</span></span><br><span class="line">        <span class="keyword">nonlocal</span> i <span class="comment"># python3</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> i</span><br><span class="line">    <span class="keyword">return</span> counter</span><br><span class="line"></span><br><span class="line">c1 = make_counter()</span><br><span class="line">c2 = make_counter()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (c1(), c1(), c2(), c2())</span><br><span class="line"><span class="comment"># -&gt; 1 2 1 2</span></span><br></pre></td></tr></table></figure>
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>yield相当于提供了一个语言层面的功能来帮助实现生成器</p>
 <blockquote>
-<p> With threads, the operating system switches running threads preemptively according to its scheduler, which is an algorithm in the operating system kernel. With coroutines, the programmer and programming language determine when to switch coroutines; in other words, tasks are cooperatively multitasked by pausing and resuming functions at set points, typically (but not necessarily) within a single thread.</p>
+<p>A generator is simply a function which returns an object on which you can call next, such that for every call it returns some value, until it raises a StopIteration exception, signaling that all values have been generated. Such an object is called an iterator.</p>
 </blockquote>
-<p>实际上许多线程的实现更像协程。</p>
-<h5 id="线程："><a href="#线程：" class="headerlink" title="线程："></a>线程：</h5><ul>
-<li>抢占式的</li>
-<li>内核调度</li>
-<li>上下文转换expensive</li>
-</ul>
-<h5 id="协程："><a href="#协程：" class="headerlink" title="协程："></a>协程：</h5><ul>
-<li><strong>协作</strong>式的，<strong>完全由程序员指定</strong>（也因为这一点，带来的巨大好处就是<strong>基本不会在share resouce上出问题</strong>，也就是不会出现<strong>race condition</strong>。你不可能自己设计一个有缺陷的并发代码结构吧 :)）<blockquote>
-<p>Because your routines now switch between each other a pre-determined points you can now also avoid locking on shared data structures (because you would never tell your code to switch to another coroutine in the middle of a critical section)</p>
-</blockquote>
-</li>
-<li>编程框架（程序员）调度</li>
-<li>基本没有上下文转换，开销和函数调度差不多</li>
-</ul>
-<h3 id="compare-with-subroutine"><a href="#compare-with-subroutine" class="headerlink" title="compare with subroutine"></a>compare with subroutine</h3><blockquote>
-<p>Coroutines are a more generalized form of subroutines. Subroutines are entered at one point and exited at another point. Coroutines can be entered, exited, and resumed at many different points. They can be implemented with the async def statement.</p>
-</blockquote>
-<p>回想函数/子程序调用，在线程栈里面会保留<code>return address</code>然后进行跳转执行。抽象出来，我们说子程序有一个entry pointer(and exit pointer)。协程在这方面则有多个re-entry pointer，是可以持续进入的（线性的）。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Yield &#x27;remembers&#x27; where the co-routine is so when it is called again it will continue where it left off.</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 2 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Note: Coroutines may use a return, and behave just like a subroutine</span></span><br><span class="line"></span><br><span class="line">coroutine foo &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>; //Dead code</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="built_in">print</span> foo();</span><br><span class="line"><span class="comment"># Prints: 1 1 1</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="why-co-routines-are-receiving-a-lot-of-attention-recently"><a href="#why-co-routines-are-receiving-a-lot-of-attention-recently" class="headerlink" title="why co-routines are receiving a lot of attention recently?"></a>why co-routines are receiving a lot of attention recently?</h4><blockquote>
-<p>And finally, co-routines are receiving a lot of attention because in some programming languages (such as Python) your threads cannot run in parallel anyway - they run concurrently just like coroutines, but without the low memory and free scheduling overhead.</p>
-</blockquote>
-<p>关于python不能用线程：<a href="">TODO 臭名昭著的GIL</a></p>
-<h2 id="when"><a href="#when" class="headerlink" title="when"></a>when</h2><p>典型的场景就是网络延迟等待了，cpu不愿意等的地方，协程当然也不愿意等。</p>
-<blockquote>
-<p>从 CPU 的角度，协程其实更符合直觉。一个处理器核心本来就<strong>没法同时处理两件事情</strong>，要同时进行多件事情本来就需要正在运行的<strong>让出处理器</strong>，然后才能去处理另一件事情。只不过这个让出的过程是线程调度器<strong>主动抢占</strong>的。所以线程调度器是假定不同的线程是毫无关系的，所以它平均的分配时间片让处理器雨露均沾。<br>但是很快人们发现这不是事情的全部，很多时候两个线程不是完全独立的，他们会操作同一个资源。这个时候人们又发明了同步锁，使得一段时间内只有一个线程可以操作这个资源，其他线程只能等待。<br>然后我们很快发现，这特么不是<strong>脱了裤子放屁</strong>么？处理器本来同一时间就只能有一个线程在运行。是线程调度器抢断划分时间片给其他线程跑，现在其他线程又说特么我要等前面那个线程用完了这个资源才能运行。<br>也就是说，<strong>在所有线程相互独立且不会阻塞的模式下，抢断式的线程调度器是不错的选择</strong>。因为它可以保证所有的线程都可以被分到时间片不被程序员的垃圾代码所累。这对于某些事情来说是至关重要的，例如计时器、回调、IO触发器（譬如说处理请求）什么的。<br>但是在<strong>线程不是相互独立，经常因为争抢而阻塞的情况下，抢断式的线程调度器</strong>就显得脱了裤子放屁了，既然你们只能一个个的跑，那抢断还有什么意义？让你们<strong>自己去让出时间片</strong>就好了。再往后，大家发现经常有阻塞的情况下，主动让出时间片的协程模式比抢占式分配的效率要好，也简单得多。</p>
-</blockquote>
-<p>结论：</p>
-<ul>
-<li>任务之间相互独立时，使用抢占式的线程更好，这样同时保证不会有某个线程过多持有CPU</li>
-<li>任务之间有依赖，经常<strong>因为争抢而阻塞</strong>的情况下，使用协程更好。本身就规定了一个一个跑（锁），那还不如用户主动出让CPU。</li>
-</ul>
-<h2 id="how"><a href="#how" class="headerlink" title="how?"></a>how?</h2><h5 id="协程写生产者消费者"><a href="#协程写生产者消费者" class="headerlink" title="协程写生产者消费者"></a>协程写生产者消费者</h5><p>可以看到，下面的代码，<strong>解耦了生产者和消费者</strong>，逻辑过程完全是<strong>主动让出</strong>的。<br>线程实现P/C问题，如果想解耦，需要有一个<strong>阻塞队列</strong>，由底层的条件变量对临界区进行空和满状态的控制（condition.wait/condition.signal）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line"></span><br><span class="line">def consumer():</span><br><span class="line">    r &#x3D; &#39;&#39;</span><br><span class="line">    while True:</span><br><span class="line">        n &#x3D; yield r# 进行第二次迭代才重新回来</span><br><span class="line">        if not n:</span><br><span class="line">            return</span><br><span class="line">        print(&#39;[CONSUMER] Consuming %s...&#39; % n)</span><br><span class="line">        time.sleep(1)</span><br><span class="line">        r &#x3D; &#39;200 OK&#39;</span><br><span class="line"></span><br><span class="line">def produce(c):</span><br><span class="line">    c.next()</span><br><span class="line">    n &#x3D; 0</span><br><span class="line">    while n &lt; 5:</span><br><span class="line">        n &#x3D; n + 1</span><br><span class="line">        print(&#39;[PRODUCER] Producing %s...&#39; % n)</span><br><span class="line">        r &#x3D; c.send(n) # 这里的send也是根据yield来的</span><br><span class="line">        print(&#39;[PRODUCER] Consumer return: %s&#39; % r) # 这里只是一个返回结果</span><br><span class="line">    c.close()</span><br><span class="line"></span><br><span class="line">if __name__&#x3D;&#x3D;&#39;__main__&#39;:</span><br><span class="line">    c &#x3D; consumer()</span><br><span class="line">    produce(c)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h2><p>这个概念很早就出现了，那么它没有解决什么问题？</p>
-<ol>
-<li>它只是让并发实现更简单了，但是基本的设计（何时采用并发，如何保证不出bug？）还是需要用户去思考和设计。</li>
-<li><strong>并行</strong>这个维度上仍然需要配合进程来调度。</li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>stackoverflow: What is coroutine?</li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/50185085/answer/1342613525">出于什么样的原因，诞生了「协程」这一概念？</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/389262477/answer/1566255353">为什么编程语言对异步编程都是很晚近才开始支持的？</a></li>
-</ul>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1756096/understanding-generators-in-python">generators-in-python</a></p>
+<p>其实本质就是建立在迭代器之上，但是这个迭代器是一个对象，通过yield对这个对象进行迭代，直到<code>StopIteration</code> exception</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/coroutine/" data-id="ckl80qmni0007s7qo2d94hhd6" data-title="Coroutine" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/02/16/python-generator-iterator-decorator/" data-id="ckl81d7we0001akqoetmy8ekx" data-title="iterator, generator and decorator" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming-language/" rel="tag">programming language</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-diff-between-partition-and-sharding" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/diff-between-partition-and-sharding/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
-<h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
-<ul>
-<li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
-<li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
-</ul>
-<h4 id="What-is-sharding"><a href="#What-is-sharding" class="headerlink" title="What is sharding?"></a>What is sharding?</h4><ul>
-<li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
-</ul>
-<h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
-<ul>
-<li>最初的identifiers就是RDBMS中的自增id了，这种标识符称为<strong>Shard Key</strong></li>
-<li>最常用的一种key-less logic是通过字母序来决定的</li>
-<li>还有些是使用key-synchronizition system ===&gt; zookeeper（管理分布式系统）</li>
-</ul>
-<h2 id="Instagram-instance"><a href="#Instagram-instance" class="headerlink" title="Instagram instance"></a>Instagram instance</h2><ol>
-<li>开始不给系统带来太大的复杂度，比如引进分布式系统</li>
-<li>讨论方案的时候，典型的<strong>优缺点</strong>要罗列清楚（pros and cons），这样才好更容易做决策。</li>
-<li><strong>sharding</strong>的本质就是<strong>数据存放好之后（将数据分到很多桶里）我如何取的问题</strong></li>
-<li>典型的就要对id这个东西非常上心</li>
-</ol>
-<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ul>
-<li>id要以时间有序的方式排序（即使没有其他信息，也能够排序）</li>
-<li>id最理想的长度应该是64bits（更小的索引，更好的存储（比如适配redis））</li>
-<li>系统应该引入比较少的、新的’moving parts’（复杂度）</li>
-</ul>
-<h3 id="可能的解法（pros-and-cons）："><a href="#可能的解法（pros-and-cons）：" class="headerlink" title="可能的解法（pros and cons）："></a>可能的解法（pros and cons）：</h3><ol>
-<li><p>通过代码而非数据库的自增id（mongoDB’s Object）</p>
-<ul>
-<li>好处<ul>
-<li>application thread generates IDs independently</li>
-<li>使用时间戳作为第一部分，自动排序</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>保证独立需要很多storage space（为什么？线程控制，全局独立，随着id足够多…）</li>
-<li>UUID？也没有一个很好的natural sort，而且128bits长度</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>某种服务专门用来产生id<br>twitter的snowflake，apache zookeeper，64-bits unique IDs</p>
-<ul>
-<li>好处<ul>
-<li>64-bits</li>
-<li>time作为第一部分</li>
-<li>分布式系统，更加可用、某些节点死了的情况下</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>引入了复杂度</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>DB自动增加的能力（two ticket DBs 避免单节点失败）</p>
-<ul>
-<li>好处<ul>
-<li>很好理解，很好的预期扩展性</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>写会有瓶颈（事务带来）</li>
-<li>需要一些机器专门来管理（比如EC2）</li>
-<li>单节点可能失效，多节点可能不保证随时间的有序性（考虑两个节点交叉写的情况）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><blockquote>
-<p>现代RDBMS（PostgreSQL）提供了<strong>逻辑上的sharding</strong>，在很少的机器情况下，仍然能进行分片</p>
-</blockquote>
-<p>以上一些方案，分布式的方法更适合。但是，会引入复杂度。</p>
-<p>逻辑分片，粒度：DB =&gt;  schema =&gt; table，而不是传统的DB =&gt; schema（public）</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Postgre有内置的语言，通过位运算处理三部分的id</span></span><br><span class="line"></span><br><span class="line">41bits（微秒） ===&gt; 41年</span><br><span class="line">13bits（逻辑shard）</span><br><span class="line">10bits（取模）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每微秒每个shard产生1024个ID</span></span><br></pre></td></tr></table></figure>
-
-
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20771435/database-sharding-vs-partitioning">database-sharding-vs-partitionin</a></p>
-<p><a target="_blank" rel="noopener" href="https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c">EXAMPLE: handle instagram id</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/diff-between-partition-and-sharding/" data-id="ckl80qmnj0008s7qogymofelo" data-title="partition and sharding" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-DB/" rel="tag">data, DB</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-airflow-intro" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/16/airflow-intro/" class="article-date">
-  <time class="dt-published" datetime="2021-02-16T13:55:13.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/16/airflow-intro/">Airflow Intro</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
-<ul>
-<li>日志记录<ul>
-<li>RD介入是否方便？</li>
-<li>日志形式是否直观？</li>
-</ul>
-</li>
-<li>任务报警</li>
-<li>失败重试</li>
-</ul>
-<h3 id="crontab解决了哪些问题？"><a href="#crontab解决了哪些问题？" class="headerlink" title="crontab解决了哪些问题？"></a>crontab解决了哪些问题？</h3><p>一般的etl功能通过<code>.sh</code> + crontab。这种形式对付一般的例行任务是足够的，但是对于更加复杂的例行任务（各种数据集的依赖，任务报警、重试）以及一些扩展性需求（性能上的需求，比如并发），shell文件的复杂度会变的非常大。</p>
-<p>其他依赖包括什么？</p>
-<ul>
-<li>时间依赖，crontab自身支持例行时刻和间隔</li>
-<li>外部系统依赖，需要shell自己调用接口</li>
-<li>任务间的依赖，通常通过shell函数来完成</li>
-</ul>
-<h3 id="额外的惊喜？"><a href="#额外的惊喜？" class="headerlink" title="额外的惊喜？"></a>额外的惊喜？</h3><p>额外的，整个调度系统是否有比较好的伸缩性？比如并发机制（<strong>多个调度任务能不能并发？甚至扩展到多机？</strong>）。涉及到这些高级功能，一般的调度方式是很难满足了。</p>
-<p>Airflow 同时拥有不错的<strong>集群扩展能力</strong>，可使用 CeleryExecuter 以及多个 Pool 来提高任务<strong>并发度</strong>。</p>
-<h3 id="ETL上的实践"><a href="#ETL上的实践" class="headerlink" title="ETL上的实践"></a>ETL上的实践</h3><p>Airflow的理念，天然的适用于 ETL 过程。Airflow 本质是通过DAG来控制任务依赖，<strong>有向无环图</strong>保证了任务之间不会有循环依赖。</p>
-<p>在现阶段的实践中，我们使用 Airflow 来同步各个数据源数据到数仓，同时定时执行一些批处理任务及带有数据依赖、资源依赖关系的计算脚本。</p>
-<ul>
-<li><p>Airflow 在 CeleryExecuter 下可以使用不同的用户启动 Worker，不同的 Worker 监听不同的 Queue，这样可以解决用户权限依赖问题。 Worker 也可以启动在多个不同的机器上，解决<strong>机器依赖</strong>的问题。</p>
-</li>
-<li><p>Airflow 可以为任意一个 Task 指定一个抽象的 Pool，每个 Pool 可以指定一个 Slot 数。 每当一个 Task 启动时，就占用一个 Slot，当 Slot 数占满时，其余的任务就处于等待状态。这样就解决了<strong>资源依赖</strong>问题。</p>
-</li>
-</ul>
-<h2 id="Airflow的升级"><a href="#Airflow的升级" class="headerlink" title="Airflow的升级"></a>Airflow的升级</h2><h3 id="涉及到pyenv和virtualenv的环境隔离"><a href="#涉及到pyenv和virtualenv的环境隔离" class="headerlink" title="涉及到pyenv和virtualenv的环境隔离"></a>涉及到pyenv和virtualenv的环境隔离</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 创建测试所需数据库</span><br><span class="line"></span><br><span class="line">1. mysql: </span><br><span class="line">DF_Airflow_test;</span><br><span class="line">DF_Airflow_Celery_test;</span><br><span class="line">2. redis: </span><br><span class="line">10.26.149.41:7000 </span><br><span class="line"></span><br><span class="line"># airflow 通用安装 e.g. py27 单机多版本注意要设置不同的家目录</span><br><span class="line">mkdir airflow-1.10.10-py-2.7.14</span><br><span class="line">cd airflow-1.10.10-py-2.7.14&#x2F;</span><br><span class="line">pyenv virtualenv 2.7.14  airflow-1.10.10-py-2.7.14</span><br><span class="line">pyenv local airflow-1.10.12-py-2.7.14</span><br><span class="line">export AIRFLOW_HOME&#x3D;~&#x2F;airflow-1.10.10-py-2.7.14</span><br><span class="line">pip install  apache-airflow[mysql,celery]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"></span><br><span class="line"># airflow 1.10.3 安装</span><br><span class="line">pip install  apache-airflow&#x3D;&#x3D;1.10.3   --use-feature&#x3D;2020-resolver</span><br><span class="line"># airflow 1.10.12 安装</span><br><span class="line">## py3</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-3.7.txt&quot;</span><br><span class="line">## py2</span><br><span class="line">pip install  apache-airflow[mysql]&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># airflow 升级 py27-airflow-1.10.12 不加constraint会报错</span><br><span class="line">pip install -U  apache-airflow&#x3D;&#x3D;1.10.12  --constraint &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;apache&#x2F;airflow&#x2F;constraints-1.10.12&#x2F;constraints-2.7.txt&quot;</span><br><span class="line"># fbac前端创建用户</span><br><span class="line">airflow create_user -r Admin -u admin -e qinyufeng@baidu.com -f qin -l yufeng -p admin</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90282578">&gt; REF BLOG</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/16/airflow-intro/" data-id="ckl80qmnl0009s7qo2b66fztd" data-title="Airflow Intro" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
 
     </footer>
   </div>
@@ -909,7 +884,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li></ul>
     </div>
   </div>
 
@@ -922,6 +897,14 @@
       <ul>
         
           <li>
+            <a href="/2021/02/20/what-is-nginx/">what is NGINX?</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/17/diff-between-partition-and-sharding/">partition and sharding</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/16/waitpid-flag-set/">Waitpid usage</a>
           </li>
         
@@ -930,15 +913,7 @@
           </li>
         
           <li>
-            <a href="/2021/02/16/coroutine/">Coroutine</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/diff-between-partition-and-sharding/">partition and sharding</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/airflow-intro/">Airflow Intro</a>
+            <a href="/2021/02/16/python-generator-iterator-decorator/">iterator, generator and decorator</a>
           </li>
         
       </ul>

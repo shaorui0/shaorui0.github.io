@@ -145,98 +145,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
-<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
-</blockquote>
-<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
-<ul>
-<li><p>blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
-</li>
-<li><p>non-blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
-</li>
-</ul>
-<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
-<li><p><a href="./echo_server_event_driven.py">server</a></p>
-</li>
-<li><p><a href="./echo_client.py">client</a></p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-high-concurrency/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -645,7 +553,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/coroutine/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/diff-hash-btree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -659,7 +567,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/coroutine/" class="post-title-link" itemprop="url">Coroutine</a>
+            <a href="/2021/02/16/diff-hash-btree/" class="post-title-link" itemprop="url">Index</a>
         </h2>
 
         <div class="post-meta">
@@ -676,7 +584,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:25:14" itemprop="dateModified" datetime="2021-02-25T13:25:14+08:00">2021-02-25</time>
+                <time title="修改时间：2021-02-25 13:30:03" itemprop="dateModified" datetime="2021-02-25T13:30:03+08:00">2021-02-25</time>
               </span>
 
           
@@ -690,17 +598,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
-<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
-<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/16/coroutine/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
+<p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
+<h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
+<p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
+</blockquote>
+<blockquote>
+<p>The trade off for tree algorithms is small and they are suitable for almost every use case and thus are default.</p>
+</blockquote>
+<p>处理规模化的数据时，hash维护key会显著变慢（冲突处理）</p>
+<ul>
+<li><p>hash时间复杂度可能落入到O(n)</p>
+</li>
+<li><p>b-tree更平衡，平均复杂度为O(log n)</p>
+</li>
+</ul>
+<h5 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h5><blockquote>
+<p>The difference between using a b-tree and a hash table is that the former allows you to use column comparisons in expressions that use the =, &gt;, &gt;=, &lt;, &lt;=, or BETWEEN operators, while the latter is used only for equality comparisons that use the = or &lt;=&gt; operators.</p>
+</blockquote>
+<p>就存取特征而言，hash table是离散的，只能以O(1)的时间复杂度寻找特定值，而不支持range query（<strong>主要原因</strong>）。</p>
+
       
     </div>
 
@@ -939,6 +856,153 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-zombie-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/what-is-zombie-process/" class="post-title-link" itemprop="url">Zombie process</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-17 23:00:51" itemprop="dateModified" datetime="2021-02-17T23:00:51+08:00">2021-02-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="什么是僵尸进程？僵尸进程是如何产生的？"><a href="#什么是僵尸进程？僵尸进程是如何产生的？" class="headerlink" title="什么是僵尸进程？僵尸进程是如何产生的？"></a>什么是僵尸进程？僵尸进程是如何产生的？</h3><ol>
+<li>每个进程的回收都由父进程去执行，系统调用是<code>wait/waitpid</code></li>
+<li>如果一个父进程没有调用<code>wait</code>，而子进程结束，父进程继续执行，子进程的资源将没办法回收。此时，子进程变成了一个zombie。</li>
+<li>通常情况下，父进程被显式杀掉的时候，子进程将会（成为<strong>孤儿进程</strong>）被分派给init process，这样由它进行托管然后回收。</li>
+</ol>
+<h3 id="linux关于进程的部分，最初是如何设计的？"><a href="#linux关于进程的部分，最初是如何设计的？" class="headerlink" title="linux关于进程的部分，最初是如何设计的？"></a>linux关于进程的部分，最初是如何设计的？</h3><p>Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。<br>例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。<br>为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中的数据。只有父进程发出了与被终止的进程相关的 wait() 类系统调用之后，才允许这样做。这就是引入僵死状态的原因：尽管从技术上来说进程已死，但必须保存它的描述符，直到父进程得到通知。<br>如果一个进程已经终止，但是它的父进程尚未调用 wait() 或 waitpid() 对它进行清理，这时的进程状态称为僵死状态，处于僵死状态的进程称为僵尸进程(zombie process)。任何进程在刚终止时都是僵尸进程，正常情况下，僵尸进程都立刻被父进程清理了。</p>
+<h3 id="僵尸进程的问题是什么？"><a href="#僵尸进程的问题是什么？" class="headerlink" title="僵尸进程的问题是什么？"></a>僵尸进程的问题是什么？</h3><p>进程终止，一些基本的资源（open file, memory, etc）会被内核回收。<br>会占用进程表一个entry，表的容量是有限的，占用多了肯定是会出问题的</p>
+<h3 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h3><p>一个父进程在子进程前面死亡，子进程被init process 接管，虽然能够自动调用<code>wait</code>。</p>
+<h3 id="如何处理僵尸？如何能够不产生僵尸？"><a href="#如何处理僵尸？如何能够不产生僵尸？" class="headerlink" title="如何处理僵尸？如何能够不产生僵尸？"></a>如何处理僵尸？如何能够不产生僵尸？</h3><ol>
+<li>waitpid<br> waitpid的返回值是子进程的退出状态，根据这个状态能够表示是否需要回收数据</li>
+<li>Perform double fork()<br> // grandchild exits, no zombie (adopted by init)</li>
+<li>忽略SIGCHLD,<br> why?能够让内核知道，可以立即回收，因为父进程表示不管它了</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16078985/why-zombie-processes-exist">why-zombie-processes-exist</a></p>
+<h3 id="僵尸进程会占用其他资源吗？"><a href="#僵尸进程会占用其他资源吗？" class="headerlink" title="僵尸进程会占用其他资源吗？"></a>僵尸进程会占用其他资源吗？</h3><p>在进程退出的时候，内核释放该进程所有的资源，包括打开的文件，占用的内存等。但是仍然为其保留一定的信息(包括进程号 PID，退出状态 the termination status of the process，运行时间 the amount of CPU time taken by the process 等)。直到父进程通过 wait / waitpid 来取时才释放。</p>
+<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33979231/status-of-process-on-linux">https://stackoverflow.com/questions/33979231/status-of-process-on-linux</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PROCESS STATE CODES</span><br><span class="line">    Here are the different values that the s, stat and state output </span><br><span class="line">    specifiers (header &quot;STAT&quot; or &quot;S&quot;) will display to describe the</span><br><span class="line">    state of a process:</span><br><span class="line"></span><br><span class="line">       D    uninterruptible sleep (usually IO)</span><br><span class="line">       S    interruptible sleep (waiting for an event to complete)</span><br><span class="line">       R    running or runnable (on run queue)</span><br><span class="line">       T    stopped by job control **signal**</span><br><span class="line">       t    stopped by **debugger** during the tracing</span><br><span class="line">       W    paging (not valid since the 2.6.xx kernel)</span><br><span class="line">       X    dead (should never be seen)</span><br><span class="line">       Z    defunct (&quot;zombie&quot;) process, terminated but not reaped by its parent</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/mutable-obj/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/mutable-obj/" class="post-title-link" itemprop="url">mutable object</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 15:57:36" itemprop="dateModified" datetime="2021-02-22T15:57:36+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
+<p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/14/airflow-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -953,7 +1017,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/14/airflow-intro/" class="post-title-link" itemprop="url">Airflow Intro</a>
+            <a href="/2021/02/14/airflow-intro/" class="post-title-link" itemprop="url">What is Airflow</a>
         </h2>
 
         <div class="post-meta">
@@ -970,7 +1034,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:24:53" itemprop="dateModified" datetime="2021-02-25T13:24:53+08:00">2021-02-25</time>
+                <time title="修改时间：2021-02-25 13:37:24" itemprop="dateModified" datetime="2021-02-25T13:37:24+08:00">2021-02-25</time>
               </span>
 
           
@@ -1002,96 +1066,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/13/how-to-use-and-implement-blocking-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/13/how-to-use-and-implement-blocking-queue/" class="post-title-link" itemprop="url">Blocking queue</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-13 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-13T21:55:13+08:00">2021-02-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 19:25:27" itemprop="dateModified" datetime="2021-02-22T19:25:27+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本质：作为任务存放的容器。</p>
-<p>多线程的环境下，一个任务过来，不是立即执行的。一个路由thread进行分发，一些worker thread来取。那worker从哪里取呢？典型的就是『先进先出』的队列。</p>
-<p>一个典型的过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 任务过来</span><br><span class="line">2. 分发线程将任务存到queue中</span><br><span class="line">3. 如果有线程闲置，就会去取</span><br><span class="line">    3.1. queue会将task传递给线程</span><br><span class="line">    3.2. queue会同时将task pop掉（4、5过程原子性）</span><br></pre></td></tr></table></figure>
-<p>但是这个队列既然是在并发环境，就得防止<strong>竞争</strong>，哪个环节会出现竞争？『存』、『取』操作。</p>
-<ul>
-<li>存，可能多个任务同时存放，导致抢占queue，需要对queue进行加锁。</li>
-<li>取，多个线程同时取task，这就需要对queue进行加锁，每次只能让单个线程进来</li>
-</ul>
-<h2 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h2><h4 id="单个线程"><a href="#单个线程" class="headerlink" title="单个线程"></a>单个线程</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">The queue module implements multi-producer, multi-consumer queues. It is especially useful in threaded programming when information must be exchanged safely between multiple threads. The Queue class in this module implements all the required locking semantics.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> threading, queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">q = queue.Queue()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.get()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        q.task_done()</span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">True</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    q.put(item)</span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()</span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="多线程配合队列"><a href="#多线程配合队列" class="headerlink" title="多线程配合队列"></a>多线程配合队列</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> queue </span><br><span class="line"><span class="keyword">import</span> threading </span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"></span><br><span class="line">thread_exit_Flag = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sample_Thread</span> (<span class="params">threading.Thread</span>):</span> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, threadID, name, q</span>):</span> </span><br><span class="line">        threading.Thread.__init__(self) </span><br><span class="line">        self.threadID = threadID </span><br><span class="line">        self.name = name </span><br><span class="line">        self.q = q </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span> </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;initializing &quot;</span> + self.name) </span><br><span class="line">        process_data(self.name, self.q) </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;Exiting &quot;</span> + self.name) </span><br><span class="line"></span><br><span class="line"><span class="comment"># helper function to process data</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_data</span>(<span class="params">threadName, q</span>):</span> </span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> thread_exit_Flag: <span class="comment"># 如果有任务，就一直获取任务</span></span><br><span class="line">        queueLock.acquire() </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> workQueue.empty(): </span><br><span class="line">            data = q.get_nowait() </span><br><span class="line">            queueLock.release() </span><br><span class="line">            <span class="built_in">print</span> (<span class="string">&quot;% s processing % s&quot;</span> % (threadName, data)) </span><br><span class="line">            workQueue.task_done() <span class="comment"># 如果要使用queue.join，就必须每次标记task_done</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            queueLock.release() </span><br><span class="line">            time.sleep(<span class="number">1</span>) </span><br><span class="line">  </span><br><span class="line">thread_list = [<span class="string">&quot;Thread-1&quot;</span>, <span class="string">&quot;Thread-2&quot;</span>, <span class="string">&quot;Thread-3&quot;</span>] </span><br><span class="line">name_list = [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>] </span><br><span class="line">queueLock = threading.Lock() </span><br><span class="line">workQueue = queue.Queue(<span class="number">10</span>) </span><br><span class="line">threads = [] </span><br><span class="line">threadID = <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Create new threads </span></span><br><span class="line"><span class="keyword">for</span> thread_name <span class="keyword">in</span> thread_list: </span><br><span class="line">    thread = sample_Thread(threadID, thread_name, workQueue) </span><br><span class="line">    thread.start() </span><br><span class="line">    threads.append(thread) </span><br><span class="line">    threadID += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Fill the queue </span></span><br><span class="line">queueLock.acquire() </span><br><span class="line"><span class="keyword">for</span> items <span class="keyword">in</span> name_list: </span><br><span class="line">    workQueue.put(items) </span><br><span class="line">  </span><br><span class="line">queueLock.release() </span><br><span class="line">  </span><br><span class="line"><span class="comment"># Wait for the queue to empty </span></span><br><span class="line">workQueue.join() <span class="comment"># 需要在每个任务完成的时候加上task_done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Notify threads it&#x27;s time to exit </span></span><br><span class="line">thread_exit_Flag = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Wait for all threads to complete </span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads: </span><br><span class="line">    t.join() </span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Exit Main Thread&quot;</span>) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations"><a href="#Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations" class="headerlink" title="Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?"></a>Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?</h2><p>【问】当你碰见什么样的场景，你需要使用『阻塞队列』？<br>显然，当我需要某种场合<strong>阻塞/等待</strong>的时候需要阻塞队列，扩展开就是当：</p>
-<ol>
-<li>希望队列中元素到达一定数量停止放入（put），等消费者先消费完现有的。（BoundedBlockingQueue特有）。</li>
-<li>希望队列中没有元素时，消费者<strong>等待</strong>再次出现元素，此时应该是生产者忙碌的时候。</li>
-</ol>
-<p>典型的，普通queue也可以完成『等待』的操作，但是需要『busy wait』，这样太消耗CPU。</p>
-<h2 id="DIFF-normal-blocking-queue-and-bounded-blocking-queue"><a href="#DIFF-normal-blocking-queue-and-bounded-blocking-queue" class="headerlink" title="DIFF normal blocking queue and bounded blocking queue"></a>DIFF normal blocking queue and bounded blocking queue</h2><p>这两种容器各是什么场景下使用？</p>
-<blockquote>
-<p>In a pooling application, a blocking “put” is <strong>not appropriate</strong>. Controlling the maximum size of the queue is the job of the pool manager—it decides when to create or destroy resources for the pool. Clients of the pool borrow and return resources from the pool. Adding a new object, or returning a previously borrowed object to the pool should be fast, non-blocking operations. So, a bounded capacity queue is not a good choice for pools.</p>
-</blockquote>
-<p>如果作为『池』的属性，一般是不适合有『容量』的限制，也就是『满』的概念（这个是pool manager的责任）。池仅仅作为仓库。这种情况，使用BlockingQueue更好。</p>
-<p>另一种情况，如果是一个web server。某个用户发出请求太多，此时生产数量将远远超过消费数量，消费者需要一定的时间去消化，导致<strong>延迟</strong>会特别高。在<strong>业务层面</strong>，消费者也不希望等待太长的时间，另可request丢失。这种情况，使用BoundedBlockingQueue更好。</p>
-<h1 id="how-to-implement-a-blocking-queue"><a href="#how-to-implement-a-blocking-queue" class="headerlink" title="how to implement a blocking queue"></a>how to implement a blocking queue</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBlockQueue</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, max_size</span>):</span></span><br><span class="line">        self.max_size = max_size</span><br><span class="line">        self.lock = threading.Lock()</span><br><span class="line"></span><br><span class="line">        self.not_empty = threading.Condition(self.lock)</span><br><span class="line">        self.not_full = threading.Condition(self.lock)</span><br><span class="line">        self.queue = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qsize</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == self.max_size</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">empty</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">take</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.not_empty.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.empty(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_empty.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.empty()</span><br><span class="line">        item = self.queue[<span class="number">0</span>]</span><br><span class="line">        self.queue.remove(item)</span><br><span class="line"></span><br><span class="line">        self.not_full.notify()</span><br><span class="line"></span><br><span class="line">        self.not_empty.release()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, item</span>):</span></span><br><span class="line">        self.not_full.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.full(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_full.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.full()</span><br><span class="line">        self.queue.append(item)</span><br><span class="line">        print(self.queue)</span><br><span class="line"></span><br><span class="line">        self.not_empty.notify()</span><br><span class="line"></span><br><span class="line">        self.not_full.release()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">join</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># TODO too simple to implement</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.empty():</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">q = BoundedBlockQueue(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.take()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">False</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    print(item)</span><br><span class="line">    q.put(item)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()<span class="comment"># Error implement?</span></span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line">os._exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -1175,12 +1149,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

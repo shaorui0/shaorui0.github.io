@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-duck-typing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
+            <a href="/2021/02/16/what-is-duck-typing/" class="post-title-link" itemprop="url">What is duck typing</a>
         </h2>
 
         <div class="post-meta">
@@ -176,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-17 23:00:24" itemprop="dateModified" datetime="2021-02-17T23:00:24+08:00">2021-02-17</time>
               </span>
 
           
@@ -190,96 +190,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
-<ol>
-<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
-<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
-</ol>
-<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
-<ul>
-<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
-<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-stack-can-overflow-but-heap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/why-stack-can-overflow-but-heap/" class="post-title-link" itemprop="url">why stack can overflow but heap cannot?</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:59" itemprop="dateModified" datetime="2021-02-17T23:00:59+08:00">2021-02-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="stack"><a href="#stack" class="headerlink" title="stack"></a>stack</h2><p><img src="https://github.com/shaorui0/fundamental_knowledge/blob/main/operator_system/memory/mmap/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg" alt="进程地址空间"></p>
-<p>一个32bit字长OS，进程栈大小通常是8MB。一些比较危险的操作（<code>gets()</code>，分配一个指定大小的buffer，通过<code>while(gets(buf) != 0)</code>，可以一直读下去。）输入过多会导致栈溢出，甚至直接覆盖栈其他部分。比如<strong>ret addr</strong>，这样可能导致跳转到不可控的一个函数上—-著名的『<strong>缓冲区溢出攻击</strong>』。</p>
-<h2 id="heap"><a href="#heap" class="headerlink" title="heap"></a>heap</h2><p>heap内存的申请，C语言中通过<code>malloc</code>完成。底层的实现大致为，一个链表维护所有空闲碎片，通过某种迭代算法去寻找可用的内存。如果找到，则返回内存，并把多余的碎片继续用链表维护。一般迭代一次找不到后，会对碎片进行一个整理。如果还是不行，则返回NULL。（现代操作系统malloc申请大小大于<code>MMAP_THRESHOLD</code>时，会直接调用<code>mmap</code>）。</p>
-<blockquote>
-<p>Normally, malloc() allocates memory from the heap, and adjusts the size of the heap as required, using sbrk(2). When allocating blocks of memory larger than MMAP_THRESHOLD bytes, the glibc malloc() implementation allocates the memory as a private anonymous mapping using mmap(2). MMAP_THRESHOLD is 128 kB by default, but is adjustable using mallopt(3). Allocations performed using mmap(2) are unaffected by the RLIMIT_DATA resource limit (see getrlimit(2)). <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33128587/why-does-malloc-rely-on-mmap-starting-from-a-certain-threshold">why-does-malloc-rely-on-mmap-starting-from-a-certain-threshold</a></p>
+          <blockquote>
+<p>Duck typing means that an operation does not formally specify the requirements that its operands have to meet, but just <strong>tries</strong> it out with What is given.</p>
 </blockquote>
-<h4 id="关于sbrk和mmap的对比"><a href="#关于sbrk和mmap的对比" class="headerlink" title="关于sbrk和mmap的对比"></a>关于sbrk和mmap的对比</h4><ul>
-<li>用<code>sbrk</code>，<code>free</code>释放后，内存还为当前进程所有。</li>
-<li>用<code>mmap</code>，<code>munmap</code>释放后，就释放给了全局，毕竟是从磁盘直接映射的。调用时不会阻塞（应该），而第一次使用时，才会真正的执行<ul>
-<li>zero set是为了防止泄露数据给其他进程。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>mmap does not actually allocate the pages; it just manipulates the page map for your process</strong>. That should typically be a <strong>non-blocking operation.</strong> (Although I admit I am not 100% sure about this.)</p>
-</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    x.Quack()</span><br></pre></td></tr></table></figure>
+<p>不管x传进来的是什么，当x有<code>Quack</code>方法时，这个程序就能正常执行，当x没有这个方法，程序就会在<code>runtime</code>保报错。</p>
+<p>静态语言其实也有类似的用法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T x)</span> </span>&#123; x.Quack(); &#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4205130/what-is-duck-typing">ref: what-is-duck-typing</a></p>
 
       
     </div>
@@ -687,7 +605,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/tcp-status-machine/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/coroutine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -701,7 +619,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/tcp-status-machine/" class="post-title-link" itemprop="url">TCP state machine</a>
+            <a href="/2021/02/16/coroutine/" class="post-title-link" itemprop="url">Coroutine</a>
         </h2>
 
         <div class="post-meta">
@@ -718,7 +636,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:11" itemprop="dateModified" datetime="2021-02-17T23:00:11+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-25 13:25:14" itemprop="dateModified" datetime="2021-02-25T13:25:14+08:00">2021-02-25</time>
               </span>
 
           
@@ -732,25 +650,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
-<h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
-<ol>
-<li>client -&gt; server, FIN</li>
-<li>server -&gt; client, ACK</li>
-<li>server -&gt; client, FIN</li>
-<li>client -&gt; server, ACK</li>
-</ol>
-<blockquote>
-<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
-</blockquote>
-<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
-<h3 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h3><blockquote>
-<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
-</blockquote>
-<p>重试一段时间后 reset 连接。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
-
+          <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
+<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
+<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/16/coroutine/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -851,7 +761,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-zombie-process/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-dns/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -865,7 +775,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-zombie-process/" class="post-title-link" itemprop="url">Zombie process</a>
+            <a href="/2021/02/16/what-is-dns/" class="post-title-link" itemprop="url">What is DNS</a>
         </h2>
 
         <div class="post-meta">
@@ -882,7 +792,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:51" itemprop="dateModified" datetime="2021-02-17T23:00:51+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-22 15:44:24" itemprop="dateModified" datetime="2021-02-22T15:44:24+08:00">2021-02-22</time>
               </span>
 
           
@@ -896,23 +806,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="什么是僵尸进程？僵尸进程是如何产生的？"><a href="#什么是僵尸进程？僵尸进程是如何产生的？" class="headerlink" title="什么是僵尸进程？僵尸进程是如何产生的？"></a>什么是僵尸进程？僵尸进程是如何产生的？</h3><ol>
-<li>每个进程的回收都由父进程去执行，系统调用是<code>wait/waitpid</code></li>
-<li>如果一个父进程没有调用<code>wait</code>，而子进程结束，父进程继续执行，子进程的资源将没办法回收。此时，子进程变成了一个zombie。</li>
-<li>通常情况下，父进程被显式杀掉的时候，子进程将会（成为<strong>孤儿进程</strong>）被分派给init process，这样由它进行托管然后回收。</li>
-</ol>
-<h3 id="linux关于进程的部分，最初是如何设计的？"><a href="#linux关于进程的部分，最初是如何设计的？" class="headerlink" title="linux关于进程的部分，最初是如何设计的？"></a>linux关于进程的部分，最初是如何设计的？</h3><p>Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。<br>例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。<br>为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中的数据。只有父进程发出了与被终止的进程相关的 wait() 类系统调用之后，才允许这样做。这就是引入僵死状态的原因：尽管从技术上来说进程已死，但必须保存它的描述符，直到父进程得到通知。<br>如果一个进程已经终止，但是它的父进程尚未调用 wait() 或 waitpid() 对它进行清理，这时的进程状态称为僵死状态，处于僵死状态的进程称为僵尸进程(zombie process)。任何进程在刚终止时都是僵尸进程，正常情况下，僵尸进程都立刻被父进程清理了。</p>
-<h3 id="僵尸进程的问题是什么？"><a href="#僵尸进程的问题是什么？" class="headerlink" title="僵尸进程的问题是什么？"></a>僵尸进程的问题是什么？</h3><p>进程终止，一些基本的资源（open file, memory, etc）会被内核回收。<br>会占用进程表一个entry，表的容量是有限的，占用多了肯定是会出问题的</p>
-<h3 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h3><p>一个父进程在子进程前面死亡，子进程被init process 接管，虽然能够自动调用<code>wait</code>。</p>
-<h3 id="如何处理僵尸？如何能够不产生僵尸？"><a href="#如何处理僵尸？如何能够不产生僵尸？" class="headerlink" title="如何处理僵尸？如何能够不产生僵尸？"></a>如何处理僵尸？如何能够不产生僵尸？</h3><ol>
-<li>waitpid<br> waitpid的返回值是子进程的退出状态，根据这个状态能够表示是否需要回收数据</li>
-<li>Perform double fork()<br> // grandchild exits, no zombie (adopted by init)</li>
-<li>忽略SIGCHLD,<br> why?能够让内核知道，可以立即回收，因为父进程表示不管它了</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16078985/why-zombie-processes-exist">why-zombie-processes-exist</a></p>
-<h3 id="僵尸进程会占用其他资源吗？"><a href="#僵尸进程会占用其他资源吗？" class="headerlink" title="僵尸进程会占用其他资源吗？"></a>僵尸进程会占用其他资源吗？</h3><p>在进程退出的时候，内核释放该进程所有的资源，包括打开的文件，占用的内存等。但是仍然为其保留一定的信息(包括进程号 PID，退出状态 the termination status of the process，运行时间 the amount of CPU time taken by the process 等)。直到父进程通过 wait / waitpid 来取时才释放。</p>
-<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33979231/status-of-process-on-linux">https://stackoverflow.com/questions/33979231/status-of-process-on-linux</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PROCESS STATE CODES</span><br><span class="line">    Here are the different values that the s, stat and state output </span><br><span class="line">    specifiers (header &quot;STAT&quot; or &quot;S&quot;) will display to describe the</span><br><span class="line">    state of a process:</span><br><span class="line"></span><br><span class="line">       D    uninterruptible sleep (usually IO)</span><br><span class="line">       S    interruptible sleep (waiting for an event to complete)</span><br><span class="line">       R    running or runnable (on run queue)</span><br><span class="line">       T    stopped by job control **signal**</span><br><span class="line">       t    stopped by **debugger** during the tracing</span><br><span class="line">       W    paging (not valid since the 2.6.xx kernel)</span><br><span class="line">       X    dead (should never be seen)</span><br><span class="line">       Z    defunct (&quot;zombie&quot;) process, terminated but not reaped by its parent</span><br></pre></td></tr></table></figure>
+          <h2 id="DNS属于哪一层？"><a href="#DNS属于哪一层？" class="headerlink" title="DNS属于哪一层？"></a>DNS属于哪一层？</h2><p>应用层，但这个问题的本质是 TCP/IP 协议栈的四层的功能分别是什么？</p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
+<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
+<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
+<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC</p>
+<h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
+<h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/dns-works-on-tcp-and-udp">REF: dns-works-on-tcp-and-udp</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://serverfault.com/questions/404840/when-do-dns-queries-use-tcp-instead-of-udp">REF: when-do-dns-queries-use-tcp-instead-of-udp</a></p>
+</li>
+</ul>
 
       
     </div>
@@ -932,7 +838,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-duck-typing/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -946,7 +852,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-duck-typing/" class="post-title-link" itemprop="url">What is duck typing</a>
+            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
         </h2>
 
         <div class="post-meta">
@@ -963,7 +869,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:24" itemprop="dateModified" datetime="2021-02-17T23:00:24+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
               </span>
 
           
@@ -977,14 +883,108 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>Duck typing means that an operation does not formally specify the requirements that its operands have to meet, but just <strong>tries</strong> it out with What is given.</p>
+          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
+<ol>
+<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
+<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
+</ol>
+<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
+<ul>
+<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
+<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
+<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
 </blockquote>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    x.Quack()</span><br></pre></td></tr></table></figure>
-<p>不管x传进来的是什么，当x有<code>Quack</code>方法时，这个程序就能正常执行，当x没有这个方法，程序就会在<code>runtime</code>保报错。</p>
-<p>静态语言其实也有类似的用法</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T x)</span> </span>&#123; x.Quack(); &#125;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4205130/what-is-duck-typing">ref: what-is-duck-typing</a></p>
+<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
+<ul>
+<li><p>blocking io</p>
+<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
+</li>
+<li><p>non-blocking io</p>
+<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
+
+
+
+
+</li>
+</ul>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
+</li>
+</ul>
+<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
+<li><p><a href="./echo_server_event_driven.py">server</a></p>
+</li>
+<li><p><a href="./echo_client.py">client</a></p>
+</li>
+</ul>
 
       
     </div>
@@ -1069,12 +1069,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

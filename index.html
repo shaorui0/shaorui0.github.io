@@ -168,10 +168,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-02-22 22:21:50 / 修改时间：22:22:40" itemprop="dateCreated datePublished" datetime="2021-02-22T22:21:50+08:00">2021-02-22</time>
+              <time title="创建时间：2021-02-22 22:21:50" itemprop="dateCreated datePublished" datetime="2021-02-22T22:21:50+08:00">2021-02-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 13:24:25" itemprop="dateModified" datetime="2021-02-25T13:24:25+08:00">2021-02-25</time>
+              </span>
 
           
 
@@ -195,32 +201,14 @@
 <li>4） 我一定要bug free才能被录取吗</li>
 <li>5） leet code的hard问题真的会被问到吗？ 考起来有什么意义？</li>
 </ul>
-<p>我们从一个非常经典的， 大家可能都刷过的题目开始。 序列化／反序列化 二叉树。先说个背景， 能面到我这里的， 基本需要面试者有3-5年的面试经验。 做为应聘任何微软或者flg的高级dev (63 and above, T4/E4 and above), 面试官其实都是假设你刷过不少题目的。 我假设你刷过这个题目， 所以我并不关心你写的到底有多快，写的是不是完全bug free， 我更关心的是你做事的方式和沟通问题的能力。 具体请看下面。  </p>
-<ol>
-<li><p>提出问题， 请序列化／反序列化二叉树。<br>什么？ 面试者不知道什么是序列化， 反序列化？ 那我就问个多线程爬虫， timing LRU 一类的。 如果多线程, 锁也不会， 那说明这个面试者的项目经验很不足。 为了和其他有经验的人相match, 往往我会给一个很open的问题， 或者一个很难的hard coding (取决于他已经被考察了哪个方面). 我个人觉得很少有面试官上来会考你 very hard coding question, 只是当某个面试者与其他面试人比显得相当缺少项目经验， 那他除非能在聪明敏捷或者下苦功方面有突出表现， 否则很难击败其他候选人。</p>
-</li>
-<li><p>交流阶段<br>如果面试者马上开始写程序， 或者马上给出他的想法， 我会觉得面试者太过于着急了。 在实际项目中， 你很熟悉的地方可能成为项目中的滑铁卢， 因为你熟悉的地方可能有变化， 可能有个big change你不知道， 可能很快你熟悉的api就不工作了。 你总是要有很好的沟通能力， 确保大家知道你在做什么， 及早的发现你的错误。 在code review甚至是test 阶段被人发现问题对项目来说就是个灾难。</p>
-</li>
-</ol>
-<p>我期望面试者能够在这个阶段提出一些问题， 例如，有什么限制条件吗？ 二叉树的value是什么类型？ 这个api谁来使用， 内部的还是public的？ 这个api更注重speed还是space?  我需要多线程吗？ 如果面试者没问任何问题马上开始照着leetcode的signature开始coding, 甚至class 名字也叫solution(很多人）， 我会觉得面试者做事的方式不够成熟。 可能以后工作中会很毛躁， 需要人来指导。</p>
-<ol start="3">
-<li>无论你提出的建议是什么， 例如你说你觉得speed更重要， 我可能会说我更期待space. 这样做是避免陷入你最熟悉的套路。  假设我说， 我更需要序列化之后的空间占用最小。 这时候一般的候选人不会刷到这么深， 开始思考。<br>如果候选人根本没有办法优化空间， 那我会认为他give up too early.  我希望候选人能安静的思考， 提出几种方案， 哪怕方案不成立。<br>如果候选人提出过多的方案， 没有问help, 这些方案也不工作， 我就认为候选人沟通有问题， 无法把握好度。</li>
-</ol>
-<p>举个leetcode的例子来说明问题的深入， leetcode的序列化格式中， ‘,’是必要的吗？ ‘[’是必要的吗？ 有没有办法用byte直接序列化？ byte还能变长吗？ base64是什么？ zip会有帮助吗？</p>
-<ol start="4">
-<li><p>候选人选定方案后， 我希望他能和我沟通， 看看是不是在有限时间内能够写完。 项目中， 很多时候谁都知道什么design是正确的， 什么是bad smell, 最聪明的人不是能做出最好design的， 而是在有限时间内能给出大家都能接受的solution的人。  如果空间优化非常好， 但是代码将超级复杂， 无法写完， 那么面试者应该及时和我交流。 我也会偶尔提醒一下这样能不能在40分钟内写完。 如果面试者坚持， 我不会坚持， 我会看他是不是能写完。 这就是either strong hire or fail.</p>
-</li>
-<li><p>候选人可能这时候说太复杂了， 我们简化一下， 简化到他熟悉的， 刷过的coding.</p>
-</li>
-<li><p>coding 开始<br>到这一步， 如果你做了2，3，4，5中的大部分， 并且code看起来似乎是work的， 没有什么致命的问题，我不会纠结于比如正负数， nullpointer, int.min, coding是不是整洁一类的无聊问题。  一般就开始7. 如果你2，3，4，5都skip, 那么一般我就希望你bug free, 否则你没办法和其他候选者做比较。往往bug free又要求你code组织很好， 否则谁都很难一眼看出你有没有问题。</p>
-</li>
-<li><p>follow up<br>还有什么能改进的吗？ 这是考察面试者的知识面， 也看你是不是耐心。 很多时候， 很多面试者做出题目高兴的得意忘形， 到这里就开始语无伦次的乱说， 这不会影响到是不是hire， 但是可能会影响是不是strong hire, 也可能影响到你的level.</p>
-</li>
-</ol>
-<p>举例子： 我觉得还需要写点java doc啊，unit test, regression test, performance tuning, benchmarking, A/B testing, 等等。</p>
-<p>总结： 如果你能想到1-7中的所有点， 谁会在乎你是不是刷过这个题目？ 即使你刷过这个题目， 我也十分确定你刷的比别人好很多， 你就是我心中想要的那个同事。 反之， 如果你只做到了6#， 但是别人做了1，2，3，4，5，6，7， 那你又怎么能面试成功呢？</p>
-<p>有感而发， 组织的不是很严密， 大家去粗取精， 也说说你们的想法。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/22/face-to-interview/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -262,10 +250,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-02-22 19:18:50 / 修改时间：19:52:06" itemprop="dateCreated datePublished" datetime="2021-02-22T19:18:50+08:00">2021-02-22</time>
+              <time title="创建时间：2021-02-22 19:18:50" itemprop="dateCreated datePublished" datetime="2021-02-22T19:18:50+08:00">2021-02-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 13:25:02" itemprop="dateModified" datetime="2021-02-25T13:25:02+08:00">2021-02-25</time>
+              </span>
 
           
 
@@ -279,162 +273,14 @@
 
       
           <p>一致性的问题，只有在 <strong>huge traffic and high concurrency</strong> 时，才会产生重要的影响。一般的场景使用简单的『Cache Expiry』和『Cache Aside』就可以了。</p>
-<h2 id="1-Cache-Expiry"><a href="#1-Cache-Expiry" class="headerlink" title="1. Cache Expiry"></a>1. Cache Expiry</h2><blockquote>
-<p>naive solutions.</p>
-</blockquote>
-<p>关于一致性，设置TTL核心问题是『你能承受多长时间读脏数据</p>
-<ol>
-<li>30 mins? 可能时间过长</li>
-<li>1 min? 仍然可能时间过长。（huge traffic and high concurrency）</li>
-<li>5 seconds? 时间设置的太短有失去了设置 cache 的意义。（造成过多的 cache miss ）</li>
-</ol>
-<h2 id="2-Cache-Aside"><a href="#2-Cache-Aside" class="headerlink" title="2. Cache Aside"></a>2. Cache Aside</h2><blockquote>
-<p>mostly work for common use cases.</p>
-</blockquote>
-<p>The algorithm for cache aside pattern is:</p>
-<ul>
-<li><p>For immutable operations (read):</p>
-<ul>
-<li>Cache hit: return data from Redis directly, with no query to MySQL;</li>
-<li>Cache miss: query MySQL to get the data (can use read replicas to improve performance), save the returned data to Redis, return the result to client.</li>
-</ul>
-</li>
-<li><p>For mutable operations (create, update, delete):</p>
-<ul>
-<li>Create, update or delete the data to MySQL;</li>
-<li>Delete the entry in Redis (always delete rather than update the cache, the new value will be inserted when next cache miss).</li>
-</ul>
-</li>
-</ul>
-<h3 id="corner-case"><a href="#corner-case" class="headerlink" title="corner case"></a>corner case</h3><ol>
-<li>【保证最终一致性】场景一<br> 假设命令都能正确执行<ul>
-<li>(A - 1) A update new value to mysql</li>
-<li>(B) B read old value from redis, and return</li>
-<li>(A - 2) A delete redis key<br>此时 B 读到了脏数据（但能保证最终一致性）</li>
-</ul>
-</li>
-<li>【不保证最终一致性】场景二<br> 如果场景一的（A - 2）执行失败 =&gt; old value in redis and new value in mysql =&gt; 无法保证最终一致性</li>
-<li>【不保证最终一致性】场景三（可能性极低）<ul>
-<li>(A - 1) A read value from redis missed, and read from mysql, A process suspend (OS dispatch issue)</li>
-<li>(B - 1) B update new value to mysql, and delete redis key</li>
-<li>(A - 2) A write new value to redis<br>此时 cache 中的数据与 mysql 中的数据不一致。为什么可能性低？</li>
-</ul>
-<ol>
-<li>如果 B 尝试更新 new value, 按正确的顺序 Redis 中应该存在该条目（同时具有一个读取请求和一个更新请求，read(cache hit) -&gt; update(mysql) -&gt; delete(cache)）。如果 A 获得缓存命中，则不会发生这种情况。</li>
-<li>为了使这种情况发生，该条目必须<strong>已过期</strong>并且已从 Redis 中删除。</li>
-<li>但是，如果该条目“非常热”（即，其上的读取流量很大），则应在过期后不久将其再次保存到 Redis 中。</li>
-<li>如果这属于“冷数据”，则其一致性应较低，因此很少有对此条目同时具有一个读取请求和一个更新请求的情况。</li>
-<li>通常，写 Redis 比写 MySQL 要快得多。实际上，A 对 Redis 的写操作应该比 D 对 Redis 的删除操作早得多。</li>
-</ol>
-</li>
-</ol>
-<h2 id="3-Cache-Aside-Variant-1"><a href="#3-Cache-Aside-Variant-1" class="headerlink" title="3. Cache Aside - Variant 1"></a>3. Cache Aside - Variant 1</h2><p>The algorithm for the 1st variant of cache aside pattern is:</p>
-<ul>
-<li><p>For immutable operations (read):</p>
-<ul>
-<li>Cache hit: return data from Redis directly, with no query to MySQL;</li>
-<li>Cache miss: query MySQL to get the data (can use read replicas to improve performance), save the returned data to Redis, return the result to client.</li>
-</ul>
-</li>
-<li><p>For mutable operations (create, update, delete):</p>
-<ul>
-<li>Delete the entry in Redis.</li>
-<li>Create, update or delete the data to MySQL;</li>
-</ul>
-</li>
-</ul>
-<p>与原始 Cache Aside 的区别在于先删 Redis 数据，但这样的修改带来了更多问题</p>
-<ol>
-<li>【不保证最终一致性】场景<ul>
-<li>(A - 1) A delete redis entry</li>
-<li>(B - 1) B read value from redis missed, and read from mysql</li>
-<li>(A - 2) A update new value to mysql</li>
-<li>(B - 2) B update new value to redis<br>此时 redis 里面是 old value, mysql 里面是 new value。同样是保证操作不出错，与** Cache Aside 的场景三**相比，这种极端情况的概率高得多。</li>
-</ul>
-</li>
-</ol>
-<h2 id="4-Cache-Aside-Variant-2"><a href="#4-Cache-Aside-Variant-2" class="headerlink" title="4. Cache Aside - Variant 2"></a>4. Cache Aside - Variant 2</h2><p>The algorithm for the 1st variant of cache aside pattern is:</p>
-<ul>
-<li><p>For immutable operations (read):</p>
-<ul>
-<li>Cache hit: return data from Redis directly, with no query to MySQL;</li>
-<li>Cache miss: query MySQL to get the data (can use read replicas to improve performance), save the returned data to Redis, return the result to client.</li>
-</ul>
-</li>
-<li><p>For mutable operations (create, update, delete):</p>
-<ul>
-<li>Create, update or delete the data to MySQL;</li>
-<li>Create, update or delete the entry in Redis.</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>【不保证最终一致性】场景<ul>
-<li>(A - 1) B update value 1 to mysql</li>
-<li>(B - 1) B update value 2 to mysql</li>
-<li>(B - 2) B update value 2 to redis</li>
-<li>(B - 2) B update value 1 to redis</li>
-</ul>
-</li>
-</ol>
-<h2 id="5-Read-Through"><a href="#5-Read-Through" class="headerlink" title="5. Read Through"></a>5. Read Through</h2><p>The algorithm for read through pattern is:</p>
-<ul>
-<li>For immutable operations (read):<ul>
-<li>Client will always simply read from cache. Either cache hit or cache miss is transparent to the client. If it is a cache miss, the cache should have the ability to automatically fetch from the database.</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>对于客户端透明</li>
-<li>if cache miss, cache 层自动从 storage 层获取数据</li>
-</ol>
-<h3 id="cons"><a href="#cons" class="headerlink" title="cons:"></a>cons:</h3><p>许多缓存层可能不支持它。例如，Redis将无法自动从MySQL获取（除非您为Redis编写插件）。</p>
-<h2 id="6-Write-Through"><a href="#6-Write-Through" class="headerlink" title="6. Write Through"></a>6. Write Through</h2><ul>
-<li>For mutable operations (create, update, delete):<ul>
-<li>The client only needs to create, update or delete the entry in Redis. The cache layer has to atomically synchronize this change to MySQL.</li>
-</ul>
-</li>
-</ul>
-<p>与 cache 的功能理念相违背，这种方式是把 redis 当做 storage 了，即使 redis 有持久化技术（RDB and AOF），仍然不推荐使用</p>
-<h2 id="7-Write-Behind"><a href="#7-Write-Behind" class="headerlink" title="7. Write Behind"></a>7. Write Behind</h2><ul>
-<li>For mutable operations (create, update, delete):<ul>
-<li>The client only needs to create, update or delete the entry in Redis. The cache layer saves the change into a message queue and returns success to the client. The change is replicated to MySQL asynchronously and may happen after Redis sends success response to the client.</li>
-</ul>
-</li>
-</ul>
-<h3 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h3><ol>
-<li>它<strong>异步</strong>地将更改复制到MySQL。因为客户端不必等待复制发生，所以它<strong>提高了吞吐量</strong>。具有<strong>高持久性</strong>的消息队列可能是一种实现，Redis stream 可能是一个不错的选择。</li>
-<li>为了进一步提高性能，可以合并更改并批量更新MySQL（以节省查询数量）。</li>
-</ol>
-<h3 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h3><ol>
-<li>许多缓存层本身不支持此功能。</li>
-<li>其次，使用的消息队列必须是<strong>FIFO</strong>。否则，对MySQL的更新可能会混乱，因此最终结果可能不正确。</li>
-</ol>
-<h2 id="8-Double-Delete"><a href="#8-Double-Delete" class="headerlink" title="8. Double Delete"></a>8. Double Delete</h2><blockquote>
-<p>原始的 cache aside 的变体。</p>
-</blockquote>
-<p>The algorithm for double delete pattern is:</p>
-<ul>
-<li>For immutable operations (read):<ul>
-<li>Cache hit: return data from Redis directly, with no query to MySQL;</li>
-<li>Cache miss: query MySQL to get the data (can use read replicas to improve performance), save the returned data to Redis, return the result to client.</li>
-</ul>
-</li>
-<li>For mutable operations (create, update, delete):<ul>
-<li>Delete the entry in Redis;</li>
-<li>Create, update or delete the data to MySQL;</li>
-<li>Sleep for a while (such as 500ms);</li>
-<li>Delete the entry in Redis again.</li>
-</ul>
-</li>
-</ul>
-<p>通过将<strong>进程暂停500毫秒</strong>，该算法假定所有并发读取进程已将旧值保存到Redis中，因此对Redis的第二次删除操作将清除所有脏数据。</p>
-<p>解决了 cache aside 的什么问题？</p>
-<ol>
-<li>这里遵循的宗旨是 cache 宁愿不存数据，也不存脏数据（无法保证<strong>最终一致性</strong>）</li>
-</ol>
-<h1 id="ref-doc"><a href="#ref-doc" class="headerlink" title="ref doc"></a>ref doc</h1><p><a target="_blank" rel="noopener" href="https://www.programmersought.com/article/11164925218/">https://www.programmersought.com/article/11164925218/</a><br><a target="_blank" rel="noopener" href="https://danielw.cn/cache-consistency-with-database">https://danielw.cn/cache-consistency-with-database</a><br><a target="_blank" rel="noopener" href="https://yunpengn.github.io/blog/2019/05/04/consistent-redis-sql/">https://yunpengn.github.io/blog/2019/05/04/consistent-redis-sql/</a><br><a target="_blank" rel="noopener" href="https://github.com/alibaba/canal">https://github.com/alibaba/canal</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/22/consistent-cache-RDBMS/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -467,7 +313,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/20/what-is-nginx/" class="post-title-link" itemprop="url">what is NGINX?</a>
+            <a href="/2021/02/20/what-is-nginx/" class="post-title-link" itemprop="url">what is NGINX</a>
         </h2>
 
         <div class="post-meta">
@@ -484,7 +330,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:56:25" itemprop="dateModified" datetime="2021-02-22T15:56:25+08:00">2021-02-22</time>
+                <time title="修改时间：2021-02-25 13:26:09" itemprop="dateModified" datetime="2021-02-25T13:26:09+08:00">2021-02-25</time>
               </span>
 
           
@@ -509,47 +355,14 @@
 </li>
 </ol>
 <h6 id="还有可能的方案："><a href="#还有可能的方案：" class="headerlink" title="还有可能的方案："></a>还有可能的方案：</h6><p>修改配置文件nginx.conf后，主进程master负责推送给woker进程更新配置信息，woker进程收到信息后，更新进程内部的线程信息。（有点 valatile 的味道）</p>
-<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><img src="/2021/02/20/what-is-nginx/nginx2.png" class title="虚拟主机">
-
-<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
-<ol>
-<li>通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
-<li>为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
-<li>静态资源包括 业务数据 和 日志数据，归属到不同域名下（目录），方便维护。</li>
-<li>IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
-</ol>
-<h3 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1. 反向代理"></a>1. 反向代理</h3><p>location:</p>
-<ul>
-<li>root: 静态返回</li>
-<li>proxy_pass: 动态转发</li>
-</ul>
-<h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2. 负载均衡"></a>2. 负载均衡</h3><ul>
-<li>upstream: nginx 定义<strong>一组</strong>后端服务，通过一些 LB 策略进行<strong>负载均衡</strong>，同时进行<strong>健康检查</strong>。</li>
-<li>proxy_pass =&gt; upstream</li>
-</ul>
-<h5 id="负载均衡有哪些策略？"><a href="#负载均衡有哪些策略？" class="headerlink" title="负载均衡有哪些策略？"></a>负载均衡有哪些策略？</h5><p>（IPHASH、加权论调、最少连接……）</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer">https://github.com/shaorui0/tiny_load_balancer</a></p>
-<h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>显而易见，可以 scale up ，部署更多的 server 来处理 request。</p>
-<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><p>本质还是『<strong>一致性</strong>』问题。web 层面，比如用户的 session 信息不一致。（由于 request 经过 lb 到达不同的 server 端）</p>
-<h4 id="从-tiny-lb-中学到什么？"><a href="#从-tiny-lb-中学到什么？" class="headerlink" title="从 tiny_lb 中学到什么？"></a>从 tiny_lb 中学到什么？</h4><ol>
-<li>反向代理是什么东西？<br>本质是<strong>解耦</strong>，client 不知道 server 的 IP ， server 不知道 client 的 IP。两者都经过第三方 reverse_proxy_server ，更符合直觉。</li>
-<li>正向代理是什么东西？<br>典型的应用场景就是<strong>VPN</strong>，client 知道 server 的 IP，但是中间是通过第三方绕过了 WALL，对 client 透明，server 获取到的 IP 是 <strong>VPN_server.IP</strong>。</li>
-</ol>
-<h3 id="3-缓存"><a href="#3-缓存" class="headerlink" title="3. 缓存"></a>3. 缓存</h3><p>TODO</p>
-<h3 id="怎么进行高并发"><a href="#怎么进行高并发" class="headerlink" title="怎么进行高并发"></a>怎么进行高并发</h3><ol>
-<li>优秀的架构设计，eventloop…</li>
-<li>Master - Worker  (1 - n)</li>
-</ol>
-<h3 id="怎么进行高可用"><a href="#怎么进行高可用" class="headerlink" title="怎么进行高可用"></a>怎么进行高可用</h3><p>[keepalive + nginx] keppalive 监控 nginx 的生命，防止单点 nginx 挂掉。</p>
-<h2 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># https:&#x2F;&#x2F;www.nginx.com&#x2F;resources&#x2F;wiki&#x2F;start&#x2F;topics&#x2F;examples&#x2F;full&#x2F;</span><br></pre></td></tr></table></figure>
-<h2 id="diff-nginx-apache"><a href="#diff-nginx-apache" class="headerlink" title="diff nginx / apache"></a>diff nginx / apache</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11171992/nginx-v-apache-for-high-traffic-sites">https://stackoverflow.com/questions/11171992/nginx-v-apache-for-high-traffic-sites</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34278909/how-to-setup-nginx-configuration">https://stackoverflow.com/questions/34278909/how-to-setup-nginx-configuration</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48974616/what-is-better-with-http-2-apache-vs-nginx">https://stackoverflow.com/questions/48974616/what-is-better-with-http-2-apache-vs-nginx</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14459086/do-you-know-any-reason-to-use-apache-instead-of-nginx">https://stackoverflow.com/questions/14459086/do-you-know-any-reason-to-use-apache-instead-of-nginx</a></li>
-</ul>
-<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34943332">reference blog</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">nginx config example</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/20/what-is-nginx/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

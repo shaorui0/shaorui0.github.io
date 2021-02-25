@@ -20,22 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="&gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchmark and Message Boundary:   Pipe I&#x2F;O">
-<meta property="og:type" content="article">
-<meta property="og:title" content="IPC - Intro">
-<meta property="og:url" content="http://example.com/2021/01/15/diff-ipc/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:url" content="http://example.com/tags/RDBMS/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="&gt; 如何选择，以什么作为考量？Message Boundary issue:   bytes stream: 抽象成file stream or stdin&#x2F;stdout（linux的核心概念）, 需要知道消息长度 discrete protocols like UDP or message queues  Benchmark and Message Boundary:   Pipe I&#x2F;O">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/01/15/diff-ipc/fifo.png">
-<meta property="article:published_time" content="2021-01-15T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-22T11:25:28.868Z">
 <meta property="article:author" content="Shao Rui">
-<meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/01/15/diff-ipc/fifo.png">
 
-<link rel="canonical" href="http://example.com/2021/01/15/diff-ipc/">
+<link rel="canonical" href="http://example.com/tags/RDBMS/">
 
 
 <script id="page-configurations">
@@ -43,12 +36,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>IPC - Intro | Surely You're Joking, Mr. Feynman!</title>
+  <title>标签: RDBMS | Surely You're Joking, Mr. Feynman!</title>
   
 
 
@@ -146,149 +139,71 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content tag">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/15/diff-ipc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          IPC - Intro
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-15 21:55:13" itemprop="dateCreated datePublished" datetime="2021-01-15T21:55:13+08:00">2021-01-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 19:25:28" itemprop="dateModified" datetime="2021-02-22T19:25:28+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">RDBMS
+          <small>标签</small>
+        </h2>
+      </div>
 
       
-        <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
-<ol>
-<li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
-<li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
-</ol>
-<p>Benchmark and Message Boundary: </p>
-<ul>
-<li><strong>Pipe</strong> I/O is the fastest but needs a <strong>parent/child relationship</strong> to work.</li>
-<li>Sysv IPC has a defined message boundary and can connect disparate processes locally, for example, <strong>MQ</strong></li>
-<li>UNIX sockets can connect disparate processes <strong>locally</strong> and has <strong>higher bandwidth</strong> but no inherent message boundaries.</li>
-<li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
-</ul>
-<h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
-<li><p>anonymous pipe: </p>
-<ul>
-<li>usage: cat file | grep word</li>
-<li>单向</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
-</ul>
-</li>
-<li><p>named pipe: </p>
-  <img src="/2021/01/15/diff-ipc/fifo.png" class title="fifo">
-<ul>
-<li>半双工</li>
-<li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
-</ul>
-</li>
-<li><p>signal</p>
-<ul>
-<li>fork + signal</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell">implement: tiny shell</a></li>
-</ul>
-</li>
-<li><p>file lock</p>
-</li>
-<li><p>Semaphores</p>
-<ul>
-<li>某种同步原语，当需要锁功能或者生产消费一定数量的资源时</li>
-</ul>
-</li>
-<li><p>socket</p>
-<ul>
-<li>全双工，本机或网络</li>
-<li>TODO web server</li>
-</ul>
-</li>
-<li><p>mmap</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">What is mmap?</a><ul>
-<li>mmap是什么？</li>
-<li>为什么需要mmap()</li>
-<li>pros and cons</li>
-<li>一些可以运行的例子</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>shared memory</p>
-</li>
-</ul>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
-
+    <div class="collection-year">
+      <span class="collection-header">2021</span>
     </div>
 
-    
-    
-    
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/OS/" rel="tag"># OS</a>
-          </div>
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-02-18T21:55:13+08:00"
+              content="2021-02-18">
+          02-18
+        </time>
+      </div>
 
-        
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/02/18/transaction-isolation/" itemprop="url">
+            <span itemprop="name">TRANSACTION - ISOLATION</span>
+          </a>
+      </div>
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/12/16/how-use-pdb/" rel="prev" title="how to use pdb">
-      <i class="fa fa-chevron-left"></i> how to use pdb
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/01/20/Elasticsearch-cold-warm/" rel="next" title="(ES) hot and cold data architecture">
-      (ES) hot and cold data architecture <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-02-16T21:55:13+08:00"
+              content="2021-02-16">
+          02-16
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/02/16/diff-hash-btree/" itemprop="url">
+            <span itemprop="name">Index</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+    </div>
+  </div>
   
   
+  
+
   
 
 
@@ -341,7 +256,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#gt-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%EF%BC%8C%E4%BB%A5%E4%BB%80%E4%B9%88%E4%BD%9C%E4%B8%BA%E8%80%83%E9%87%8F%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">&gt; 如何选择，以什么作为考量？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#gt-ipc%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">&gt; ipc分类</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ref"><span class="nav-number"></span> <span class="nav-text">ref</span></a></div>
       </div>
       <!--/noindex-->
 

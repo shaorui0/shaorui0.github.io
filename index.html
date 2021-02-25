@@ -330,7 +330,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:26:09" itemprop="dateModified" datetime="2021-02-25T13:26:09+08:00">2021-02-25</time>
+                <time title="修改时间：2021-02-25 13:31:26" itemprop="dateModified" datetime="2021-02-25T13:31:26+08:00">2021-02-25</time>
               </span>
 
           
@@ -344,7 +344,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><img src="/2021/02/20/what-is-nginx/nginx1.png" class title="nginx1">
+          <a id="more"></a>
+
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><img src="/2021/02/20/what-is-nginx/nginx2.png" class title="虚拟主机">
+
+<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
+<ol>
+<li>通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
+<li>为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
+<li>静态资源包括 业务数据 和 日志数据，归属到不同域名下（目录），方便维护。</li>
+<li>IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
+</ol>
+<!--more-->
+
+<h3 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1. 反向代理"></a>1. 反向代理</h3><p>location:</p>
+<ul>
+<li>root: 静态返回</li>
+<li>proxy_pass: 动态转发</li>
+</ul>
+<h3 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2. 负载均衡"></a>2. 负载均衡</h3><ul>
+<li>upstream: nginx 定义<strong>一组</strong>后端服务，通过一些 LB 策略进行<strong>负载均衡</strong>，同时进行<strong>健康检查</strong>。</li>
+<li>proxy_pass =&gt; upstream</li>
+</ul>
+<h5 id="负载均衡有哪些策略？"><a href="#负载均衡有哪些策略？" class="headerlink" title="负载均衡有哪些策略？"></a>负载均衡有哪些策略？</h5><p>（IPHASH、加权论调、最少连接……）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer">https://github.com/shaorui0/tiny_load_balancer</a></p>
+<h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>显而易见，可以 scale up ，部署更多的 server 来处理 request。</p>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><p>本质还是『<strong>一致性</strong>』问题。web 层面，比如用户的 session 信息不一致。（由于 request 经过 lb 到达不同的 server 端）</p>
+<h4 id="从-tiny-lb-中学到什么？"><a href="#从-tiny-lb-中学到什么？" class="headerlink" title="从 tiny_lb 中学到什么？"></a>从 tiny_lb 中学到什么？</h4><ol>
+<li>反向代理是什么东西？<br>本质是<strong>解耦</strong>，client 不知道 server 的 IP ， server 不知道 client 的 IP。两者都经过第三方 reverse_proxy_server ，更符合直觉。</li>
+<li>正向代理是什么东西？<br>典型的应用场景就是<strong>VPN</strong>，client 知道 server 的 IP，但是中间是通过第三方绕过了 WALL，对 client 透明，server 获取到的 IP 是 <strong>VPN_server.IP</strong>。</li>
+</ol>
+<h3 id="3-缓存"><a href="#3-缓存" class="headerlink" title="3. 缓存"></a>3. 缓存</h3><p>TODO</p>
+<h2 id="如何工作？"><a href="#如何工作？" class="headerlink" title="如何工作？"></a>如何工作？</h2><h3 id="常见业务架构"><a href="#常见业务架构" class="headerlink" title="常见业务架构"></a>常见业务架构</h3><img src="/2021/02/20/what-is-nginx/nginx1.png" class title="nginx1">
 
 <h4 id="如何做到热部署"><a href="#如何做到热部署" class="headerlink" title="如何做到热部署"></a>如何做到<strong>热部署</strong></h4><h6 id="nginx-做法："><a href="#nginx-做法：" class="headerlink" title="nginx 做法："></a>nginx 做法：</h6><ol>
 <li>Change nginx.conf</li>
@@ -355,14 +386,20 @@
 </li>
 </ol>
 <h6 id="还有可能的方案："><a href="#还有可能的方案：" class="headerlink" title="还有可能的方案："></a>还有可能的方案：</h6><p>修改配置文件nginx.conf后，主进程master负责推送给woker进程更新配置信息，woker进程收到信息后，更新进程内部的线程信息。（有点 valatile 的味道）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/20/what-is-nginx/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<h3 id="怎么进行高并发"><a href="#怎么进行高并发" class="headerlink" title="怎么进行高并发"></a>怎么进行高并发</h3><ol>
+<li>优秀的架构设计，eventloop…</li>
+<li>Master - Worker  (1 - n)</li>
+</ol>
+<h3 id="怎么进行高可用"><a href="#怎么进行高可用" class="headerlink" title="怎么进行高可用"></a>怎么进行高可用</h3><p>[keepalive + nginx] keppalive 监控 nginx 的生命，防止单点 nginx 挂掉。</p>
+<h2 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  5;  ## Default: 1</span><br><span class="line">error_log  logs&#x2F;error.log;</span><br><span class="line">pid        logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 8192;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">  worker_connections  4096;  ## Default: 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">  include    conf&#x2F;mime.types;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;proxy.conf;</span><br><span class="line">  include    &#x2F;etc&#x2F;nginx&#x2F;fastcgi.conf;</span><br><span class="line">  index    index.html index.htm index.php;</span><br><span class="line"></span><br><span class="line">  default_type application&#x2F;octet-stream;</span><br><span class="line">  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;</span><br><span class="line">    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line">  access_log   logs&#x2F;access.log  main;</span><br><span class="line">  sendfile     on;</span><br><span class="line">  tcp_nopush   on;</span><br><span class="line">  server_names_hash_bucket_size 128; # this seems to be required for some vhosts</span><br><span class="line"></span><br><span class="line">  server &#123; # php&#x2F;fastcgi</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain1.com www.domain1.com;</span><br><span class="line">    access_log   logs&#x2F;domain1.access.log  main;</span><br><span class="line">    root         html;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">      fastcgi_pass   127.0.0.1:1025;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple reverse-proxy</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  domain2.com www.domain2.com;</span><br><span class="line">    access_log   logs&#x2F;domain2.access.log  main;</span><br><span class="line"></span><br><span class="line">    # serve static files</span><br><span class="line">    location ~ ^&#x2F;(images|javascript|js|css|flash|media|static)&#x2F;  &#123;</span><br><span class="line">      root    &#x2F;var&#x2F;www&#x2F;virtual&#x2F;big.server.com&#x2F;htdocs;</span><br><span class="line">      expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # pass requests for dynamic content to rails&#x2F;turbogears&#x2F;zope, et al</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;127.0.0.1:8080;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  upstream big_server_com &#123;</span><br><span class="line">    server 127.0.0.3:8000 weight&#x3D;5;</span><br><span class="line">    server 127.0.0.3:8001 weight&#x3D;5;</span><br><span class="line">    server 192.168.0.1:8000;</span><br><span class="line">    server 192.168.0.1:8001;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  server &#123; # simple load balancing</span><br><span class="line">    listen          80;</span><br><span class="line">    server_name     big.server.com;</span><br><span class="line">    access_log      logs&#x2F;big.server.access.log main;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      proxy_pass      http:&#x2F;&#x2F;big_server_com;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># https:&#x2F;&#x2F;www.nginx.com&#x2F;resources&#x2F;wiki&#x2F;start&#x2F;topics&#x2F;examples&#x2F;full&#x2F;</span><br></pre></td></tr></table></figure>
+<h2 id="diff-nginx-apache"><a href="#diff-nginx-apache" class="headerlink" title="diff nginx / apache"></a>diff nginx / apache</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11171992/nginx-v-apache-for-high-traffic-sites">https://stackoverflow.com/questions/11171992/nginx-v-apache-for-high-traffic-sites</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34278909/how-to-setup-nginx-configuration">https://stackoverflow.com/questions/34278909/how-to-setup-nginx-configuration</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48974616/what-is-better-with-http-2-apache-vs-nginx">https://stackoverflow.com/questions/48974616/what-is-better-with-http-2-apache-vs-nginx</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14459086/do-you-know-any-reason-to-use-apache-instead-of-nginx">https://stackoverflow.com/questions/14459086/do-you-know-any-reason-to-use-apache-instead-of-nginx</a></li>
+</ul>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34943332">reference blog</a><br><a target="_blank" rel="noopener" href="https://github.com/nginx/nginx/blob/master/conf/nginx.conf">nginx config example</a></p>
+
       
     </div>
 
@@ -395,7 +432,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/18/transaction-isolation/" class="post-title-link" itemprop="url">transaction - isolation</a>
+            <a href="/2021/02/18/transaction-isolation/" class="post-title-link" itemprop="url">TRANSACTION - ISOLATION</a>
         </h2>
 
         <div class="post-meta">
@@ -412,7 +449,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 19:26:16" itemprop="dateModified" datetime="2021-02-22T19:26:16+08:00">2021-02-22</time>
+                <time title="修改时间：2021-02-25 13:30:37" itemprop="dateModified" datetime="2021-02-25T13:30:37+08:00">2021-02-25</time>
               </span>
 
           
@@ -427,115 +464,14 @@
 
       
           <h2 id="为什么会需要隔离性"><a href="#为什么会需要隔离性" class="headerlink" title="为什么会需要隔离性"></a>为什么会需要隔离性</h2><p>如果<strong>两个事务</strong>不触及相同的数据，它们可以安全地并行（parallel） 运行，因为两者都不依赖于另一个。当一个事务读取由另一个事务同时修改的数据时，或者当两个事务试图同时修改相同的数据时，并发问题（<strong>竞争条件</strong>）才会出现。</p>
-<h2 id="先说概念"><a href="#先说概念" class="headerlink" title="先说概念"></a>先说概念</h2><p>四种隔离级别：</p>
-<ul>
-<li>读未提交</li>
-<li>读已提交</li>
-<li>可重复读</li>
-<li>可串行化</li>
-</ul>
-<h2 id="各个隔离级别解决了什么问题？"><a href="#各个隔离级别解决了什么问题？" class="headerlink" title="各个隔离级别解决了什么问题？"></a>各个隔离级别解决了什么问题？</h2><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>读 x 1, 写 x 1（关键字：部分对象）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">init x&#x3D;0, y&#x3D;0</span><br><span class="line"></span><br><span class="line">update x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1, y&#x3D;0 (不一致)</span><br><span class="line">update y &#x3D; 2</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">final: x &#x3D; 1, y &#x3D; 2</span><br></pre></td></tr></table></figure>
-<img src="/2021/02/18/transaction-isolation/%E8%84%8F%E8%AF%BB.jpg" class title="脏读">
-
-<ul>
-<li>用户2可能看到<strong>部分</strong>用户1修改的数据，可能在<strong>一致性</strong>上不合法。比如用户看到新的未读电子邮件（对象1），但看不到更新的计数器（对象2）。</li>
-<li>用户2如果事务中止需要<strong>回滚</strong>，用户1可能读到回滚前的数据。</li>
-</ul>
-<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
-<li>读写锁？效果并不好，可能某一方长时间占用锁</li>
-<li>临时变量保存写的对象，让读可以读这个var，避免读被写阻塞</li>
-</ul>
-<h4 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h4><h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p><del>两个对同一个对象的写，后提交的数据覆盖了前面提交的数据</del></p>
-<p>这里还和之前理解的不太一样。脏写真正的含义是，两个用户写入多个对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">update x &#x3D; 1</span><br><span class="line">                update x &#x3D; 2</span><br><span class="line">                update y &#x3D; 2</span><br><span class="line">update y &#x3D; 1</span><br><span class="line">final: x &#x3D; 2, y &#x3D; 1</span><br></pre></td></tr></table></figure>
-<img src="/2021/02/18/transaction-isolation/%E8%84%8F%E5%86%99.jpg" class title="脏写">
-
-<h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
-<li>行锁</li>
-</ul>
-<h5 id="没有解决什么？（丢失更新）"><a href="#没有解决什么？（丢失更新）" class="headerlink" title="没有解决什么？（丢失更新）"></a>没有解决什么？（丢失更新）</h5><p>典型的计数器递增，主要的错误是<strong>读</strong>的过程出了问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get x &#x3D; 1</span><br><span class="line">                get x &#x3D; 1</span><br><span class="line">update x +&#x3D; 1(2)</span><br><span class="line">                update x +&#x3D; 1(2)</span><br><span class="line">final: x &#x3D; 2</span><br></pre></td></tr></table></figure>
-<img src="/2021/02/18/transaction-isolation/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg" class title="丢失更新">
-
-
-
-<p>以上的隔离级别基本解决了一些常见的麻烦。</p>
-<ul>
-<li>读取不完整的事务结果</li>
-<li>并排写入的并发</li>
-</ul>
-<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>持续时间长的事务，由于没有阻塞其他写，导致时间跨度较长的前后时间点读取的某个对象的数据不一致。</p>
-<img src="/2021/02/18/transaction-isolation/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg" class title="可重复读">
-
-<h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><ol>
-<li><p>备份，<strong>持续时间长</strong>。这段时间，肯定是接受写入操作的。如果想从这个备份进行恢复，那么不一致就会变成永久的。</p>
-</li>
-<li><p>分析查询和完整性检查</p>
-</li>
-</ol>
-<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
-<li>快照隔离。MVCC。</li>
-</ul>
-<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><img src="/2021/02/18/transaction-isolation/MVCC.jpg" class title="MVCC">
-
-<ol>
-<li><strong>多版本</strong>是指某个对象的某个版本</li>
-<li>一个事务一个id（txid，自增长）。</li>
-<li>每当一个事务写入内容，他所写入的数据都会标记上写入者的事务ID。（create_by, delete_by）</li>
-</ol>
-<p>MVCC也可以用在读已提交上面，主要实现是保留两个版本的快照，为每个查询适用单独的快照</p>
-<h5 id="索引在快照隔离上起作用"><a href="#索引在快照隔离上起作用" class="headerlink" title="索引在快照隔离上起作用"></a>索引在快照隔离上起作用</h5><ul>
-<li>一种选择是使用索引简单的指向对象的<strong>所有版本</strong>，并通过索引查询<strong>过滤</strong>当前事务不可见的任何对象版本</li>
-<li>也有一些数据库选用了仅追加的B-tree，每个写入的事务都创建新的树</li>
-</ul>
-<h3 id="防止丢失更新"><a href="#防止丢失更新" class="headerlink" title="防止丢失更新"></a>防止丢失更新</h3><p>只读事务 在 并发写入时看到什么？<strong>读已提交、快照隔离。</strong></p>
-<p>那么写事务进行并发写入呢？（计数器递增）</p>
-<ol>
-<li><p>原子写</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE counters <span class="keyword">SET</span> <span class="keyword">value</span> <span class="operator">=</span> <span class="keyword">value</span> <span class="operator">+</span> <span class="number">1</span> <span class="keyword">WHERE</span> key <span class="operator">=</span> <span class="string">&#x27;foo&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p> 游标稳定性（cursor stability）</p>
-</li>
-<li><p>显式锁定<br> <code>FOR UPDATE</code>对select返回的所有行<strong>加锁</strong></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> figures</span><br><span class="line">    <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;robot&#x27;</span> <span class="keyword">AND</span> game_id <span class="operator">=</span> <span class="number">222</span></span><br><span class="line"><span class="keyword">FOR</span> UPDATE;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查玩家的操作是否有效，然后更新先前SELECT返回棋子的位置。</span></span><br><span class="line">UPDATE figures <span class="keyword">SET</span> position <span class="operator">=</span> <span class="string">&#x27;c4&#x27;</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>自动检测丢失的更新</p>
-<ul>
-<li>允许并发写入，写入过后对结果进行检查（中止事务，强制重试 read-update-commit）</li>
-</ul>
-</li>
-<li><p>比较并设置（CAS）</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 根据数据库的实现情况，这可能也可能不安全</span></span><br><span class="line">UPDATE wiki_pages <span class="keyword">SET</span> content <span class="operator">=</span> <span class="string">&#x27;新内容&#x27;</span></span><br><span class="line"><span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1234</span> <span class="keyword">AND</span> content <span class="operator">=</span> <span class="string">&#x27;旧内容&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p> 也可能不安全，where从旧的快照中获取数据（MVCC带来的问题）</p>
-</li>
-<li><p>冲突解决和复制（<strong>分布式的场景</strong>，多节点）</p>
-<ul>
-<li>复制数据库中，多对个『<strong>兄弟</strong>』值应用代码进行处理</li>
-<li>如果有可交换性，最终结果也能一致。例如，递增计数器或向集合添加元素是可<strong>交换的操作</strong>。</li>
-<li><strong>最后写入为准</strong>（LWW）的冲突解决方法很容易丢失更新。不幸的是，LWW是许多复制数据库中的默认值。</li>
-</ul>
-</li>
-</ol>
-<h3 id="写入偏差与幻读"><a href="#写入偏差与幻读" class="headerlink" title="写入偏差与幻读"></a>写入偏差与幻读</h3><p>前面说的，<strong>脏写、丢失更新</strong>，主要是并发写入相同对象。那么不同对象呢（但又影响最终结果）？</p>
-<p><strong>写入偏差</strong>视为<strong>丢失更新</strong>问题的一般化。</p>
-<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><img src="/2021/02/18/transaction-isolation/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg" class title="写入偏差">
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">get x</span><br><span class="line">                get x</span><br><span class="line">check x</span><br><span class="line">                check x</span><br><span class="line">update y</span><br><span class="line">                update y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="为什么会出现写入偏差"><a href="#为什么会出现写入偏差" class="headerlink" title="为什么会出现写入偏差"></a>为什么会出现写入偏差</h4><p>幻读</p>
-<p>所有这些例子都遵循类似的模式：</p>
-<ol>
-<li><p>一个SELECT查询找出符合条件的行，并检查是否符合一些要求。（例如：至少有两名医生在值班；不存在对该会议室同一时段的预定；棋盘上的位置没有被其他棋子占据；用户名还没有被抢注；账户里还有足够余额）</p>
-</li>
-<li><p>按照第一个查询的结果，应用代码决定是否继续。（可能会继续操作，也可能中止并报错）</p>
-</li>
-<li><p>如果应用决定继续操作，就执行写入（插入、更新或删除），并提交事务。</p>
-</li>
-</ol>
-<p>这个<strong>写入</strong>的效果改变了步骤2 中的先决条件。换句话说，如果在提交写入后，重复执行一次步骤1 的<strong>SELECT</strong>查询，将会得到<strong>不同的结果</strong>。因为<strong>写入改变符合搜索条件的行集</strong>（现在少了一个医生值班，那时候的会议室现在已经被预订了，棋盘上的这个位置已经被占据了，用户名已经被抢注，账户余额不够了）。</p>
-<p>这些步骤可能以不同的顺序发生。例如可以首先进行写入，然后进行SELECT查询，最后根据查询结果决定是放弃还是提交。</p>
-<p>在医生值班的例子中，在步骤3中修改的行，是步骤1中返回的行之一，所以我们可以通过锁定步骤1 中的行（<strong>SELECT FOR UPDATE</strong>）来使事务安全并避免写入偏差。但是其他四个例子是不同的：它们检查是否不存在某些满足条件的行，写入会添加一个匹配相同条件的行。<strong>如果步骤1中的查询没有返回任何行，则SELECT FOR UPDATE锁不了任何东西</strong>。</p>
-<p>这种效应：<strong>一个事务中的写入改变另一个事务的搜索查询的结果，被称为幻读</strong>【3】。快照隔离避免了只读查询中幻读，但是在像我们讨论的例子那样的读写事务中，幻影会导致特别棘手的写歪斜情况。</p>
-<p>总结：某些情况可以使用<code>SELECT FOR UPDATE</code>防止幻读，但是如果<code>SELECT FOR UPDATE</code>没有结果行，锁不住任何东西，潜在还是会出错。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/18/transaction-isolation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -585,7 +521,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:58:12" itemprop="dateModified" datetime="2021-02-22T15:58:12+08:00">2021-02-22</time>
+                <time title="修改时间：2021-02-25 13:31:40" itemprop="dateModified" datetime="2021-02-25T13:31:40+08:00">2021-02-25</time>
               </span>
 
           
@@ -605,81 +541,14 @@
 <li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
 <li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
 </ul>
-<h4 id="What-is-sharding"><a href="#What-is-sharding" class="headerlink" title="What is sharding?"></a>What is sharding?</h4><ul>
-<li>Replicate the schema across (typically) <strong>multiple instances</strong> or servers</li>
-</ul>
-<h4 id="how-to-shard"><a href="#how-to-shard" class="headerlink" title="how to shard?"></a>how to shard?</h4><p>数据操作的<strong>本质</strong>就是：<strong>存、取</strong>。使用某种Schema在这些机器上实行，然后使用一些逻辑or标识符通过schema去某些机器上查找。（<em>分布式带来的复杂度，<strong>去哪台机器上找数据？</strong></em>）</p>
-<ul>
-<li>最初的identifiers就是RDBMS中的自增id了，这种标识符称为<strong>Shard Key</strong></li>
-<li>最常用的一种key-less logic是通过字母序来决定的</li>
-<li>还有些是使用key-synchronizition system ===&gt; zookeeper（管理分布式系统）</li>
-</ul>
-<h2 id="Instagram-instance"><a href="#Instagram-instance" class="headerlink" title="Instagram instance"></a>Instagram instance</h2><ol>
-<li>开始不给系统带来太大的复杂度，比如引进分布式系统</li>
-<li>讨论方案的时候，典型的<strong>优缺点</strong>要罗列清楚（pros and cons），这样才好更容易做决策。</li>
-<li><strong>sharding</strong>的本质就是<strong>数据存放好之后（将数据分到很多桶里）我如何取的问题</strong></li>
-<li>典型的就要对id这个东西非常上心</li>
-</ol>
-<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ul>
-<li>id要以时间有序的方式排序（即使没有其他信息，也能够排序）</li>
-<li>id最理想的长度应该是64bits（更小的索引，更好的存储（比如适配redis））</li>
-<li>系统应该引入比较少的、新的’moving parts’（复杂度）</li>
-</ul>
-<h3 id="可能的解法（pros-and-cons）："><a href="#可能的解法（pros-and-cons）：" class="headerlink" title="可能的解法（pros and cons）："></a>可能的解法（pros and cons）：</h3><ol>
-<li><p>通过代码而非数据库的自增id（mongoDB’s Object）</p>
-<ul>
-<li>好处<ul>
-<li>application thread generates IDs independently</li>
-<li>使用时间戳作为第一部分，自动排序</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>保证独立需要很多storage space（为什么？线程控制，全局独立，随着id足够多…）</li>
-<li>UUID？也没有一个很好的natural sort，而且128bits长度</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>某种服务专门用来产生id<br>twitter的snowflake，apache zookeeper，64-bits unique IDs</p>
-<ul>
-<li>好处<ul>
-<li>64-bits</li>
-<li>time作为第一部分</li>
-<li>分布式系统，更加可用、某些节点死了的情况下</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>引入了复杂度</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>DB自动增加的能力（two ticket DBs 避免单节点失败）</p>
-<ul>
-<li>好处<ul>
-<li>很好理解，很好的预期扩展性</li>
-</ul>
-</li>
-<li>坏处<ul>
-<li>写会有瓶颈（事务带来）</li>
-<li>需要一些机器专门来管理（比如EC2）</li>
-<li>单节点可能失效，多节点可能不保证随时间的有序性（考虑两个节点交叉写的情况）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><blockquote>
-<p>现代RDBMS（PostgreSQL）提供了<strong>逻辑上的sharding</strong>，在很少的机器情况下，仍然能进行分片</p>
-</blockquote>
-<p>以上一些方案，分布式的方法更适合。但是，会引入复杂度。</p>
-<p>逻辑分片，粒度：DB =&gt;  schema =&gt; table，而不是传统的DB =&gt; schema（public）</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Postgre有内置的语言，通过位运算处理三部分的id</span></span><br><span class="line"></span><br><span class="line">41bits（微秒） ===&gt; 41年</span><br><span class="line">13bits（逻辑shard）</span><br><span class="line">10bits（取模）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每微秒每个shard产生1024个ID</span></span><br></pre></td></tr></table></figure>
-
-
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20771435/database-sharding-vs-partitioning">database-sharding-vs-partitionin</a></p>
-<p><a target="_blank" rel="noopener" href="https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c">EXAMPLE: handle instagram id</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/17/diff-between-partition-and-sharding/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -872,7 +741,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 22:57:28" itemprop="dateModified" datetime="2021-02-17T22:57:28+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-25 13:30:03" itemprop="dateModified" datetime="2021-02-25T13:30:03+08:00">2021-02-25</time>
               </span>
 
           
@@ -1182,7 +1051,7 @@
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

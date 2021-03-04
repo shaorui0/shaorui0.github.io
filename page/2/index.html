@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-duck-typing/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-duck-typing/" class="post-title-link" itemprop="url">What is duck typing</a>
+            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
         </h2>
 
         <div class="post-meta">
@@ -176,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:24" itemprop="dateModified" datetime="2021-02-17T23:00:24+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
               </span>
 
           
@@ -190,15 +190,109 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>Duck typing means that an operation does not formally specify the requirements that its operands have to meet, but just <strong>tries</strong> it out with What is given.</p>
+          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
+<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
 </blockquote>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    x.Quack()</span><br></pre></td></tr></table></figure>
-<p>不管x传进来的是什么，当x有<code>Quack</code>方法时，这个程序就能正常执行，当x没有这个方法，程序就会在<code>runtime</code>保报错。</p>
-<p>静态语言其实也有类似的用法</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T x)</span> </span>&#123; x.Quack(); &#125;</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4205130/what-is-duck-typing">ref: what-is-duck-typing</a></p>
+<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
+<ul>
+<li><p>blocking io</p>
+<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
+</li>
+<li><p>non-blocking io</p>
+<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
 
+
+
+
+</li>
+</ul>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
+</li>
+</ul>
+<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
+<li><p><a href="./echo_server_event_driven.py">server</a></p>
+</li>
+<li><p><a href="./echo_client.py">client</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/coroutine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/coroutine/" class="post-title-link" itemprop="url">Coroutine</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 13:25:14" itemprop="dateModified" datetime="2021-02-25T13:25:14+08:00">2021-02-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
+<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
+<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/16/coroutine/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -605,7 +699,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/coroutine/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/tcp-status-machine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -619,7 +713,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/coroutine/" class="post-title-link" itemprop="url">Coroutine</a>
+            <a href="/2021/02/16/tcp-status-machine/" class="post-title-link" itemprop="url">TCP state machine</a>
         </h2>
 
         <div class="post-meta">
@@ -636,7 +730,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:25:14" itemprop="dateModified" datetime="2021-02-25T13:25:14+08:00">2021-02-25</time>
+                <time title="修改时间：2021-02-17 23:00:11" itemprop="dateModified" datetime="2021-02-17T23:00:11+08:00">2021-02-17</time>
               </span>
 
           
@@ -650,17 +744,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="异步编程模型的样子"><a href="#异步编程模型的样子" class="headerlink" title="异步编程模型的样子"></a>异步编程模型的样子</h2><p>1、最上层是进程；进程是<strong>持有资源</strong>的最小单位</p>
-<p>2、中层是线程；线程不持有资源，是<strong>CPU调度</strong>的最小单位</p>
-<p>3、下层是协程；协程既不持有资源、也不必在意CPU调度，它仅仅关注“协作式的、<strong>自然的执行流程切换</strong>”</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/16/coroutine/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
+<h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
+<ol>
+<li>client -&gt; server, FIN</li>
+<li>server -&gt; client, ACK</li>
+<li>server -&gt; client, FIN</li>
+<li>client -&gt; server, ACK</li>
+</ol>
+<blockquote>
+<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
+</blockquote>
+<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
+<h3 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h3><blockquote>
+<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
+</blockquote>
+<p>重试一段时间后 reset 连接。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
+
       
     </div>
 
@@ -838,7 +940,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-duck-typing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -852,7 +954,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
+            <a href="/2021/02/16/what-is-duck-typing/" class="post-title-link" itemprop="url">What is duck typing</a>
         </h2>
 
         <div class="post-meta">
@@ -869,7 +971,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-17 23:00:24" itemprop="dateModified" datetime="2021-02-17T23:00:24+08:00">2021-02-17</time>
               </span>
 
           
@@ -883,108 +985,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
-<ol>
-<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
-<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
-</ol>
-<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
-<ul>
-<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
-<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
-<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
+          <blockquote>
+<p>Duck typing means that an operation does not formally specify the requirements that its operands have to meet, but just <strong>tries</strong> it out with What is given.</p>
 </blockquote>
-<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
-<ul>
-<li><p>blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
-</li>
-<li><p>non-blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
-</li>
-</ul>
-<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
-<li><p><a href="./echo_server_event_driven.py">server</a></p>
-</li>
-<li><p><a href="./echo_client.py">client</a></p>
-</li>
-</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    x.Quack()</span><br></pre></td></tr></table></figure>
+<p>不管x传进来的是什么，当x有<code>Quack</code>方法时，这个程序就能正常执行，当x没有这个方法，程序就会在<code>runtime</code>保报错。</p>
+<p>静态语言其实也有类似的用法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T x)</span> </span>&#123; x.Quack(); &#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4205130/what-is-duck-typing">ref: what-is-duck-typing</a></p>
 
       
     </div>
@@ -1003,7 +1011,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1069,12 +1077,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

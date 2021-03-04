@@ -145,6 +145,227 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
+<ol>
+<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
+<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
+</ol>
+<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
+<ul>
+<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
+<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/mutable-obj/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/mutable-obj/" class="post-title-link" itemprop="url">mutable object</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 15:57:36" itemprop="dateModified" datetime="2021-02-22T15:57:36+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不可变对象</span></span><br><span class="line">i = <span class="number">77</span></span><br><span class="line">j = <span class="number">77</span></span><br><span class="line">i <span class="keyword">is</span> j <span class="comment"># True</span></span><br><span class="line"><span class="comment"># check id(like addr)</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line">j += <span class="number">1</span></span><br><span class="line">print(<span class="built_in">id</span>(i), <span class="built_in">id</span>(j))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可变对象</span></span><br><span class="line">a_list = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b_list = a_list</span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br><span class="line">a_list[<span class="number">2</span>] = <span class="number">5</span></span><br><span class="line">print(<span class="built_in">id</span>(a_list), <span class="built_in">id</span>(b_list))</span><br></pre></td></tr></table></figure>
+<p>不可变对象，当i修改，i、j此时就指向不同的地方了。<br>而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/14/airflow-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/14/airflow-intro/" class="post-title-link" itemprop="url">What is Airflow</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-14 19:55:13" itemprop="dateCreated datePublished" datetime="2021-02-14T19:55:13+08:00">2021-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 13:37:24" itemprop="dateModified" datetime="2021-02-25T13:37:24+08:00">2021-02-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+<ul>
+<li>日志记录<ul>
+<li>RD介入是否方便？</li>
+<li>日志形式是否直观？</li>
+</ul>
+</li>
+<li>任务报警</li>
+<li>失败重试</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/14/airflow-intro/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/13/how-to-use-and-implement-blocking-queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -796,86 +1017,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/15/what_is_reactor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/15/what_is_reactor/" class="post-title-link" itemprop="url">What is reactor pattern</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-15 21:55:13" itemprop="dateCreated datePublished" datetime="2020-12-15T21:55:13+08:00">2020-12-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 23:16:33" itemprop="dateModified" datetime="2021-02-25T23:16:33+08:00">2021-02-25</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h2><p>TODO muduo</p>
-<h3 id="one-loop-per-thread"><a href="#one-loop-per-thread" class="headerlink" title="one loop per thread"></a>one loop per thread</h3><p>TODO muduo</p>
-<h4 id="C10K-C100K…"><a href="#C10K-C100K…" class="headerlink" title="C10K, C100K…"></a>C10K, C100K…</h4><p>TODO <a target="_blank" rel="noopener" href="http://scotdoyle.com/python-epoll-howto.html">http://scotdoyle.com/python-epoll-howto.html</a></p>
-<h4 id="需要注意哪些问题"><a href="#需要注意哪些问题" class="headerlink" title="需要注意哪些问题"></a>需要注意哪些问题</h4><h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><p>TODO 什么情况下？</p>
-<h2 id="select、poll和epoll的区别"><a href="#select、poll和epoll的区别" class="headerlink" title="select、poll和epoll的区别"></a>select、poll和epoll的区别</h2><h3 id="为什么epoll"><a href="#为什么epoll" class="headerlink" title="为什么epoll"></a>为什么epoll</h3><p>要理解，整个select -&gt; poll -&gt; epoll 的进化过程，实际上是为了不断加快事件响应时间。<br>毕竟响应越快，处理越快，处理完丢掉减小<code>len_fd_list</code>，从而增加系统的吞吐。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/15/what_is_reactor/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -941,12 +1086,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

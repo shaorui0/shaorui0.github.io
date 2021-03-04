@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Redis trades data safety versus performance, like most NoSQL-DBs do.  两种持久化的缩写  redis database append only file概念上还是非常清晰，一个是定时备份快照，适合那些时效性不强的，丢了也没关系的数据，比如缓存，一个小时备份一次，一些冷数据没必要继续留着。另一个是实时的（当然，无法精确一致性到单条">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis - persistence">
+<meta property="og:url" content="http://example.com/2021/03/01/redis-persistence/index.html">
+<meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:description" content="Redis trades data safety versus performance, like most NoSQL-DBs do.  两种持久化的缩写  redis database append only file概念上还是非常清晰，一个是定时备份快照，适合那些时效性不强的，丢了也没关系的数据，比如缓存，一个小时备份一次，一些冷数据没必要继续留着。另一个是实时的（当然，无法精确一致性到单条">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-01T03:55:13.000Z">
+<meta property="article:modified_time" content="2021-03-01T15:43:06.407Z">
+<meta property="article:author" content="Shao Rui">
+<meta property="article:tag" content="data">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/01/redis-persistence/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Redis - persistence | Surely You're Joking, Mr. Feynman!</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Surely You're Joking, Mr. Feynman!</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/01/redis-persistence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis - persistence
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-01 11:55:13 / 修改时间：23:43:06" itemprop="dateCreated datePublished" datetime="2021-03-01T11:55:13+08:00">2021-03-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Redis trades data safety versus performance, like most NoSQL-DBs do.</p>
+<ol>
+<li><p>两种持久化的缩写</p>
+<ul>
+<li>redis database</li>
+<li>append only file<br>概念上还是非常清晰，一个是定时备份快照，适合那些时效性不强的，丢了也没关系的数据，比如缓存，一个小时备份一次，一些冷数据没必要继续留着。另一个是实时的（当然，无法精确一致性到单条数据的恢复级别（事务）），每执行一次server，备份一条数据</li>
+</ul>
+</li>
+<li><p>大概的实现方式</p>
+</li>
+<li><p>有什么区别？各自的优势、劣势？trade-offs </p>
+<ul>
+<li>fork 可能会影响效率<ul>
+<li>为什么AOF也是fork大事影响小？<ul>
+<li>从之前学得 LSM tree 来回答，only append 的效率，肯定是比一大坨数据在内存中进行处理，然后写入到disk效率更高</li>
+<li>so there are no seeks, </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>append only <ul>
+<li>redis-check-aof tool</li>
+</ul>
+</li>
+<li>如何进行 roll 的？切换文件的过程是怎么做的？<ul>
+<li>mi’nimal set, switch</li>
+</ul>
+</li>
+<li>flush all 了也有办法恢复，只要没有 rewrite</li>
+<li>Using AOF Redis is much more durable</li>
+<li>RDB 因为是一坨数据 ， 处理完以后再加进去， 所以数据encode会更加『紧致』，空间占用更小</li>
+<li>RDB 保证极限可控， AOF 可能在极端情况下，写数据比较慢（很多客户端都在往 process 进行写）</li>
+<li>RDB 是每次都创建所有内容（一个serevr里面de ）<ul>
+<li>RDB 基本是不会丢失数据（那个point而言）</li>
+<li>但是 AOF可能丢失某些数据<ul>
+<li>然后，每次rewrite是从 AOF file里面读取，而不是从内存？</li>
+<li>应该注意的是，每次Redis重写AOF时，都会从数据集中包含的实际数据开始从头开始重新创建AOF，与始终附加AOF文件相比，对错误的抵抗力更强<br>【问】AOF的rewriten是怎么工作的？<br>one rewritten reading the old AOF instead of reading the data in memory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li>为什么这么设计，各有什么使用场景<ul>
+<li>缓存，有冷热数据的时候，通常每小时备份一下就可以了？</li>
+<li>除了缓存，还有什么使用场景？</li>
+</ul>
+</li>
+<li>配置上有什么需要注意的？</li>
+<li>底层实现上有什么不同导致这两种不同的结果？</li>
+<li>分布式的场景下，持久化如何工作？</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/data/" rel="tag"># data</a>
+              <a href="/tags/redis/" rel="tag"># redis</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/22/consistent-cache-RDBMS/" rel="prev" title="consistent-cache-RDBMS">
+      <i class="fa fa-chevron-left"></i> consistent-cache-RDBMS
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/01/why-redis-fast/" rel="next" title="Redis - why redis fast?">
+      Redis - why redis fast? <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Shao Rui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Rui</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

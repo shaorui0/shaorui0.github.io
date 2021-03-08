@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/01/15/diff-ipc/fifo.png">
 <meta property="article:published_time" content="2021-01-15T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-25T05:37:24.808Z">
+<meta property="article:modified_time" content="2021-03-05T03:54:29.695Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
@@ -183,7 +183,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:37:24" itemprop="dateModified" datetime="2021-02-25T13:37:24+08:00">2021-02-25</time>
+                <time title="修改时间：2021-03-05 11:54:29" itemprop="dateModified" datetime="2021-03-05T11:54:29+08:00">2021-03-05</time>
               </span>
 
           
@@ -210,13 +210,22 @@
 <li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
 </ul>
 <h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
-<li><p>anonymous pipe: </p>
-<ul>
+<li>anonymous pipe:<br>  管道的实质是一个内核缓冲区，进程以先进先出的方式从缓冲区存取数据，管道一端的进程顺序的将数据写入缓冲区，另一端的进程则顺序的读出数据。该缓冲区可以看做是一个循环队列，读和写的位置都是自动增长的，不能随意改变，一个数据只能被读一次，读出来以后在缓冲区就不复存在了。当缓冲区读空或者写满时，有一定的规则控制相应的读进程或者写进程进入等待队列，当空的缓冲区有新数据写入或者满的缓冲区有数据读出来时，就唤醒等待队列中的进程继续读写。<ul>
 <li>usage: cat file | grep word</li>
 <li>单向</li>
 <li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
+<li>缺陷<ul>
+<li>单向数据流</li>
+<li>亲缘关系进程</li>
+<li>没有名字</li>
+<li>缓冲区是有限的（管道制存在于内存中，在管道创建时，为缓冲区分配一个页面大小）；</li>
+<li>管道所传送的是『无格式字节流』，这就要求管道的读出方和写入方必须事先约定好数据的格式，比如多少字节算作一个消息（或命令、或记录）等等；</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<ul>
 <li><p>named pipe: </p>
   <img src="/2021/01/15/diff-ipc/fifo.png" class title="fifo">
 <ul>
@@ -255,6 +264,9 @@
 </ul>
 </li>
 <li><p>shared memory</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1015f5ffa74">共享内存也可以实现『跨主机IPC』</a></li>
+</ul>
 </li>
 </ul>
 <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
@@ -355,12 +367,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

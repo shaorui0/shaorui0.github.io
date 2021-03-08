@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/17/diff-between-partition-and-sharding/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
+            <a href="/2021/02/17/diff-between-partition-and-sharding/" class="post-title-link" itemprop="url">partition and sharding</a>
         </h2>
 
         <div class="post-meta">
@@ -169,14 +169,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+              <time title="创建时间：2021-02-17 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-17T21:55:13+08:00">2021-02-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
+                <time title="修改时间：2021-02-25 13:31:40" itemprop="dateModified" datetime="2021-02-25T13:31:40+08:00">2021-02-25</time>
               </span>
 
           
@@ -190,35 +190,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
-<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
-</blockquote>
-<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
+          <h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+<h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
 <ul>
-<li><p>blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
-</li>
-<li><p>non-blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
-
-
-
-
-</li>
+<li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
 </ul>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
-</li>
-</ul>
-<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
-<li><p><a href="./echo_server_event_driven.py">server</a></p>
-</li>
-<li><p><a href="./echo_client.py">client</a></p>
-</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/17/diff-between-partition-and-sharding/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -730,7 +715,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:11" itemprop="dateModified" datetime="2021-02-17T23:00:11+08:00">2021-02-17</time>
+                <time title="修改时间：2021-03-05 12:15:00" itemprop="dateModified" datetime="2021-03-05T12:15:00+08:00">2021-03-05</time>
               </span>
 
           
@@ -762,7 +747,13 @@
 </blockquote>
 <p>重试一段时间后 reset 连接。</p>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
-
+<h2 id="DIFF-between-TCP-and-UDP"><a href="#DIFF-between-TCP-and-UDP" class="headerlink" title="DIFF between TCP and UDP"></a>DIFF between TCP and UDP</h2><ol>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<h3 id="TCP-如何保证消息可靠？"><a href="#TCP-如何保证消息可靠？" class="headerlink" title="TCP 如何保证消息可靠？"></a>TCP 如何保证消息可靠？</h3><h3 id="怎么保证-UDP-消息可靠？"><a href="#怎么保证-UDP-消息可靠？" class="headerlink" title="怎么保证 UDP 消息可靠？"></a>怎么保证 UDP 消息可靠？</h3>
       
     </div>
 
@@ -894,7 +885,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:44:24" itemprop="dateModified" datetime="2021-02-22T15:44:24+08:00">2021-02-22</time>
+                <time title="修改时间：2021-03-05 12:20:40" itemprop="dateModified" datetime="2021-03-05T12:20:40+08:00">2021-03-05</time>
               </span>
 
           
@@ -912,7 +903,19 @@
 <h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
 <h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
 <h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
-<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC</p>
+<h4 id="网络层具体做了什么？"><a href="#网络层具体做了什么？" class="headerlink" title="网络层具体做了什么？"></a>网络层具体做了什么？</h4><ol>
+<li>从传输层获取到 package</li>
+<li>加上 IP header</li>
+<li>根据 IP addr 找到对端<ul>
+<li>dns…</li>
+<li>router…</li>
+</ul>
+</li>
+</ol>
+<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC（<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/52820009">MAC addr 可能相同吗？</a>）</p>
+<blockquote>
+<p>不会怎么样，如果不在同一个二层网络内，完全没有影响；如果在同一个二层网络内，这两台设备都会出现网络故障，主要原因是交换机学习MAC地址的机制会被打乱。在交换机看来是同一台设备一会连到一个口，一会连到另一个口，于是包转发的顺序就乱了</p>
+</blockquote>
 <h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
 <h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
 <h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
@@ -1077,12 +1080,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

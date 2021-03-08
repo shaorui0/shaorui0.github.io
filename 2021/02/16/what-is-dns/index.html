@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="DNS属于哪一层？应用层，但这个问题的本质是 TCP&#x2F;IP 协议栈的四层的功能分别是什么？ 应用层允许访问OSI环境的手段（应用协议数据单元 APDU） 传输层提供端到端的可靠报文传递和错误恢复（ 段Segment）     网络层负责数据包从源到宿的传递和网际互连（包 Packet）     网络接口层从网卡到对端机器的一个过程，比如MAC DNS是如何工作的？client&#x2F;browser &amp;l">
+  <meta name="description" content="DNS属于哪一层？应用层，但这个问题的本质是 TCP&#x2F;IP 协议栈的四层的功能分别是什么？ 应用层允许访问OSI环境的手段（应用协议数据单元 APDU） 传输层提供端到端的可靠报文传递和错误恢复（ 段Segment）     网络层负责数据包从源到宿的传递和网际互连（包 Packet）     网络层具体做了什么？ 从传输层获取到 package 加上 IP header 根据 IP addr 找">
 <meta property="og:type" content="article">
 <meta property="og:title" content="What is DNS">
 <meta property="og:url" content="http://example.com/2021/02/16/what-is-dns/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="DNS属于哪一层？应用层，但这个问题的本质是 TCP&#x2F;IP 协议栈的四层的功能分别是什么？ 应用层允许访问OSI环境的手段（应用协议数据单元 APDU） 传输层提供端到端的可靠报文传递和错误恢复（ 段Segment）     网络层负责数据包从源到宿的传递和网际互连（包 Packet）     网络接口层从网卡到对端机器的一个过程，比如MAC DNS是如何工作的？client&#x2F;browser &amp;l">
+<meta property="og:description" content="DNS属于哪一层？应用层，但这个问题的本质是 TCP&#x2F;IP 协议栈的四层的功能分别是什么？ 应用层允许访问OSI环境的手段（应用协议数据单元 APDU） 传输层提供端到端的可靠报文传递和错误恢复（ 段Segment）     网络层负责数据包从源到宿的传递和网际互连（包 Packet）     网络层具体做了什么？ 从传输层获取到 package 加上 IP header 根据 IP addr 找">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-22T07:44:24.378Z">
+<meta property="article:modified_time" content="2021-03-05T04:20:40.594Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="computer networking">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:44:24" itemprop="dateModified" datetime="2021-02-22T15:44:24+08:00">2021-02-22</time>
+                <time title="修改时间：2021-03-05 12:20:40" itemprop="dateModified" datetime="2021-03-05T12:20:40+08:00">2021-03-05</time>
               </span>
 
           
@@ -199,7 +199,19 @@
 <h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
 <h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
 <h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
-<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC</p>
+<h4 id="网络层具体做了什么？"><a href="#网络层具体做了什么？" class="headerlink" title="网络层具体做了什么？"></a>网络层具体做了什么？</h4><ol>
+<li>从传输层获取到 package</li>
+<li>加上 IP header</li>
+<li>根据 IP addr 找到对端<ul>
+<li>dns…</li>
+<li>router…</li>
+</ul>
+</li>
+</ol>
+<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC（<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/52820009">MAC addr 可能相同吗？</a>）</p>
+<blockquote>
+<p>不会怎么样，如果不在同一个二层网络内，完全没有影响；如果在同一个二层网络内，这两台设备都会出现网络故障，主要原因是交换机学习MAC地址的机制会被打乱。在交换机看来是同一台设备一会连到一个口，一会连到另一个口，于是包转发的顺序就乱了</p>
+</blockquote>
 <h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
 <h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
 <h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
@@ -291,7 +303,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E5%B1%9E%E4%BA%8E%E5%93%AA%E4%B8%80%E5%B1%82%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">DNS属于哪一层？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">传输层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">网络层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="nav-number">1.4.</span> <span class="nav-text">网络接口层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">DNS是如何工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-use-TCP-or-UDP"><span class="nav-number">3.</span> <span class="nav-text">DNS use TCP or UDP?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REFERENCE"><span class="nav-number">4.</span> <span class="nav-text">REFERENCE</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E5%B1%9E%E4%BA%8E%E5%93%AA%E4%B8%80%E5%B1%82%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">DNS属于哪一层？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">传输层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E5%85%B7%E4%BD%93%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.1.</span> <span class="nav-text">网络层具体做了什么？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="nav-number">1.4.</span> <span class="nav-text">网络接口层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">DNS是如何工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-use-TCP-or-UDP"><span class="nav-number">3.</span> <span class="nav-text">DNS use TCP or UDP?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REFERENCE"><span class="nav-number">4.</span> <span class="nav-text">REFERENCE</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -305,12 +317,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="架构图TODO muduo   one loop per threadTODO muduo 如何理解one loop per thread 这句话？你不需要搭建成一个多么 robust 的库能跑、且『麻雀虽小五脏俱全』就可以了 面试看的是什么？知识点的掌握，而那些关于编程方面的东西，我感觉面试也不太好说明，所以，能吹的东西一定要掌握 C10K, C100K…TODO http:&#x2F;&#x2F;scotdoyl">
+  <meta name="description" content="本质是事件驱动 + 事件回调，通过 IO 复用 + 非阻塞 IO（它们为什么必须搭配使用？）的形式，利用可以执行多个 loop（多线程，IO 线程），可以加入线程池做计算资源。（one loop per thread） 由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用阻塞 IO，一次只能 serve 一个连接，浪费了时间，IO 复用的性能得不到体现 架构图   C1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="what is reactor">
 <meta property="og:url" content="http://example.com/2021/03/03/what-is-reactor/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="架构图TODO muduo   one loop per threadTODO muduo 如何理解one loop per thread 这句话？你不需要搭建成一个多么 robust 的库能跑、且『麻雀虽小五脏俱全』就可以了 面试看的是什么？知识点的掌握，而那些关于编程方面的东西，我感觉面试也不太好说明，所以，能吹的东西一定要掌握 C10K, C100K…TODO http:&#x2F;&#x2F;scotdoyl">
+<meta property="og:description" content="本质是事件驱动 + 事件回调，通过 IO 复用 + 非阻塞 IO（它们为什么必须搭配使用？）的形式，利用可以执行多个 loop（多线程，IO 线程），可以加入线程池做计算资源。（one loop per thread） 由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用阻塞 IO，一次只能 serve 一个连接，浪费了时间，IO 复用的性能得不到体现 架构图   C1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/03/03/what-is-reactor/reactor_patterns.png">
 <meta property="article:published_time" content="2021-03-02T16:10:53.000Z">
-<meta property="article:modified_time" content="2021-03-05T02:44:08.682Z">
+<meta property="article:modified_time" content="2021-03-08T15:31:18.780Z">
 <meta property="article:author" content="Shao Rui">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/03/03/what-is-reactor/reactor_patterns.png">
@@ -182,7 +182,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-05 10:44:08" itemprop="dateModified" datetime="2021-03-05T10:44:08+08:00">2021-03-05</time>
+                <time title="修改时间：2021-03-08 23:31:18" itemprop="dateModified" datetime="2021-03-08T23:31:18+08:00">2021-03-08</time>
               </span>
 
           
@@ -196,19 +196,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h2><p>TODO muduo</p>
-<img src="/2021/03/03/what-is-reactor/reactor_patterns.png" class title="reactor_patterns">
+        <p>本质是事件驱动 + 事件回调，通过 IO 复用 + 非阻塞 IO（它们为什么必须搭配使用？）的形式，利用可以执行多个 loop（多线程，IO 线程），可以加入线程池做计算资源。（one loop per thread）</p>
+<p>由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用阻塞 IO，一次只能 serve 一个连接，浪费了时间，IO 复用的性能得不到体现</p>
+<h2 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h2><img src="/2021/03/03/what-is-reactor/reactor_patterns.png" class title="reactor_patterns">
 
-<h3 id="one-loop-per-thread"><a href="#one-loop-per-thread" class="headerlink" title="one loop per thread"></a>one loop per thread</h3><p>TODO muduo</p>
-<p>如何理解one loop per thread 这句话？<br>你不需要搭建成一个多么 robust 的库<br>能跑、且『麻雀虽小五脏俱全』就可以了</p>
-<p>面试看的是什么？知识点的掌握，而那些关于编程方面的东西，我感觉面试也不太好说明，所以，能吹的东西一定要掌握</p>
+
 <h4 id="C10K-C100K…"><a href="#C10K-C100K…" class="headerlink" title="C10K, C100K…"></a>C10K, C100K…</h4><p>TODO <a target="_blank" rel="noopener" href="http://scotdoyle.com/python-epoll-howto.html">http://scotdoyle.com/python-epoll-howto.html</a></p>
-<h4 id="需要注意哪些问题"><a href="#需要注意哪些问题" class="headerlink" title="需要注意哪些问题"></a>需要注意哪些问题</h4><ol>
-<li>为什么 用reactor（IO 复用 + 非阻塞 IO）?<br> 1.1 IO 复用必须搭配非阻塞 IO。由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用阻塞 IO，一次只能 serve 一个连接，浪费了时间，IO 复用的性能得不到体现</li>
-</ol>
-<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><blockquote>
-<p>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</p>
-</blockquote>
+<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><p>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</p>
 <h2 id="select、poll和epoll的区别"><a href="#select、poll和epoll的区别" class="headerlink" title="select、poll和epoll的区别"></a>select、poll和epoll的区别</h2><h3 id="为什么epoll"><a href="#为什么epoll" class="headerlink" title="为什么epoll"></a>为什么epoll</h3><p>要理解，整个select -&gt; poll -&gt; epoll 的进化过程，实际上是为了不断加快事件响应时间。<br>毕竟响应越快，处理越快，处理完丢掉减小<code>len_fd_list</code>，从而增加系统的吞吐。</p>
 <a id="more"></a>
 
@@ -377,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">架构图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#one-loop-per-thread"><span class="nav-number">1.1.</span> <span class="nav-text">one loop per thread</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C10K-C100K%E2%80%A6"><span class="nav-number">1.1.1.</span> <span class="nav-text">C10K, C100K…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">需要注意哪些问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E5%8F%AF%E8%83%BD%E9%98%BB%E5%A1%9EIO%E6%9B%B4%E5%A5%BD%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">有没有可能阻塞IO更好？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select%E3%80%81poll%E5%92%8Cepoll%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">select、poll和epoll的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88epoll"><span class="nav-number">2.1.</span> <span class="nav-text">为什么epoll</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ET%E5%92%8CLT%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">ET和LT的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">为什么会出现两种模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-ET-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.</span> <span class="nav-text">epoll ET 存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84EPOLL%E6%9E%B6%E6%9E%84%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="nav-number">3.3.</span> <span class="nav-text">基本的EPOLL架构是怎样的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buffer"><span class="nav-number">3.4.</span> <span class="nav-text">buffer</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">架构图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C10K-C100K%E2%80%A6"><span class="nav-number">1.0.1.</span> <span class="nav-text">C10K, C100K…</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E5%8F%AF%E8%83%BD%E9%98%BB%E5%A1%9EIO%E6%9B%B4%E5%A5%BD%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">有没有可能阻塞IO更好？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select%E3%80%81poll%E5%92%8Cepoll%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">select、poll和epoll的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88epoll"><span class="nav-number">2.1.</span> <span class="nav-text">为什么epoll</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ET%E5%92%8CLT%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">ET和LT的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">为什么会出现两种模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-ET-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.</span> <span class="nav-text">epoll ET 存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84EPOLL%E6%9E%B6%E6%9E%84%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="nav-number">3.3.</span> <span class="nav-text">基本的EPOLL架构是怎样的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buffer"><span class="nav-number">3.4.</span> <span class="nav-text">buffer</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -391,7 +385,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

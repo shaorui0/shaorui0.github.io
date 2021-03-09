@@ -145,6 +145,224 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/20/Elasticsearch-cold-warm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/20/Elasticsearch-cold-warm/" class="post-title-link" itemprop="url">(ES) hot and cold data architecture</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-20 21:55:13" itemprop="dateCreated datePublished" datetime="2021-01-20T21:55:13+08:00">2021-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 15:57:11" itemprop="dateModified" datetime="2021-02-22T15:57:11+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol start="0">
+<li>思考来源于一次面试，面试提出这样的问题。</li>
+<li>实习期间只关注了DSL部分和一些es的基本概念，并未深入去了解其中集群扩展的东西。经过提醒，发现，研究技术还是需要关注实质性的东西，对你用的东西要有“把握”。</li>
+<li>先简单记录一下关于es集群扩展和冷热节点的知识，后面如果有使用到，再进行进一步的学习。</li>
+</ol>
+<h2 id="冷热数据索引特征"><a href="#冷热数据索引特征" class="headerlink" title="冷热数据索引特征"></a>冷热数据索引特征</h2><p>冷数据索引：查询频率低，基本无写入，一般为当天或最近2天以前的数据索引</p>
+<p>热数据索引：查询频率高，写入压力大，一般为当天数据索引</p>
+<h2 id="为什么需要冷热节点？"><a href="#为什么需要冷热节点？" class="headerlink" title="为什么需要冷热节点？"></a>为什么需要冷热节点？</h2><p>cold、warm、hot spot 的概念并不是ES提出来的，分布式的概念中很早就有这一概念。</p>
+<p>很明显，hot spot是经常读写的，相对的，cold spot 基本就属于“历史数据”一类。<br>典型的，由于ES的数据，是保存在内存中的（TODO）]<br>概念类似“局部性原理”<br>如何设置某些时间的数据为hot，这个时间节点的设置也很关键，直接影响性能。</p>
+<p>当然，为了更好的缓解IO压力，分到多个节点效果更好。</p>
+<p>众所周知，索引是为了更快的获取数据。但是创建索引的过程会比较 expensive。<br>如果数据量太大，而ES的数据又存在内存中，导致IO负载比较大。</p>
+<p>W269N-WFGWX-YVC9B-4J6C9-T83GX</p>
+<h2 id="ES的冷热架构部署"><a href="#ES的冷热架构部署" class="headerlink" title="ES的冷热架构部署"></a>ES的冷热架构部署</h2><p>例子：比如电商数据极大。可以每个月建立一个索引，数据先写到热索引中，通过“工具”将3个月后的索引迁移到冷节点上面。</p>
+<p>典型的，热节点机器使用“垂直扩展”，高性能机器。冷节点使用水平扩展，堆机器数。这样，就能保证最大化的性能</p>
+<p>ES官方是建议使用SSD，但是成本</p>
+<h2 id="支持原理"><a href="#支持原理" class="headerlink" title="支持原理"></a>支持原理</h2><p>第一：集群节点层面支持规划节点类型，这是划分热暖节点的前提。<br>第二：索引层面支持将数据路由到给定节点，这为数据写入冷、热节点做了保障。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/caoweixiong/p/11988457.html">Elasticsearch 冷热集群架构</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/15/diff-ipc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/15/diff-ipc/" class="post-title-link" itemprop="url">What is IPC</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-15 21:55:13" itemprop="dateCreated datePublished" datetime="2021-01-15T21:55:13+08:00">2021-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-05 11:54:29" itemprop="dateModified" datetime="2021-03-05T11:54:29+08:00">2021-03-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h6 id="gt-如何选择，以什么作为考量？"><a href="#gt-如何选择，以什么作为考量？" class="headerlink" title="&gt; 如何选择，以什么作为考量？"></a>&gt; 如何选择，以什么作为考量？</h6><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">Message Boundary issue</a>: </p>
+<ol>
+<li>bytes stream: 抽象成<code>file stream</code> or <code>stdin/stdout</code>（linux的核心概念）, 需要知道<strong>消息长度</strong></li>
+<li>discrete protocols like <strong>UDP</strong> or <strong>message queues</strong></li>
+</ol>
+<p>Benchmark and Message Boundary: </p>
+<ul>
+<li><strong>Pipe</strong> I/O is the fastest but needs a <strong>parent/child relationship</strong> to work.</li>
+<li>Sysv IPC has a defined message boundary and can connect disparate processes locally, for example, <strong>MQ</strong></li>
+<li>UNIX sockets can connect disparate processes <strong>locally</strong> and has <strong>higher bandwidth</strong> but no inherent message boundaries.</li>
+<li>TCP/IP sockets can connect any processes, even over the <strong>network</strong> but has <strong>higher overhead</strong> and no inherent message boundaries.</li>
+</ul>
+<h6 id="gt-ipc分类"><a href="#gt-ipc分类" class="headerlink" title="&gt; ipc分类"></a>&gt; ipc分类</h6><ul>
+<li>anonymous pipe:<br>  管道的实质是一个内核缓冲区，进程以先进先出的方式从缓冲区存取数据，管道一端的进程顺序的将数据写入缓冲区，另一端的进程则顺序的读出数据。该缓冲区可以看做是一个循环队列，读和写的位置都是自动增长的，不能随意改变，一个数据只能被读一次，读出来以后在缓冲区就不复存在了。当缓冲区读空或者写满时，有一定的规则控制相应的读进程或者写进程进入等待队列，当空的缓冲区有新数据写入或者满的缓冲区有数据读出来时，就唤醒等待队列中的进程继续读写。<ul>
+<li>usage: cat file | grep word</li>
+<li>单向</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell/blob/master/pipe_demo.c">implement</a>.</li>
+<li>缺陷<ul>
+<li>单向数据流</li>
+<li>亲缘关系进程</li>
+<li>没有名字</li>
+<li>缓冲区是有限的（管道制存在于内存中，在管道创建时，为缓冲区分配一个页面大小）；</li>
+<li>管道所传送的是『无格式字节流』，这就要求管道的读出方和写入方必须事先约定好数据的格式，比如多少字节算作一个消息（或命令、或记录）等等；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>named pipe: </p>
+  <img src="/2021/01/15/diff-ipc/fifo.png" class title="fifo">
+<ul>
+<li>半双工</li>
+<li><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/fifos.html#fifonew">some examples</a></li>
+</ul>
+</li>
+<li><p>signal</p>
+<ul>
+<li>fork + signal</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_shell">implement: tiny shell</a></li>
+</ul>
+</li>
+<li><p>file lock</p>
+</li>
+<li><p>Semaphores</p>
+<ul>
+<li>某种同步原语，当需要锁功能或者生产消费一定数量的资源时</li>
+</ul>
+</li>
+<li><p>socket</p>
+<ul>
+<li>全双工，本机或网络</li>
+<li>TODO web server</li>
+</ul>
+</li>
+<li><p>mmap</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/memory/mmap">What is mmap?</a><ul>
+<li>mmap是什么？</li>
+<li>为什么需要mmap()</li>
+<li>pros and cons</li>
+<li>一些可以运行的例子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>shared memory</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1015f5ffa74">共享内存也可以实现『跨主机IPC』</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a target="_blank" rel="noopener" href="http://beej.us/guide/bgipc/html/multi/index.html">ref docs</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc">comparing-unix-linux-ipc</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/16/python-generator-iterator-decorator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -449,7 +667,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

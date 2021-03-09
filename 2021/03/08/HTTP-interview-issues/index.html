@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="什么是 Restful ？ 用URL定位资源，用HTTP描述操作。— Ivony, zhihu​REST: REpresentational State Transfer  本质是一种思想，也就是『怎么设计 Restful API ？』 获取用户信息：GET www.xx.com&#x2F;users&#x2F;1创建用户信息（“创建一个资源”）：POST www.xx.com&#x2F;users&#x2F; + json  非幂等（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP - interview issues">
+<meta property="og:url" content="http://example.com/2021/03/08/HTTP-interview-issues/index.html">
+<meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:description" content="什么是 Restful ？ 用URL定位资源，用HTTP描述操作。— Ivony, zhihu​REST: REpresentational State Transfer  本质是一种思想，也就是『怎么设计 Restful API ？』 获取用户信息：GET www.xx.com&#x2F;users&#x2F;1创建用户信息（“创建一个资源”）：POST www.xx.com&#x2F;users&#x2F; + json  非幂等（">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-08T13:13:05.000Z">
+<meta property="article:modified_time" content="2021-03-08T15:07:50.551Z">
+<meta property="article:author" content="Shao Rui">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/08/HTTP-interview-issues/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>HTTP - interview issues | Surely You're Joking, Mr. Feynman!</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Surely You're Joking, Mr. Feynman!</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/08/HTTP-interview-issues/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTP - interview issues
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-08 21:13:05 / 修改时间：23:07:50" itemprop="dateCreated datePublished" datetime="2021-03-08T21:13:05+08:00">2021-03-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="什么是-Restful-？"><a href="#什么是-Restful-？" class="headerlink" title="什么是 Restful ？"></a>什么是 Restful ？</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/28557115/answer/41265890">用URL定位资源，用HTTP描述操作。— Ivony, zhihu</a><br>​<br>REST: REpresentational State Transfer</p>
+</blockquote>
+<p>本质是一种思想，也就是『怎么设计 Restful API ？』</p>
+<p>获取用户信息：<code>GET www.xx.com/users/1</code><br>创建用户信息（“创建一个资源”）：<code>POST www.xx.com/users/</code> + json</p>
+<ul>
+<li>非幂等（REST 场景下一般不幂等，但具体是否幂等，由实现决定），原因是某些情况下，执行两次可能创建两个信息相同，id不同的用户。<br>更新用户信息：<code>PUT www.xx.com/users/1</code> + json</li>
+<li>有些api是使用PUT作为创建资源的Method。</li>
+</ul>
+<p>删除用户信息：<code>DELETE www.xx.com/users/1</code></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/28557115/answer/48094438">https://www.zhihu.com/question/28557115/answer/48094438</a></p>
+<h3 id="一定好吗？所有的场景都能用吗？"><a href="#一定好吗？所有的场景都能用吗？" class="headerlink" title="一定好吗？所有的场景都能用吗？"></a>一定好吗？所有的场景都能用吗？</h3><p>还有什么方案？ –&gt; HTTP + json –&gt; 那和 Restful 有什么区别？<br>Restful 区分了资源和操作，非 Restful那就是以前的 <code>get</code> 就是静态获取页面， <code>post</code> 就是创建表单并提交？</p>
+<ol>
+<li>风格太理想化？一些业务逻辑不能用 url 作为资源呈现。<blockquote>
+<p>但实际上，很多时候都不太可能将一些业务逻辑看作资源。即使强制这么干了，也会非常非常别扭。登录就是登录，而不是“创建一个session”；播放音乐就是播放，而不是“创建一个播放状态“。</p>
+</blockquote>
+</li>
+<li>是不是有点反其道而行之？抽象的本质是什么？封装下层，减少上层的心智负担。但是 Restful 反其道而行之，直接展示资源？</li>
+<li>Restful 只提供 CRUD 基本语义<ul>
+<li>比如批量添加，批量删除，修改一个资源的一部分字段。</li>
+<li>区分“物理删除”和“标记删除”等等。</li>
+<li>复杂的查询更加不显示，对于像筛选这类的场景，REST明显就是个渣。</li>
+</ul>
+</li>
+<li>REST建议用HTTP的status code做错误码，以便于“统一”，实际上这非常难统一。<ul>
+<li>404 表示这个资源找不到还是接口没有接口找不到？</li>
+<li>400表达请求有问题，但是我想提示用户“你登录手机号输入的格式不对“，还是“你登录手机号已经被占用了“。</li>
+<li>既然201表示“created”，为啥deleted和updated没有对应的status code，只能用200或者204（no content）？</li>
+<li>错误处理是web系统里最麻烦的，最需要细心细致的地方。REST风格在这里只能添乱。</li>
+</ul>
+</li>
+<li>web 的请求参数？url path, querystring, header, body，服务器端处理对此完全没有什么章法。客户端和服务器端的研发之间还是要做约定。</li>
+<li>在url path上的变量会对很多其他的工作带来不良影响。比如，想对接口做流量控制的计数，本来url可以做key，因为有变量，就得多费点事才行。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/28570307/answer/541465581">WEB开发中，使用JSON-RPC好，还是RESTful API好？</a></p>
+<p>归根结底是上层限制太死。具体的业务场景千变万化，很难全部套上 REST 的壳。</p>
+<h2 id="diff-Get-and-Post"><a href="#diff-Get-and-Post" class="headerlink" title="diff Get and Post"></a>diff Get and Post</h2><ol>
+<li>GET/POST 分为浏览器使用的两个方法以及用 HTTP 作为接口传输协议</li>
+</ol>
+<h3 id="浏览器的GET和POST"><a href="#浏览器的GET和POST" class="headerlink" title="浏览器的GET和POST"></a>浏览器的GET和POST</h3><blockquote>
+<p>这里特指浏览器中非Ajax的HTTP请求，即从HTML和浏览器诞生就一直使用的HTTP协议中的GET/POST。浏览器用GET请求来获取一个html页面/图片/css/js等资源；用POST来提交一个<form>表单，并得到一个结果的网页。</form></p>
+</blockquote>
+<p>这是一种原生的、浏览器一开始就支持的两个方式。这种情况下，GET 通常是幂等的，POST 为非幂等的（上传表单）</p>
+<p>TODO pic</p>
+<p>之前的 POST 通常实现为非幂等，但是这种情况下，把 POST 实现为幂等有它的考量，<em>POST幂等能让很多业务的前后端交互更顺畅，以及避免一些因为前端bug，触控失误等带来的重复提交</em>。</p>
+<ol>
+<li>GET/POST 携带的数据格式有区别<ul>
+<li>浏览器触发 GET 不能带 body （所以用 querystring，各种变量），但是 GET 方法本身不限制</li>
+</ul>
+</li>
+<li>POST body 有两种格式<ul>
+<li>application/x-www-form-urlencoded用来传输简单的数据，大概就是”key1=value1&amp;key2=value2”这样的格式。</li>
+<li>另外一种是传文件，会采用multipart/form-data格式。采用后者是因为application/x-www-form-urlencoded的编码方式对于文件这种二进制的数据非常低效。</li>
+</ul>
+</li>
+</ol>
+<h3 id="用-HTTP-作为接口传输协议"><a href="#用-HTTP-作为接口传输协议" class="headerlink" title="用 HTTP 作为接口传输协议"></a>用 HTTP 作为接口传输协议</h3><blockquote>
+<p>这里是指通过浏览器的Ajax api，或者iOS/Android的App的http client，java的commons-httpclient/okhttp或者是curl，postman之类的工具发出来的GET和POST请求。</p>
+</blockquote>
+<ol>
+<li>GET/POST不光能用在前端和后端的交互中，还能用在后端各个子服务的调用中（即当一种RPC协议使用）。尽管RPC有很多协议，比如thrift，grpc，但是http本身已经有大量的现成的支持工具可以使用，并且对人类很友好，容易debug。HTTP协议在微服务中的使用是相当普遍的。</li>
+<li>所以用接口的时候，就没有浏览器那么多限制了，只需要<code>\r\n</code></li>
+</ol>
+<h3 id="关于安全性"><a href="#关于安全性" class="headerlink" title="关于安全性"></a>关于安全性</h3><ol>
+<li><p>HTTP 是明文，这个与信息在 url 上还是 body 里没关系</p>
+</li>
+<li><p>业界的通行做法就是https——即用SSL协议协商出的密钥加密明文的http数据。</p>
+</li>
+<li><p>如果是用作接口，GET实际上也可以带body，POST也可以在url上携带数据。所以实际上到底怎么传输私密数据，要看具体场景具体分析。当然，绝大多数场景，用<strong>POST + body</strong>里写私密数据是合理的选择。<br>一个典型的例子就是“登录”：POST <a target="_blank" rel="noopener" href="http://foo.com/user/login">http://foo.com/user/login</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;username&quot;: &quot;dakuankuan&quot;,</span><br><span class="line">  &quot;passowrd&quot;: &quot;12345678&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关于编码"><a href="#关于编码" class="headerlink" title="关于编码"></a>关于编码</h3></li>
+<li><p>url 只支持 Ascii 的子集，不然会有 Percent Encoding —  一坨<code>%</code></p>
+</li>
+<li><p>如果有中文呢？不让用户从 URL 输入中文，改为 Ajax call</p>
+</li>
+<li><p>body 里面可以定义格式和编码（application/x-www-form-urlencoded / UTF-8），用户可以控制</p>
+</li>
+</ol>
+<h4 id="对-header-和-body-的分开处理"><a href="#对-header-和-body-的分开处理" class="headerlink" title="对 header 和 body 的分开处理"></a>对 header 和 body 的分开处理</h4><blockquote>
+<p>举个实际的例子，比如写一个上传文件的服务，请求url中包含了文件名称，请求体中是个尺寸为几百兆的压缩二进制流。服务器端接收到请求后，就可以先拿到请求头部，查看用户是不是有权限上传，文件名是不是符合规范等。如果不符合，就不再处理请求体的数据了，直接丢弃。而不用等到整个请求都处理完了再拒绝。<br>【服务器的优化，100 code的使用场景】为了进一步优化，客户端可以利用HTTP的Continued协议来这样做：客户端总是先发送所有请求头给服务器，让服务器校验。如果通过了，服务器回复<code>100 - Continue</code>，客户端再把剩下的数据发给服务器。如果请求被拒了，服务器就回复个400之类的错误，这个交互就终止了。这样，就可以避免浪费带宽传请求体。但是代价就是会多一次Round Trip。如果刚好请求体的数据也不多，那么一次性全部发给服务器可能反而更好。<br>【客户端的优化】基于此，客户端就能做一些优化，比如内部设定一次POST的数据超过1KB就先只发“请求头”，否则就一次性全发。客户端甚至还可以做一些Adaptive的策略，统计发送成功率，如果成功率很高，就总是全部发等等。不同浏览器，不同的客户端（curl，postman）可以有各自的不同的方案。不管怎样做，优化目的总是在提高数据吞吐和降低带宽浪费上做一个折衷。</p>
+</blockquote>
+<ul>
+<li>对于HTTP代理<ul>
+<li>支持转发规则，比如nginx先要解析请求头，拿到URL和Header才能决定怎么做（转发proxy_pass，重定向redirect，rewrite后重新判断……）</li>
+<li>需要用请求头的信息记录log。尽管请求体里的数据也可以记录，但一般只记录请求头的部分数据。</li>
+<li>如果代理规则不涉及到请求体，那么请求体就可以不用从内核态的page cache复制一份到用户态了，可以直接zero copy转发。这对于上传文件的场景极为有效。</li>
+</ul>
+</li>
+<li>对于HTTP服务器<ul>
+<li>可以通过请求头进行ACL控制，比如看看Athorization头里的数据是否能让认证通过</li>
+<li>可以做一些拦截，比如看到Content-Length里的数太大，或者Content-Type自己不支持，或者Accept要求的格式自己无法处理，就直接返回失败了。</li>
+<li>如果body的数据很大，利用Stream API，可以方便支持一块一块的处理数据，而不是一次性全部读取出来再操作，以至于占用大量内存。</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>说到底，无论 GET 还是 POST，本质是协议，是为了 client 和 server 直接比较好进行沟通。具体怎么沟通，完全看应用层开发者。</p>
+<h2 id="diff-Post-and-Put"><a href="#diff-Post-and-Put" class="headerlink" title="diff Post and Put"></a>diff Post and Put</h2><blockquote>
+<p>PUT与POST的区别在于，PUT的实际语义是 <strong>replace</strong> 。REST规范里提到PUT的请求体应该是完整的资源，包括id在内。比如上面的创建一本书的api也可以定义为：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT http:&#x2F;&#x2F;foo.com&#x2F;books</span><br><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: &quot;BOOK:affe001bbe0556a&quot;,</span><br><span class="line">  &quot;title&quot;: &quot;大宽宽的碎碎念&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;大宽宽&quot;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>服务器应该先根据请求提供的id进行查找，如果存在一个对应id的元素，就用请求中的数据整体替换已经存在的资源；如果没有，就用“把这个id对应的资源从【空】替换为【请求数据】“。直观看起来就是“创建”了。与PUT相比，POST更像是一个“factory”，通过一组必要的数据创建出完整的资源。至于到底用PUT还是POST创建资源，完全要看是不是提前可以知道资源所有的数据（尤其是id），以及是不是完整替换。比如对于AWS S3这样的对象存储服务，当想上传一个新资源时，其id就是“ObjectName”可以提前知道；同时这个api也总是完整的replace整个资源。这时的api用PUT的语义更合适；而对于那些id是服务器端自动生成的场景，POST更合适一些。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/28586791/answer/767316172">https://www.zhihu.com/question/28586791/answer/767316172</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/08/What-happens-when-you-type-a-URL-in-the-browser-and-press-enter/" rel="prev" title="What happens when you type a URL in the browser and press enter">
+      <i class="fa fa-chevron-left"></i> What happens when you type a URL in the browser and press enter
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Restful-%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是 Restful ？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%AE%9A%E5%A5%BD%E5%90%97%EF%BC%9F%E6%89%80%E6%9C%89%E7%9A%84%E5%9C%BA%E6%99%AF%E9%83%BD%E8%83%BD%E7%94%A8%E5%90%97%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">一定好吗？所有的场景都能用吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#diff-Get-and-Post"><span class="nav-number">2.</span> <span class="nav-text">diff Get and Post</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84GET%E5%92%8CPOST"><span class="nav-number">2.1.</span> <span class="nav-text">浏览器的GET和POST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-HTTP-%E4%BD%9C%E4%B8%BA%E6%8E%A5%E5%8F%A3%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.2.</span> <span class="nav-text">用 HTTP 作为接口传输协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">关于安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BC%96%E7%A0%81"><span class="nav-number">2.4.</span> <span class="nav-text">关于编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9-header-%E5%92%8C-body-%E7%9A%84%E5%88%86%E5%BC%80%E5%A4%84%E7%90%86"><span class="nav-number">2.4.1.</span> <span class="nav-text">对 header 和 body 的分开处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.5.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#diff-Post-and-Put"><span class="nav-number">3.</span> <span class="nav-text">diff Post and Put</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Shao Rui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Rui</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

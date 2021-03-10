@@ -145,80 +145,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
-<ol>
-<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
-<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
-</ol>
-<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
-<ul>
-<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
-<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/mutable-obj/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -376,7 +302,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-gil/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-memory-management/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -390,7 +316,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-gil/" class="post-title-link" itemprop="url">What is the Python Global Interpreter Lock (GIL)?</a>
+            <a href="/2021/02/16/what-is-memory-management/" class="post-title-link" itemprop="url">virtual memory</a>
         </h2>
 
         <div class="post-meta">
@@ -407,7 +333,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:30" itemprop="dateModified" datetime="2021-02-17T23:00:30+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-17 23:00:40" itemprop="dateModified" datetime="2021-02-17T23:00:40+08:00">2021-02-17</time>
               </span>
 
           
@@ -421,69 +347,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>Python is multithreaded, it just doesn’t allow two threads to run Python code concurrently.<br>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1824418/a-clean-lightweight-alternative-to-pythons-twisted">from stackoverflow: a-clean-lightweight-alternative-to-pythons-twisted</a>]</p>
-</blockquote>
-<h2 id="聊聊python的多线程"><a href="#聊聊python的多线程" class="headerlink" title="聊聊python的多线程"></a>聊聊python的多线程</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/29270818/why-is-a-python-i-o-bound-task-not-blocked-by-the-gil">why-is-a-python-i-o-bound-task-not-blocked-by-the-gil</a></p>
-<blockquote>
-<p>The GIL in CPython1 is only concerned with Python code being executed. A thread-safe C extension that uses a lot of CPU might release the GIL as long as it doesn’t need to interact with the Python runtime.</p>
-</blockquote>
-<ol>
-<li>搞清楚GIL的级别（抽象在哪一层？）。GIL只是<strong>限制多线程读取Cpython的bytecode</strong>，一次只能有一个线程<strong>execute python bytecode</strong>，但是所有的线程此时都是<strong>running</strong>。</li>
-<li>所以Cpython的C扩展部分，是不限制多线程的。（很多库，比如multithreading或者numpy是C扩展，这个是可以多线程的）</li>
-</ol>
-<blockquote>
-<p>Releasing the GIL around I/O (blocking or not, using CPU or not) is the same thing - until the data is moved into Python there is no reason to acquire the GIL.</p>
-</blockquote>
-<ol start="3">
-<li>所以关于python的IO bounding，多线程的适用场景完全合适。</li>
-</ol>
-<p>本质是需要理解GIL锁了哪些东西，<strong>瓶颈</strong>在哪里？</p>
-<h2 id="GIL解决了什么问题？"><a href="#GIL解决了什么问题？" class="headerlink" title="GIL解决了什么问题？"></a>GIL解决了什么问题？</h2><p>GIL本质上解决的是<strong>内存安全</strong>问题。</p>
-<p>关于内存安全，一些程序语言是手工处理（c/c++），一些语言是gc（java），而python（也还有其他的）是GIL。</p>
-<p>python中，内存对象主要通过<strong>引用计数</strong>管理生命周期。而引用计数需要通过锁机制来避免产生『<strong>race condition</strong>』。但是锁的引入又会导致『<strong>dead lock</strong>』（<strong>必须超过两把锁</strong>）的问题。</p>
-<p>GIL刚好从源头解决了这个问题（只有一把锁）。</p>
-<h3 id="内存安全问题"><a href="#内存安全问题" class="headerlink" title="内存安全问题"></a>内存安全问题</h3><p><a href="xxx">todo 内存安全分类</a></p>
-<h2 id="为什么是GIL？"><a href="#为什么是GIL？" class="headerlink" title="为什么是GIL？"></a>为什么是GIL？</h2><p>存在各种处理内存安全的解决方案，为什么是GIL？</p>
-<ol>
-<li>GIL的实现上很简单，引入的复杂度很低（这也是一直以来python没有去掉GIL的重要原因）。</li>
-<li>python语言被设计出来的时候，并没有thread的概念，GIL的引入直接提升了语言的易用性。</li>
-<li>许多扩展都是c，而一般的c语言系统调用都是<strong>线程不安全</strong>的，这些c扩展需要线程安全的内存管理措施（如GIL）。有了GIL，各种线程不安全的扩展能够轻松整合进来。</li>
-<li>全局只有一把锁从根本上消除了产生『死锁』的可能性。</li>
-</ol>
-<h3 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h3><p>典型的问题就是cpu-bound task执行起来只能<strong>线性执行</strong>。如果使用并发的架构去执行，甚至消耗的时间更多（上下文转换）。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">total = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safe_increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        lock.acquire()</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_in_x_threads</span>(<span class="params">x, func, n</span>):</span></span><br><span class="line">    threads = [threading.Thread(target=func, args=(n,)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(x)]</span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    begin = time.time()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">&#x27;finished in &#123;&#125;s.\ntotal: &#123;&#125;\nexpected: &#123;&#125;\ndifference: &#123;&#125; (&#123;&#125; %)&#x27;</span></span><br><span class="line">           .<span class="built_in">format</span>(time.time()-begin, total, n*x, n*x-total, <span class="number">100</span>-total/n/x*<span class="number">100</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;unsafe:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, increment_n_times, <span class="number">100000</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;\nwith locks:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, safe_increment_n_times, <span class="number">100000</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="也没有那么坏"><a href="#也没有那么坏" class="headerlink" title="也没有那么坏"></a>也没有那么坏</h3><p>最本质的原因就是performance。如果去掉GIL，性能会不会下降？（多线程的CPU密集型任务那没话说，但是单线程任务和多线程IO密集型的任务呢？）</p>
-<h4 id="py3为什么还是没有解决这个问题？"><a href="#py3为什么还是没有解决这个问题？" class="headerlink" title="py3为什么还是没有解决这个问题？"></a>py3为什么还是没有解决这个问题？</h4><blockquote>
-<p>py3明明已经不需要向后兼容了（没有了历史包袱），为什么没有解决这个问题？</p>
-</blockquote>
-<p>归根结底还是<strong>单线程任务和多线程IO密集型的任务</strong>性能的问题。</p>
-<p>但，python3在这方面也有<strong>改进</strong>。全局只有一把锁意味着不同的任务要<strong>抢锁</strong>，对于cpu密集型的任务，抢锁是比较『容易』的，并且持有锁的时间会比较长（相对IO-bound task）（在操作系统的层面中称为『长作业』，其中有一种任务调度算法称为『短作业优先调度算法』）。python解释器指定了一个『fixed interval』（通过<code>sys.getcheckinterval()</code>获取），执行完固定长度的时间以后，其他任务有机会获取GIL。那么有没有可能导致IO-bound task<strong>饥饿</strong>？python是如何处理这个问题的？</p>
-<blockquote>
-<p>The problem in this mechanism was that <strong>most of the time the CPU-bound thread would reacquire the GIL itself before other threads could acquire it.</strong> This was researched by David Beazley and visualizations can be found here.</p>
-</blockquote>
-<blockquote>
-<p>This problem was fixed in Python 3.2 in 2009 by Antoine Pitrou who added a mechanism of looking at the number of GIL acquisition requests by other threads that got dropped and not allowing the current thread to reacquire GIL before other threads got a chance to run.</p>
-</blockquote>
-<h3 id="目前有什么比较好的解决方式？"><a href="#目前有什么比较好的解决方式？" class="headerlink" title="目前有什么比较好的解决方式？"></a>目前有什么比较好的解决方式？</h3><ol>
-<li><p>Multi-processing</p>
-<p> <a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
-</li>
-</ol>
-<ol start="2">
-<li><p>Alternative Python interpreters</p>
-<p> CPython, Jython, IronPython and PyPy…</p>
-</li>
-</ol>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://realpython.com/python-gil/#what-problem-did-the-gil-solve-for-python">what-problem-did-the-gil-solve-for-python</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://medium.com/python-features/pythons-gil-a-hurdle-to-multithreaded-program-d04ad9c1a63#:~:text=Python%20threads%20can%27t%20run,the%20same%20time%20as%20computation">pythons-gil-a-hurdle-to-multithreaded-program</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40072873/why-do-we-need-locks-for-threads-if-we-have-gil">why-do-we-need-locks-for-threads-if-we-have-gil</a></p>
+          <ol>
+<li>虚拟内存最核心的功能是作为缓存<ul>
+<li>虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的</li>
+<li>磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM）</li>
+<li>缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大了内存的逻辑容量，看上去更大了，而不是更快了。</li>
+<li>有很多要考虑的问题（请求式的页面换入换出）<ul>
+<li>当前需要的虚拟页是否已缓存</li>
+<li>如果缓存，对应的物理页在哪里？</li>
+<li>如果未缓存，还要去磁盘找，在磁盘的哪里？</li>
+<li>还需要一个替换算法，选中一个牺牲页，与磁盘上的DRAM进行替换</li>
+</ul>
 </li>
 </ul>
+</li>
+<li>虚拟内存帮助内存管理<ul>
+<li>每个进程有一个独立的页表（地址空间）。页面调度与独立地址空间相结合，对内存管理造成了深远的影响。<ul>
+<li>简化了编译、汇编、链接、加载的过程，都会有磁盘和内存之间的交互（.c/.o/etc）</li>
+<li>简化了内存分配的过程，需要哪些？用户层是malloc分配heap，stack自动增长等。典型的就是虚拟地址连续，但是物理地址不用连续。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>虚拟内存作为内存保护<ul>
+<li>每个虚拟页的地址头，都有SUP段，用于判断是否允许用户态访问。</li>
+</ul>
+</li>
+</ol>
+<h1 id="说一下内存管理"><a href="#说一下内存管理" class="headerlink" title="说一下内存管理"></a>说一下内存管理</h1><p>从哪些维度来说？</p>
+<ol start="0">
+<li>内存的最主要的功能是什么<ul>
+<li>充当磁盘和CPU之间的cache</li>
+</ul>
+</li>
+<li>内存分配与回收<ul>
+<li>分页式</li>
+<li>分段式</li>
+<li>段页式</li>
+<li>涉及到的页面置换算法</li>
+</ul>
+</li>
+<li>内存保护<ul>
+<li>分页系统的地址映射机制</li>
+</ul>
+</li>
+</ol>
 
       
     </div>
@@ -559,6 +467,324 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/python-memory-management/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/python-memory-management/" class="post-title-link" itemprop="url">memory management</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-17 22:59:23" itemprop="dateModified" datetime="2021-02-17T22:59:23+08:00">2021-02-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>python怎么管理内存？</p>
+<ul>
+<li>引用语义<br>  一个对象，多个指针指向它，这也就是 is 和 == 的不同指出，检查是否是同一个对象，以及对象的值是否相同</li>
+<li>GC<br>  python的GC，典型的ref_count=0的时候；循环引用能被释放</li>
+<li>内存池<ul>
+<li>内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统</li>
+<li>Pymalloc机制：python的内存池机制，管理小块的内存申请和释放</li>
+<li>不同python对象，都有独立的私有内存池</li>
+</ul>
+</li>
+</ul>
+<h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><h3 id="引用计数会有什么问题？"><a href="#引用计数会有什么问题？" class="headerlink" title="引用计数会有什么问题？"></a>引用计数会有什么问题？</h3><p>典型的循环引用问题</p>
+<p>循环引用会导致一个应该被回收的对象无法被回收（ref_count==1）</p>
+<p>python如何解决这个问题？（C++的智能指针shared_ptr是如何解决这个问题的？）</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62282961">https://zhuanlan.zhihu.com/p/62282961</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32373436/answer/549698608">https://www.zhihu.com/question/32373436/answer/549698608</a></p>
+<h3 id="如何使用GC？"><a href="#如何使用GC？" class="headerlink" title="如何使用GC？"></a>如何使用GC？</h3><ol>
+<li>import gc，解决循环引用的问题<ul>
+<li>gc.garbage，[]，保存准备回收的对象</li>
+<li>gc模快有一个自动垃圾回收的阀值，即通过gc.get_threshold函数获取到的长度为3的元组，例如(700,10,10)</li>
+<li>如果对象定义了__del__，则不回收</li>
+</ul>
+</li>
+<li>分代回收。三代，老年代数据停留时间最长<ul>
+<li>分代回收是建立在<strong>标记清除</strong>技术基础之上。分代回收同样作为Python的辅助垃圾收集技术处理那些容器对象</li>
+</ul>
+</li>
+<li>标记清除<ul>
+<li>标记清除算法作为Python的辅助垃圾收集技术主要处理的是一些容器对象</li>
+<li>TODO 具体怎么组织的？</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-lru/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/redis-lru/" class="post-title-link" itemprop="url">Redis - LRU</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 15:43:58" itemprop="dateModified" datetime="2021-02-22T15:43:58+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="LRU-algorithm-and-LRU-implementation-of-Redis"><a href="#LRU-algorithm-and-LRU-implementation-of-Redis" class="headerlink" title="LRU algorithm and LRU implementation of Redis"></a>LRU algorithm and LRU implementation of Redis</h1><h3 id="【问】如何设计一个redis的内存淘汰机制？"><a href="#【问】如何设计一个redis的内存淘汰机制？" class="headerlink" title="【问】如何设计一个redis的内存淘汰机制？"></a>【问】如何设计一个redis的内存淘汰机制？</h3><p>面试过程的遇到过这个问题。</p>
+<ol start="0">
+<li>典型的内存淘汰机制是LRU</li>
+<li>LRU的常规实现是双向链表</li>
+</ol>
+<p>但问题并不只是这么简单。一个典型的面试场景是这样的：</p>
+<ul>
+<li>如果一个key在里面，再次访问需要拿到前面来，那么如何拿？<ul>
+<li>基于目前的情况，只能是<strong>遍历</strong>。</li>
+</ul>
+</li>
+<li>遍历是不是太慢了？<ul>
+<li>脱口而出 排序 + 二分</li>
+</ul>
+</li>
+<li>那么排序后，『优先级』的信息是不是丢失了？<ul>
+<li>排序肯定是错误的。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
+<li>想到维护一个树的话，查找速度从 n =&gt; logn，这是一个进步。</li>
+</ul>
+</li>
+<li>什么样的树呢？<ul>
+<li>为了保证树不会退化到链表，需要维护<strong>平衡</strong>，这里想到了<strong>红黑树</strong></li>
+</ul>
+</li>
+<li>那么一开始为什么不使用红黑树而要使用双向链表？<ul>
+<li>其实是两个数据结构联合实现的<ul>
+<li>【index 解决 search 的问题】查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
+<li>【双向链表解决 write 的问题】维护优先级的问题通过双向链表解决</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>解决方案：</p>
+<ul>
+<li>(key, addr) 在 hash table 中，</li>
+<li>(key, value) 在 two-way chain table 中。</li>
+</ul>
+<p>TODO 实现</p>
+<h3 id="真正到工业级的redis的实现，又和严格LRU的有一些出入"><a href="#真正到工业级的redis的实现，又和严格LRU的有一些出入" class="headerlink" title="真正到工业级的redis的实现，又和严格LRU的有一些出入"></a>真正到工业级的redis的实现，又和严格LRU的有一些出入</h3><ol>
+<li><p>维护严格的LRU比较耗费空间（大量的前后指针）。</p>
+<ul>
+<li>能想到怎么优化吗？将n减少到常数级别，只对少量的kv进行维护。</li>
+<li>这里涉及到一个『采样』的问题。有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？<code>maxmemory-samples 5 </code></li>
+</ul>
+</li>
+<li><p>redis提供了多种驱逐策略，应该怎么选用？</p>
+<p> 业务中的使用场景有关</p>
+</li>
+</ol>
+<p>TODO 更深入的接触到redis后，进行进一步的了解。</p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">LRU cache</a><br><a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-lru-implementation-of-redis.html">如何实现一个kv形式的严格LRU策略</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-data-structure-in-action/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/redis-data-structure-in-action/" class="post-title-link" itemprop="url">Redis - data structure</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 19:21:09" itemprop="dateModified" datetime="2021-02-22T19:21:09+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>Lpush + lpop = stack</li>
+<li>Lpush + rpop = queue</li>
+<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">What is ltrim?</a></li>
+<li>Lpush + brpop = message queue (blocking queue)</li>
+</ul>
+<p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
+<ol>
+<li>典型的就是消息队列，用于阻塞，空的时候无法获取，那会阻塞？</li>
+<li>典型的还是airticle list，有多少个文章，无需排序，仅仅是通过index去索引</li>
+</ol>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>不重复，无序<br>那么典型的什    么场景</p>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>tag<br>用户标签，对某些东西感兴趣，实现应该是一棵树？</li>
+</ol>
+<p>那zset呢？有序无序之间的区别？</p>
+<h3 id="底层是什么？"><a href="#底层是什么？" class="headerlink" title="底层是什么？"></a>底层是什么？</h3><h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><ul>
+<li>element不能重复</li>
+<li>通过score进行排序<br>有点类似学生id和学生分数</li>
+</ul>
+<p>这个分数是个什么性质，比如说我想按时间排序，能做到吗？</p>
+<h3 id="使用场景呢？"><a href="#使用场景呢？" class="headerlink" title="使用场景呢？"></a>使用场景呢？</h3><p>主要是和list的一个对比：</p>
+<ol start="0">
+<li>set 当然就是不可重复了</li>
+<li>find，zset 更快 (tree)</li>
+<li>edge work，list 更快 (lpop、lpush)</li>
+<li>排序，可以根据某种分数和权重</li>
+</ol>
+<blockquote>
+<p>The sorted set ensure that the key is unique. If you want to do something complex. For example, every time a user login, you add the userid to a sorted set. And there is a backend service read the sorted set and update the user’s information and action habbit. It can save a lot of work if you are using sorted set.<br>一些复杂的功能，比如每次登陆，都更新一下，按照登陆频率排序。</p>
+</blockquote>
+<blockquote>
+<p>What’s more, if the user is a premium paid member, you can set the score of his or her id higher, and refresh this user’s habbit match earlier.</p>
+</blockquote>
+<p>高级会员，放在redis set前面，这样取这个id更快</p>
+<p>总结起来，就是你需要动态排序，然后取一些顶点值的时候。如果是list，你可能要用代码实现，取top_k，但是zset就可以直接按照权重去获取。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis">https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set</a></p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">https://redis.io/topics/data-types-intro</a></p>
+<p><a target="_blank" rel="noopener" href="https://developpaper.com/redis-5-big-data-structure/">https://developpaper.com/redis-5-big-data-structure/</a></p>
+<h3 id="怎么实现的？"><a href="#怎么实现的？" class="headerlink" title="怎么实现的？"></a>怎么实现的？</h3><p>k-v的部分是通过hash，O(1)，排序的部分呢？</p>
+
       
     </div>
 
@@ -845,227 +1071,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/06/DIFF-blocking-non-blocking-synchronism-asynchronism/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/06/DIFF-blocking-non-blocking-synchronism-asynchronism/" class="post-title-link" itemprop="url">(Non)blocking / (A)synchrony</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-06 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-06T21:55:13+08:00">2021-02-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 19:25:30" itemprop="dateModified" datetime="2021-02-22T19:25:30+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><p>本质上，异步是指是否『接收方』会通知你取结果，这是调用方式的不同；阻塞和非阻塞，是指是否需要在某个地方等着，而不能去干其他的事情。比如信号，注册好之后，接收方完成，就会通知os内核，从而通知发出方来取。</p>
-<h2 id="还是不同层次的问题。"><a href="#还是不同层次的问题。" class="headerlink" title="还是不同层次的问题。"></a>还是不同层次的问题。</h2><blockquote>
-<p>这个过程同样适合另一个问题，<strong>当你在浏览器打上url并回车的时候发生的什么？</strong></p>
-</blockquote>
-<p>先梳理一下层次：</p>
-<ol>
-<li>A端业务代码调用软件框架</li>
-<li>软件框架与操作系统内核交互</li>
-<li>从操作系统内核到网卡</li>
-<li>操作系统通过网卡发出数据，经过路由器和交换机等设计，层层转发，到达B端网卡</li>
-<li>B端网卡到操作系统</li>
-<li>操作系统到B端软件框架</li>
-<li>B端软件框架到B的业务代码</li>
-</ol>
-<p>只有在单独一级的调用上，可以说同步还是异步的问题。</p>
-<ul>
-<li>同步：是指调用协议中结果在调用完成时返回，这样调用的过程中参与双方都处于一个状态同步的过程。</li>
-<li>异步：是指调用方<strong>发出请求就立即返回</strong>，<strong>请求甚至可能还没到达接收方</strong>，比如说放到了某个缓冲区中，等待对方取走或者第三方转交。</li>
-</ul>
-<p>而结果，是通过轮询或者接收方主动推送来获得。</p>
-<h3 id="1-7过程"><a href="#1-7过程" class="headerlink" title="1/7过程"></a>1/7过程</h3><p>用户代码层面，一个接口是可以设计成异步接口的。比如：</p>
-<ul>
-<li>某个beginXXX函数，调用完直接返回</li>
-<li>回调函数，将回调函数作为参数传递，回调函数在完成时调用（python中<code>func</code>与<code>func()</code>的区别）</li>
-<li>协程模型，调用接口后立即返回，切换到其他协程</li>
-</ul>
-<h3 id="2-6过程"><a href="#2-6过程" class="headerlink" title="2/6过程"></a>2/6过程</h3><p>系统调用层面。本质上，都是数据在用户空间和内核空间搬来搬去，都是同步接口。之用调用了一些特殊的API（IOCP），所以这一级是同步的。<strong>阻塞与非阻塞的区别其实是影响调用接口的结果（在特定条件下是否提前返回结果），而不是调用方式。</strong><br>    是否提前返回结果，也是返回了结果，这是这是个什么样的结果。比如 FALSE, FALSE, FALSE … TRUE!<br>TODO 陈硕图</p>
-<h3 id="3-5过程"><a href="#3-5过程" class="headerlink" title="3/5过程"></a>3/5过程</h3><p>内核一般通过缓冲区，使用<code>DMI</code>来传输数据，所以这一步又是异步的。</p>
-<h3 id="4过程"><a href="#4过程" class="headerlink" title="4过程"></a>4过程</h3><p>以太网是个<strong>同步时序逻辑</strong>，<strong>随信号传输时钟</strong>，必须两边设备<strong>同时就绪了</strong>才能开始传输数据，这又是同步的。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于通常<strong>异步的框架</strong>都需要在2中使用<strong>非阻塞</strong>的接口，的确会有很多人把非阻塞和异步混为一谈。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/117012135">同步/异步，阻塞/非阻塞</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/05/diff-multi-process-multi-thread-io-resue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/05/diff-multi-process-multi-thread-io-resue/" class="post-title-link" itemprop="url">multi process, multi thread and IO reuse</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-05 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-05T21:55:13+08:00">2021-02-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-05 12:09:48" itemprop="dateModified" datetime="2021-03-05T12:09:48+08:00">2021-03-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
-<ol>
-<li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
-</ol>
-<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><ol>
-<li><p>开销：</p>
-<ul>
-<li>进程创建</li>
-<li>进程调度（上下文转换）</li>
-</ul>
-</li>
-<li><p>数据共享：IPC</p>
-</li>
-<li><p>debug麻烦，一些工具比如<code>GDB</code>都不太好使用了</p>
-</li>
-</ol>
-<h2 id="io复用"><a href="#io复用" class="headerlink" title="io复用"></a>io复用</h2><h4 id="pros-1"><a href="#pros-1" class="headerlink" title="pros"></a>pros</h4><ol>
-<li>【利好程序员】更好的控制。典型的场景，处理多个客户端的时候（event-drive）。（多进程并发模型需要每次close(listenfd)）TODO why？如果不close？test</li>
-<li>同一进程的缘故，共享数据更方便。</li>
-</ol>
-<h4 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h4><ol>
-<li>想要处理的事件（类型）越多，代码结构复杂</li>
-<li>partial read问题（EOF），多进程信号处理很方便。</li>
-<li>【并发粒度】并发多少条指令（时间片）？(CSAPP)</li>
-</ol>
-<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h4 id="线程独有、共享"><a href="#线程独有、共享" class="headerlink" title="线程独有、共享"></a>线程独有、共享</h4><p>独有：</p>
-<ol>
-<li>thread_id</li>
-<li>register</li>
-<li>stack（但仍然可以访问到，毕竟都是 『内存地址』）</li>
-</ol>
-<p>共享：</p>
-<ol>
-<li>heap</li>
-<li>code </li>
-<li>global</li>
-<li>fd</li>
-<li>stack of process</li>
-</ol>
-<h4 id="pros-2"><a href="#pros-2" class="headerlink" title="pros"></a>pros</h4><ol>
-<li>开销比进程小</li>
-<li>多核上可以并行</li>
-<li>更好的共享信息（除了thread stack各自维护，其他segment都是共享的，包括：heap、read-only(const data), read-write(global/static), code, share memory(mmap, .so)）</li>
-</ol>
-<h4 id="cons-2"><a href="#cons-2" class="headerlink" title="cons"></a>cons</h4><ol>
-<li>由于共享的问题，潜在的并发问题都出现了：deadlock、race condition</li>
-</ol>
-<h4 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h4><ol>
-<li>某个线程阻塞如何唤醒这个线程？</li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22397613">某个线程崩溃会影响所在进程吗？</a><ul>
-<li>会</li>
-<li>从线程共享内存地址空间说起，线程没有自己单独的内存地址空间。当一个线程向非法地址读取或者写入，无法确认这个操作是否会影响同一进程中的其它线程，所以只能是整个进程一起崩溃。</li>
-<li>指针数据的错误可以导致任何同地址空间内其他线程的崩溃，当然也可以导致进程崩溃。一般而言，没有绝对必要的共享内存空间的需求就不要使用线程，用进程会安全很多。</li>
-</ul>
-</li>
-<li>nginx 中，某个 worker 进程挂掉会影响整个 nginx 服务吗？<ul>
-<li>不会，从进程独立性以及进程的 IPC 回答、 </li>
-<li>比如 shell ，多进程程序会写 <code>signal_handler</code>。某个进程挂掉一般会被回收，进程之间如果没有显式的 IPC 一般不会影响其他进程。</li>
-</ul>
-</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工业上比较好的方式：one loop(io reuse) per thread (muduo)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1135,7 +1140,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

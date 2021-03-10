@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Redis - why redis fast?">
-<meta property="og:url" content="http://example.com/2021/03/01/why-redis-fast/index.html">
+  <meta name="description" content="TCP 有所谓的粘包？https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;20210025&#x2F;answer&#x2F;1096399109 不关心这个说法是否正确，来学学里面涉及到的网络知识。  tcp 面向流 API 层面，recv &#x2F; send 都会返回接收数据长度，写 socket 代码时都会遇到 就应用层来说，一般是有应用层buffer 自动做这件事，根据自己设计的协议（一般是 header">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP - basic knowledge">
+<meta property="og:url" content="http://example.com/2021/03/09/TCP-basic-knowledge/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:description" content="TCP 有所谓的粘包？https:&#x2F;&#x2F;www.zhihu.com&#x2F;question&#x2F;20210025&#x2F;answer&#x2F;1096399109 不关心这个说法是否正确，来学学里面涉及到的网络知识。  tcp 面向流 API 层面，recv &#x2F; send 都会返回接收数据长度，写 socket 代码时都会遇到 就应用层来说，一般是有应用层buffer 自动做这件事，根据自己设计的协议（一般是 header">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-03-01T03:55:13.000Z">
-<meta property="article:modified_time" content="2021-03-01T08:42:51.221Z">
+<meta property="article:published_time" content="2021-03-09T15:52:11.000Z">
+<meta property="article:modified_time" content="2021-03-09T15:53:26.306Z">
 <meta property="article:author" content="Shao Rui">
-<meta property="article:tag" content="data">
-<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/03/01/why-redis-fast/">
+<link rel="canonical" href="http://example.com/2021/03/09/TCP-basic-knowledge/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>Redis - why redis fast? | Surely You're Joking, Mr. Feynman!</title>
+  <title>TCP - basic knowledge | Surely You're Joking, Mr. Feynman!</title>
   
 
 
@@ -150,7 +150,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/01/why-redis-fast/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/09/TCP-basic-knowledge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -163,7 +163,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Redis - why redis fast?
+          TCP - basic knowledge
         </h1>
 
         <div class="post-meta">
@@ -174,7 +174,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-03-01 11:55:13 / 修改时间：16:42:51" itemprop="dateCreated datePublished" datetime="2021-03-01T11:55:13+08:00">2021-03-01</time>
+              <time title="创建时间：2021-03-09 23:52:11 / 修改时间：23:53:26" itemprop="dateCreated datePublished" datetime="2021-03-09T23:52:11+08:00">2021-03-09</time>
             </span>
 
           
@@ -188,7 +188,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="TCP-有所谓的粘包？"><a href="#TCP-有所谓的粘包？" class="headerlink" title="TCP 有所谓的粘包？"></a>TCP 有所谓的粘包？</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20210025/answer/1096399109">https://www.zhihu.com/question/20210025/answer/1096399109</a></p>
+<p>不关心这个说法是否正确，来学学里面涉及到的网络知识。</p>
+<ol start="0">
+<li>tcp 面向流</li>
+<li>API 层面，recv / send 都会返回接收数据长度，写 socket 代码时都会遇到</li>
+<li>就应用层来说，一般是有应用层buffer 自动做这件事，根据自己设计的协议（一般是 header(length_of_data) + payload），对数据进行解『包』</li>
+<li>如果是 TCP Nagle 算法导致的多个 client 端的 send 被合并在一起了，可以通过设置 <code>TCP_NODELAY</code> 来处理。注意，Nagle 算法的初衷是为了增加传输性价比，减少网络间的负载（甚至 payload 太小导致 header &gt; payload 这种情况出现），专门将多个小的『package』进行合并发送的算法（1 * header + n * payload）。实现就是某些小的 datagram1 因为没达到一定的大小需要等待后面的 datagram2 ，然后合并起来发送，最终的影响是 datagram1 对应的 ACK 延迟（[但是 99% 的情况下都不会有问题](怎么解决TCP网络传输「粘包」问题？ - 欲三更的回答 - 知乎<br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20210025/answer/1744906223)%EF%BC%89">https://www.zhihu.com/question/20210025/answer/1744906223)）</a></li>
+</ol>
+<h2 id="TCP-status-machine"><a href="#TCP-status-machine" class="headerlink" title="TCP status machine"></a>TCP status machine</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
+<h3 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h3><p>挥手过程：</p>
+<ol>
+<li>client -&gt; server, FIN</li>
+<li>server -&gt; client, ACK</li>
+<li>server -&gt; client, FIN</li>
+<li>client -&gt; server, ACK</li>
+</ol>
+<blockquote>
+<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
+</blockquote>
+<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
+<h4 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h4><blockquote>
+<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
+</blockquote>
+<p>重试一段时间后 reset 连接。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
+<h3 id="DIFF-between-TCP-and-UDP"><a href="#DIFF-between-TCP-and-UDP" class="headerlink" title="DIFF between TCP and UDP"></a>DIFF between TCP and UDP</h3><h3 id="TCP-如何保证消息可靠？"><a href="#TCP-如何保证消息可靠？" class="headerlink" title="TCP 如何保证消息可靠？"></a>TCP 如何保证消息可靠？</h3>
     </div>
 
     
@@ -196,10 +222,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/data/" rel="tag"># data</a>
-              <a href="/tags/redis/" rel="tag"># redis</a>
-          </div>
 
         
 
@@ -207,13 +229,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/01/redis-persistence/" rel="prev" title="Redis - persistence">
-      <i class="fa fa-chevron-left"></i> Redis - persistence
+    <a href="/2021/03/09/distributed-system-intro/" rel="prev" title="distributed system - intro">
+      <i class="fa fa-chevron-left"></i> distributed system - intro
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/02/what-is-load-balancer/" rel="next" title="what is load balancer">
-      what is load balancer <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -272,6 +291,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-%E6%9C%89%E6%89%80%E8%B0%93%E7%9A%84%E7%B2%98%E5%8C%85%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">TCP 有所谓的粘包？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-status-machine"><span class="nav-number">2.</span> <span class="nav-text">TCP status machine</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-TIME-WAIT-state-need-to-be-2MSL-long"><span class="nav-number">2.1.</span> <span class="nav-text">Why TIME_WAIT state need to be 2MSL long?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#what-if-step-4-is-lost-again"><span class="nav-number">2.1.1.</span> <span class="nav-text">what if step 4 is lost again?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DIFF-between-TCP-and-UDP"><span class="nav-number">2.2.</span> <span class="nav-text">DIFF between TCP and UDP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%EF%BC%9F"><span class="nav-number">2.3.</span> <span class="nav-text">TCP 如何保证消息可靠？</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

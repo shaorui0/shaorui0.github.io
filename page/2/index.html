@@ -145,6 +145,237 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/22/consistent-cache-RDBMS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/22/consistent-cache-RDBMS/" class="post-title-link" itemprop="url">consistent-cache-RDBMS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-22 19:18:50" itemprop="dateCreated datePublished" datetime="2021-02-22T19:18:50+08:00">2021-02-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 13:25:02" itemprop="dateModified" datetime="2021-02-25T13:25:02+08:00">2021-02-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一致性的问题，只有在 <strong>huge traffic and high concurrency</strong> 时，才会产生重要的影响。一般的场景使用简单的『Cache Expiry』和『Cache Aside』就可以了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/22/consistent-cache-RDBMS/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/20/what-is-nginx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/20/what-is-nginx/" class="post-title-link" itemprop="url">What is NGINX</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-20 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-20T21:55:13+08:00">2021-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-04 10:12:16" itemprop="dateModified" datetime="2021-03-04T10:12:16+08:00">2021-03-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="0-虚拟主机"><a href="#0-虚拟主机" class="headerlink" title="0. 虚拟主机"></a>0. 虚拟主机</h3><img src="/2021/02/20/what-is-nginx/nginx2.png" class title="虚拟主机">
+
+
+<h4 id="为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？"><a href="#为什么要加一层-nginx，而不直接通过后端的路由（框架，比如Django）进行-serve-？" class="headerlink" title="为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？"></a>为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？</h4><p>核心问题其实是<strong>为什么需要这样一个 server ， 『业务逻辑』不在 server 上面</strong>。</p>
+<ol>
+<li>【static】通过<code>location</code>配置正则表达式，将 request.URL 快速匹配到对应 static file 上。</li>
+</ol>
+<ul>
+<li>静态资源包括 业务数据 和 日志数据，可归属到不同域名下（目录），方便维护。</li>
+</ul>
+<ol start="2">
+<li>【dynamic】为什么能提高速度？<strong>动静分离</strong>，静态资源给 Nginx 管理，<strong>动态请求</strong>（就是上面的主要业务逻辑）<strong>转发</strong>给后端。比如 <code>index.html</code>。</li>
+<li>【intercept request】IP 控制访问，比如 <strong>black list / white list</strong> ，部分 request 不需要转给 server</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/20/what-is-nginx/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/20/callback/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/20/callback/" class="post-title-link" itemprop="url">What is Callback</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-20 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-20T21:55:13+08:00">2021-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-03 22:52:32" itemprop="dateModified" datetime="2021-03-03T22:52:32+08:00">2021-03-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>A callback is a function provided by the consumer of an API that the API can then turn around and invoke (calling you back). If I setup a Dr.’s appointment, I can give them my phone number, so they can call me the day before to confirm the appointment. A callback is like that, except instead of just being a phone number, it can be arbitrary instructions like “send me an email at this address, and also call my secretary and have her put it in my calendar.</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/20/callback/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/18/transaction-isolation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -294,324 +525,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/python-memory-management/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/python-memory-management/" class="post-title-link" itemprop="url">memory management</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 22:59:23" itemprop="dateModified" datetime="2021-02-17T22:59:23+08:00">2021-02-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>python怎么管理内存？</p>
-<ul>
-<li>引用语义<br>  一个对象，多个指针指向它，这也就是 is 和 == 的不同指出，检查是否是同一个对象，以及对象的值是否相同</li>
-<li>GC<br>  python的GC，典型的ref_count=0的时候；循环引用能被释放</li>
-<li>内存池<ul>
-<li>内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统</li>
-<li>Pymalloc机制：python的内存池机制，管理小块的内存申请和释放</li>
-<li>不同python对象，都有独立的私有内存池</li>
-</ul>
-</li>
-</ul>
-<h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><h3 id="引用计数会有什么问题？"><a href="#引用计数会有什么问题？" class="headerlink" title="引用计数会有什么问题？"></a>引用计数会有什么问题？</h3><p>典型的循环引用问题</p>
-<p>循环引用会导致一个应该被回收的对象无法被回收（ref_count==1）</p>
-<p>python如何解决这个问题？（C++的智能指针shared_ptr是如何解决这个问题的？）</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62282961">https://zhuanlan.zhihu.com/p/62282961</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32373436/answer/549698608">https://www.zhihu.com/question/32373436/answer/549698608</a></p>
-<h3 id="如何使用GC？"><a href="#如何使用GC？" class="headerlink" title="如何使用GC？"></a>如何使用GC？</h3><ol>
-<li>import gc，解决循环引用的问题<ul>
-<li>gc.garbage，[]，保存准备回收的对象</li>
-<li>gc模快有一个自动垃圾回收的阀值，即通过gc.get_threshold函数获取到的长度为3的元组，例如(700,10,10)</li>
-<li>如果对象定义了__del__，则不回收</li>
-</ul>
-</li>
-<li>分代回收。三代，老年代数据停留时间最长<ul>
-<li>分代回收是建立在<strong>标记清除</strong>技术基础之上。分代回收同样作为Python的辅助垃圾收集技术处理那些容器对象</li>
-</ul>
-</li>
-<li>标记清除<ul>
-<li>标记清除算法作为Python的辅助垃圾收集技术主要处理的是一些容器对象</li>
-<li>TODO 具体怎么组织的？</li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-lru/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/redis-lru/" class="post-title-link" itemprop="url">Redis - LRU</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:43:58" itemprop="dateModified" datetime="2021-02-22T15:43:58+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="LRU-algorithm-and-LRU-implementation-of-Redis"><a href="#LRU-algorithm-and-LRU-implementation-of-Redis" class="headerlink" title="LRU algorithm and LRU implementation of Redis"></a>LRU algorithm and LRU implementation of Redis</h1><h3 id="【问】如何设计一个redis的内存淘汰机制？"><a href="#【问】如何设计一个redis的内存淘汰机制？" class="headerlink" title="【问】如何设计一个redis的内存淘汰机制？"></a>【问】如何设计一个redis的内存淘汰机制？</h3><p>面试过程的遇到过这个问题。</p>
-<ol start="0">
-<li>典型的内存淘汰机制是LRU</li>
-<li>LRU的常规实现是双向链表</li>
-</ol>
-<p>但问题并不只是这么简单。一个典型的面试场景是这样的：</p>
-<ul>
-<li>如果一个key在里面，再次访问需要拿到前面来，那么如何拿？<ul>
-<li>基于目前的情况，只能是<strong>遍历</strong>。</li>
-</ul>
-</li>
-<li>遍历是不是太慢了？<ul>
-<li>脱口而出 排序 + 二分</li>
-</ul>
-</li>
-<li>那么排序后，『优先级』的信息是不是丢失了？<ul>
-<li>排序肯定是错误的。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
-<li>想到维护一个树的话，查找速度从 n =&gt; logn，这是一个进步。</li>
-</ul>
-</li>
-<li>什么样的树呢？<ul>
-<li>为了保证树不会退化到链表，需要维护<strong>平衡</strong>，这里想到了<strong>红黑树</strong></li>
-</ul>
-</li>
-<li>那么一开始为什么不使用红黑树而要使用双向链表？<ul>
-<li>其实是两个数据结构联合实现的<ul>
-<li>【index 解决 search 的问题】查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
-<li>【双向链表解决 write 的问题】维护优先级的问题通过双向链表解决</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>解决方案：</p>
-<ul>
-<li>(key, addr) 在 hash table 中，</li>
-<li>(key, value) 在 two-way chain table 中。</li>
-</ul>
-<p>TODO 实现</p>
-<h3 id="真正到工业级的redis的实现，又和严格LRU的有一些出入"><a href="#真正到工业级的redis的实现，又和严格LRU的有一些出入" class="headerlink" title="真正到工业级的redis的实现，又和严格LRU的有一些出入"></a>真正到工业级的redis的实现，又和严格LRU的有一些出入</h3><ol>
-<li><p>维护严格的LRU比较耗费空间（大量的前后指针）。</p>
-<ul>
-<li>能想到怎么优化吗？将n减少到常数级别，只对少量的kv进行维护。</li>
-<li>这里涉及到一个『采样』的问题。有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？<code>maxmemory-samples 5 </code></li>
-</ul>
-</li>
-<li><p>redis提供了多种驱逐策略，应该怎么选用？</p>
-<p> 业务中的使用场景有关</p>
-</li>
-</ol>
-<p>TODO 更深入的接触到redis后，进行进一步的了解。</p>
-<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">LRU cache</a><br><a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-lru-implementation-of-redis.html">如何实现一个kv形式的严格LRU策略</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-data-structure-in-action/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/redis-data-structure-in-action/" class="post-title-link" itemprop="url">Redis - data structure</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 19:21:09" itemprop="dateModified" datetime="2021-02-22T19:21:09+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush<br>rpush</p>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
-<li>Lpush + lpop = stack</li>
-<li>Lpush + rpop = queue</li>
-<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">What is ltrim?</a></li>
-<li>Lpush + brpop = message queue (blocking queue)</li>
-</ul>
-<p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
-<ol>
-<li>典型的就是消息队列，用于阻塞，空的时候无法获取，那会阻塞？</li>
-<li>典型的还是airticle list，有多少个文章，无需排序，仅仅是通过index去索引</li>
-</ol>
-<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>不重复，无序<br>那么典型的什    么场景</p>
-<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
-<li>tag<br>用户标签，对某些东西感兴趣，实现应该是一棵树？</li>
-</ol>
-<p>那zset呢？有序无序之间的区别？</p>
-<h3 id="底层是什么？"><a href="#底层是什么？" class="headerlink" title="底层是什么？"></a>底层是什么？</h3><h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><ul>
-<li>element不能重复</li>
-<li>通过score进行排序<br>有点类似学生id和学生分数</li>
-</ul>
-<p>这个分数是个什么性质，比如说我想按时间排序，能做到吗？</p>
-<h3 id="使用场景呢？"><a href="#使用场景呢？" class="headerlink" title="使用场景呢？"></a>使用场景呢？</h3><p>主要是和list的一个对比：</p>
-<ol start="0">
-<li>set 当然就是不可重复了</li>
-<li>find，zset 更快 (tree)</li>
-<li>edge work，list 更快 (lpop、lpush)</li>
-<li>排序，可以根据某种分数和权重</li>
-</ol>
-<blockquote>
-<p>The sorted set ensure that the key is unique. If you want to do something complex. For example, every time a user login, you add the userid to a sorted set. And there is a backend service read the sorted set and update the user’s information and action habbit. It can save a lot of work if you are using sorted set.<br>一些复杂的功能，比如每次登陆，都更新一下，按照登陆频率排序。</p>
-</blockquote>
-<blockquote>
-<p>What’s more, if the user is a premium paid member, you can set the score of his or her id higher, and refresh this user’s habbit match earlier.</p>
-</blockquote>
-<p>高级会员，放在redis set前面，这样取这个id更快</p>
-<p>总结起来，就是你需要动态排序，然后取一些顶点值的时候。如果是list，你可能要用代码实现，取top_k，但是zset就可以直接按照权重去获取。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis">https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-list-redis</a></p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-set</a></p>
-<p><a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">https://redis.io/topics/data-types-intro</a></p>
-<p><a target="_blank" rel="noopener" href="https://developpaper.com/redis-5-big-data-structure/">https://developpaper.com/redis-5-big-data-structure/</a></p>
-<h3 id="怎么实现的？"><a href="#怎么实现的？" class="headerlink" title="怎么实现的？"></a>怎么实现的？</h3><p>k-v的部分是通过hash，O(1)，排序的部分呢？</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-ttl/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -664,94 +577,6 @@
 <p>解决这个问题的一个简单的思路就是：固定的时间随机找到一些key，判断这些key是否存在过期的，然后删除。<br>更进一步的，如果key的数量超过25%，重新执行一次上面的操作。</p>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36172745/how-does-redis-expire-keys">how-does-redis-expire-keys</a></p>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/tcp-status-machine/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/tcp-status-machine/" class="post-title-link" itemprop="url">TCP state machine</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-05 12:15:00" itemprop="dateModified" datetime="2021-03-05T12:15:00+08:00">2021-03-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
-<h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
-<ol>
-<li>client -&gt; server, FIN</li>
-<li>server -&gt; client, ACK</li>
-<li>server -&gt; client, FIN</li>
-<li>client -&gt; server, ACK</li>
-</ol>
-<blockquote>
-<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
-</blockquote>
-<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
-<h3 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h3><blockquote>
-<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
-</blockquote>
-<p>重试一段时间后 reset 连接。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
-<h2 id="DIFF-between-TCP-and-UDP"><a href="#DIFF-between-TCP-and-UDP" class="headerlink" title="DIFF between TCP and UDP"></a>DIFF between TCP and UDP</h2><ol>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-</ol>
-<h3 id="TCP-如何保证消息可靠？"><a href="#TCP-如何保证消息可靠？" class="headerlink" title="TCP 如何保证消息可靠？"></a>TCP 如何保证消息可靠？</h3><h3 id="怎么保证-UDP-消息可靠？"><a href="#怎么保证-UDP-消息可靠？" class="headerlink" title="怎么保证 UDP 消息可靠？"></a>怎么保证 UDP 消息可靠？</h3>
       
     </div>
 
@@ -1009,6 +834,98 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
+<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
+</blockquote>
+<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
+<ul>
+<li><p>blocking io</p>
+<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
+</li>
+<li><p>non-blocking io</p>
+<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
+
+
+
+
+</li>
+</ul>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
+</li>
+</ul>
+<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
+<li><p><a href="./echo_server_event_driven.py">server</a></p>
+</li>
+<li><p><a href="./echo_client.py">client</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1078,7 +995,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

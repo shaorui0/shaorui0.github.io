@@ -145,98 +145,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-event-driven-model/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/what-is-event-driven-model/" class="post-title-link" itemprop="url">What is event driven model</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:23:34" itemprop="dateModified" datetime="2021-02-22T15:23:34+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="why-need-event-driven-model"><a href="#why-need-event-driven-model" class="headerlink" title="why need event driven model"></a>why need event driven model</h2><blockquote>
-<p>In a sense, this isn’t really different from what you might do with threaded I/O, <strong>but it has much reduced overhead in the form of memory, context switching, and general “housekeeping”, and takes maximum advantage of what operating systems do best</strong> (or are supposed to, anyway): <strong>handle I/O quickly.</strong></p>
-</blockquote>
-<p>事件驱动模型必须配合使用非阻塞IO，不然当前进程/线程会花大量的时间去等待（相比于真正的处理时间）。非阻塞io，在不可用时（包括缓冲区满、request还没有到来），会产生<code>EWOULDBLOCK</code>，此时会出让资源（如CPU）给其他任务。</p>
-<ul>
-<li><p>blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/blocking_io.png" class title="blocking_io">
-</li>
-<li><p>non-blocking io</p>
-<img src="/2021/02/16/what-is-event-driven-model/non_blocking_io.png" class title="non_blocking_io">
-
-
-
-
-</li>
-</ul>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3231018/how-does-event-driven-i-o-allow-multiprocessing">stackoverflow: how-does-event-driven-i-o-allow-multiprocessing</a></p>
-</li>
-</ul>
-<h2 id="how-to-implement-a-event-driven-model"><a href="#how-to-implement-a-event-driven-model" class="headerlink" title="how to implement a event driven model"></a>how to implement a event driven model</h2><h3 id="a-simple-reactor"><a href="#a-simple-reactor" class="headerlink" title="a simple reactor"></a>a simple reactor</h3><ul>
-<li><p><a href="./echo_server_event_driven.py">server</a></p>
-</li>
-<li><p><a href="./echo_client.py">client</a></p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-high-concurrency/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -318,7 +226,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/diff-hash-btree/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-gil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -332,7 +240,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/diff-hash-btree/" class="post-title-link" itemprop="url">Index</a>
+            <a href="/2021/02/16/what-is-gil/" class="post-title-link" itemprop="url">What is the Python Global Interpreter Lock (GIL)?</a>
         </h2>
 
         <div class="post-meta">
@@ -349,7 +257,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:30:03" itemprop="dateModified" datetime="2021-02-25T13:30:03+08:00">2021-02-25</time>
+                <time title="修改时间：2021-02-17 23:00:30" itemprop="dateModified" datetime="2021-02-17T23:00:30+08:00">2021-02-17</time>
               </span>
 
           
@@ -363,25 +271,69 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
-<p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
-<h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
-<p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
+          <blockquote>
+<p>Python is multithreaded, it just doesn’t allow two threads to run Python code concurrently.<br>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1824418/a-clean-lightweight-alternative-to-pythons-twisted">from stackoverflow: a-clean-lightweight-alternative-to-pythons-twisted</a>]</p>
+</blockquote>
+<h2 id="聊聊python的多线程"><a href="#聊聊python的多线程" class="headerlink" title="聊聊python的多线程"></a>聊聊python的多线程</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/29270818/why-is-a-python-i-o-bound-task-not-blocked-by-the-gil">why-is-a-python-i-o-bound-task-not-blocked-by-the-gil</a></p>
+<blockquote>
+<p>The GIL in CPython1 is only concerned with Python code being executed. A thread-safe C extension that uses a lot of CPU might release the GIL as long as it doesn’t need to interact with the Python runtime.</p>
+</blockquote>
+<ol>
+<li>搞清楚GIL的级别（抽象在哪一层？）。GIL只是<strong>限制多线程读取Cpython的bytecode</strong>，一次只能有一个线程<strong>execute python bytecode</strong>，但是所有的线程此时都是<strong>running</strong>。</li>
+<li>所以Cpython的C扩展部分，是不限制多线程的。（很多库，比如multithreading或者numpy是C扩展，这个是可以多线程的）</li>
+</ol>
+<blockquote>
+<p>Releasing the GIL around I/O (blocking or not, using CPU or not) is the same thing - until the data is moved into Python there is no reason to acquire the GIL.</p>
+</blockquote>
+<ol start="3">
+<li>所以关于python的IO bounding，多线程的适用场景完全合适。</li>
+</ol>
+<p>本质是需要理解GIL锁了哪些东西，<strong>瓶颈</strong>在哪里？</p>
+<h2 id="GIL解决了什么问题？"><a href="#GIL解决了什么问题？" class="headerlink" title="GIL解决了什么问题？"></a>GIL解决了什么问题？</h2><p>GIL本质上解决的是<strong>内存安全</strong>问题。</p>
+<p>关于内存安全，一些程序语言是手工处理（c/c++），一些语言是gc（java），而python（也还有其他的）是GIL。</p>
+<p>python中，内存对象主要通过<strong>引用计数</strong>管理生命周期。而引用计数需要通过锁机制来避免产生『<strong>race condition</strong>』。但是锁的引入又会导致『<strong>dead lock</strong>』（<strong>必须超过两把锁</strong>）的问题。</p>
+<p>GIL刚好从源头解决了这个问题（只有一把锁）。</p>
+<h3 id="内存安全问题"><a href="#内存安全问题" class="headerlink" title="内存安全问题"></a>内存安全问题</h3><p><a href="xxx">todo 内存安全分类</a></p>
+<h2 id="为什么是GIL？"><a href="#为什么是GIL？" class="headerlink" title="为什么是GIL？"></a>为什么是GIL？</h2><p>存在各种处理内存安全的解决方案，为什么是GIL？</p>
+<ol>
+<li>GIL的实现上很简单，引入的复杂度很低（这也是一直以来python没有去掉GIL的重要原因）。</li>
+<li>python语言被设计出来的时候，并没有thread的概念，GIL的引入直接提升了语言的易用性。</li>
+<li>许多扩展都是c，而一般的c语言系统调用都是<strong>线程不安全</strong>的，这些c扩展需要线程安全的内存管理措施（如GIL）。有了GIL，各种线程不安全的扩展能够轻松整合进来。</li>
+<li>全局只有一把锁从根本上消除了产生『死锁』的可能性。</li>
+</ol>
+<h3 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h3><p>典型的问题就是cpu-bound task执行起来只能<strong>线性执行</strong>。如果使用并发的架构去执行，甚至消耗的时间更多（上下文转换）。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">total = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safe_increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        lock.acquire()</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_in_x_threads</span>(<span class="params">x, func, n</span>):</span></span><br><span class="line">    threads = [threading.Thread(target=func, args=(n,)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(x)]</span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    begin = time.time()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">&#x27;finished in &#123;&#125;s.\ntotal: &#123;&#125;\nexpected: &#123;&#125;\ndifference: &#123;&#125; (&#123;&#125; %)&#x27;</span></span><br><span class="line">           .<span class="built_in">format</span>(time.time()-begin, total, n*x, n*x-total, <span class="number">100</span>-total/n/x*<span class="number">100</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;unsafe:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, increment_n_times, <span class="number">100000</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;\nwith locks:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, safe_increment_n_times, <span class="number">100000</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="也没有那么坏"><a href="#也没有那么坏" class="headerlink" title="也没有那么坏"></a>也没有那么坏</h3><p>最本质的原因就是performance。如果去掉GIL，性能会不会下降？（多线程的CPU密集型任务那没话说，但是单线程任务和多线程IO密集型的任务呢？）</p>
+<h4 id="py3为什么还是没有解决这个问题？"><a href="#py3为什么还是没有解决这个问题？" class="headerlink" title="py3为什么还是没有解决这个问题？"></a>py3为什么还是没有解决这个问题？</h4><blockquote>
+<p>py3明明已经不需要向后兼容了（没有了历史包袱），为什么没有解决这个问题？</p>
+</blockquote>
+<p>归根结底还是<strong>单线程任务和多线程IO密集型的任务</strong>性能的问题。</p>
+<p>但，python3在这方面也有<strong>改进</strong>。全局只有一把锁意味着不同的任务要<strong>抢锁</strong>，对于cpu密集型的任务，抢锁是比较『容易』的，并且持有锁的时间会比较长（相对IO-bound task）（在操作系统的层面中称为『长作业』，其中有一种任务调度算法称为『短作业优先调度算法』）。python解释器指定了一个『fixed interval』（通过<code>sys.getcheckinterval()</code>获取），执行完固定长度的时间以后，其他任务有机会获取GIL。那么有没有可能导致IO-bound task<strong>饥饿</strong>？python是如何处理这个问题的？</p>
+<blockquote>
+<p>The problem in this mechanism was that <strong>most of the time the CPU-bound thread would reacquire the GIL itself before other threads could acquire it.</strong> This was researched by David Beazley and visualizations can be found here.</p>
 </blockquote>
 <blockquote>
-<p>The trade off for tree algorithms is small and they are suitable for almost every use case and thus are default.</p>
+<p>This problem was fixed in Python 3.2 in 2009 by Antoine Pitrou who added a mechanism of looking at the number of GIL acquisition requests by other threads that got dropped and not allowing the current thread to reacquire GIL before other threads got a chance to run.</p>
 </blockquote>
-<p>处理规模化的数据时，hash维护key会显著变慢（冲突处理）</p>
-<ul>
-<li><p>hash时间复杂度可能落入到O(n)</p>
+<h3 id="目前有什么比较好的解决方式？"><a href="#目前有什么比较好的解决方式？" class="headerlink" title="目前有什么比较好的解决方式？"></a>目前有什么比较好的解决方式？</h3><ol>
+<li><p>Multi-processing</p>
+<p> <a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
 </li>
-<li><p>b-tree更平衡，平均复杂度为O(log n)</p>
+</ol>
+<ol start="2">
+<li><p>Alternative Python interpreters</p>
+<p> CPython, Jython, IronPython and PyPy…</p>
+</li>
+</ol>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://realpython.com/python-gil/#what-problem-did-the-gil-solve-for-python">what-problem-did-the-gil-solve-for-python</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://medium.com/python-features/pythons-gil-a-hurdle-to-multithreaded-program-d04ad9c1a63#:~:text=Python%20threads%20can%27t%20run,the%20same%20time%20as%20computation">pythons-gil-a-hurdle-to-multithreaded-program</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40072873/why-do-we-need-locks-for-threads-if-we-have-gil">why-do-we-need-locks-for-threads-if-we-have-gil</a></p>
 </li>
 </ul>
-<h5 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h5><blockquote>
-<p>The difference between using a b-tree and a hash table is that the former allows you to use column comparisons in expressions that use the =, &gt;, &gt;=, &lt;, &lt;=, or BETWEEN operators, while the latter is used only for equality comparisons that use the = or &lt;=&gt; operators.</p>
-</blockquote>
-<p>就存取特征而言，hash table是离散的，只能以O(1)的时间复杂度寻找特定值，而不支持range query（<strong>主要原因</strong>）。</p>
 
       
     </div>
@@ -492,7 +444,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-memory-management/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/diff-hash-btree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -506,7 +458,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-memory-management/" class="post-title-link" itemprop="url">virtual memory</a>
+            <a href="/2021/02/16/diff-hash-btree/" class="post-title-link" itemprop="url">Index</a>
         </h2>
 
         <div class="post-meta">
@@ -523,7 +475,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:40" itemprop="dateModified" datetime="2021-02-17T23:00:40+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-25 13:30:03" itemprop="dateModified" datetime="2021-02-25T13:30:03+08:00">2021-02-25</time>
               </span>
 
           
@@ -537,51 +489,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ol>
-<li>虚拟内存最核心的功能是作为缓存<ul>
-<li>虚拟内存分为三部分，未分配的（可理解成交换区大小是动态变化的）、已分配但未缓存（与memory之间没有映射关系）、已缓存的</li>
-<li>磁盘 与 物理内存之间的缓存（DRAM）。同时CPU与物理内存之间也有L1, L2 cache（SRAM）</li>
-<li>缓存加快了速度？其实还不是，虚拟内存本质是在磁盘上的一个“交换区”，用于内存之间的页面交换。所以一本质上，是扩大了内存的逻辑容量，看上去更大了，而不是更快了。</li>
-<li>有很多要考虑的问题（请求式的页面换入换出）<ul>
-<li>当前需要的虚拟页是否已缓存</li>
-<li>如果缓存，对应的物理页在哪里？</li>
-<li>如果未缓存，还要去磁盘找，在磁盘的哪里？</li>
-<li>还需要一个替换算法，选中一个牺牲页，与磁盘上的DRAM进行替换</li>
-</ul>
+          <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
+<p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
+<h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
+<p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
+</blockquote>
+<blockquote>
+<p>The trade off for tree algorithms is small and they are suitable for almost every use case and thus are default.</p>
+</blockquote>
+<p>处理规模化的数据时，hash维护key会显著变慢（冲突处理）</p>
+<ul>
+<li><p>hash时间复杂度可能落入到O(n)</p>
+</li>
+<li><p>b-tree更平衡，平均复杂度为O(log n)</p>
 </li>
 </ul>
-</li>
-<li>虚拟内存帮助内存管理<ul>
-<li>每个进程有一个独立的页表（地址空间）。页面调度与独立地址空间相结合，对内存管理造成了深远的影响。<ul>
-<li>简化了编译、汇编、链接、加载的过程，都会有磁盘和内存之间的交互（.c/.o/etc）</li>
-<li>简化了内存分配的过程，需要哪些？用户层是malloc分配heap，stack自动增长等。典型的就是虚拟地址连续，但是物理地址不用连续。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>虚拟内存作为内存保护<ul>
-<li>每个虚拟页的地址头，都有SUP段，用于判断是否允许用户态访问。</li>
-</ul>
-</li>
-</ol>
-<h1 id="说一下内存管理"><a href="#说一下内存管理" class="headerlink" title="说一下内存管理"></a>说一下内存管理</h1><p>从哪些维度来说？</p>
-<ol start="0">
-<li>内存的最主要的功能是什么<ul>
-<li>充当磁盘和CPU之间的cache</li>
-</ul>
-</li>
-<li>内存分配与回收<ul>
-<li>分页式</li>
-<li>分段式</li>
-<li>段页式</li>
-<li>涉及到的页面置换算法</li>
-</ul>
-</li>
-<li>内存保护<ul>
-<li>分页系统的地址映射机制</li>
-</ul>
-</li>
-</ol>
+<h5 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h5><blockquote>
+<p>The difference between using a b-tree and a hash table is that the former allows you to use column comparisons in expressions that use the =, &gt;, &gt;=, &lt;, &lt;=, or BETWEEN operators, while the latter is used only for equality comparisons that use the = or &lt;=&gt; operators.</p>
+</blockquote>
+<p>就存取特征而言，hash table是离散的，只能以O(1)的时间复杂度寻找特定值，而不支持range query（<strong>主要原因</strong>）。</p>
 
       
     </div>
@@ -1076,6 +1002,80 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/why-need-type-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/16/why-need-type-system/" class="post-title-link" itemprop="url">why need type system?</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-17 23:00:55" itemprop="dateModified" datetime="2021-02-17T23:00:55+08:00">2021-02-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/425821639/answer/1535183051">问题来源：why need type system?</a></p>
+<ol>
+<li>cpu本质上就有类型（通过指令来区分，如ADD/FADD）。为了表达同一种操作模式（+）的不同类型（整数/浮点数），高级语言设计出来『类型』来区分。这样做同时也解放了程序员的心智负担，防止一些低级错误的发生（如整数和浮点数想加）。</li>
+<li>内存本质上不关心『类型』，里面存放的都是<strong>字节序列</strong>，<strong>但是解释为整数、浮点数、字符串的时候会产生不同结果</strong>（如整数和浮点数想加）。为了搞清楚一个数据从哪里开始、有多长，如果语言本身不设计好对应的类型存放，就必须程序员自己记忆，但这样是不是太麻烦了（易用性、可排查性）？</li>
+</ol>
+<h2 id="不是必须的"><a href="#不是必须的" class="headerlink" title="不是必须的"></a>不是必须的</h2><p>类型系统<strong>不是必须</strong>的，理论上程序员可以完成所有的事情。但从生产效率方面，人主要的高明之处在于抽象能力。把这些细节交给语言、编译器，程序员专注于上层的设计，这样开发效率会高得多。从生产的角度，这和『为什么需要类型』的目的差不多。</p>
+<ul>
+<li>C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。</li>
+<li>Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1145,7 +1145,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

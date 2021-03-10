@@ -20,20 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="12345678910111213client          server                LISTENSYN_SEND                SYN_RCVDESTABLISHED                 ESTABLISHED FIN_WAIT_1                CLOSE_WAITFIN_WAIT_2                  LAS">
+  <meta name="description" content="分布式解决了什么问题？我们为什么需要分布式？ 分布式系统是个什么东西？ 分布式用在什么场景？  通过 scale out 和 scale up 两个概念入手，能清晰的对比出追求单个机器的性能与追求多个机器的合作性能之间的关系。IO 和 计算 是两个不同的方面，从而引出『分布式存储』和『分布式计算』两个领域，里面涉及到的技术截然不同。按照《ddia》一书的分法，主要几个方面是：分区、复制、事务。同">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP state machine">
-<meta property="og:url" content="http://example.com/2021/02/16/tcp-status-machine/index.html">
+<meta property="og:title" content="distributed system - intro">
+<meta property="og:url" content="http://example.com/2021/03/09/distributed-system-intro/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="12345678910111213client          server                LISTENSYN_SEND                SYN_RCVDESTABLISHED                 ESTABLISHED FIN_WAIT_1                CLOSE_WAITFIN_WAIT_2                  LAS">
+<meta property="og:description" content="分布式解决了什么问题？我们为什么需要分布式？ 分布式系统是个什么东西？ 分布式用在什么场景？  通过 scale out 和 scale up 两个概念入手，能清晰的对比出追求单个机器的性能与追求多个机器的合作性能之间的关系。IO 和 计算 是两个不同的方面，从而引出『分布式存储』和『分布式计算』两个领域，里面涉及到的技术截然不同。按照《ddia》一书的分法，主要几个方面是：分区、复制、事务。同">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-03-05T04:15:00.990Z">
+<meta property="article:published_time" content="2021-03-09T13:08:28.000Z">
+<meta property="article:modified_time" content="2021-03-09T13:08:44.025Z">
 <meta property="article:author" content="Shao Rui">
-<meta property="article:tag" content="Computer networking">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/02/16/tcp-status-machine/">
+<link rel="canonical" href="http://example.com/2021/03/09/distributed-system-intro/">
 
 
 <script id="page-configurations">
@@ -46,7 +45,7 @@
   };
 </script>
 
-  <title>TCP state machine | Surely You're Joking, Mr. Feynman!</title>
+  <title>distributed system - intro | Surely You're Joking, Mr. Feynman!</title>
   
 
 
@@ -151,7 +150,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/tcp-status-machine/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/09/distributed-system-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -164,7 +163,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          TCP state machine
+          distributed system - intro
         </h1>
 
         <div class="post-meta">
@@ -173,16 +172,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+              <time title="创建时间：2021-03-09 21:08:28 / 修改时间：21:08:44" itemprop="dateCreated datePublished" datetime="2021-03-09T21:08:28+08:00">2021-03-09</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-05 12:15:00" itemprop="dateModified" datetime="2021-03-05T12:15:00+08:00">2021-03-05</time>
-              </span>
 
           
 
@@ -195,31 +188,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client          server</span><br><span class="line"></span><br><span class="line">                LISTEN</span><br><span class="line">SYN_SEND</span><br><span class="line">                SYN_RCVD</span><br><span class="line">ESTABLISHED </span><br><span class="line">                ESTABLISHED </span><br><span class="line"></span><br><span class="line">FIN_WAIT_1</span><br><span class="line">                CLOSE_WAIT</span><br><span class="line">FIN_WAIT_2  </span><br><span class="line">                LAST_ACK</span><br><span class="line">TIME_WAIT( 2 MSL )</span><br></pre></td></tr></table></figure>
-<h2 id="Why-TIME-WAIT-state-need-to-be-2MSL-long"><a href="#Why-TIME-WAIT-state-need-to-be-2MSL-long" class="headerlink" title="Why TIME_WAIT state need to be 2MSL long?"></a>Why TIME_WAIT state need to be 2MSL long?</h2><p>挥手过程：</p>
+        <ol>
+<li>分布式解决了什么问题？我们为什么需要分布式？</li>
+<li>分布式系统是个什么东西？</li>
+<li>分布式用在什么场景？</li>
+</ol>
+<p>通过 scale out 和 scale up 两个概念入手，能清晰的对比出追求单个机器的性能与追求多个机器的合作性能之间的关系。<br>IO 和 计算 是两个不同的方面，从而引出『分布式存储』和『分布式计算』两个领域，里面涉及到的技术截然不同。<br>按照《ddia》一书的分法，主要几个方面是：分区、复制、事务。同时，可以从所谓的分布式三大概念入手。</p>
 <ol>
-<li>client -&gt; server, FIN</li>
-<li>server -&gt; client, ACK</li>
-<li>server -&gt; client, FIN</li>
-<li>client -&gt; server, ACK</li>
+<li>高性能</li>
 </ol>
-<blockquote>
-<p>After above 4 steps, client is TIME_WAIT, server is LAST_ACK</p>
-</blockquote>
-<p>如果第四步丢了（client不知道自己的ACK丢了），则需要第三步重试。<br>这里的2 MSL就是给一次3过程，给一次4 redo 过程。<br>整体就是 client 等最后一个 ACK 发过去，如果失败，再等 server 发一个 FIN 过来。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25338862/why-time-wait-state-need-to-be-2msl-long">why-time-wait-state-need-to-be-2msl-long</a></p>
-<h3 id="what-if-step-4-is-lost-again"><a href="#what-if-step-4-is-lost-again" class="headerlink" title="what if step 4 is lost again?"></a>what if step 4 is lost again?</h3><blockquote>
-<p>Same as with any data segment. TCP will retry the send a certain number of times and then reset the connection.</p>
-</blockquote>
-<p>重试一段时间后 reset 连接。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40417087/how-if-the-last-ack-is-lost-in-tcp-termination">how-if-the-last-ack-is-lost-in-tcp-termination</a></p>
-<h2 id="DIFF-between-TCP-and-UDP"><a href="#DIFF-between-TCP-and-UDP" class="headerlink" title="DIFF between TCP and UDP"></a>DIFF between TCP and UDP</h2><ol>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+<ul>
+<li>分区，防止所有流量打到一个机器上，多台机器实现一个服务的多个不同的方面<ul>
+<li>如果某个区 block 了其他，如何找到机器来 backup ？</li>
+<li>（分布式事务）由于分区，导致某些区域完成，某些区域不完成呢？</li>
+<li>（分布式事务）哪些机器跑了成功的，哪些机器失败了（不一定是机器 down 了，可能只是进程 down 了）？</li>
+<li>本机通信相对于网络通信来说，可信度高得多</li>
+<li>甚至不同机器的时钟（time clock）？</li>
+</ul>
+</li>
+<li>复制，从上游进行负载均衡，多台机器实现同样的服务<ul>
+<li>如果产生『倾斜』呢（某些机器异常繁忙）？</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>高可用</li>
 </ol>
-<h3 id="TCP-如何保证消息可靠？"><a href="#TCP-如何保证消息可靠？" class="headerlink" title="TCP 如何保证消息可靠？"></a>TCP 如何保证消息可靠？</h3><h3 id="怎么保证-UDP-消息可靠？"><a href="#怎么保证-UDP-消息可靠？" class="headerlink" title="怎么保证 UDP 消息可靠？"></a>怎么保证 UDP 消息可靠？</h3>
+<ul>
+<li>复制，防止某台机器 down 了。会带来什么问题？<ul>
+<li>多台机器保存同一份数据，如何保证『一致性』？</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>高扩展</li>
+</ol>
+<ul>
+<li>多台机器，弹性扩缩容。哪些机器繁忙，哪些机器空闲？</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/443423557/answer/1722872055">https://www.zhihu.com/question/443423557/answer/1722872055</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/443423557/answer/1724029725">https://www.zhihu.com/question/443423557/answer/1724029725</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/332732069">https://www.zhihu.com/question/332732069</a><br><a target="_blank" rel="noopener" href="https://vonng.gitbooks.io/ddia-cn/content/ch8.html">https://vonng.gitbooks.io/ddia-cn/content/ch8.html</a></p>
+
     </div>
 
     
@@ -227,9 +235,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Computer-networking/" rel="tag"># Computer networking</a>
-          </div>
 
         
 
@@ -237,12 +242,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/16/waitpid-flag-set/" rel="prev" title="Waitpid usage">
-      <i class="fa fa-chevron-left"></i> Waitpid usage
+    <a href="/2021/03/09/random-seed-magic-number-42/" rel="prev" title="random - seed - magic number 42">
+      <i class="fa fa-chevron-left"></i> random - seed - magic number 42
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/16/redis-ttl/" rel="next" title="Redis - TTL">
-      Redis - TTL <i class="fa fa-chevron-right"></i>
+    <a href="/2021/03/09/TCP-basic-knowledge/" rel="next" title="TCP - basic knowledge">
+      TCP - basic knowledge <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -302,7 +307,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-TIME-WAIT-state-need-to-be-2MSL-long"><span class="nav-number">1.</span> <span class="nav-text">Why TIME_WAIT state need to be 2MSL long?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-if-step-4-is-lost-again"><span class="nav-number">1.1.</span> <span class="nav-text">what if step 4 is lost again?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DIFF-between-TCP-and-UDP"><span class="nav-number">2.</span> <span class="nav-text">DIFF between TCP and UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">TCP 如何保证消息可靠？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81-UDP-%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">怎么保证 UDP 消息可靠？</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -316,7 +320,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

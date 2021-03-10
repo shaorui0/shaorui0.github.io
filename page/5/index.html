@@ -145,6 +145,227 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/06/DIFF-blocking-non-blocking-synchronism-asynchronism/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/06/DIFF-blocking-non-blocking-synchronism-asynchronism/" class="post-title-link" itemprop="url">(Non)blocking / (A)synchrony</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-06 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-06T21:55:13+08:00">2021-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 19:25:30" itemprop="dateModified" datetime="2021-02-22T19:25:30+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h3><p>本质上，异步是指是否『接收方』会通知你取结果，这是调用方式的不同；阻塞和非阻塞，是指是否需要在某个地方等着，而不能去干其他的事情。比如信号，注册好之后，接收方完成，就会通知os内核，从而通知发出方来取。</p>
+<h2 id="还是不同层次的问题。"><a href="#还是不同层次的问题。" class="headerlink" title="还是不同层次的问题。"></a>还是不同层次的问题。</h2><blockquote>
+<p>这个过程同样适合另一个问题，<strong>当你在浏览器打上url并回车的时候发生的什么？</strong></p>
+</blockquote>
+<p>先梳理一下层次：</p>
+<ol>
+<li>A端业务代码调用软件框架</li>
+<li>软件框架与操作系统内核交互</li>
+<li>从操作系统内核到网卡</li>
+<li>操作系统通过网卡发出数据，经过路由器和交换机等设计，层层转发，到达B端网卡</li>
+<li>B端网卡到操作系统</li>
+<li>操作系统到B端软件框架</li>
+<li>B端软件框架到B的业务代码</li>
+</ol>
+<p>只有在单独一级的调用上，可以说同步还是异步的问题。</p>
+<ul>
+<li>同步：是指调用协议中结果在调用完成时返回，这样调用的过程中参与双方都处于一个状态同步的过程。</li>
+<li>异步：是指调用方<strong>发出请求就立即返回</strong>，<strong>请求甚至可能还没到达接收方</strong>，比如说放到了某个缓冲区中，等待对方取走或者第三方转交。</li>
+</ul>
+<p>而结果，是通过轮询或者接收方主动推送来获得。</p>
+<h3 id="1-7过程"><a href="#1-7过程" class="headerlink" title="1/7过程"></a>1/7过程</h3><p>用户代码层面，一个接口是可以设计成异步接口的。比如：</p>
+<ul>
+<li>某个beginXXX函数，调用完直接返回</li>
+<li>回调函数，将回调函数作为参数传递，回调函数在完成时调用（python中<code>func</code>与<code>func()</code>的区别）</li>
+<li>协程模型，调用接口后立即返回，切换到其他协程</li>
+</ul>
+<h3 id="2-6过程"><a href="#2-6过程" class="headerlink" title="2/6过程"></a>2/6过程</h3><p>系统调用层面。本质上，都是数据在用户空间和内核空间搬来搬去，都是同步接口。之用调用了一些特殊的API（IOCP），所以这一级是同步的。<strong>阻塞与非阻塞的区别其实是影响调用接口的结果（在特定条件下是否提前返回结果），而不是调用方式。</strong><br>    是否提前返回结果，也是返回了结果，这是这是个什么样的结果。比如 FALSE, FALSE, FALSE … TRUE!<br>TODO 陈硕图</p>
+<h3 id="3-5过程"><a href="#3-5过程" class="headerlink" title="3/5过程"></a>3/5过程</h3><p>内核一般通过缓冲区，使用<code>DMI</code>来传输数据，所以这一步又是异步的。</p>
+<h3 id="4过程"><a href="#4过程" class="headerlink" title="4过程"></a>4过程</h3><p>以太网是个<strong>同步时序逻辑</strong>，<strong>随信号传输时钟</strong>，必须两边设备<strong>同时就绪了</strong>才能开始传输数据，这又是同步的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于通常<strong>异步的框架</strong>都需要在2中使用<strong>非阻塞</strong>的接口，的确会有很多人把非阻塞和异步混为一谈。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19732473/answer/117012135">同步/异步，阻塞/非阻塞</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/05/diff-multi-process-multi-thread-io-resue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/05/diff-multi-process-multi-thread-io-resue/" class="post-title-link" itemprop="url">multi process, multi thread and IO reuse</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-05 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-05T21:55:13+08:00">2021-02-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-05 12:09:48" itemprop="dateModified" datetime="2021-03-05T12:09:48+08:00">2021-03-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h4 id="pros"><a href="#pros" class="headerlink" title="pros"></a>pros</h4><p>虽然现在的并发模型基本采用多线程和io复用的组合了，但是多进程也有其自己的优点：</p>
+<ol>
+<li>由于不『轻易』共享数据（<a href="xxxxx">TODO 父子进程共享什么东西？</a>），race condition基本是很少出现的，也就是关于share resource相关的问题很少出现。比如典型的『并发计数竞争问题』。</li>
+</ol>
+<h4 id="cons"><a href="#cons" class="headerlink" title="cons"></a>cons</h4><ol>
+<li><p>开销：</p>
+<ul>
+<li>进程创建</li>
+<li>进程调度（上下文转换）</li>
+</ul>
+</li>
+<li><p>数据共享：IPC</p>
+</li>
+<li><p>debug麻烦，一些工具比如<code>GDB</code>都不太好使用了</p>
+</li>
+</ol>
+<h2 id="io复用"><a href="#io复用" class="headerlink" title="io复用"></a>io复用</h2><h4 id="pros-1"><a href="#pros-1" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>【利好程序员】更好的控制。典型的场景，处理多个客户端的时候（event-drive）。（多进程并发模型需要每次close(listenfd)）TODO why？如果不close？test</li>
+<li>同一进程的缘故，共享数据更方便。</li>
+</ol>
+<h4 id="cons-1"><a href="#cons-1" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>想要处理的事件（类型）越多，代码结构复杂</li>
+<li>partial read问题（EOF），多进程信号处理很方便。</li>
+<li>【并发粒度】并发多少条指令（时间片）？(CSAPP)</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h4 id="线程独有、共享"><a href="#线程独有、共享" class="headerlink" title="线程独有、共享"></a>线程独有、共享</h4><p>独有：</p>
+<ol>
+<li>thread_id</li>
+<li>register</li>
+<li>stack（但仍然可以访问到，毕竟都是 『内存地址』）</li>
+</ol>
+<p>共享：</p>
+<ol>
+<li>heap</li>
+<li>code </li>
+<li>global</li>
+<li>fd</li>
+<li>stack of process</li>
+</ol>
+<h4 id="pros-2"><a href="#pros-2" class="headerlink" title="pros"></a>pros</h4><ol>
+<li>开销比进程小</li>
+<li>多核上可以并行</li>
+<li>更好的共享信息（除了thread stack各自维护，其他segment都是共享的，包括：heap、read-only(const data), read-write(global/static), code, share memory(mmap, .so)）</li>
+</ol>
+<h4 id="cons-2"><a href="#cons-2" class="headerlink" title="cons"></a>cons</h4><ol>
+<li>由于共享的问题，潜在的并发问题都出现了：deadlock、race condition</li>
+</ol>
+<h4 id="QA"><a href="#QA" class="headerlink" title="QA"></a>QA</h4><ol>
+<li>某个线程阻塞如何唤醒这个线程？</li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22397613">某个线程崩溃会影响所在进程吗？</a><ul>
+<li>会</li>
+<li>从线程共享内存地址空间说起，线程没有自己单独的内存地址空间。当一个线程向非法地址读取或者写入，无法确认这个操作是否会影响同一进程中的其它线程，所以只能是整个进程一起崩溃。</li>
+<li>指针数据的错误可以导致任何同地址空间内其他线程的崩溃，当然也可以导致进程崩溃。一般而言，没有绝对必要的共享内存空间的需求就不要使用线程，用进程会安全很多。</li>
+</ul>
+</li>
+<li>nginx 中，某个 worker 进程挂掉会影响整个 nginx 服务吗？<ul>
+<li>不会，从进程独立性以及进程的 IPC 回答、 </li>
+<li>比如 shell ，多进程程序会写 <code>signal_handler</code>。某个进程挂掉一般会被回收，进程之间如果没有显式的 IPC 一般不会影响其他进程。</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>工业上比较好的方式：one loop(io reuse) per thread (muduo)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/20/Elasticsearch-cold-warm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -667,7 +888,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

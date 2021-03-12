@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="zero copy sendfile() copies data between one file descriptor and another. Because this copying is done within the kernel, sendfile() is more efficient than the combination of read(2) and write(2), whi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="what is zero copy">
+<meta property="og:url" content="http://example.com/2021/03/11/zero-copy/index.html">
+<meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:description" content="zero copy sendfile() copies data between one file descriptor and another. Because this copying is done within the kernel, sendfile() is more efficient than the combination of read(2) and write(2), whi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/03/11/zero-copy/original_serve_static_file.png">
+<meta property="og:image" content="http://example.com/2021/03/11/zero-copy/original_switch_context.png">
+<meta property="og:image" content="http://example.com/2021/03/11/zero-copy/sendfile1_serve_static_file.png">
+<meta property="og:image" content="http://example.com/2021/03/11/zero-copy/sendfile_switch_context.png">
+<meta property="og:image" content="http://example.com/2021/03/11/zero-copy/sendfile2_getter_n_setter_serve_static_file.png">
+<meta property="og:image" content="http://example.com/2021/03/11/zero-copy/mmap.png">
+<meta property="article:published_time" content="2021-03-11T15:36:17.000Z">
+<meta property="article:modified_time" content="2021-03-12T07:47:33.177Z">
+<meta property="article:author" content="Shao Rui">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/11/zero-copy/original_serve_static_file.png">
+
+<link rel="canonical" href="http://example.com/2021/03/11/zero-copy/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>what is zero copy | Surely You're Joking, Mr. Feynman!</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Surely You're Joking, Mr. Feynman!</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/zero-copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          what is zero copy
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-11 23:36:17" itemprop="dateCreated datePublished" datetime="2021-03-11T23:36:17+08:00">2021-03-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-12 15:47:33" itemprop="dateModified" datetime="2021-03-12T15:47:33+08:00">2021-03-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="zero-copy"><a href="#zero-copy" class="headerlink" title="zero copy"></a>zero copy</h2><blockquote>
+<p>sendfile() copies data between one file descriptor and another. Because this copying is done within the kernel, sendfile() is more efficient than the combination of read(2) and write(2), which would require transferring data to and from user space.</p>
+</blockquote>
+<h3 id="场景是什么？"><a href="#场景是什么？" class="headerlink" title="场景是什么？"></a>场景是什么？</h3><blockquote>
+<p>Many <strong>Web applications</strong> serve a significant amount of <strong>static content</strong>, which amounts to reading data off of a disk and writing the exact same data back to the response socket. This activity might appear to require relatively little CPU activity, but it’s somewhat <strong>inefficient</strong>: the kernel reads the data off of disk and pushes it across the kernel-user boundary to the application, and then the application pushes it back across the <strong>kernel-user boundary</strong> to be written out to the socket. In effect, the application serves as an inefficient intermediary that gets the data from the disk file to the socket.</p>
+</blockquote>
+<a id="more"></a>
+
+<p>典型的场景： web app 处理大量的 static pages/files。跨机器的 IPC 一般是 socket。<br>过程一般是： fd(local file) -&gt; socket(networking)。<br>具体细节见下图，会涉及到四次 system call 和四次内容复制</p>
+<img src="/2021/03/11/zero-copy/original_serve_static_file.png" class title="original_serve_static_file">
+<img src="/2021/03/11/zero-copy/original_switch_context.png" class title="original_switch_context">
+
+<h4 id="可能减少-switch-context-次数或者-copy-次数吗？"><a href="#可能减少-switch-context-次数或者-copy-次数吗？" class="headerlink" title="可能减少 switch context 次数或者 copy 次数吗？"></a>可能减少 switch context 次数或者 copy 次数吗？</h4><p>可以，原因是内容从文件到内核到用户态再发出去这个过程并没有对数据有什么操作，完全可以<strong>不经过用户态</strong>。</p>
+<p>那如果需要在用户态处理数据有没有什么办法减少上下文转换或者复制次数呢？也会一些解决办法，不过注意 trade off。</p>
+<h3 id="为什么使用-zero-copy"><a href="#为什么使用-zero-copy" class="headerlink" title="为什么使用 zero copy?"></a>为什么使用 zero copy?</h3><blockquote>
+<p>Each time data traverses the user-kernel boundary, it must be copied, which consumes <strong>CPU cycles and memory bandwidth</strong>. Fortunately, you can eliminate these copies through a technique called — appropriately enough —zero copy. Applications that use zero copy request that the kernel copy the data directly from the disk file to the socket, without going through the application. Zero copy greatly improves application performance and reduces the number of context switches between kernel and user mode.</p>
+</blockquote>
+<p>首先搞清楚概念，zero copy 是指不需要 user mode 与 kernel mode 之间进行数据复制，一些真正的复制过程由硬件自身（DMA）完成（<strong>不占用 CPU 的循环和 Memory 的带宽</strong>）。<br>zero 是从 OS 的角度来看的。</p>
+<h3 id="怎么使用-zero-copy"><a href="#怎么使用-zero-copy" class="headerlink" title="怎么使用 zero copy"></a>怎么使用 zero copy</h3><p>经过上面的分析，如何能够不经过用户态与内核态的复制呢？</p>
+<ol>
+<li>sendfile。核心思想是直接从 fd1 复制内容到 fd2。</li>
+<li>mmap。核心思想是利用虚拟内存技术（页对齐），将文件内容直接映射到进程地址空间（用户态，介于 stack 和 heap 之间），可以对数据进行逻辑处理。但是有 setup 和 teardown 的开销。<blockquote>
+<p>However, nothing comes for free - while mmap does avoid that extra copy, it doesn’t guarantee the code will always be faster - depending on the OS implementation, there may be quite a bit of setup and teardown overhead (since it needs to find the space and maintain it in the TLB and make sure to flush it after unmapping) and page fault gets much more expensive since kernel now needs to read from hardware (like disk) to update the memory space and TLB. Hence, if performance is this critical, benchmark is always needed as abusing mmap() may yield worse performance than simply doing the copy.</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="sendfile"><a href="#sendfile" class="headerlink" title="sendfile"></a>sendfile</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">ssize_t</span> <span class="title">sendfile</span><span class="params">(<span class="keyword">int</span> out_fd, <span class="keyword">int</span> in_fd, <span class="keyword">off_t</span> *offset, <span class="keyword">size_t</span> count)</span></span>;</span><br></pre></td></tr></table></figure>
+<img src="/2021/03/11/zero-copy/sendfile1_serve_static_file.png" class title="sendfile1_serve_static_file">
+<img src="/2021/03/11/zero-copy/sendfile_switch_context.png" class title="sendfile_switch_context">
+
+<p>从上图看到，sendfile 又需要两次上下文转换（一次系统调用），也只有一次复制涉及到 CPU（read buffer -&gt; socket buffer，还有两次复制让 DMA 操作）。那连这次复制也要节省？</p>
+<h5 id="sendfile-的升级"><a href="#sendfile-的升级" class="headerlink" title="sendfile 的升级"></a>sendfile 的升级</h5><img src="/2021/03/11/zero-copy/sendfile2_getter_n_setter_serve_static_file.png" class title="sendfile2_getter_n_setter_serve_static_file">
+
+<p>scatter-n-gather。其思想是不直接复制数据，然后指定 fd + offset + length 等基本信息。</p>
+<p>这里的升级主要是内核方面的实现。看 java NIO 的一下实现描述：</p>
+<blockquote>
+<p>In Linux kernels 2.4 and later, the socket buffer descriptor was modified to accommodate this requirement. This approach not only reduces multiple context switches but also eliminates the duplicated data copies that require CPU involvement. The user-side usage still remains the same, but the intrinsics have changed:</p>
+</blockquote>
+<ol>
+<li>The transferTo() method causes the file contents to be copied into a kernel buffer by the DMA engine.</li>
+<li><strong>No data</strong> is copied into the socket buffer. Instead, <strong>only descriptors with information about the location and length of the data</strong> are appended to the socket buffer. The DMA engine passes data directly from the kernel buffer to the protocol engine, thus eliminating the remaining final CPU copy.</li>
+</ol>
+<h4 id="mmap"><a href="#mmap" class="headerlink" title="mmap"></a>mmap</h4><img src="/2021/03/11/zero-copy/mmap.png" class title="mmap.png">
+
+<p>zero copy 的本质是没有 user mode 参与，也就是无法对数据进行逻辑处理。那么，我需要处理的情况下，有没有什么提升性能的方法？<code>mmap()</code>。</p>
+<blockquote>
+<p>Mmap allows code to map file to kernel memory and access that directly as if it were in the application user space, thus avoiding the unnecessary copy. As a tradeoff, that will still involve 4 context switches. But since OS maps certain chunk of file into memory, you get all benefits from OS virtual memory management - hot content can be intelligently cached efficiently, and all data are page-aligned thus no buffer copying is needed to write stuff back.</p>
+</blockquote>
+<ol>
+<li><p>使用 mmap 本质上也需要四次上下文转换（两次系统调用，<code>mmap</code>/<code>mmumap</code>）。但是，由于OS将某些文件映射到内存中，因此你可以从OS虚拟内存管理中获得所有好处 — 可以智能地有效地<strong>缓存热点内容</strong>，并且所有数据都是<strong>页面对齐</strong>的，<strong>因此不需要缓冲区复制就可以将内容写回</strong>（如何节省缓冲区复制的？）。</p>
+</li>
+<li><p>while mmap does avoid that extra copy, it doesn’t guarantee the code will always be faster - depending on the OS implementation, there may be quite a bit of <strong>setup and teardown overhead</strong>。它需要查找空间并保存在TLB中，并确保在取消映射后将其刷新。并且由于内核现在需要从硬件（如磁盘）中读取数据来更新内存空间和TLB，因此<strong>页面错误</strong>的代价要大得多。— 注意，真正使用的时候以 benchmark 为准。</p>
+</li>
+</ol>
+<h5 id="如何使用-mmap"><a href="#如何使用-mmap" class="headerlink" title="如何使用 mmap"></a>如何使用 mmap</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://www.man7.org/linux/man-pages/man2/mmap.2.html</span></span><br><span class="line"><span class="comment">// notice core code</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> handle_error(msg) \</span></span><br><span class="line">    <span class="keyword">do</span> &#123; perror(msg); <span class="built_in">exit</span>(EXIT_FAILURE); &#125; <span class="keyword">while</span> (<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">main(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">char</span> *addr;</span><br><span class="line">    <span class="keyword">int</span> fd;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">sb</span>;</span></span><br><span class="line">    <span class="keyword">off_t</span> offset, pa_offset;</span><br><span class="line">    <span class="keyword">size_t</span> length;</span><br><span class="line">    <span class="keyword">ssize_t</span> s;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc &lt; <span class="number">3</span> || argc &gt; <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;%s file offset [length]\n&quot;</span>, argv[<span class="number">0</span>]);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fd = open(argv[<span class="number">1</span>], O_RDONLY);</span><br><span class="line">    <span class="keyword">if</span> (fd == <span class="number">-1</span>)</span><br><span class="line">        handle_error(<span class="string">&quot;open&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (fstat(fd, &amp;sb) == <span class="number">-1</span>)           <span class="comment">/* To obtain file size */</span></span><br><span class="line">        handle_error(<span class="string">&quot;fstat&quot;</span>);</span><br><span class="line"></span><br><span class="line">    offset = atoi(argv[<span class="number">2</span>]);</span><br><span class="line">    pa_offset = offset &amp; ~(sysconf(_SC_PAGE_SIZE) - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">/* core code: offset for mmap() must be page aligned */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (offset &gt;= sb.st_size) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;offset is past end of file\n&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc == <span class="number">4</span>) &#123;</span><br><span class="line">        length = atoi(argv[<span class="number">3</span>]);</span><br><span class="line">        <span class="keyword">if</span> (offset + length &gt; sb.st_size)</span><br><span class="line">            length = sb.st_size - offset;</span><br><span class="line">                <span class="comment">/* Can&#x27;t display bytes past end of file */</span></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;    <span class="comment">/* No length arg ==&gt; display to end of file */</span></span><br><span class="line">        length = sb.st_size - offset;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    addr = mmap(<span class="literal">NULL</span>, length + offset - pa_offset, PROT_READ,</span><br><span class="line">                MAP_PRIVATE, fd, pa_offset); <span class="comment">// core code</span></span><br><span class="line">    <span class="keyword">if</span> (addr == MAP_FAILED)</span><br><span class="line">        handle_error(<span class="string">&quot;mmap&quot;</span>);</span><br><span class="line"></span><br><span class="line">    s = write(STDOUT_FILENO, addr + offset - pa_offset, length); <span class="comment">// core code</span></span><br><span class="line">    <span class="keyword">if</span> (s != length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="number">-1</span>)</span><br><span class="line">            handle_error(<span class="string">&quot;write&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;partial write&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    munmap(addr, length + offset - pa_offset);<span class="comment">// core code</span></span><br><span class="line">    close(fd);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18343365/zero-copy-networking-vs-kernel-bypass">https://stackoverflow.com/questions/18343365/zero-copy-networking-vs-kernel-bypass</a></li>
+<li><a target="_blank" rel="noopener" href="https://xunnanxu.github.io/2016/09/10/It-s-all-about-buffers-zero-copy-mmap-and-Java-NIO/">https://xunnanxu.github.io/2016/09/10/It-s-all-about-buffers-zero-copy-mmap-and-Java-NIO/</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.ibm.com/articles/j-zerocopy/">https://developer.ibm.com/articles/j-zerocopy/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.man7.org/linux/man-pages/man2/mmap.2.html">https://www.man7.org/linux/man-pages/man2/mmap.2.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OS/" rel="tag"># OS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/11/web-server-presure-test/" rel="prev" title="web server - presure test">
+      <i class="fa fa-chevron-left"></i> web server - presure test
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#zero-copy"><span class="nav-number">1.</span> <span class="nav-text">zero copy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">场景是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E5%87%8F%E5%B0%91-switch-context-%E6%AC%A1%E6%95%B0%E6%88%96%E8%80%85-copy-%E6%AC%A1%E6%95%B0%E5%90%97%EF%BC%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">可能减少 switch context 次数或者 copy 次数吗？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-zero-copy"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用 zero copy?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8-zero-copy"><span class="nav-number">1.3.</span> <span class="nav-text">怎么使用 zero copy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sendfile"><span class="nav-number">1.3.1.</span> <span class="nav-text">sendfile</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sendfile-%E7%9A%84%E5%8D%87%E7%BA%A7"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">sendfile 的升级</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mmap"><span class="nav-number">1.3.2.</span> <span class="nav-text">mmap</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-mmap"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">如何使用 mmap</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">2.</span> <span class="nav-text">reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Shao Rui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Rui</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -145,6 +145,253 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/02/what-is-load-balancer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/02/what-is-load-balancer/" class="post-title-link" itemprop="url">what is load balancer</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-02 23:15:07" itemprop="dateCreated datePublished" datetime="2021-03-02T23:15:07+08:00">2021-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-03 00:08:44" itemprop="dateModified" datetime="2021-03-03T00:08:44+08:00">2021-03-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer/blob/main/README.md">https://github.com/shaorui0/tiny_load_balancer/blob/main/README.md</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/01/redis-persistence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/01/redis-persistence/" class="post-title-link" itemprop="url">Redis - persistence</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-01 11:55:13" itemprop="dateCreated datePublished" datetime="2021-03-01T11:55:13+08:00">2021-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-10 22:42:22" itemprop="dateModified" datetime="2021-03-10T22:42:22+08:00">2021-03-10</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Redis trades data safety versus performance, like most NoSQL-DBs do.</p>
+<ol>
+<li><p>两种持久化的缩写</p>
+<ul>
+<li>redis database</li>
+<li>append only file<br>概念上还是非常清晰，一个是定时备份快照，适合那些时效性不强的，丢了也没关系的数据，比如缓存，一个小时备份一次，一些冷数据没必要继续留着。另一个是实时的（当然，无法精确一致性到单条数据的恢复级别（事务）），每执行一次server，备份一条数据</li>
+</ul>
+</li>
+<li><p>大概的实现方式</p>
+</li>
+<li><p>有什么区别？各自的优势、劣势？trade-offs </p>
+<ul>
+<li>fork 可能会影响效率<ul>
+<li>为什么AOF也是fork大事影响小？<ul>
+<li>从之前学得 LSM tree 来回答，only append 的效率，肯定是比一大坨数据在内存中进行处理，然后写入到disk效率更高</li>
+<li>so there are no seeks, </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>append only <ul>
+<li>redis-check-aof tool</li>
+</ul>
+</li>
+<li>如何进行 roll 的？切换文件的过程是怎么做的？<ul>
+<li>mi’nimal set, switch</li>
+</ul>
+</li>
+<li>flush all 了也有办法恢复，只要没有 rewrite</li>
+<li>Using AOF Redis is much more durable</li>
+<li>RDB 因为是一坨数据 ， 处理完以后再加进去， 所以数据encode会更加『紧致』，空间占用更小</li>
+<li>RDB 保证极限可控， AOF 可能在极端情况下，写数据比较慢（很多客户端都在往 process 进行写）</li>
+<li>RDB 是每次都创建所有内容（一个serevr里面de ）<ul>
+<li>RDB 基本是不会丢失数据（那个point而言）</li>
+<li>但是 AOF可能丢失某些数据<ul>
+<li>然后，每次rewrite是从 AOF file里面读取，而不是从内存？</li>
+<li>应该注意的是，每次Redis重写AOF时，都会从数据集中包含的实际数据开始从头开始重新创建AOF，与始终附加AOF文件相比，对错误的抵抗力更强<br>【问】AOF的rewriten是怎么工作的？<br>one rewritten reading the old AOF instead of reading the data in memory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li>为什么这么设计，各有什么使用场景<ul>
+<li>缓存，有冷热数据的时候，通常每小时备份一下就可以了？</li>
+<li>除了缓存，还有什么使用场景？</li>
+</ul>
+</li>
+<li>配置上有什么需要注意的？</li>
+<li>底层实现上有什么不同导致这两种不同的结果？</li>
+<li>分布式的场景下，持久化如何工作？</li>
+</ol>
+<hr>
+<p>有件好玩的事，学 redis 时我想起来之前学过 LSM（log structure merge） tree，这个数据结构设计本质上是专门针对 write 优化的。但是我好奇 redis 的持久化 aof（append only file） 是否用了 LSM tree ，通过搜索我发现有这个疑问的不止我一个：</p>
+<blockquote>
+<p>LSM is AOF that you want to actually read sometimes. You do some overhead work so you can read it faster later. Redis is designed so you never or only in a special case read it. On the other hand, Cassandra often reads it to serve requests. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50478674/redis-aof-fsync-always-vs-lsm-tree">here</a></p>
+</blockquote>
+<p>其结论很简单，redis 没有用 LSM tree，因为它根本没想过<strong>更新</strong>这个持久化文件，更多的功能是用来错误恢复。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/01/why-redis-fast/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/01/why-redis-fast/" class="post-title-link" itemprop="url">Redis - why redis fast?</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-01 11:55:13 / 修改时间：16:42:51" itemprop="dateCreated datePublished" datetime="2021-03-01T11:55:13+08:00">2021-03-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/22/consistent-cache-RDBMS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -194,6 +441,80 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/22/consistent-cache-RDBMS/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/20/callback/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/20/callback/" class="post-title-link" itemprop="url">What is Callback</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-20 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-20T21:55:13+08:00">2021-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-03 22:52:32" itemprop="dateModified" datetime="2021-03-03T22:52:32+08:00">2021-03-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>A callback is a function provided by the consumer of an API that the API can then turn around and invoke (calling you back). If I setup a Dr.’s appointment, I can give them my phone number, so they can call me the day before to confirm the appointment. A callback is like that, except instead of just being a phone number, it can be arbitrary instructions like “send me an email at this address, and also call my secretary and have her put it in my calendar.</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/20/callback/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -279,80 +600,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/02/20/what-is-nginx/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/20/callback/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/20/callback/" class="post-title-link" itemprop="url">What is Callback</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-20 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-20T21:55:13+08:00">2021-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-03 22:52:32" itemprop="dateModified" datetime="2021-03-03T22:52:32+08:00">2021-03-03</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>A callback is a function provided by the consumer of an API that the API can then turn around and invoke (calling you back). If I setup a Dr.’s appointment, I can give them my phone number, so they can call me the day before to confirm the appointment. A callback is like that, except instead of just being a phone number, it can be arbitrary instructions like “send me an email at this address, and also call my secretary and have her put it in my calendar.</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/20/callback/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -507,247 +754,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/redis-ttl/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/redis-ttl/" class="post-title-link" itemprop="url">Redis - TTL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 15:44:09" itemprop="dateModified" datetime="2021-02-22T15:44:09+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="How-Redis-expires-keys"><a href="#How-Redis-expires-keys" class="headerlink" title="How Redis expires keys?"></a>How Redis expires keys?</h2><p>Redis keys are expired in two ways: a passive way, and an active way.<br>使用频繁的是passive way，典型的就是只有当反问到某个key的时候，才判断它是否过期了。<br>但是这样会产生一个问题。</p>
-<ul>
-<li>如果一个key一致不被访问到，那会一直占用空间。</li>
-</ul>
-<p>解决这个问题的一个简单的思路就是：固定的时间随机找到一些key，判断这些key是否存在过期的，然后删除。<br>更进一步的，如果key的数量超过25%，重新执行一次上面的操作。</p>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36172745/how-does-redis-expire-keys">how-does-redis-expire-keys</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/waitpid-flag-set/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/waitpid-flag-set/" class="post-title-link" itemprop="url">Waitpid usage</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:01:47" itemprop="dateModified" datetime="2021-02-17T23:01:47+08:00">2021-02-17</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="WNOHANG"><a href="#WNOHANG" class="headerlink" title="WNOHANG"></a>WNOHANG</h2><blockquote>
-<p>If a child <strong>died</strong>, its pid will be returned by wait()/waitpid() and your process can act on that. If nothing died, then the returned pid is 0.</p>
-</blockquote>
-<ul>
-<li>非阻塞，做其他事情</li>
-<li>检查children是否为zoobie（CTRL+C），让内核去回收（waitpid collect the status）</li>
-</ul>
-<h2 id="WUNTRACED"><a href="#WUNTRACED" class="headerlink" title="WUNTRACED"></a>WUNTRACED</h2><blockquote>
-<p>WUNTRACED allows your parent to be returned from wait()/waitpid() if a child gets stopped as well as exiting or being killed. </p>
-</blockquote>
-<blockquote>
-<p>your parent has a chance to send it a SIGCONT to continue it, kill it, assign its tasks to another child, whatever.</p>
-</blockquote>
-<ul>
-<li>parent不想做其他事，仅等待进程执行终止。</li>
-<li>但，当STOP发生的时候，一般的行为不会通知到wait/waitpid，该函数也就无法返回，此时会产生『死锁』，除非重新执行（continued）</li>
-<li>所以需要有一个机制防止这种情况。其场景是，当<code>SIGSTOP</code>发生，也能退出wait/waitpid，未来也就能执行<code>CONTINUE</code>.</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-dns/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/16/what-is-dns/" class="post-title-link" itemprop="url">What is DNS</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-05 12:20:40" itemprop="dateModified" datetime="2021-03-05T12:20:40+08:00">2021-03-05</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="DNS属于哪一层？"><a href="#DNS属于哪一层？" class="headerlink" title="DNS属于哪一层？"></a>DNS属于哪一层？</h2><p>应用层，但这个问题的本质是 TCP/IP 协议栈的四层的功能分别是什么？</p>
-<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>允许访问OSI环境的手段（应用协议数据单元 APDU）</p>
-<h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><p>提供端到端的<strong>可靠报文传递</strong>和错误恢复（ 段Segment）    </p>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><p>负责数据包从<strong>源到宿</strong>的传递和<strong>网际互连</strong>（包 Packet）    </p>
-<h4 id="网络层具体做了什么？"><a href="#网络层具体做了什么？" class="headerlink" title="网络层具体做了什么？"></a>网络层具体做了什么？</h4><ol>
-<li>从传输层获取到 package</li>
-<li>加上 IP header</li>
-<li>根据 IP addr 找到对端<ul>
-<li>dns…</li>
-<li>router…</li>
-</ul>
-</li>
-</ol>
-<h3 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h3><p>从网卡到对端机器的一个过程，比如MAC（<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/52820009">MAC addr 可能相同吗？</a>）</p>
-<blockquote>
-<p>不会怎么样，如果不在同一个二层网络内，完全没有影响；如果在同一个二层网络内，这两台设备都会出现网络故障，主要原因是交换机学习MAC地址的机制会被打乱。在交换机看来是同一台设备一会连到一个口，一会连到另一个口，于是包转发的顺序就乱了</p>
-</blockquote>
-<h2 id="DNS是如何工作的？"><a href="#DNS是如何工作的？" class="headerlink" title="DNS是如何工作的？"></a>DNS是如何工作的？</h2><p>client/browser &lt;-&gt; local DNS server &lt;-&gt; zone DNS server &lt;-&gt; global DNS server</p>
-<h2 id="DNS-use-TCP-or-UDP"><a href="#DNS-use-TCP-or-UDP" class="headerlink" title="DNS use TCP or UDP?"></a>DNS use TCP or UDP?</h2><p>第一阶段一般是使用UDP，这样保证效率，无需三次握手，典型的UDP适用场景。<br>第二阶段两个 server / database 之间的同步需要『可靠性』，这时适用TCP。<br>以及如果某个传输数据 &gt; 512 bytes，将适用TCP。（为什么？涉及到UDP的特性）</p>
-<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/dns-works-on-tcp-and-udp">REF: dns-works-on-tcp-and-udp</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://serverfault.com/questions/404840/when-do-dns-queries-use-tcp-instead-of-udp">REF: when-do-dns-queries-use-tcp-instead-of-udp</a></p>
-</li>
-</ul>
-
       
     </div>
 
@@ -929,7 +935,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -995,7 +1001,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

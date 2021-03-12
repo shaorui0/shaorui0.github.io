@@ -145,6 +145,310 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/zero-copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/11/zero-copy/" class="post-title-link" itemprop="url">what is zero copy</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-11 23:36:17" itemprop="dateCreated datePublished" datetime="2021-03-11T23:36:17+08:00">2021-03-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-12 15:47:33" itemprop="dateModified" datetime="2021-03-12T15:47:33+08:00">2021-03-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="zero-copy"><a href="#zero-copy" class="headerlink" title="zero copy"></a>zero copy</h2><blockquote>
+<p>sendfile() copies data between one file descriptor and another. Because this copying is done within the kernel, sendfile() is more efficient than the combination of read(2) and write(2), which would require transferring data to and from user space.</p>
+</blockquote>
+<h3 id="场景是什么？"><a href="#场景是什么？" class="headerlink" title="场景是什么？"></a>场景是什么？</h3><blockquote>
+<p>Many <strong>Web applications</strong> serve a significant amount of <strong>static content</strong>, which amounts to reading data off of a disk and writing the exact same data back to the response socket. This activity might appear to require relatively little CPU activity, but it’s somewhat <strong>inefficient</strong>: the kernel reads the data off of disk and pushes it across the kernel-user boundary to the application, and then the application pushes it back across the <strong>kernel-user boundary</strong> to be written out to the socket. In effect, the application serves as an inefficient intermediary that gets the data from the disk file to the socket.</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/11/zero-copy/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/web-server-presure-test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/11/web-server-presure-test/" class="post-title-link" itemprop="url">web server - presure test</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-11 22:28:37 / 修改时间：23:34:12" itemprop="dateCreated datePublished" datetime="2021-03-11T22:28:37+08:00">2021-03-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="压力测试的指标"><a href="#压力测试的指标" class="headerlink" title="压力测试的指标"></a>压力测试的指标</h2><ol>
+<li>会关注哪些指标？</li>
+<li>你会怎么做压力测试？</li>
+<li>有些什么工具</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/11/what-is-websocket/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/11/what-is-websocket/" class="post-title-link" itemprop="url">what is websocket</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-11 12:45:49 / 修改时间：22:27:38" itemprop="dateCreated datePublished" datetime="2021-03-11T12:45:49+08:00">2021-03-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="different-between-websocket-and-socket"><a href="#different-between-websocket-and-socket" class="headerlink" title="different between websocket and socket"></a>different between websocket and socket</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time">different between websocket and socket</a></p>
+<h3 id="sending-side"><a href="#sending-side" class="headerlink" title="sending side"></a>sending side</h3><ol>
+<li>TCP socket（传统的 socket 更加通用，一般基于 TCP）<ul>
+<li>阻塞 IO 想要实时必须占用一个 fd ，非常珍贵的资源，不可能，同时调用也会被<strong>阻塞</strong></li>
+<li>非阻塞 IO，可能导致一次 send/recv 的数据不全（TCP 基于流）</li>
+</ul>
+</li>
+<li>WebSocket （websocket被设计出来，是为了更加<strong>实时</strong>的消息传输）<ul>
+<li>克服了上面两个问题，既保证不阻塞，又保证消息完全（message-driven）</li>
+<li>属于一种偏方（一定好？不再基于流）<blockquote>
+<p>@MarcCasavant the way you ask the question seems to imply that WebSockets is overhead with no good reason to exist. I would flip it around and say that WebSockets is an encapsulation of TCP that brings TCP like functionality and performance to browsers without using a plugin and without giving up hard-won browser security best practices (like CORS). After the hand-shake, the overhead of the extra layering is very light (2-byte header for small frames). – kanaka May 6 ‘14 at 18:34<br>One could say that WebSockets are the most standarized way of using a “RAW TCP/IP like connection” with a browser? Within the framing, it, though, does wait for the complete messages to be received. So it’s not really a stream, but shouldn’t be a problem (actually quite usefull). Check games based on WebSockets, they work in most browsers and are actually very responsive. – Paul Jul 5 ‘16 at 19:27</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="receiving-side"><a href="#receiving-side" class="headerlink" title="receiving side"></a>receiving side</h3><ol>
+<li><p>由于 TCP 的一些缘故（比如打开了 nagel 算法），一次 TCP 传输可能包括多个连接的数据（自动合并，减少 header/body 比过大带来的低性能）</p>
+</li>
+<li><p>websocket 可以理解成事件传输，或者说事件驱动（接收到完整的消息是一个事件 — Server Sent Event）</p>
+</li>
+</ol>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time">In fact</a>, WebSockets is <strong>built on normal TCP sockets</strong> and <strong>uses frame headers</strong> that contains the size of each frame and indicate which frames are part of a message. The WebSocket API re-assembles the TCP chunks of data into frames which are assembled into messages before invoking the message event handler once per message. </p>
+</blockquote>
+<h2 id="different-between-websocket-and-http"><a href="#different-between-websocket-and-http" class="headerlink" title="different between websocket and http"></a>different between websocket and http</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32039008">【错误】<del>websocket 基于 http 1.1</del></a>，能够支持长链接（connection: keep-alive in header），同时自身的协议特性保证消息完整接受和识别。</p>
+<blockquote>
+<p>1.7.  Relationship to TCP and HTTP</p>
+<pre><code> _This section is non-normative._
+ The WebSocket Protocol is an independent TCP-based protocol.  Its
+ only relationship to HTTP is that its handshake is interpreted by
+ HTTP servers as an Upgrade request.
+</code></pre>
+</blockquote>
+<pre><code> By default, the WebSocket Protocol uses port 80 for regular WebSocket
+ connections and port 443 for WebSocket connections tunneled over
+ Transport Layer Security (TLS) [RFC2818].
+</code></pre>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc8857">websocket 属于应用层还是传输层</a><blockquote>
+<p>The WebSocket (WS) protocol [RFC6455] enables two-way message exchange between clients and servers on top of a persistent TCP connection, optionally secured with Transport Layer Security (TLS) [RFC8446].  The initial protocol handshake makes use of Hypertext Transfer Protocol (HTTP) [RFC7230] semantics, allowing the WebSocket protocol to reuse existing HTTP infrastructure.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http">HTTP header 过大</a></p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32039008/answer/1127422609">https://www.zhihu.com/question/32039008/answer/1127422609</a></p>
+<h3 id="应用场景的区别"><a href="#应用场景的区别" class="headerlink" title="应用场景的区别"></a>应用场景的区别</h3><ul>
+<li>HTTP 主要用来<strong>一问一答</strong>的方式交付信息；WebSocket 让通信双方都可以<strong>主动</strong>去交换信息。</li>
+<li>HTTP2 虽然支持服务器推送资源到客户端，但那不是应用程序可以感知的，主要是让浏览器（用户代理）提前缓存静态资源，所以我们不能指望 HTTP2 可以像 WebSocket 建立双向实时通信。</li>
+</ul>
+<h2 id="WebSocket-协议有哪些缺点？"><a href="#WebSocket-协议有哪些缺点？" class="headerlink" title="WebSocket 协议有哪些缺点？"></a>WebSocket 协议有哪些缺点？</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20155314">一个协议的好处这么明显的情况下，缺点是什么？</a></p>
+<p>增加了代码的复杂度</p>
+<ul>
+<li>由于维护实时的特性，要保证 ws 连接一致有效，后端代码稳定</li>
+<li>推送消息相对复杂</li>
+<li>成熟的生态？</li>
+</ul>
+<h2 id="HTTP-一路升级有什么提升？"><a href="#HTTP-一路升级有什么提升？" class="headerlink" title="HTTP 一路升级有什么提升？"></a>HTTP 一路升级有什么提升？</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http">https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http</a></p>
+<ol>
+<li><p>HTTP 1.0</p>
+<ul>
+<li>短链接（用完就关）</li>
+<li>有确定的事务性质request-response 一对一</li>
+<li>只支持三个函数 GETT/POST/HEAD</li>
+</ul>
+</li>
+<li><p>HTTP 1.1</p>
+<ul>
+<li>增加了长连接，能够复用一个 TCP 连接</li>
+<li>增加了函数（OPTIONS, PUT, DELETE, TRACE, CONNECT<blockquote>
+<p>HTTP 1.1 <strong>pipelining</strong> is not widely deployed so this greatly limits the utility of HTTP 1.1 to solve <strong>latency</strong> between browsers and servers.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>HTTP 2.0</p>
+<blockquote>
+<p>HTTP 2.0: has similar goals to SPDY: reduce HTTP latency and overhead while preserving HTTP semantics. The current draft is derived from SPDY and defines an upgrade handshake and data framing that is very similar the the WebSocket standard for handshake and framing. An alternate HTTP 2.0 draft proposal (httpbis-speed-mobility) actually uses WebSockets for the transport layer and adds the SPDY multiplexing and HTTP mapping as an WebSocket extension (WebSocket extensions are negotiated during the handshake).</p>
+</blockquote>
+<ul>
+<li>主要是降低了延时和负载（reduce HTTP latency and overhead）</li>
+<li>upgrade handshake and data framing that is very similar the the WebSocket standard for handshake and framing.</li>
+</ul>
+</li>
+</ol>
+<p>【注】 HTTPS</p>
+<ul>
+<li>明文 / 加密（安全性），多一个 SSL(Secure Socket Layer ) 握手，协商加密对称密钥（多一次握手带来的效率损失）</li>
+<li>从服务器申请证书，浏览器安装对应根证书（服务器就是 chalar 那个，然后手机端和PC都安装）<ul>
+<li>部署成本，还要买 CA 证书</li>
+</ul>
+</li>
+<li>80 / 443</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc8857">https://tools.ietf.org/html/rfc8857</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time">https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time">https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32039008/answer/1127422609">https://www.zhihu.com/question/32039008/answer/1127422609</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20155314">https://www.zhihu.com/question/20155314</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http">https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/09/TCP-basic-knowledge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -891,7 +1195,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-08 23:31:18" itemprop="dateModified" datetime="2021-03-08T23:31:18+08:00">2021-03-08</time>
+                <time title="修改时间：2021-03-11 23:34:50" itemprop="dateModified" datetime="2021-03-11T23:34:50+08:00">2021-03-11</time>
               </span>
 
           
@@ -911,7 +1215,10 @@
 
 
 <h4 id="C10K-C100K…"><a href="#C10K-C100K…" class="headerlink" title="C10K, C100K…"></a>C10K, C100K…</h4><p>TODO <a target="_blank" rel="noopener" href="http://scotdoyle.com/python-epoll-howto.html">http://scotdoyle.com/python-epoll-howto.html</a></p>
-<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><p>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</p>
+<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><ol start="0">
+<li>直观，整体流程非常明显，更适用于短链接</li>
+<li>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</li>
+</ol>
 <h2 id="select、poll和epoll的区别"><a href="#select、poll和epoll的区别" class="headerlink" title="select、poll和epoll的区别"></a>select、poll和epoll的区别</h2><h3 id="为什么epoll"><a href="#为什么epoll" class="headerlink" title="为什么epoll"></a>为什么epoll</h3><p>要理解，整个select -&gt; poll -&gt; epoll 的进化过程，实际上是为了不断加快事件响应时间。<br>毕竟响应越快，处理越快，处理完丢掉减小<code>len_fd_list</code>，从而增加系统的吞吐。</p>
           <!--noindex-->
             <div class="post-button">
@@ -935,245 +1242,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/02/what-is-load-balancer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/02/what-is-load-balancer/" class="post-title-link" itemprop="url">what is load balancer</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-02 23:15:07" itemprop="dateCreated datePublished" datetime="2021-03-02T23:15:07+08:00">2021-03-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-03 00:08:44" itemprop="dateModified" datetime="2021-03-03T00:08:44+08:00">2021-03-03</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://github.com/shaorui0/tiny_load_balancer/blob/main/README.md">https://github.com/shaorui0/tiny_load_balancer/blob/main/README.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/01/why-redis-fast/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/01/why-redis-fast/" class="post-title-link" itemprop="url">Redis - why redis fast?</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-01 11:55:13 / 修改时间：16:42:51" itemprop="dateCreated datePublished" datetime="2021-03-01T11:55:13+08:00">2021-03-01</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/01/redis-persistence/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/01/redis-persistence/" class="post-title-link" itemprop="url">Redis - persistence</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-01 11:55:13 / 修改时间：23:43:06" itemprop="dateCreated datePublished" datetime="2021-03-01T11:55:13+08:00">2021-03-01</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Redis trades data safety versus performance, like most NoSQL-DBs do.</p>
-<ol>
-<li><p>两种持久化的缩写</p>
-<ul>
-<li>redis database</li>
-<li>append only file<br>概念上还是非常清晰，一个是定时备份快照，适合那些时效性不强的，丢了也没关系的数据，比如缓存，一个小时备份一次，一些冷数据没必要继续留着。另一个是实时的（当然，无法精确一致性到单条数据的恢复级别（事务）），每执行一次server，备份一条数据</li>
-</ul>
-</li>
-<li><p>大概的实现方式</p>
-</li>
-<li><p>有什么区别？各自的优势、劣势？trade-offs </p>
-<ul>
-<li>fork 可能会影响效率<ul>
-<li>为什么AOF也是fork大事影响小？<ul>
-<li>从之前学得 LSM tree 来回答，only append 的效率，肯定是比一大坨数据在内存中进行处理，然后写入到disk效率更高</li>
-<li>so there are no seeks, </li>
-</ul>
-</li>
-</ul>
-</li>
-<li>append only <ul>
-<li>redis-check-aof tool</li>
-</ul>
-</li>
-<li>如何进行 roll 的？切换文件的过程是怎么做的？<ul>
-<li>mi’nimal set, switch</li>
-</ul>
-</li>
-<li>flush all 了也有办法恢复，只要没有 rewrite</li>
-<li>Using AOF Redis is much more durable</li>
-<li>RDB 因为是一坨数据 ， 处理完以后再加进去， 所以数据encode会更加『紧致』，空间占用更小</li>
-<li>RDB 保证极限可控， AOF 可能在极端情况下，写数据比较慢（很多客户端都在往 process 进行写）</li>
-<li>RDB 是每次都创建所有内容（一个serevr里面de ）<ul>
-<li>RDB 基本是不会丢失数据（那个point而言）</li>
-<li>但是 AOF可能丢失某些数据<ul>
-<li>然后，每次rewrite是从 AOF file里面读取，而不是从内存？</li>
-<li>应该注意的是，每次Redis重写AOF时，都会从数据集中包含的实际数据开始从头开始重新创建AOF，与始终附加AOF文件相比，对错误的抵抗力更强<br>【问】AOF的rewriten是怎么工作的？<br>one rewritten reading the old AOF instead of reading the data in memory</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<ol start="4">
-<li>为什么这么设计，各有什么使用场景<ul>
-<li>缓存，有冷热数据的时候，通常每小时备份一下就可以了？</li>
-<li>除了缓存，还有什么使用场景？</li>
-</ul>
-</li>
-<li>配置上有什么需要注意的？</li>
-<li>底层实现上有什么不同导致这两种不同的结果？</li>
-<li>分布式的场景下，持久化如何工作？</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1239,7 +1311,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

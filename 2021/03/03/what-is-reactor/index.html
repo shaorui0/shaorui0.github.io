@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/03/03/what-is-reactor/reactor_patterns.png">
 <meta property="article:published_time" content="2021-03-02T16:10:53.000Z">
-<meta property="article:modified_time" content="2021-03-08T15:31:18.780Z">
+<meta property="article:modified_time" content="2021-03-11T15:34:50.220Z">
 <meta property="article:author" content="Shao Rui">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/03/03/what-is-reactor/reactor_patterns.png">
@@ -182,7 +182,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-08 23:31:18" itemprop="dateModified" datetime="2021-03-08T23:31:18+08:00">2021-03-08</time>
+                <time title="修改时间：2021-03-11 23:34:50" itemprop="dateModified" datetime="2021-03-11T23:34:50+08:00">2021-03-11</time>
               </span>
 
           
@@ -202,7 +202,10 @@
 
 
 <h4 id="C10K-C100K…"><a href="#C10K-C100K…" class="headerlink" title="C10K, C100K…"></a>C10K, C100K…</h4><p>TODO <a target="_blank" rel="noopener" href="http://scotdoyle.com/python-epoll-howto.html">http://scotdoyle.com/python-epoll-howto.html</a></p>
-<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><p>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</p>
+<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><ol start="0">
+<li>直观，整体流程非常明显，更适用于短链接</li>
+<li>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</li>
+</ol>
 <h2 id="select、poll和epoll的区别"><a href="#select、poll和epoll的区别" class="headerlink" title="select、poll和epoll的区别"></a>select、poll和epoll的区别</h2><h3 id="为什么epoll"><a href="#为什么epoll" class="headerlink" title="为什么epoll"></a>为什么epoll</h3><p>要理解，整个select -&gt; poll -&gt; epoll 的进化过程，实际上是为了不断加快事件响应时间。<br>毕竟响应越快，处理越快，处理完丢掉减小<code>len_fd_list</code>，从而增加系统的吞吐。</p>
 <a id="more"></a>
 
@@ -217,7 +220,8 @@
 </ul>
 </li>
 </ol>
-<h3 id="为什么会出现两种模式？"><a href="#为什么会出现两种模式？" class="headerlink" title="为什么会出现两种模式？"></a>为什么会出现两种模式？</h3><p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/229224">这里讨论了ET是不是一定好？</a></p>
+<h3 id="为什么会出现两种模式？"><a href="#为什么会出现两种模式？" class="headerlink" title="为什么会出现两种模式？"></a>为什么会出现两种模式？</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9162712/what-is-the-purpose-of-epolls-edge-triggered-option">为什么会产生 ET</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/229224">这里讨论了ET是不是一定好？</a></p>
 <p>epoll 之前的的 IO-reuse 底层通过顺序表迭代找到某个 fd（O(n)），epoll则是引入了红黑树，将时间复杂度减小到了 O(logn)。</p>
 <ol>
 <li>LT 是一直以来的标准，为什么会产生 ET ？<ul>
@@ -235,8 +239,18 @@
 <p>Receiving an event from epoll_wait(2) should suggest to you<br>           that such file descriptor is ready for the requested I/O<br>           operation.  You must consider it ready until the next<br>           (nonblocking) read/write yields EAGAIN.  When and how you<br>           will use the file descriptor is entirely up to you.</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/epoll.7.html">man page: epoll</a>建议我们读到 EAGAIN 再退出，原因是什么？</p>
-<h3 id="epoll-ET-存在的问题"><a href="#epoll-ET-存在的问题" class="headerlink" title="epoll ET 存在的问题"></a>epoll ET 存在的问题</h3><p>考虑这种情况：多个连接同时到达，服务器的TCP就绪队列瞬间积累多个就绪连接，由于是边缘触发模式，epoll只会通知一次，accept只处理一个连接，导致TCP就绪队列中剩下的连接都得不到处理。</p>
-<p>解决办法是用while循环抱住accept调用，处理完TCP就绪队列中的所有连接后再退出循环。如何知道是否处理完就绪队列中的所有连接呢？accept返回-1并且errno设置为EAGAIN就表示所有连接都处理完。<br>思考以下场景：</p>
+<h3 id="epoll-ET-存在的问题"><a href="#epoll-ET-存在的问题" class="headerlink" title="epoll ET 存在的问题"></a>epoll ET 存在的问题</h3><p>考虑<strong>新建连接</strong>与<strong>读写数据</strong>两种不同的场景。</p>
+<p>考虑这种情况：多个连接同时到达，服务器的TCP就绪队列瞬间积累多个就绪连接，由于是边缘触发模式，epoll只会通知一次，accept只处理一个连接，导致TCP就绪队列中剩下的连接都得不到处理。— 导致<strong>饥饿</strong></p>
+<p>解决办法是：</p>
+<ul>
+<li>一次性处理完所有事件。用 <strong>while 循环</strong>抱住accept调用，处理完TCP就绪队列中的所有连接后再退出循环。如何知道是否处理完就绪队列中的所有连接呢？accept返回-1并且errno设置为EAGAIN就表示所有连接都处理完。</li>
+<li>缓存所有事件。或者设计一个应用层的 cache 保存这些事件（一个 list）<blockquote>
+<p>The difference is only visible when you use long-lived sessions and you’re forced to constantly stop/start because of buffers full/empty (typically with a proxy). When you’re doing this, you most often need an event cache, and when your event cache is processing events, you can use ET and avoid all the epoll_ctl(DEL)+epoll_ctl(ADD) dance. For short-lived sessions, the savings are less obvious, because for ET you’ll need at least one epoll_ctl(ADD) call to enable polling on the FD, and if you don’t expect to have more of them during the session’s life (eg: exchanges are smaller than buffers most of the time), then you shouldn’t expect any difference. Most of your savings will generally come from using an event cache only since you can often perform a lot of operations (eg: writes) without polling thanks to kernel buffers. </p>
+</blockquote>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13848143/is-level-triggered-or-edge-triggered-more-performant">https://stackoverflow.com/questions/13848143/is-level-triggered-or-edge-triggered-more-performant</a></p>
+<p>思考以下场景：</p>
 <ol start="0">
 <li>【init】</li>
 </ol>
@@ -275,7 +289,7 @@
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本质是 system call (epoll_wait) 对事件的关心程度不同。</p>
 <ul>
 <li>ET 是消极的，LT 是积极的</li>
-<li>ET 只关心 空 =&gt; 非空 ， 满 =&gt; 非满 两个极端。这里的关心是指是否选择从（往） buffer 读（写）数据。</li>
+<li>ET 只关心 空 =&gt; 非空 ， 满 =&gt; 非满 两个极端。这里的关心是指是否选择从（往） buffer 读（写）数据。从代码层面来看，是 <code>recv</code>/<code>send</code>返回 <code>EAGAIN</code></li>
 <li>ET 需要手动积极管理 buffer，LT 需要手动积极管理 fd 的返回与否（ready_list）</li>
 </ul>
 <ol>
@@ -385,7 +399,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

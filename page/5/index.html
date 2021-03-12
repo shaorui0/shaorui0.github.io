@@ -145,6 +145,406 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/14/airflow-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/14/airflow-intro/" class="post-title-link" itemprop="url">What is Airflow</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-14 19:55:13" itemprop="dateCreated datePublished" datetime="2021-02-14T19:55:13+08:00">2021-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-25 13:37:24" itemprop="dateModified" datetime="2021-02-25T13:37:24+08:00">2021-02-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="为什么引入airflow？"><a href="#为什么引入airflow？" class="headerlink" title="为什么引入airflow？"></a>为什么引入airflow？</h2><p>任务调度不止是<strong>工作流的执行</strong>，还要包括：</p>
+<ul>
+<li>日志记录<ul>
+<li>RD介入是否方便？</li>
+<li>日志形式是否直观？</li>
+</ul>
+</li>
+<li>任务报警</li>
+<li>失败重试</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/14/airflow-intro/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/13/how-to-use-and-implement-blocking-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/13/how-to-use-and-implement-blocking-queue/" class="post-title-link" itemprop="url">Blocking queue</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-13 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-13T21:55:13+08:00">2021-02-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 19:25:27" itemprop="dateModified" datetime="2021-02-22T19:25:27+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>本质：作为任务存放的容器。</p>
+<p>多线程的环境下，一个任务过来，不是立即执行的。一个路由thread进行分发，一些worker thread来取。那worker从哪里取呢？典型的就是『先进先出』的队列。</p>
+<p>一个典型的过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 任务过来</span><br><span class="line">2. 分发线程将任务存到queue中</span><br><span class="line">3. 如果有线程闲置，就会去取</span><br><span class="line">    3.1. queue会将task传递给线程</span><br><span class="line">    3.2. queue会同时将task pop掉（4、5过程原子性）</span><br></pre></td></tr></table></figure>
+<p>但是这个队列既然是在并发环境，就得防止<strong>竞争</strong>，哪个环节会出现竞争？『存』、『取』操作。</p>
+<ul>
+<li>存，可能多个任务同时存放，导致抢占queue，需要对queue进行加锁。</li>
+<li>取，多个线程同时取task，这就需要对queue进行加锁，每次只能让单个线程进来</li>
+</ul>
+<h2 id="how-to-use"><a href="#how-to-use" class="headerlink" title="how to use"></a>how to use</h2><h4 id="单个线程"><a href="#单个线程" class="headerlink" title="单个线程"></a>单个线程</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">The queue module implements multi-producer, multi-consumer queues. It is especially useful in threaded programming when information must be exchanged safely between multiple threads. The Queue class in this module implements all the required locking semantics.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> threading, queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">q = queue.Queue()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.get()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        q.task_done()</span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">True</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    q.put(item)</span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()</span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="多线程配合队列"><a href="#多线程配合队列" class="headerlink" title="多线程配合队列"></a>多线程配合队列</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> queue </span><br><span class="line"><span class="keyword">import</span> threading </span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"></span><br><span class="line">thread_exit_Flag = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sample_Thread</span> (<span class="params">threading.Thread</span>):</span> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, threadID, name, q</span>):</span> </span><br><span class="line">        threading.Thread.__init__(self) </span><br><span class="line">        self.threadID = threadID </span><br><span class="line">        self.name = name </span><br><span class="line">        self.q = q </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span> </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;initializing &quot;</span> + self.name) </span><br><span class="line">        process_data(self.name, self.q) </span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;Exiting &quot;</span> + self.name) </span><br><span class="line"></span><br><span class="line"><span class="comment"># helper function to process data</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_data</span>(<span class="params">threadName, q</span>):</span> </span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> thread_exit_Flag: <span class="comment"># 如果有任务，就一直获取任务</span></span><br><span class="line">        queueLock.acquire() </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> workQueue.empty(): </span><br><span class="line">            data = q.get_nowait() </span><br><span class="line">            queueLock.release() </span><br><span class="line">            <span class="built_in">print</span> (<span class="string">&quot;% s processing % s&quot;</span> % (threadName, data)) </span><br><span class="line">            workQueue.task_done() <span class="comment"># 如果要使用queue.join，就必须每次标记task_done</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            queueLock.release() </span><br><span class="line">            time.sleep(<span class="number">1</span>) </span><br><span class="line">  </span><br><span class="line">thread_list = [<span class="string">&quot;Thread-1&quot;</span>, <span class="string">&quot;Thread-2&quot;</span>, <span class="string">&quot;Thread-3&quot;</span>] </span><br><span class="line">name_list = [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;D&quot;</span>, <span class="string">&quot;E&quot;</span>] </span><br><span class="line">queueLock = threading.Lock() </span><br><span class="line">workQueue = queue.Queue(<span class="number">10</span>) </span><br><span class="line">threads = [] </span><br><span class="line">threadID = <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Create new threads </span></span><br><span class="line"><span class="keyword">for</span> thread_name <span class="keyword">in</span> thread_list: </span><br><span class="line">    thread = sample_Thread(threadID, thread_name, workQueue) </span><br><span class="line">    thread.start() </span><br><span class="line">    threads.append(thread) </span><br><span class="line">    threadID += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Fill the queue </span></span><br><span class="line">queueLock.acquire() </span><br><span class="line"><span class="keyword">for</span> items <span class="keyword">in</span> name_list: </span><br><span class="line">    workQueue.put(items) </span><br><span class="line">  </span><br><span class="line">queueLock.release() </span><br><span class="line">  </span><br><span class="line"><span class="comment"># Wait for the queue to empty </span></span><br><span class="line">workQueue.join() <span class="comment"># 需要在每个任务完成的时候加上task_done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Notify threads it&#x27;s time to exit </span></span><br><span class="line">thread_exit_Flag = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Wait for all threads to complete </span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads: </span><br><span class="line">    t.join() </span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Exit Main Thread&quot;</span>) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations"><a href="#Where-should-you-use-BlockingQueue-Implementations-instead-of-Simple-Queue-Implementations" class="headerlink" title="Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?"></a>Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?</h2><p>【问】当你碰见什么样的场景，你需要使用『阻塞队列』？<br>显然，当我需要某种场合<strong>阻塞/等待</strong>的时候需要阻塞队列，扩展开就是当：</p>
+<ol>
+<li>希望队列中元素到达一定数量停止放入（put），等消费者先消费完现有的。（BoundedBlockingQueue特有）。</li>
+<li>希望队列中没有元素时，消费者<strong>等待</strong>再次出现元素，此时应该是生产者忙碌的时候。</li>
+</ol>
+<p>典型的，普通queue也可以完成『等待』的操作，但是需要『busy wait』，这样太消耗CPU。</p>
+<h2 id="DIFF-normal-blocking-queue-and-bounded-blocking-queue"><a href="#DIFF-normal-blocking-queue-and-bounded-blocking-queue" class="headerlink" title="DIFF normal blocking queue and bounded blocking queue"></a>DIFF normal blocking queue and bounded blocking queue</h2><p>这两种容器各是什么场景下使用？</p>
+<blockquote>
+<p>In a pooling application, a blocking “put” is <strong>not appropriate</strong>. Controlling the maximum size of the queue is the job of the pool manager—it decides when to create or destroy resources for the pool. Clients of the pool borrow and return resources from the pool. Adding a new object, or returning a previously borrowed object to the pool should be fast, non-blocking operations. So, a bounded capacity queue is not a good choice for pools.</p>
+</blockquote>
+<p>如果作为『池』的属性，一般是不适合有『容量』的限制，也就是『满』的概念（这个是pool manager的责任）。池仅仅作为仓库。这种情况，使用BlockingQueue更好。</p>
+<p>另一种情况，如果是一个web server。某个用户发出请求太多，此时生产数量将远远超过消费数量，消费者需要一定的时间去消化，导致<strong>延迟</strong>会特别高。在<strong>业务层面</strong>，消费者也不希望等待太长的时间，另可request丢失。这种情况，使用BoundedBlockingQueue更好。</p>
+<h1 id="how-to-implement-a-blocking-queue"><a href="#how-to-implement-a-blocking-queue" class="headerlink" title="how to implement a blocking queue"></a>how to implement a blocking queue</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoundedBlockQueue</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, max_size</span>):</span></span><br><span class="line">        self.max_size = max_size</span><br><span class="line">        self.lock = threading.Lock()</span><br><span class="line"></span><br><span class="line">        self.not_empty = threading.Condition(self.lock)</span><br><span class="line">        self.not_full = threading.Condition(self.lock)</span><br><span class="line">        self.queue = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qsize</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == self.max_size</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">empty</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.queue) == <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">take</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.not_empty.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.empty(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_empty.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.empty()</span><br><span class="line">        item = self.queue[<span class="number">0</span>]</span><br><span class="line">        self.queue.remove(item)</span><br><span class="line"></span><br><span class="line">        self.not_full.notify()</span><br><span class="line"></span><br><span class="line">        self.not_empty.release()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, item</span>):</span></span><br><span class="line">        self.not_full.acquire()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> self.full(): <span class="comment"># always use a while-loop, due to spurious wakeup</span></span><br><span class="line">            self.not_full.wait()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> self.full()</span><br><span class="line">        self.queue.append(item)</span><br><span class="line">        print(self.queue)</span><br><span class="line"></span><br><span class="line">        self.not_empty.notify()</span><br><span class="line"></span><br><span class="line">        self.not_full.release()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">join</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="comment"># TODO too simple to implement</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> self.empty():</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">q = BoundedBlockQueue(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.take()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">False</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    print(item)</span><br><span class="line">    q.put(item)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()<span class="comment"># Error implement?</span></span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br><span class="line">os._exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/10/web-server-timer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/10/web-server-timer/" class="post-title-link" itemprop="url">web server - timerfd/eventfd</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-10 21:01:19" itemprop="dateCreated datePublished" datetime="2021-02-10T21:01:19+08:00">2021-02-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-11 15:20:53" itemprop="dateModified" datetime="2021-03-11T15:20:53+08:00">2021-03-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="timerfd-实现定时器"><a href="#timerfd-实现定时器" class="headerlink" title="timerfd 实现定时器"></a>timerfd 实现定时器</h2><blockquote>
+<p>参考《Linux多线程服务端编程》 P290</p>
+</blockquote>
+<p>定时器的本质是：</p>
+<ul>
+<li>维护一个时间任务 total_event_list</li>
+<li>在某一时刻唤醒线程进行筛选，找到超时的任务 expired_event_list</li>
+<li>淘汰这些已超时的任务，得到剩下的任务 left_event_list</li>
+</ul>
+<h3 id="可能有哪些实现方案？"><a href="#可能有哪些实现方案？" class="headerlink" title="可能有哪些实现方案？"></a>可能有哪些实现方案？</h3><ol>
+<li>暴力实现，顺序表。查找 O(N)，插入删除 O(N)</li>
+<li>优先队列（二叉堆，堆有 sorted 这个性质（基本有序）），同时保证了插入、删除的时间复杂度。<br> 基本过程是：<ul>
+<li>利用 now_ts 对比所有过期时间，</li>
+<li>然后每次迭代删除所有的已过期，<br>【进一步的优化】通过逻辑删除，设置延长的过期时间，这个策略基于『长链接』的特性，可能一段时间后重新『复活』</li>
+</ul>
+</li>
+<li>有序的树除了 HEAP， 还有什么？ —&gt; BST（具体到语言里面是 map 和 set ）<ul>
+<li>找到 lower_bound（返回一个指针/迭代器）<br>【注意】相对于堆来说， BST 的 memory locality 相对差一点。插入导致不平衡进行『再平衡』，可能导致需要对树进行完全翻转。</li>
+</ul>
+</li>
+</ol>
+<h3 id="处理过期的基本逻辑"><a href="#处理过期的基本逻辑" class="headerlink" title="处理过期的基本逻辑"></a>处理过期的基本逻辑</h3><ol>
+<li>优先队列</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;TimerNode&gt; SPTimerNode;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">priority_queue</span>&lt;SPTimerNode, <span class="built_in">std</span>::<span class="built_in">deque</span>&lt;SPTimerNode&gt;, TimerCmp&gt; timerNodeQueue;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">TimerNode::isValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Timestamp::now &lt; expiredTime_)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;setDeleted();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TimerManager::handleExpiredEvent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (!timerNodeQueue.empty()) &#123;</span><br><span class="line">        SPTimerNode ptimer_now = timerNodeQueue.top();</span><br><span class="line">        <span class="keyword">if</span> (ptimer_now-&gt;isDeleted()) <span class="comment">// 优化，第一次超时使用逻辑删除，第二次再迭代到，就物理删除（优化了可能有超时任务重新过来的情况（keep-alive））</span></span><br><span class="line">            timerNodeQueue.pop();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (ptimer_now-&gt;isValid() == <span class="literal">false</span>) <span class="comment">// 核心</span></span><br><span class="line">            timerNodeQueue.pop();</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>BST<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">https://github.com/shaorui0/recipes-1/blob/master/reactor/s02/TimerQueue.h</span></span><br><span class="line"><span class="comment">1. 使用 pair 是因为可能有两个到期时间相同的任务，增加一个timer指针用于分辨地址</span></span><br><span class="line"><span class="comment">2. 使用 set 是因为只有 key，没有 value</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">std</span>::<span class="built_in">pair</span>&lt;Timestamp, Timer*&gt; Entry;</span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">std</span>::<span class="built_in">set</span>&lt;Entry&gt; TimerList;</span><br><span class="line">TimerList timers_;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TimerQueue::Entry&gt; <span class="title">TimerQueue::getExpired</span><span class="params">(Timestamp now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Entry&gt; expired;</span><br><span class="line">    Entry sentry = <span class="built_in">std</span>::<span class="built_in">make_pair</span>(now, <span class="keyword">reinterpret_cast</span>&lt;Timer*&gt;(UINTPTR_MAX));</span><br><span class="line">    TimerList::iterator it = timers_.lower_bound(sentry); <span class="comment">// lower_bound 找到二叉搜索树的到期节点</span></span><br><span class="line">    assert(it == timers_.end() || now &lt; it-&gt;first);</span><br><span class="line">    <span class="built_in">std</span>::copy(timers_.begin(), it, back_inserter(expired));</span><br><span class="line">    timers_.erase(timers_.begin(), it);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> expired;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关于为什么用-timerfd"><a href="#关于为什么用-timerfd" class="headerlink" title="关于为什么用 timerfd"></a>关于为什么用 timerfd</h3></li>
+</ol>
+<ol>
+<li>timerfd、eventfd 与 IO 复用结构完美适配，『当定时任务/指定事件发生的那一刻，fd 变得可读（<code>EPOLL_READ</code>）』</li>
+<li>由内核管理的 timerfd 底层是内核中的 hrtimer（高精度时钟定时器），时间的精度（纳秒）</li>
+<li>传统的定时器实现方案，甚至不需要 timerfd 来定时，直接在 eventloop 里面每次查看 timerQueue，效率比较低，响应低到毫秒</li>
+</ol>
+<p>TODO pic</p>
+<h3 id="定时器用在哪些地方？"><a href="#定时器用在哪些地方？" class="headerlink" title="定时器用在哪些地方？"></a>定时器用在哪些地方？</h3><p>web server 中有些典型的定时任务（依赖协议）</p>
+<ol>
+<li>维护长链接，一个优化是逻辑删除超时连接 + 延迟超时物理踢出，防止未来重新活过来</li>
+</ol>
+<h2 id="eventfd-实现消息通知"><a href="#eventfd-实现消息通知" class="headerlink" title="eventfd 实现消息通知"></a>eventfd 实现消息通知</h2><h3 id="eventfd-用在什么地方？"><a href="#eventfd-用在什么地方？" class="headerlink" title="eventfd 用在什么地方？"></a>eventfd 用在什么地方？</h3><p>在 web server 里面一般的使用场景是唤醒某个线程<br>eventfd 核心是<code>wakeup()</code>，muduo 里面 eventfd 是用来唤醒启动线程，因为里面维护了一个 『待办事件』，但只能在特定的线程执行（线程间通信）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EventLoop::quit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  quit_ = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">if</span> (!isInLoopThread())</span><br><span class="line">  &#123;</span><br><span class="line">    wakeup();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol>
+<li>向 eventfd 写 1 byte 的数据</li>
+<li>转到指定 IO 线程</li>
+<li>执行 IO 线程的 loop（linya 那个 web server 主要是退出 loop 时如果不是 IO 线程就转到 IO 线程）</li>
+</ol>
+<h3 id="关于为什么使用-eventfd"><a href="#关于为什么使用-eventfd" class="headerlink" title="关于为什么使用 eventfd"></a>关于为什么使用 eventfd</h3><blockquote>
+<p>Applications can use an eventfd file descriptor instead of a pipe in all cases where a pipe is used simply to signal events.</p>
+</blockquote>
+<ol>
+<li>同 timerfd</li>
+<li>eventfd 的快，相对 pipe 而言，其根本在于counter（计数器）和channel（数据信道）的区别。<ul>
+<li>open file 的数量，4: 2</li>
+<li>pipe 只能在两个连接中使用（TCP socket），eventfd 则是广播式的<blockquote>
+<p>如上面的NxM的生产者-消费者例子，如果需要完成全双工的通信，需要NxMx2个的pipe，而且需要提前建立并保持打开，作为通知信号实在太奢侈了，但如果用eventfd，只需要在发通知的时候瞬时创建、触发并关闭一个即可。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40572954">https://zhuanlan.zhihu.com/p/40572954</a></p>
+</blockquote>
+</li>
+<li>pipe 需要4次复制（process A write to file(user mode -&gt; kernel buffer -&gt; file), process B read from file(file -&gt; kernel buffer -&gt; user mode)），由于 pipe 本质是利用文件转发，所以内核还要为每个 pipe 分配至少 4K 的虚拟内存页，哪怕传输的数据长度为0。</li>
+<li>best practice: 当pipe只用来发送通知（传输控制信息而不是实际数据），放弃pipe，放心地用eventfd</li>
+</ul>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40572954">linux 新的事件通知机制：eventfd/timerfd</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Pro-YY/eventfd_examples/blob/master/src/timerfd_worker/timerfd_worker.c">timerfd/eventfd example</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/08/what-difference-between-sql-and-nosql-data-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/08/what-difference-between-sql-and-nosql-data-model/" class="post-title-link" itemprop="url">what difference between sql and nosql --- data model</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-08 23:10:50" itemprop="dateCreated datePublished" datetime="2021-02-08T23:10:50+08:00">2021-02-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-08 23:25:45" itemprop="dateModified" datetime="2021-03-08T23:25:45+08:00">2021-03-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对《<a target="_blank" rel="noopener" href="https://vonng.gitbooks.io/ddia-cn/content/ch2.html">ddia</a>》的一些笔记</p>
+<h2 id="sql-与-nosql-数据模型上的不同"><a href="#sql-与-nosql-数据模型上的不同" class="headerlink" title="sql 与 nosql 数据模型上的不同"></a>sql 与 nosql <strong>数据模型</strong>上的不同</h2><ol>
+<li>数据模型本身影响软件架构、代码编写。<br> 典型的 <code>1: n</code> 关系 与 『阻抗不一致』。（什么是阻抗失协？）<ul>
+<li><strong>模型-对象</strong>之间转换的不连贯性 –&gt; ORM（object-relational mapping, like Hibernate） 可以在一定程度上解决问题，但是它不能完全隐藏这两个模型之间的差异。</li>
+<li>比如一个最大深度为9层的 json，如果用 sql 存储是多么的酸爽。</li>
+<li>当然，现代 sql 数据库（比如 postgreSQL）支持了 json（json 的<strong>局部性</strong>更好）。</li>
+</ul>
+</li>
+<li>一些功能比如『事务』、『join』，关系型数据库支持的更好。<ul>
+<li>join 用在什么场景？典型的 1: n 是文档的优势</li>
+<li>n: 1 呢？n: m 呢？<ul>
+<li>region_id 和 industry_id是以 ID，而不是纯字符串“Greater Seattle Area”和“Philanthropy”的形式给出的。多个不同的 ID 可能代表的意思（对人类）相同。去除此类重复是数据库 <strong>规范化</strong>（normalization） 的关键思想。</li>
+<li>比如 blog 页面的友情链接，多个实体之间相互串联<br>其实没有本质区别，关系型中有<code>外键</code>，文档型中有<code>文档引用</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>具体到架构上呢？<ul>
+<li>locality 带来了架构的灵活性，性能可能也更好，更接近应用程序使用的数据结构</li>
+<li>关系模型通过为连接提供更好的支持以及支持多对一和多对多的关系来反击。</li>
+</ul>
+</li>
+</ol>
+<h1 id="不同方面，关系型与文档型的对比："><a href="#不同方面，关系型与文档型的对比：" class="headerlink" title="不同方面，关系型与文档型的对比："></a>不同方面，关系型与文档型的对比：</h1><h2 id="更方便写代码？"><a href="#更方便写代码？" class="headerlink" title="更方便写代码？"></a>更方便写代码？</h2><ol>
+<li>如果一次加载整个『树』，文档</li>
+<li>如果引用嵌套过深的某个 item，关系</li>
+<li>如果不需要多对多引用，文档<blockquote>
+<p>文档数据库对连接的糟糕支持也许或也许不是一个问题，这取决于应用程序。</p>
+</blockquote>
+</li>
+<li>如果需要多对多关系，关系，或图？<blockquote>
+<p>通过反规范化可以减少对连接的需求，但是应用程序代码需要做额外的工作来保持数据的一致性。通过向数据库发出多个请求，可以在应用程序代码中模拟连接，但是这也将复杂性转移到应用程序中，并且通常比由数据库内的专用代码执行的连接慢。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="架构的灵活性"><a href="#架构的灵活性" class="headerlink" title="架构的灵活性"></a>架构的灵活性</h2><p>本质是 scheme 与 non-scheme（处理 json、关系型，后面还有类似 protobuffer 的数据协议）</p>
+<p>关系型，migration</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE users ADD COLUMN first_name text;</span><br><span class="line">UPDATE users SET first_name &#x3D; split_part(name, &#39; &#39;, 1);         -- PostgreSQL</span><br><span class="line">UPDATE users SET first_name &#x3D; substring_index(name, &#39; &#39;, 1);     -- MySQL</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/06/DIFF-blocking-non-blocking-synchronism-asynchronism/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -584,6 +984,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/16/how-use-pdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/16/how-use-pdb/" class="post-title-link" itemprop="url">how to use pdb</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-16 21:55:13" itemprop="dateCreated datePublished" datetime="2020-12-16T21:55:13+08:00">2020-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 19:25:56" itemprop="dateModified" datetime="2021-02-22T19:25:56+08:00">2021-02-22</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><code>next</code> 碰见子程序会直接获取到调用结果</li>
+<li><code>step</code> 会进入子程序，相当于是一个子程序扩展</li>
+<li><code>quit</code> 粗暴退出</li>
+<li><code>continue</code>跑到程序终点</li>
+<li><code>print</code>打印变量</li>
+<li><code>list</code> 打印现在在哪</li>
+<li><code>!a = &quot;xxx&quot;</code> 可能比较有用的：动态设置变量</li>
+</ul>
+<h1 id="测试代码："><a href="#测试代码：" class="headerlink" title="测试代码："></a>测试代码：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pdb</span><br><span class="line"></span><br><span class="line">def combine(s1,s2):      # define subroutine combine, which...</span><br><span class="line">    s3 &#x3D; s1 + s2 + s1    # sandwiches s2 between copies of s1, ...</span><br><span class="line">    s3 &#x3D; &#39;&quot;&#39; + s3 +&#39;&quot;&#39;   # encloses it in double quotes,...</span><br><span class="line">    return s3            # and returns it.</span><br><span class="line"></span><br><span class="line">a &#x3D; &quot;aaa&quot;</span><br><span class="line">pdb.set_trace()</span><br><span class="line">b &#x3D; &quot;bbb&quot;</span><br><span class="line">c &#x3D; &quot;ccc&quot;</span><br><span class="line">final &#x3D; combine(a,b)</span><br><span class="line">print final</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4228637/getting-started-with-the-python-debugger-pdb">参考</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/16/python-generator-iterator-decorator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -671,158 +1146,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/16/how-use-pdb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/16/how-use-pdb/" class="post-title-link" itemprop="url">how to use pdb</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-16 21:55:13" itemprop="dateCreated datePublished" datetime="2020-12-16T21:55:13+08:00">2020-12-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 19:25:56" itemprop="dateModified" datetime="2021-02-22T19:25:56+08:00">2021-02-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><code>next</code> 碰见子程序会直接获取到调用结果</li>
-<li><code>step</code> 会进入子程序，相当于是一个子程序扩展</li>
-<li><code>quit</code> 粗暴退出</li>
-<li><code>continue</code>跑到程序终点</li>
-<li><code>print</code>打印变量</li>
-<li><code>list</code> 打印现在在哪</li>
-<li><code>!a = &quot;xxx&quot;</code> 可能比较有用的：动态设置变量</li>
-</ul>
-<h1 id="测试代码："><a href="#测试代码：" class="headerlink" title="测试代码："></a>测试代码：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pdb</span><br><span class="line"></span><br><span class="line">def combine(s1,s2):      # define subroutine combine, which...</span><br><span class="line">    s3 &#x3D; s1 + s2 + s1    # sandwiches s2 between copies of s1, ...</span><br><span class="line">    s3 &#x3D; &#39;&quot;&#39; + s3 +&#39;&quot;&#39;   # encloses it in double quotes,...</span><br><span class="line">    return s3            # and returns it.</span><br><span class="line"></span><br><span class="line">a &#x3D; &quot;aaa&quot;</span><br><span class="line">pdb.set_trace()</span><br><span class="line">b &#x3D; &quot;bbb&quot;</span><br><span class="line">c &#x3D; &quot;ccc&quot;</span><br><span class="line">final &#x3D; combine(a,b)</span><br><span class="line">print final</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4228637/getting-started-with-the-python-debugger-pdb">参考</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/22/face-to-interview/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shao Rui">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/22/face-to-interview/" class="post-title-link" itemprop="url">【转】face-to-interview</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-22 22:21:50" itemprop="dateCreated datePublished" datetime="2020-02-22T22:21:50+08:00">2020-02-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-04 10:16:24" itemprop="dateModified" datetime="2021-03-04T10:16:24+08:00">2021-03-04</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://www.1point3acres.com/bbs/thread-433722-1-1.html">https://www.1point3acres.com/bbs/thread-433722-1-1.html</a></p>
-<p>最近准备换工作来地里潜水， 看了很多刷题经验和刷题交流， 这里我简单谈谈从我从面试官角度出发， 考察的重点与我的心理活动。 说的不一定完全正确， 大家自己对号入座。 发帖目的第一是帮助新人， 第二是求点大米去去看别人的帖子。 我就不隐藏了， 大家随便发表意见， 不要拍砖。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/22/face-to-interview/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -888,7 +1215,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

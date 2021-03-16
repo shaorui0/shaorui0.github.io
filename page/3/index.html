@@ -248,7 +248,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:31:40" itemprop="dateModified" datetime="2021-02-25T13:31:40+08:00">2021-02-25</time>
+                <time title="修改时间：2021-03-16 21:38:39" itemprop="dateModified" datetime="2021-03-16T21:38:39+08:00">2021-03-16</time>
               </span>
 
           
@@ -525,7 +525,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-25 13:30:03" itemprop="dateModified" datetime="2021-02-25T13:30:03+08:00">2021-02-25</time>
+                <time title="修改时间：2021-03-16 21:38:58" itemprop="dateModified" datetime="2021-03-16T21:38:58+08:00">2021-03-16</time>
               </span>
 
           
@@ -541,7 +541,7 @@
       
           <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7306316/b-tree-vs-hash-table">reference</a></p>
 <p>一开始的索引，就是key-value结构的。但后来，为什么会出现使用b-tree的场景？</p>
-<h5 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h5><blockquote>
+<h2 id="从数据结构的角度"><a href="#从数据结构的角度" class="headerlink" title="从数据结构的角度"></a>从数据结构的角度</h2><blockquote>
 <p>Tree algorithms are usually easier to maintain, grow with data, scale</p>
 </blockquote>
 <blockquote>
@@ -549,15 +549,22 @@
 </blockquote>
 <p>处理规模化的数据时，hash维护key会显著变慢（冲突处理）</p>
 <ul>
-<li><p>hash时间复杂度可能落入到O(n)</p>
-</li>
-<li><p>b-tree更平衡，平均复杂度为O(log n)</p>
-</li>
+<li>hash时间复杂度可能落入到O(n)</li>
+<li>b-tree更平衡，平均复杂度为O(log n)</li>
 </ul>
-<h5 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h5><blockquote>
+<h2 id="从数据库的角度"><a href="#从数据库的角度" class="headerlink" title="从数据库的角度"></a>从数据库的角度</h2><blockquote>
 <p>The difference between using a b-tree and a hash table is that the former allows you to use column comparisons in expressions that use the =, &gt;, &gt;=, &lt;, &lt;=, or BETWEEN operators, while the latter is used only for equality comparisons that use the = or &lt;=&gt; operators.</p>
 </blockquote>
 <p>就存取特征而言，hash table是离散的，只能以O(1)的时间复杂度寻找特定值，而不支持range query（<strong>主要原因</strong>）。</p>
+<h2 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h2><ol>
+<li>hash 不是『磁盘友好型』数据结构，B-Tree 是。<ul>
+<li>hash 如果要做持久化一般是使用 append-only 的形式，修改的话只能追加，不过同样需要在内存中维护一个映射表（类似 file seek(offset)）</li>
+<li>进一步的优化涉及到新的概念 — LSM-Tree（使用 SSM-Table）</li>
+</ul>
+</li>
+<li>hash 不支持 range search。</li>
+<li>hash 不支持多列联合索引的最左匹配规则</li>
+</ol>
 
       
     </div>

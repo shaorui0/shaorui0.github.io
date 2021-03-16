@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-high-concurrency/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/18/transaction-isolation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-high-concurrency/" class="post-title-link" itemprop="url">What is high concurrency?</a>
+            <a href="/2021/02/18/transaction-isolation/" class="post-title-link" itemprop="url">TRANSACTION - ISOLATION</a>
         </h2>
 
         <div class="post-meta">
@@ -169,14 +169,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+              <time title="创建时间：2021-02-18 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-18T21:55:13+08:00">2021-02-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:33" itemprop="dateModified" datetime="2021-02-17T23:00:33+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-25 13:30:37" itemprop="dateModified" datetime="2021-02-25T13:30:37+08:00">2021-02-25</time>
               </span>
 
           
@@ -190,24 +190,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/307100151/answer/894486042">如何理解：程序、进程、线程、并发、并行、高并发？ - 大宽宽的回答 - 知乎</a></p>
-<blockquote>
-<p>【高并发】是指可以让软件系统在一段时间内能够处理大量的请求。比如每秒钟可以完成10万个请求。这是互联网系统的一个重要的特征。</p>
-</blockquote>
-<blockquote>
-<p>不像【并发】说的是“处理”，【并行】说的是“执行”，【高并发】说的是最终效果。只要能达到效果，不管怎么实现都行。因此，极端一点【高并发】甚至并不一定需要【并行】，只要处理速度快的足够满足要求就可以。如启动一个nginx的【OS进程】，它只能用到一个CPU核心，也就不可能【并行】。但是他如果能每秒能处理10万个请求，而业务需求只要求8万个请求就可以了，那么这个单进程的nginx本身就算【高并发】了</p>
-</blockquote>
-<p>高并发更多的涉及分布式的概念，在极端情况下，可能不需要保证并行，比如nginx这种，开一个进程就能轻松解决10w QPS的问题了。</p>
-<p>除了【并发】和【并行】，【高并发】还需要：</p>
-<ul>
-<li>数据表普遍被分库分表，否则单机放不下，或者<strong>查询性能</strong>不足</li>
-<li>解决分布式事务</li>
-<li>因为机器都可能坏，为了保证少数机器坏掉不会影响处理的性能，必须引入<strong>HA机制</strong></li>
-<li>因为系统都有极限，超过极限响应能力就会急剧下降。因此必须引入<strong>限流</strong>的方案来保护系统</li>
-<li>这么复杂的系统会涉及到N个service，N个存储，N个队列…… 这些资源的管理又成为了新的问题，这又需要对<strong>集群和服务做管理</strong></li>
-<li>这么多服务，肯定要解决分布式的Tracing和报警问题</li>
-</ul>
-
+          <h2 id="为什么会需要隔离性"><a href="#为什么会需要隔离性" class="headerlink" title="为什么会需要隔离性"></a>为什么会需要隔离性</h2><p>如果<strong>两个事务</strong>不触及相同的数据，它们可以安全地并行（parallel） 运行，因为两者都不依赖于另一个。当一个事务读取由另一个事务同时修改的数据时，或者当两个事务试图同时修改相同的数据时，并发问题（<strong>竞争条件</strong>）才会出现。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/18/transaction-isolation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -226,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-gil/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/17/diff-between-partition-and-sharding/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -240,7 +231,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-gil/" class="post-title-link" itemprop="url">What is the Python Global Interpreter Lock (GIL)?</a>
+            <a href="/2021/02/17/diff-between-partition-and-sharding/" class="post-title-link" itemprop="url">partition and sharding</a>
         </h2>
 
         <div class="post-meta">
@@ -250,14 +241,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-02-16 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-16T21:55:13+08:00">2021-02-16</time>
+              <time title="创建时间：2021-02-17 21:55:13" itemprop="dateCreated datePublished" datetime="2021-02-17T21:55:13+08:00">2021-02-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:30" itemprop="dateModified" datetime="2021-02-17T23:00:30+08:00">2021-02-17</time>
+                <time title="修改时间：2021-02-25 13:31:40" itemprop="dateModified" datetime="2021-02-25T13:31:40+08:00">2021-02-25</time>
               </span>
 
           
@@ -271,70 +262,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>Python is multithreaded, it just doesn’t allow two threads to run Python code concurrently.<br>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1824418/a-clean-lightweight-alternative-to-pythons-twisted">from stackoverflow: a-clean-lightweight-alternative-to-pythons-twisted</a>]</p>
-</blockquote>
-<h2 id="聊聊python的多线程"><a href="#聊聊python的多线程" class="headerlink" title="聊聊python的多线程"></a>聊聊python的多线程</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/29270818/why-is-a-python-i-o-bound-task-not-blocked-by-the-gil">why-is-a-python-i-o-bound-task-not-blocked-by-the-gil</a></p>
-<blockquote>
-<p>The GIL in CPython1 is only concerned with Python code being executed. A thread-safe C extension that uses a lot of CPU might release the GIL as long as it doesn’t need to interact with the Python runtime.</p>
-</blockquote>
-<ol>
-<li>搞清楚GIL的级别（抽象在哪一层？）。GIL只是<strong>限制多线程读取Cpython的bytecode</strong>，一次只能有一个线程<strong>execute python bytecode</strong>，但是所有的线程此时都是<strong>running</strong>。</li>
-<li>所以Cpython的C扩展部分，是不限制多线程的。（很多库，比如multithreading或者numpy是C扩展，这个是可以多线程的）</li>
-</ol>
-<blockquote>
-<p>Releasing the GIL around I/O (blocking or not, using CPU or not) is the same thing - until the data is moved into Python there is no reason to acquire the GIL.</p>
-</blockquote>
-<ol start="3">
-<li>所以关于python的IO bounding，多线程的适用场景完全合适。</li>
-</ol>
-<p>本质是需要理解GIL锁了哪些东西，<strong>瓶颈</strong>在哪里？</p>
-<h2 id="GIL解决了什么问题？"><a href="#GIL解决了什么问题？" class="headerlink" title="GIL解决了什么问题？"></a>GIL解决了什么问题？</h2><p>GIL本质上解决的是<strong>内存安全</strong>问题。</p>
-<p>关于内存安全，一些程序语言是手工处理（c/c++），一些语言是gc（java），而python（也还有其他的）是GIL。</p>
-<p>python中，内存对象主要通过<strong>引用计数</strong>管理生命周期。而引用计数需要通过锁机制来避免产生『<strong>race condition</strong>』。但是锁的引入又会导致『<strong>dead lock</strong>』（<strong>必须超过两把锁</strong>）的问题。</p>
-<p>GIL刚好从源头解决了这个问题（只有一把锁）。</p>
-<h3 id="内存安全问题"><a href="#内存安全问题" class="headerlink" title="内存安全问题"></a>内存安全问题</h3><p><a href="xxx">todo 内存安全分类</a></p>
-<h2 id="为什么是GIL？"><a href="#为什么是GIL？" class="headerlink" title="为什么是GIL？"></a>为什么是GIL？</h2><p>存在各种处理内存安全的解决方案，为什么是GIL？</p>
-<ol>
-<li>GIL的实现上很简单，引入的复杂度很低（这也是一直以来python没有去掉GIL的重要原因）。</li>
-<li>python语言被设计出来的时候，并没有thread的概念，GIL的引入直接提升了语言的易用性。</li>
-<li>许多扩展都是c，而一般的c语言系统调用都是<strong>线程不安全</strong>的，这些c扩展需要线程安全的内存管理措施（如GIL）。有了GIL，各种线程不安全的扩展能够轻松整合进来。</li>
-<li>全局只有一把锁从根本上消除了产生『死锁』的可能性。</li>
-</ol>
-<h3 id="不是银弹"><a href="#不是银弹" class="headerlink" title="不是银弹"></a>不是银弹</h3><p>典型的问题就是cpu-bound task执行起来只能<strong>线性执行</strong>。如果使用并发的架构去执行，甚至消耗的时间更多（上下文转换）。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">total = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">safe_increment_n_times</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        lock.acquire()</span><br><span class="line">        total += <span class="number">1</span></span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">increment_in_x_threads</span>(<span class="params">x, func, n</span>):</span></span><br><span class="line">    threads = [threading.Thread(target=func, args=(n,)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(x)]</span><br><span class="line">    <span class="keyword">global</span> total</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    begin = time.time()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">&#x27;finished in &#123;&#125;s.\ntotal: &#123;&#125;\nexpected: &#123;&#125;\ndifference: &#123;&#125; (&#123;&#125; %)&#x27;</span></span><br><span class="line">           .<span class="built_in">format</span>(time.time()-begin, total, n*x, n*x-total, <span class="number">100</span>-total/n/x*<span class="number">100</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;unsafe:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, increment_n_times, <span class="number">100000</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;\nwith locks:&#x27;</span>)</span><br><span class="line">print(increment_in_x_threads(<span class="number">70</span>, safe_increment_n_times, <span class="number">100000</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="也没有那么坏"><a href="#也没有那么坏" class="headerlink" title="也没有那么坏"></a>也没有那么坏</h3><p>最本质的原因就是performance。如果去掉GIL，性能会不会下降？（多线程的CPU密集型任务那没话说，但是单线程任务和多线程IO密集型的任务呢？）</p>
-<h4 id="py3为什么还是没有解决这个问题？"><a href="#py3为什么还是没有解决这个问题？" class="headerlink" title="py3为什么还是没有解决这个问题？"></a>py3为什么还是没有解决这个问题？</h4><blockquote>
-<p>py3明明已经不需要向后兼容了（没有了历史包袱），为什么没有解决这个问题？</p>
-</blockquote>
-<p>归根结底还是<strong>单线程任务和多线程IO密集型的任务</strong>性能的问题。</p>
-<p>但，python3在这方面也有<strong>改进</strong>。全局只有一把锁意味着不同的任务要<strong>抢锁</strong>，对于cpu密集型的任务，抢锁是比较『容易』的，并且持有锁的时间会比较长（相对IO-bound task）（在操作系统的层面中称为『长作业』，其中有一种任务调度算法称为『短作业优先调度算法』）。python解释器指定了一个『fixed interval』（通过<code>sys.getcheckinterval()</code>获取），执行完固定长度的时间以后，其他任务有机会获取GIL。那么有没有可能导致IO-bound task<strong>饥饿</strong>？python是如何处理这个问题的？</p>
-<blockquote>
-<p>The problem in this mechanism was that <strong>most of the time the CPU-bound thread would reacquire the GIL itself before other threads could acquire it.</strong> This was researched by David Beazley and visualizations can be found here.</p>
-</blockquote>
-<blockquote>
-<p>This problem was fixed in Python 3.2 in 2009 by Antoine Pitrou who added a mechanism of looking at the number of GIL acquisition requests by other threads that got dropped and not allowing the current thread to reacquire GIL before other threads got a chance to run.</p>
-</blockquote>
-<h3 id="目前有什么比较好的解决方式？"><a href="#目前有什么比较好的解决方式？" class="headerlink" title="目前有什么比较好的解决方式？"></a>目前有什么比较好的解决方式？</h3><ol>
-<li><p>Multi-processing</p>
-<p> <a target="_blank" rel="noopener" href="https://github.com/shaorui0/fundamental_knowledge/tree/main/operator_system/process/diff_multi-process-multi_thread-io_resue.md">diff multi-process / multi_thread / io_reuse</a></p>
-</li>
-</ol>
-<ol start="2">
-<li><p>Alternative Python interpreters</p>
-<p> CPython, Jython, IronPython and PyPy…</p>
-</li>
-</ol>
-<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://realpython.com/python-gil/#what-problem-did-the-gil-solve-for-python">what-problem-did-the-gil-solve-for-python</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://medium.com/python-features/pythons-gil-a-hurdle-to-multithreaded-program-d04ad9c1a63#:~:text=Python%20threads%20can%27t%20run,the%20same%20time%20as%20computation">pythons-gil-a-hurdle-to-multithreaded-program</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40072873/why-do-we-need-locks-for-threads-if-we-have-gil">why-do-we-need-locks-for-threads-if-we-have-gil</a></p>
-</li>
+          <h4 id="why-need-sharding？"><a href="#why-need-sharding？" class="headerlink" title="why need sharding？"></a>why need sharding？</h4><p>When the amount of <strong>data</strong> starts to grow and <strong>performance</strong> starts to become a <strong>bottleneck</strong>, <strong>horizontal scaling</strong> and <strong>distributed</strong> processing is a good approach.</p>
+<h4 id="diff-partition-and-sharding"><a href="#diff-partition-and-sharding" class="headerlink" title="diff partition and sharding"></a>diff partition and sharding</h4><p><code>partition</code> and <code>sharding</code>很多语境下区别微乎其微，真正细研究起来：</p>
+<ul>
+<li>partition is more a <strong>generic</strong> term for dividing data across tables or databases.</li>
+<li>sharding is one <strong>specific</strong> type of partitioning, part of What is called <strong>horizontal partitioning</strong> (increase more instances、services).</li>
 </ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/17/diff-between-partition-and-sharding/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -636,7 +577,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/diff-between-post-and-put/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -650,7 +591,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/diff-between-post-and-put/" class="post-title-link" itemprop="url">Basic knowledge of web development</a>
+            <a href="/2021/02/16/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" class="post-title-link" itemprop="url">What is polymorphism?</a>
         </h2>
 
         <div class="post-meta">
@@ -667,7 +608,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-05 12:16:50" itemprop="dateModified" datetime="2021-03-05T12:16:50+08:00">2021-03-05</time>
+                <time title="修改时间：2021-02-17 23:00:44" itemprop="dateModified" datetime="2021-02-17T23:00:44+08:00">2021-02-17</time>
               </span>
 
           
@@ -681,40 +622,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="get-and-post"><a href="#get-and-post" class="headerlink" title="get and post"></a>get and post</h2><p>TODO</p>
-<h2 id="put-and-post"><a href="#put-and-post" class="headerlink" title="put and post"></a>put and post</h2><h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><ul>
-<li><p>PUT puts a file or resource at a specific URI, and exactly at that URI.<br>  没有任何其他的功能，只作『创建』和『替换』功能</p>
-</li>
-<li><p><strong>幂等</strong>的（多次执行，效果相同）</p>
-</li>
-<li><p>只作用于指定uri，理解为upload file，将数据存到指定uri的资源中</p>
-</li>
-<li><p>but paradoxically PUT responses are not cacheable.</p>
-<p>场景</p>
-</li>
-</ul>
-<p>One benefit of REST ROA vs SOAP is that when using HTTP REST ROA, it encourages the proper usage of the HTTP verbs/methods. So <strong>for example you would only use PUT when you want to create a resource at that exact location.</strong> And you would never use GET to create or modify a resource.</p>
-<h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><ul>
-<li>POST sends data to a specific URI and expects the resource at that URI to **handle the request.**web server at this point can determine what to do with the data in the context of the specified resource.（会有后端逻辑） </li>
-<li>非幂等</li>
-<li>create场景比put应用<strong>更加广阔、通用</strong>，不仅作用于<strong>某个</strong>uri，甚至可以作用到其他uri或其他行为（不单单是保存request body）<br>  比如，创建图书的场景：<ul>
-<li><code>PUT bookstore/book/4</code>。创建了id=4的图书的信息（可能是replace existed info），仅作用于此uri</li>
-<li><code>POST boolstore/book</code>。可能会id递增创建多个『对象』，是『危险』的（非幂等），作用到了1/2/3/4/5…</li>
-</ul>
-</li>
-</ul>
-<h3 id="DIFF-put-and-post"><a href="#DIFF-put-and-post" class="headerlink" title="DIFF put and post"></a>DIFF put and post</h3><blockquote>
-<p>The fundamental difference between the POST and PUT requests is reflected in the different meaning of the Request-URI. The URI in a <strong>POST</strong> request identifies the resource that will <strong>handle the enclosed entity</strong>. That resource might be a data-accepting process, a gateway to some other protocol, or a separate entity that accepts annotations. In contrast, the URI in a <strong>PUT</strong> request identifies the entity enclosed with the request – the user agent knows <strong>what URI is intended and the server MUST NOT attempt to apply the request to some other resource</strong>. If the server desires that the request be applied to a <strong>different URI</strong>, it MUST send a 301 (Moved Permanently) response; the user agent MAY then make its own decision regarding whether or not to redirect the request.</p>
-</blockquote>
-<p>Only <strong>semantics</strong>.</p>
-<p>An HTTP PUT is supposed to accept the body of the request, and then <strong>store that at the resource</strong> identified by the URI.</p>
-<p>An HTTP POST is more <strong>general</strong>. It is supposed to <strong>initiate an action on the server</strong>. That action could be to <strong>store the request body</strong> at the resource identified by the URI, or it could be a <strong>different URI</strong>, or it could be a <strong>different action</strong>.</p>
-<p>PUT is like a file upload. A put to a URI affects exactly that URI. A POST to a URI could have any effect at all.</p>
-<h3 id="工作实践中的场景"><a href="#工作实践中的场景" class="headerlink" title="工作实践中的场景"></a>工作实践中的场景</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$api</span>-&gt;post(<span class="string">&#x27;&#123;table&#125;/_tagset/&#123;tagId&#125;/_update&#x27;</span>, <span class="string">&#x27;MetaController@updateTag&#x27;</span>);</span><br><span class="line"><span class="variable">$api</span>-&gt;put(<span class="string">&#x27;&#123;table&#125;/_tagset/&#123;tagId&#125;&#x27;</span>, <span class="string">&#x27;MetaController@upsertTag&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>曾经理解错误，因为put=create+replace，post=create。我错误的以为，在一个资源上增加某个属性（json增加一个k-v），使用put，结果导致数据从多个k-v，变成了指定的唯一k-v（直接被替换）。</p>
-<h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><h3 id="常用状态码"><a href="#常用状态码" class="headerlink" title="常用状态码"></a>常用状态码</h3><h3 id="https-过程"><a href="#https-过程" class="headerlink" title="https 过程"></a>https 过程</h3><h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/107390/whats-the-difference-between-a-post-and-a-put-http-request">whats-the-difference-between-a-post-and-a-put-http-request</a></li>
-</ul>
+          <p>就是不同类型使用同一套上层接口，但底层实现不同。</p>
+<p>最初的整数和浮点数其实就有类似的概念在里面。（知乎，为什么会有类型？Ivony）<br>整数和浮点数都有 <code>+</code>/<code>-</code>/<code>*</code>/<code>/</code>的操作，但底层的实现上会有不同<br>在C++里面，不同类型的<code>+</code>操作，都会调用<code>operator+()</code>的类函数。</p>
+<p>当然，经常用的一个例子就是<code>Shape</code>派生出来的square, circle, dodecahedron, irregular polygon, splat。</p>
+<p>如果没有多态<code>square.draw()</code>可能会变成<code>drawSquare()</code>, <code>drawCircle()</code>。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used">https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-for-and-how-is-it-used</a></p>
 
       
     </div>
@@ -887,7 +799,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/what-is-zombie-process/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/16/diff-between-post-and-put/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -901,7 +813,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/02/16/what-is-zombie-process/" class="post-title-link" itemprop="url">Zombie process</a>
+            <a href="/2021/02/16/diff-between-post-and-put/" class="post-title-link" itemprop="url">Basic knowledge of web development</a>
         </h2>
 
         <div class="post-meta">
@@ -918,7 +830,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:51" itemprop="dateModified" datetime="2021-02-17T23:00:51+08:00">2021-02-17</time>
+                <time title="修改时间：2021-03-05 12:16:50" itemprop="dateModified" datetime="2021-03-05T12:16:50+08:00">2021-03-05</time>
               </span>
 
           
@@ -932,23 +844,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="什么是僵尸进程？僵尸进程是如何产生的？"><a href="#什么是僵尸进程？僵尸进程是如何产生的？" class="headerlink" title="什么是僵尸进程？僵尸进程是如何产生的？"></a>什么是僵尸进程？僵尸进程是如何产生的？</h3><ol>
-<li>每个进程的回收都由父进程去执行，系统调用是<code>wait/waitpid</code></li>
-<li>如果一个父进程没有调用<code>wait</code>，而子进程结束，父进程继续执行，子进程的资源将没办法回收。此时，子进程变成了一个zombie。</li>
-<li>通常情况下，父进程被显式杀掉的时候，子进程将会（成为<strong>孤儿进程</strong>）被分派给init process，这样由它进行托管然后回收。</li>
-</ol>
-<h3 id="linux关于进程的部分，最初是如何设计的？"><a href="#linux关于进程的部分，最初是如何设计的？" class="headerlink" title="linux关于进程的部分，最初是如何设计的？"></a>linux关于进程的部分，最初是如何设计的？</h3><p>Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。<br>例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。<br>为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中的数据。只有父进程发出了与被终止的进程相关的 wait() 类系统调用之后，才允许这样做。这就是引入僵死状态的原因：尽管从技术上来说进程已死，但必须保存它的描述符，直到父进程得到通知。<br>如果一个进程已经终止，但是它的父进程尚未调用 wait() 或 waitpid() 对它进行清理，这时的进程状态称为僵死状态，处于僵死状态的进程称为僵尸进程(zombie process)。任何进程在刚终止时都是僵尸进程，正常情况下，僵尸进程都立刻被父进程清理了。</p>
-<h3 id="僵尸进程的问题是什么？"><a href="#僵尸进程的问题是什么？" class="headerlink" title="僵尸进程的问题是什么？"></a>僵尸进程的问题是什么？</h3><p>进程终止，一些基本的资源（open file, memory, etc）会被内核回收。<br>会占用进程表一个entry，表的容量是有限的，占用多了肯定是会出问题的</p>
-<h3 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h3><p>一个父进程在子进程前面死亡，子进程被init process 接管，虽然能够自动调用<code>wait</code>。</p>
-<h3 id="如何处理僵尸？如何能够不产生僵尸？"><a href="#如何处理僵尸？如何能够不产生僵尸？" class="headerlink" title="如何处理僵尸？如何能够不产生僵尸？"></a>如何处理僵尸？如何能够不产生僵尸？</h3><ol>
-<li>waitpid<br> waitpid的返回值是子进程的退出状态，根据这个状态能够表示是否需要回收数据</li>
-<li>Perform double fork()<br> // grandchild exits, no zombie (adopted by init)</li>
-<li>忽略SIGCHLD,<br> why?能够让内核知道，可以立即回收，因为父进程表示不管它了</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16078985/why-zombie-processes-exist">why-zombie-processes-exist</a></p>
-<h3 id="僵尸进程会占用其他资源吗？"><a href="#僵尸进程会占用其他资源吗？" class="headerlink" title="僵尸进程会占用其他资源吗？"></a>僵尸进程会占用其他资源吗？</h3><p>在进程退出的时候，内核释放该进程所有的资源，包括打开的文件，占用的内存等。但是仍然为其保留一定的信息(包括进程号 PID，退出状态 the termination status of the process，运行时间 the amount of CPU time taken by the process 等)。直到父进程通过 wait / waitpid 来取时才释放。</p>
-<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33979231/status-of-process-on-linux">https://stackoverflow.com/questions/33979231/status-of-process-on-linux</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PROCESS STATE CODES</span><br><span class="line">    Here are the different values that the s, stat and state output </span><br><span class="line">    specifiers (header &quot;STAT&quot; or &quot;S&quot;) will display to describe the</span><br><span class="line">    state of a process:</span><br><span class="line"></span><br><span class="line">       D    uninterruptible sleep (usually IO)</span><br><span class="line">       S    interruptible sleep (waiting for an event to complete)</span><br><span class="line">       R    running or runnable (on run queue)</span><br><span class="line">       T    stopped by job control **signal**</span><br><span class="line">       t    stopped by **debugger** during the tracing</span><br><span class="line">       W    paging (not valid since the 2.6.xx kernel)</span><br><span class="line">       X    dead (should never be seen)</span><br><span class="line">       Z    defunct (&quot;zombie&quot;) process, terminated but not reaped by its parent</span><br></pre></td></tr></table></figure>
+          <h2 id="get-and-post"><a href="#get-and-post" class="headerlink" title="get and post"></a>get and post</h2><p>TODO</p>
+<h2 id="put-and-post"><a href="#put-and-post" class="headerlink" title="put and post"></a>put and post</h2><h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><ul>
+<li><p>PUT puts a file or resource at a specific URI, and exactly at that URI.<br>  没有任何其他的功能，只作『创建』和『替换』功能</p>
+</li>
+<li><p><strong>幂等</strong>的（多次执行，效果相同）</p>
+</li>
+<li><p>只作用于指定uri，理解为upload file，将数据存到指定uri的资源中</p>
+</li>
+<li><p>but paradoxically PUT responses are not cacheable.</p>
+<p>场景</p>
+</li>
+</ul>
+<p>One benefit of REST ROA vs SOAP is that when using HTTP REST ROA, it encourages the proper usage of the HTTP verbs/methods. So <strong>for example you would only use PUT when you want to create a resource at that exact location.</strong> And you would never use GET to create or modify a resource.</p>
+<h4 id="post"><a href="#post" class="headerlink" title="post"></a>post</h4><ul>
+<li>POST sends data to a specific URI and expects the resource at that URI to **handle the request.**web server at this point can determine what to do with the data in the context of the specified resource.（会有后端逻辑） </li>
+<li>非幂等</li>
+<li>create场景比put应用<strong>更加广阔、通用</strong>，不仅作用于<strong>某个</strong>uri，甚至可以作用到其他uri或其他行为（不单单是保存request body）<br>  比如，创建图书的场景：<ul>
+<li><code>PUT bookstore/book/4</code>。创建了id=4的图书的信息（可能是replace existed info），仅作用于此uri</li>
+<li><code>POST boolstore/book</code>。可能会id递增创建多个『对象』，是『危险』的（非幂等），作用到了1/2/3/4/5…</li>
+</ul>
+</li>
+</ul>
+<h3 id="DIFF-put-and-post"><a href="#DIFF-put-and-post" class="headerlink" title="DIFF put and post"></a>DIFF put and post</h3><blockquote>
+<p>The fundamental difference between the POST and PUT requests is reflected in the different meaning of the Request-URI. The URI in a <strong>POST</strong> request identifies the resource that will <strong>handle the enclosed entity</strong>. That resource might be a data-accepting process, a gateway to some other protocol, or a separate entity that accepts annotations. In contrast, the URI in a <strong>PUT</strong> request identifies the entity enclosed with the request – the user agent knows <strong>what URI is intended and the server MUST NOT attempt to apply the request to some other resource</strong>. If the server desires that the request be applied to a <strong>different URI</strong>, it MUST send a 301 (Moved Permanently) response; the user agent MAY then make its own decision regarding whether or not to redirect the request.</p>
+</blockquote>
+<p>Only <strong>semantics</strong>.</p>
+<p>An HTTP PUT is supposed to accept the body of the request, and then <strong>store that at the resource</strong> identified by the URI.</p>
+<p>An HTTP POST is more <strong>general</strong>. It is supposed to <strong>initiate an action on the server</strong>. That action could be to <strong>store the request body</strong> at the resource identified by the URI, or it could be a <strong>different URI</strong>, or it could be a <strong>different action</strong>.</p>
+<p>PUT is like a file upload. A put to a URI affects exactly that URI. A POST to a URI could have any effect at all.</p>
+<h3 id="工作实践中的场景"><a href="#工作实践中的场景" class="headerlink" title="工作实践中的场景"></a>工作实践中的场景</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$api</span>-&gt;post(<span class="string">&#x27;&#123;table&#125;/_tagset/&#123;tagId&#125;/_update&#x27;</span>, <span class="string">&#x27;MetaController@updateTag&#x27;</span>);</span><br><span class="line"><span class="variable">$api</span>-&gt;put(<span class="string">&#x27;&#123;table&#125;/_tagset/&#123;tagId&#125;&#x27;</span>, <span class="string">&#x27;MetaController@upsertTag&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>曾经理解错误，因为put=create+replace，post=create。我错误的以为，在一个资源上增加某个属性（json增加一个k-v），使用put，结果导致数据从多个k-v，变成了指定的唯一k-v（直接被替换）。</p>
+<h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><h3 id="常用状态码"><a href="#常用状态码" class="headerlink" title="常用状态码"></a>常用状态码</h3><h3 id="https-过程"><a href="#https-过程" class="headerlink" title="https 过程"></a>https 过程</h3><h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/107390/whats-the-difference-between-a-post-and-a-put-http-request">whats-the-difference-between-a-post-and-a-put-http-request</a></li>
+</ul>
 
       
     </div>
@@ -1187,12 +1116,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

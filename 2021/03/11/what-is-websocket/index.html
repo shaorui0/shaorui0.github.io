@@ -28,7 +28,7 @@
 <meta property="og:description" content="different between websocket and socketdifferent between websocket and socket sending side TCP socket（传统的 socket 更加通用，一般基于 TCP） 阻塞 IO 想要实时必须占用一个 fd ，非常珍贵的资源，不可能，同时调用也会被阻塞 非阻塞 IO，可能导致一次 send&#x2F;recv 的数据不全（">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-11T04:45:49.000Z">
-<meta property="article:modified_time" content="2021-03-11T14:27:38.579Z">
+<meta property="article:modified_time" content="2021-03-12T08:25:34.206Z">
 <meta property="article:author" content="Shao Rui">
 <meta name="twitter:card" content="summary">
 
@@ -172,10 +172,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-03-11 12:45:49 / 修改时间：22:27:38" itemprop="dateCreated datePublished" datetime="2021-03-11T12:45:49+08:00">2021-03-11</time>
+              <time title="创建时间：2021-03-11 12:45:49" itemprop="dateCreated datePublished" datetime="2021-03-11T12:45:49+08:00">2021-03-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-12 16:25:34" itemprop="dateModified" datetime="2021-03-12T16:25:34+08:00">2021-03-12</time>
+              </span>
 
           
 
@@ -204,6 +210,8 @@
 </ul>
 </li>
 </ol>
+<a id="more"></a>
+
 <h3 id="receiving-side"><a href="#receiving-side" class="headerlink" title="receiving side"></a>receiving side</h3><ol>
 <li><p>由于 TCP 的一些缘故（比如打开了 nagel 算法），一次 TCP 传输可能包括多个连接的数据（自动合并，减少 header/body 比过大带来的低性能）</p>
 </li>
@@ -214,19 +222,18 @@
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16945345/differences-between-tcp-sockets-and-web-sockets-one-more-time">In fact</a>, WebSockets is <strong>built on normal TCP sockets</strong> and <strong>uses frame headers</strong> that contains the size of each frame and indicate which frames are part of a message. The WebSocket API re-assembles the TCP chunks of data into frames which are assembled into messages before invoking the message event handler once per message. </p>
 </blockquote>
 <h2 id="different-between-websocket-and-http"><a href="#different-between-websocket-and-http" class="headerlink" title="different between websocket and http"></a>different between websocket and http</h2><ol>
-<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32039008">【错误】<del>websocket 基于 http 1.1</del></a>，能够支持长链接（connection: keep-alive in header），同时自身的协议特性保证消息完整接受和识别。</p>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32039008"><del>websocket 基于 http 1.1</del>（说法有问题）</a>，能够支持长链接（connection: keep-alive in header），同时自身的协议特性保证消息完整接受和识别。</p>
 <blockquote>
 <p>1.7.  Relationship to TCP and HTTP</p>
 <pre><code> _This section is non-normative._
  The WebSocket Protocol is an independent TCP-based protocol.  Its
  only relationship to HTTP is that its handshake is interpreted by
  HTTP servers as an Upgrade request.
-</code></pre>
-</blockquote>
-<pre><code> By default, the WebSocket Protocol uses port 80 for regular WebSocket
+ By default, the WebSocket Protocol uses port 80 for regular WebSocket
  connections and port 443 for WebSocket connections tunneled over
  Transport Layer Security (TLS) [RFC2818].
 </code></pre>
+</blockquote>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc8857">websocket 属于应用层还是传输层</a><blockquote>
 <p>The WebSocket (WS) protocol [RFC6455] enables two-way message exchange between clients and servers on top of a persistent TCP connection, optionally secured with Transport Layer Security (TLS) [RFC8446].  The initial protocol handshake makes use of Hypertext Transfer Protocol (HTTP) [RFC7230] semantics, allowing the WebSocket protocol to reuse existing HTTP infrastructure.</p>
@@ -388,12 +395,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

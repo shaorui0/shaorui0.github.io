@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="两种方法，heap sort 和 quick select。基本思想都是保持一个『基本有序』的状态（不是完全有序）。 quick sort 可能退化到 O(N^2)。什么情况下？数组有序，如果排正序则初始数组为倒序，反义亦然。即 partition 每次都找 pivot 都在边界。能想到的优化就是每次找到一个 pivot 尽量处于中间，能够让分治正常进行。比如三等分点（比较 left&#x2F;mid&#x2F;ri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="top k value">
+<meta property="og:url" content="http://example.com/2021/03/12/find-k-th-value/index.html">
+<meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
+<meta property="og:description" content="两种方法，heap sort 和 quick select。基本思想都是保持一个『基本有序』的状态（不是完全有序）。 quick sort 可能退化到 O(N^2)。什么情况下？数组有序，如果排正序则初始数组为倒序，反义亦然。即 partition 每次都找 pivot 都在边界。能想到的优化就是每次找到一个 pivot 尽量处于中间，能够让分治正常进行。比如三等分点（比较 left&#x2F;mid&#x2F;ri">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-12T08:26:07.000Z">
+<meta property="article:modified_time" content="2021-03-12T15:29:33.990Z">
+<meta property="article:author" content="Shao Rui">
+<meta property="article:tag" content="algo">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/12/find-k-th-value/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>top k value | Surely You're Joking, Mr. Feynman!</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Surely You're Joking, Mr. Feynman!</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/12/find-k-th-value/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shao Rui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Surely You're Joking, Mr. Feynman!">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          top k value
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-12 16:26:07 / 修改时间：23:29:33" itemprop="dateCreated datePublished" datetime="2021-03-12T16:26:07+08:00">2021-03-12</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>两种方法，heap sort 和 quick select。<br>基本思想都是保持一个『基本有序』的状态（不是完全有序）。</p>
+<p>quick sort 可能退化到 O(N^2)。什么情况下？数组有序，如果排正序则初始数组为倒序，反义亦然。即 <code>partition</code> 每次都找 pivot 都在边界。<br>能想到的优化就是每次找到一个 <code>pivot</code> 尽量处于中间，能够让<strong>分治</strong>正常进行。比如三等分点（比较 left/mid/right，找到中间点作为初始 <code>pivot</code>）</p>
+<h1 id="1-注意我遗漏了一个点，需要递归对下层的数据进行操作（影响了那个-largest？）"><a href="#1-注意我遗漏了一个点，需要递归对下层的数据进行操作（影响了那个-largest？）" class="headerlink" title="1. 注意我遗漏了一个点，需要递归对下层的数据进行操作（影响了那个 largest？）"></a>1. 注意我遗漏了一个点，需要<strong>递归</strong>对下层的数据进行操作（影响了那个 largest？）</h1><h1 id="2-heapify-注意抽取出来，这是一个频繁使用的操作"><a href="#2-heapify-注意抽取出来，这是一个频繁使用的操作" class="headerlink" title="2. heapify 注意抽取出来，这是一个频繁使用的操作"></a>2. heapify 注意抽取出来，这是一个频繁使用的操作</h1><h2 id="heap-sort"><a href="#heap-sort" class="headerlink" title="heap sort"></a>heap sort</h2><h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><ol>
+<li>真正的堆排序，总的思路为建堆 + 堆排序</li>
+<li>建堆的最终结果是 root 为最值（root 后面的数无序（或者说经过建堆过程，已经基本有序了）），与 quick select 同理，每次找到一个值的 final index。</li>
+<li>堆排序的过程则是不断找到『临时数组』的最值（每次抽取最值，剩下的数字进行排序）。一般可以另起一个list，或者将root（index=0）与 last one（<code>range(n-1, 0, -1)</code>） 进行交换。</li>
+</ol>
+<h3 id="需要注意的点"><a href="#需要注意的点" class="headerlink" title="需要注意的点"></a>需要注意的点</h3><ol>
+<li>需要抽取出一个 <code>heapify</code> 方法，思想是临时『树』，不断找到这颗子树的最值</li>
+<li>一定要注意递归向下一直到最底层叶子节点</li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>常规的堆排序：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heapify</span>(<span class="params">arr, len_arr, temp_root</span>):</span></span><br><span class="line">    <span class="comment"># get left/right child index</span></span><br><span class="line">    largest_index = temp_root</span><br><span class="line">    left_index = temp_root * <span class="number">2</span> + <span class="number">1</span></span><br><span class="line">    right_index = temp_root * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">    <span class="comment"># compare with left</span></span><br><span class="line">    <span class="keyword">if</span> left_index &lt; len_arr <span class="keyword">and</span> arr[left_index] &gt; arr[largest_index]:</span><br><span class="line">        largest_index = left_index</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># compare with right if right exist</span></span><br><span class="line">    <span class="keyword">if</span> right_index &lt; len_arr <span class="keyword">and</span> arr[right_index] &gt; arr[largest_index]:</span><br><span class="line">        largest_index = right_index</span><br><span class="line">    <span class="comment"># compare temp largest between child and parent, if changed, recursive to child</span></span><br><span class="line">    <span class="keyword">if</span> largest_index != temp_root:</span><br><span class="line">        arr[temp_root], arr[largest_index] = arr[largest_index], arr[temp_root]</span><br><span class="line">        heapify(arr, len_arr, largest_index) <span class="comment"># down to child</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heap_sort</span>(<span class="params">arr</span>):</span></span><br><span class="line">    len_arr = <span class="built_in">len</span>(arr)</span><br><span class="line">    <span class="comment"># 边界检查</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 先简单整理一遍，基本有序，能保证得到最大的数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(len_arr // <span class="number">2</span> - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        heapify(arr, len_arr, i)</span><br><span class="line">        <span class="comment"># print test</span></span><br><span class="line">    <span class="comment"># print(arr)</span></span><br><span class="line">    <span class="comment"># 完全有序</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(len_arr - <span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># swap value_i and root, 不断的找到当前最大的</span></span><br><span class="line">        <span class="comment"># print(arr[0])</span></span><br><span class="line">        arr[i], arr[<span class="number">0</span>] = arr[<span class="number">0</span>], arr[i]</span><br><span class="line">        heapify(arr, i, <span class="number">0</span>) <span class="comment"># 这里注意, </span></span><br><span class="line">        <span class="comment"># len不断变化，</span></span><br><span class="line">        <span class="comment"># 获取第一个，把最后一个移到第一个</span></span><br><span class="line">        <span class="comment"># 对第一个进行 heapify</span></span><br><span class="line">        </span><br><span class="line">arr = [<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">arr = [<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">100</span>, <span class="number">1</span>, <span class="number">202</span>, <span class="number">144</span>]</span><br><span class="line">heap_sort(arr)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>利用堆排序找到第k个节点：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heap_sort_find_k</span>(<span class="params">arr, k</span>):</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    len_arr = <span class="built_in">len</span>(arr)</span><br><span class="line">    <span class="comment"># 边界检查，k 值有个基本的判断</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 先简单整理一遍，基本有序，能保证得到最大的数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(len_arr // <span class="number">2</span> - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        heapify(arr, len_arr, i)</span><br><span class="line">        <span class="comment"># print test</span></span><br><span class="line">    <span class="comment"># print(arr)</span></span><br><span class="line">    <span class="comment"># 完全有序</span></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(len_arr - <span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> count == k:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="comment"># swap value_i and root, 不断的找到当前最大的</span></span><br><span class="line">        arr[i], arr[<span class="number">0</span>] = arr[<span class="number">0</span>], arr[i]</span><br><span class="line">        heapify(arr, i, <span class="number">0</span>) <span class="comment"># 【注意】</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># print(arr[0]) # k-th</span></span><br><span class="line">        <span class="comment"># len不断变化，</span></span><br><span class="line">        <span class="comment"># 获取第一个，把最后一个移到第一个</span></span><br><span class="line">        <span class="comment"># 对第一个进行 heapify</span></span><br><span class="line"></span><br><span class="line">heap_sort_find_k(arr, <span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="quick-select"><a href="#quick-select" class="headerlink" title="quick select"></a>quick select</h2><h3 id="quick-sort"><a href="#quick-sort" class="headerlink" title="quick sort"></a>quick sort</h3><h4 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h4><p>快排的过程：</p>
+<ol>
+<li>每次确定一个 pivot 的最终位置</li>
+<li>对 pivot 两边的数组进行分治处理（迭代或递归）<br>基本的优化思想是 pivot 尽量往中间取。</li>
+</ol>
+<h4 id="需要注意的点-1"><a href="#需要注意的点-1" class="headerlink" title="需要注意的点"></a>需要注意的点</h4><ol>
+<li>抽象出一个<code>partition</code>是关键，每次确定一个值的最终位置。</li>
+<li>为了确定最终的写法，统一一下：<ul>
+<li>pivot 放在 high</li>
+<li>数组下标『前闭后闭』<code>[low, high]</code></li>
+<li>i 初始为 low - 1，j 初始范围为 [low, high)</li>
+<li>所谓最终位置，完全可以通过 <code>i</code> 记录小于 <code>pivot</code> 的个数<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(low , high):</span><br><span class="line">    <span class="comment"># If current element is smaller</span></span><br><span class="line">    <span class="keyword">if</span> arr[j] &lt;= pivot:</span><br><span class="line">        <span class="comment"># increment</span></span><br><span class="line">        i = i+<span class="number">1</span></span><br><span class="line">        arr[i],arr[j] = arr[j],arr[i]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><p>常规的快排：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># divide function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span>(<span class="params">arr,low,high</span>):</span></span><br><span class="line">   i = ( low-<span class="number">1</span> )</span><br><span class="line">   pivot = arr[high] <span class="comment"># pivot element</span></span><br><span class="line">   <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(low , high):</span><br><span class="line">      <span class="comment"># If current element is smaller</span></span><br><span class="line">        <span class="keyword">if</span> arr[j] &lt;= pivot:</span><br><span class="line">            <span class="comment"># increment</span></span><br><span class="line">            i = i+<span class="number">1</span></span><br><span class="line">            arr[i],arr[j] = arr[j],arr[i]</span><br><span class="line">   arr[i+<span class="number">1</span>],arr[high] = arr[high],arr[i+<span class="number">1</span>]</span><br><span class="line">   <span class="keyword">return</span> i+<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># sort</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickSort</span>(<span class="params">arr,low,high</span>):</span></span><br><span class="line">   <span class="keyword">if</span> low &lt; high:</span><br><span class="line">        <span class="comment"># index</span></span><br><span class="line">        <span class="comment"># print(&quot;pre: &quot;, arr)</span></span><br><span class="line">        pi = partition(arr,low,high)</span><br><span class="line">        <span class="comment"># print(&quot;post: &quot;, arr, &quot;\tpivot: &quot;, pi)</span></span><br><span class="line">        <span class="comment"># sort the partitions</span></span><br><span class="line">        quickSort(arr, low, pi-<span class="number">1</span>)</span><br><span class="line">        quickSort(arr, pi+<span class="number">1</span>, high)</span><br><span class="line"></span><br><span class="line"><span class="comment"># main</span></span><br><span class="line">arr = [<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">7</span>]</span><br><span class="line">n = <span class="built_in">len</span>(arr)</span><br><span class="line">quickSort(arr, <span class="number">0</span>, n-<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Sorted array is:&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">   <span class="built_in">print</span> (arr[i],end=<span class="string">&quot; &quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="quick-select-1"><a href="#quick-select-1" class="headerlink" title="quick select"></a>quick select</h3><h4 id="基本思想-2"><a href="#基本思想-2" class="headerlink" title="基本思想"></a>基本思想</h4><ol>
+<li>通过 对比 pivot_index 与 k，『分而治一半』</li>
+</ol>
+<h4 id="需要注意的点-2"><a href="#需要注意的点-2" class="headerlink" title="需要注意的点"></a>需要注意的点</h4><ol>
+<li>如果 k 落在 pivot 右边，注意更新 k 值（<code>k - 1 - (pivot - l)</code>）</li>
+<li><code>k-1</code>是对k实际意义进行的校正（index = 0，表示第一个数）</li>
+</ol>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># divide function</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span>(<span class="params">arr,low,high</span>):</span></span><br><span class="line">   i = ( low-<span class="number">1</span> )</span><br><span class="line">   pivot = arr[high] <span class="comment"># pivot element</span></span><br><span class="line">   <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(low , high):</span><br><span class="line">      <span class="comment"># If current element is smaller</span></span><br><span class="line">        <span class="keyword">if</span> arr[j] &lt;= pivot:</span><br><span class="line">            <span class="comment"># increment</span></span><br><span class="line">            i = i+<span class="number">1</span></span><br><span class="line">            arr[i],arr[j] = arr[j],arr[i]</span><br><span class="line">   arr[i+<span class="number">1</span>],arr[high] = arr[high],arr[i+<span class="number">1</span>]</span><br><span class="line">   <span class="keyword">return</span> i+<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickSelect</span>(<span class="params">arr, l, r, k</span>):</span></span><br><span class="line">     </span><br><span class="line">    <span class="comment"># if k is smaller than number of</span></span><br><span class="line">    <span class="comment"># elements in array</span></span><br><span class="line">    <span class="keyword">if</span> (k &gt; <span class="number">0</span> <span class="keyword">and</span> k &lt;= r - l + <span class="number">1</span>):</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># Partition the array around last</span></span><br><span class="line">        <span class="comment"># element and get position of pivot</span></span><br><span class="line">        <span class="comment"># element in sorted array</span></span><br><span class="line">        index = partition(arr, l, r)</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># if position is same as k</span></span><br><span class="line">        <span class="keyword">if</span> (index - l == k - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> arr[index]</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># If position is more, recur </span></span><br><span class="line">        <span class="comment"># for left subarray </span></span><br><span class="line">        <span class="keyword">if</span> (index - l &gt; k - <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> kthSmallest(arr, l, index - <span class="number">1</span>, k)</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># Else recur for right subarray </span></span><br><span class="line">        <span class="keyword">return</span> kthSmallest(arr, index + <span class="number">1</span>, r, </span><br><span class="line">                            k - <span class="number">1</span> - (index - l)) </span><br><span class="line">    <span class="keyword">return</span> INT_MAX</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Driver Code</span></span><br><span class="line">arr = [ <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">6</span>, <span class="number">11</span>, <span class="number">26</span> ]</span><br><span class="line">n = <span class="built_in">len</span>(arr)</span><br><span class="line">k = <span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n+<span class="number">1</span>):</span><br><span class="line">    print(quickSelect(arr, <span class="number">0</span>, n-<span class="number">1</span>, i)) <span class="comment"># 第k个，从0开始</span></span><br></pre></td></tr></table></figure>
+<h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/heap-sort/">https://www.geeksforgeeks.org/heap-sort/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/python-program-for-quicksort">https://www.tutorialspoint.com/python-program-for-quicksort</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/quickselect-algorithm/">https://www.geeksforgeeks.org/quickselect-algorithm/</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/algo/" rel="tag"># algo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/11/zero-copy/" rel="prev" title="what is zero copy">
+      <i class="fa fa-chevron-left"></i> what is zero copy
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/13/what-is-Here-Documents/" rel="next" title="what is Here Documents">
+      what is Here Documents <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%B3%A8%E6%84%8F%E6%88%91%E9%81%97%E6%BC%8F%E4%BA%86%E4%B8%80%E4%B8%AA%E7%82%B9%EF%BC%8C%E9%9C%80%E8%A6%81%E9%80%92%E5%BD%92%E5%AF%B9%E4%B8%8B%E5%B1%82%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C%EF%BC%88%E5%BD%B1%E5%93%8D%E4%BA%86%E9%82%A3%E4%B8%AA-largest%EF%BC%9F%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">1. 注意我遗漏了一个点，需要递归对下层的数据进行操作（影响了那个 largest？）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-heapify-%E6%B3%A8%E6%84%8F%E6%8A%BD%E5%8F%96%E5%87%BA%E6%9D%A5%EF%BC%8C%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E9%A2%91%E7%B9%81%E4%BD%BF%E7%94%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">2. heapify 注意抽取出来，这是一个频繁使用的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#heap-sort"><span class="nav-number">2.1.</span> <span class="nav-text">heap sort</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">2.1.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9"><span class="nav-number">2.1.2.</span> <span class="nav-text">需要注意的点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#quick-select"><span class="nav-number">2.2.</span> <span class="nav-text">quick select</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#quick-sort"><span class="nav-number">2.2.1.</span> <span class="nav-text">quick sort</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3-1"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9-1"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">需要注意的点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quick-select-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">quick select</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3-2"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9-2"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">需要注意的点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-2"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text">reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Shao Rui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shao Rui</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

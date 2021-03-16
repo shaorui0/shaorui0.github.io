@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="什么是僵尸进程？僵尸进程是如何产生的？ 每个进程的回收都由父进程去执行，系统调用是wait&#x2F;waitpid 如果一个父进程没有调用wait，而子进程结束，父进程继续执行，子进程的资源将没办法回收。此时，子进程变成了一个zombie。 通常情况下，父进程被显式杀掉的时候，子进程将会（成为孤儿进程）被分派给init process，这样由它进行托管然后回收。  linux关于进程的部分，最初是如何设计">
+  <meta name="description" content="linux关于进程的部分，最初是如何设计的？Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zombie process">
 <meta property="og:url" content="http://example.com/2021/02/16/what-is-zombie-process/index.html">
 <meta property="og:site_name" content="Surely You&#39;re Joking, Mr. Feynman!">
-<meta property="og:description" content="什么是僵尸进程？僵尸进程是如何产生的？ 每个进程的回收都由父进程去执行，系统调用是wait&#x2F;waitpid 如果一个父进程没有调用wait，而子进程结束，父进程继续执行，子进程的资源将没办法回收。此时，子进程变成了一个zombie。 通常情况下，父进程被显式杀掉的时候，子进程将会（成为孤儿进程）被分派给init process，这样由它进行托管然后回收。  linux关于进程的部分，最初是如何设计">
+<meta property="og:description" content="linux关于进程的部分，最初是如何设计的？Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-16T13:55:13.000Z">
-<meta property="article:modified_time" content="2021-02-17T15:00:51.521Z">
+<meta property="article:modified_time" content="2021-03-12T16:04:55.092Z">
 <meta property="article:author" content="Shao Rui">
 <meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-17 23:00:51" itemprop="dateModified" datetime="2021-02-17T23:00:51+08:00">2021-02-17</time>
+                <time title="修改时间：2021-03-13 00:04:55" itemprop="dateModified" datetime="2021-03-13T00:04:55+08:00">2021-03-13</time>
               </span>
 
           
@@ -195,21 +195,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="什么是僵尸进程？僵尸进程是如何产生的？"><a href="#什么是僵尸进程？僵尸进程是如何产生的？" class="headerlink" title="什么是僵尸进程？僵尸进程是如何产生的？"></a>什么是僵尸进程？僵尸进程是如何产生的？</h3><ol>
-<li>每个进程的回收都由父进程去执行，系统调用是<code>wait/waitpid</code></li>
+        <h3 id="linux关于进程的部分，最初是如何设计的？"><a href="#linux关于进程的部分，最初是如何设计的？" class="headerlink" title="linux关于进程的部分，最初是如何设计的？"></a>linux关于进程的部分，最初是如何设计的？</h3><p>Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。<br>例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。<br>为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中的数据。只有父进程发出了与被终止的进程相关的 wait() 类系统调用之后，才允许这样做。这就是引入僵死状态的原因：尽管从技术上来说进程已死，但必须保存它的描述符，直到父进程得到通知。<br>如果一个进程已经终止，但是它的父进程尚未调用 wait() 或 waitpid() 对它进行清理，这时的进程状态称为僵死状态，处于僵死状态的进程称为僵尸进程(zombie process)。任何进程在刚终止时都是僵尸进程，正常情况下，僵尸进程都立刻被父进程清理了。</p>
+<h3 id="什么是僵尸进程？僵尸进程是如何产生的？会有什么问题？"><a href="#什么是僵尸进程？僵尸进程是如何产生的？会有什么问题？" class="headerlink" title="什么是僵尸进程？僵尸进程是如何产生的？会有什么问题？"></a>什么是僵尸进程？僵尸进程是如何产生的？会有什么问题？</h3><ol>
+<li>每个进程的回收都由父进程去执行，系统调用是<code>wait/waitpid</code>。子进程退出时父进程都调用<code>wait/waitpid</code>，会导致 zombie。</li>
 <li>如果一个父进程没有调用<code>wait</code>，而子进程结束，父进程继续执行，子进程的资源将没办法回收。此时，子进程变成了一个zombie。</li>
 <li>通常情况下，父进程被显式杀掉的时候，子进程将会（成为<strong>孤儿进程</strong>）被分派给init process，这样由它进行托管然后回收。</li>
 </ol>
-<h3 id="linux关于进程的部分，最初是如何设计的？"><a href="#linux关于进程的部分，最初是如何设计的？" class="headerlink" title="linux关于进程的部分，最初是如何设计的？"></a>linux关于进程的部分，最初是如何设计的？</h3><p>Linux 允许进程查询内核以获得其父进程的 PID，或者其任何子进程的执行状态。<br>例如，进程可以创建一个子进程来执行特定的任务，然后调用诸如 wait() 这样的一些库函数检查子进程是否终止。如果子进程已经终止，那么，它的终止代号将告诉父进程这个任务是否已成功地完成。<br>为了遵循这些设计原则，不允许 Linux 内核在进程一终止后就丢弃包含在进程描述符字段中的数据。只有父进程发出了与被终止的进程相关的 wait() 类系统调用之后，才允许这样做。这就是引入僵死状态的原因：尽管从技术上来说进程已死，但必须保存它的描述符，直到父进程得到通知。<br>如果一个进程已经终止，但是它的父进程尚未调用 wait() 或 waitpid() 对它进行清理，这时的进程状态称为僵死状态，处于僵死状态的进程称为僵尸进程(zombie process)。任何进程在刚终止时都是僵尸进程，正常情况下，僵尸进程都立刻被父进程清理了。</p>
-<h3 id="僵尸进程的问题是什么？"><a href="#僵尸进程的问题是什么？" class="headerlink" title="僵尸进程的问题是什么？"></a>僵尸进程的问题是什么？</h3><p>进程终止，一些基本的资源（open file, memory, etc）会被内核回收。<br>会占用进程表一个entry，表的容量是有限的，占用多了肯定是会出问题的</p>
-<h3 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h3><p>一个父进程在子进程前面死亡，子进程被init process 接管，虽然能够自动调用<code>wait</code>。</p>
+<p>进程终止，一些基本的资源（open file, memory, etc）会被内核回收。<br>会占用进程表一个entry，<strong>表的容量是有限的，占用多了肯定是会出问题的</strong></p>
 <h3 id="如何处理僵尸？如何能够不产生僵尸？"><a href="#如何处理僵尸？如何能够不产生僵尸？" class="headerlink" title="如何处理僵尸？如何能够不产生僵尸？"></a>如何处理僵尸？如何能够不产生僵尸？</h3><ol>
-<li>waitpid<br> waitpid的返回值是子进程的退出状态，根据这个状态能够表示是否需要回收数据</li>
+<li>waitpid<br> waitpid的返回值是<strong>子进程的退出状态</strong>，根据这个状态能够表示是否需要回收数据</li>
 <li>Perform double fork()<br> // grandchild exits, no zombie (adopted by init)</li>
 <li>忽略SIGCHLD,<br> why?能够让内核知道，可以立即回收，因为父进程表示不管它了</li>
 </ol>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16078985/why-zombie-processes-exist">why-zombie-processes-exist</a></p>
-<h3 id="僵尸进程会占用其他资源吗？"><a href="#僵尸进程会占用其他资源吗？" class="headerlink" title="僵尸进程会占用其他资源吗？"></a>僵尸进程会占用其他资源吗？</h3><p>在进程退出的时候，内核释放该进程所有的资源，包括打开的文件，占用的内存等。但是仍然为其保留一定的信息(包括进程号 PID，退出状态 the termination status of the process，运行时间 the amount of CPU time taken by the process 等)。直到父进程通过 wait / waitpid 来取时才释放。</p>
+<h3 id="僵尸进程会占用其他资源吗？"><a href="#僵尸进程会占用其他资源吗？" class="headerlink" title="僵尸进程会占用其他资源吗？"></a>僵尸进程会占用其他资源吗？</h3><p>在进程退出的时候，内核释放该进程所有的资源，包括打开的文件，占用的内存等。<strong>但是仍然为其保留一定的信息</strong>(包括进程号 PID，退出状态 the termination status of the process，运行时间 the amount of CPU time taken by the process 等)。直到父进程通过 wait / waitpid 来取时才释放。</p>
+<p>zombie 测试代码，运行时产生<code>Z+</code>，结束父进程，僵尸进程也会被回收（<code>init_process</code>）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid, ppid;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World1\n&quot;</span>);</span><br><span class="line">    pid=fork();</span><br><span class="line">    <span class="keyword">if</span>(pid==<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);    </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;I am the parent\n&quot;</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;The PID of parent is %d\n&quot;</span>,getpid());</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;The PID of parent of parent is %d\n&quot;</span>,getppid());        </span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h3><p>一个父进程在子进程前面死亡，子进程被init process 接管，虽然能够自动调用<code>wait</code>。</p>
 <h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33979231/status-of-process-on-linux">https://stackoverflow.com/questions/33979231/status-of-process-on-linux</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PROCESS STATE CODES</span><br><span class="line">    Here are the different values that the s, stat and state output </span><br><span class="line">    specifiers (header &quot;STAT&quot; or &quot;S&quot;) will display to describe the</span><br><span class="line">    state of a process:</span><br><span class="line"></span><br><span class="line">       D    uninterruptible sleep (usually IO)</span><br><span class="line">       S    interruptible sleep (waiting for an event to complete)</span><br><span class="line">       R    running or runnable (on run queue)</span><br><span class="line">       T    stopped by job control **signal**</span><br><span class="line">       t    stopped by **debugger** during the tracing</span><br><span class="line">       W    paging (not valid since the 2.6.xx kernel)</span><br><span class="line">       X    dead (should never be seen)</span><br><span class="line">       Z    defunct (&quot;zombie&quot;) process, terminated but not reaped by its parent</span><br></pre></td></tr></table></figure>
 
@@ -230,12 +232,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/16/why-stack-can-overflow-but-heap/" rel="prev" title="why stack can overflow but heap cannot?">
-      <i class="fa fa-chevron-left"></i> why stack can overflow but heap cannot?
+    <a href="/2021/02/16/coroutine/" rel="prev" title="Coroutine">
+      <i class="fa fa-chevron-left"></i> Coroutine
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/16/what-is-protobuf/" rel="next" title="What is Protobuf?">
-      What is Protobuf? <i class="fa fa-chevron-right"></i>
+    <a href="/2021/02/16/diff-static-link-and-dynamic-link/" rel="next" title="What is static link and dynamic link">
+      What is static link and dynamic link <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -295,7 +297,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%EF%BC%9F%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是僵尸进程？僵尸进程是如何产生的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux%E5%85%B3%E4%BA%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E9%83%A8%E5%88%86%EF%BC%8C%E6%9C%80%E5%88%9D%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">linux关于进程的部分，最初是如何设计的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">僵尸进程的问题是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">什么是孤儿进程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%83%B5%E5%B0%B8%EF%BC%9F%E5%A6%82%E4%BD%95%E8%83%BD%E5%A4%9F%E4%B8%8D%E4%BA%A7%E7%94%9F%E5%83%B5%E5%B0%B8%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">如何处理僵尸？如何能够不产生僵尸？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E4%BC%9A%E5%8D%A0%E7%94%A8%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90%E5%90%97%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">僵尸进程会占用其他资源吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">7.</span> <span class="nav-text">进程状态</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux%E5%85%B3%E4%BA%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E9%83%A8%E5%88%86%EF%BC%8C%E6%9C%80%E5%88%9D%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">linux关于进程的部分，最初是如何设计的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%EF%BC%9F%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%EF%BC%9F%E4%BC%9A%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">什么是僵尸进程？僵尸进程是如何产生的？会有什么问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%83%B5%E5%B0%B8%EF%BC%9F%E5%A6%82%E4%BD%95%E8%83%BD%E5%A4%9F%E4%B8%8D%E4%BA%A7%E7%94%9F%E5%83%B5%E5%B0%B8%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">如何处理僵尸？如何能够不产生僵尸？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E4%BC%9A%E5%8D%A0%E7%94%A8%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90%E5%90%97%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">僵尸进程会占用其他资源吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">什么是孤儿进程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">6.</span> <span class="nav-text">进程状态</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -309,12 +311,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

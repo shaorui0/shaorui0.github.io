@@ -1,0 +1,48 @@
+#  mutable object
+
+__ 发表于 2021-02-16 __ 更新于 2021-02-22
+
+    1  
+    2  
+    3  
+    4  
+    5  
+    6  
+    7  
+    8  
+    9  
+    10  
+    11  
+    12  
+    13  
+    14  
+    15  
+    # 不可变对象  
+    i = 77  
+    j = 77  
+    i is j # True  
+    # check id(like addr)  
+    print(id(i), id(j))  
+    j += 1  
+    print(id(i), id(j))  
+    # 可变对象  
+    a_list = [1,2,3]  
+    b_list = a_list  
+    print(id(a_list), id(b_list))  
+    a_list[2] = 5  
+    print(id(a_list), id(b_list))  
+
+不可变对象，当i修改，i、j此时就指向不同的地方了。
+
+而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。
+
+[# python](/tags/python/)
+
+[ __ What is static link and dynamic link ](/2021/02/16/diff-static-link-and-
+dynamic-link/)
+
+[ why need type system? __ ](/2021/02/16/why-need-type-system/)
+
+  * 文章目录 
+  * 站点概览 
+

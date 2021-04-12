@@ -224,22 +224,3 @@ socketio.readthedocs.io/en/latest/gevent.html))
             gevent.spawn(f, 'https://www.yahoo.com/', handler_result),  
             gevent.spawn(f, 'https://github.com/', handler_result),  
     ])  
-
-[# web](/tags/web/)
-
-[ __ What is NGINX ](/2021/02/20/what-is-nginx/)
-
-[ consistent-cache-RDBMS __ ](/2021/02/22/consistent-cache-RDBMS/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. comprehend callback
-    1. 1.1. why callback
-    2. 1.2. implement
-    3. 1.3. asyn callback
-    4. 1.4. callback or coroutine?
-  2. 2. Example
-  3. 3. 延伸
-    1. 3.1. gevent
-

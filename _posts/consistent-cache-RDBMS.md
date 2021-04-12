@@ -165,27 +165,3 @@ consistency-with-database)
 sql/](https://yunpengn.github.io/blog/2019/05/04/consistent-redis-sql/)
 
 [https://github.com/alibaba/canal](https://github.com/alibaba/canal)
-
-[# data](/tags/data/) [# redis](/tags/redis/) [# database](/tags/database/)
-
-[ __ What is Callback ](/2021/02/20/callback/)
-
-[ Redis - why redis fast? __ ](/2021/03/01/why-redis-fast/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 1. Cache Expiry
-  2. 2. 2. Cache Aside
-    1. 2.1. corner case
-  3. 3. 3. Cache Aside - Variant 1
-  4. 4. 4. Cache Aside - Variant 2
-  5. 5. 5. Read Through
-    1. 5.1. cons:
-  6. 6. 6. Write Through
-  7. 7. 7. Write Behind
-    1. 7.1. pros
-    2. 7.2. cons
-  8. 8. 8. Double Delete
-* ref doc
-

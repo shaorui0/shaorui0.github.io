@@ -18,13 +18,3 @@ splat。
 [https://stackoverflow.com/questions/1031273/what-is-polymorphism-what-is-it-
 for-and-how-is-it-used](https://stackoverflow.com/questions/1031273/what-is-
 polymorphism-what-is-it-for-and-how-is-it-used)
-
-[# programming language](/tags/programming-language/)
-
-[ __ What is Protobuf? ](/2021/02/16/what-is-protobuf/)
-
-[ Index __ ](/2021/02/16/diff-hash-btree/)
-
-  * 文章目录 
-  * 站点概览 
-

@@ -21,16 +21,3 @@ assign its tasks to another child, whatever.
   * parent不想做其他事，仅等待进程执行终止。
   * 但，当STOP发生的时候，一般的行为不会通知到wait/waitpid，该函数也就无法返回，此时会产生『死锁』，除非重新执行（continued）
   * 所以需要有一个机制防止这种情况。其场景是，当`SIGSTOP`发生，也能退出wait/waitpid，未来也就能执行`CONTINUE`.
-
-[# OS](/tags/OS/)
-
-[ __ What is DNS ](/2021/02/16/what-is-dns/)
-
-[ Redis - TTL __ ](/2021/02/16/redis-ttl/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. WNOHANG
-  2. 2. WUNTRACED
-

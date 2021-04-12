@@ -60,25 +60,3 @@ TODO 陈硕图
 ## 参考
 
 [同步/异步，阻塞/非阻塞](https://www.zhihu.com/question/19732473/answer/117012135)
-
-[# OS](/tags/OS/)
-
-[ __ multi process, multi thread and IO reuse ](/2021/02/05/diff-multi-
-process-multi-thread-io-resue/)
-
-[ what difference between sql and nosql --- data model __ ](/2021/02/08/what-
-difference-between-sql-and-nosql-data-model/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. TL;DR
-* 还是不同层次的问题。
-
-  1. 1. 1/7过程
-  2. 2. 2/6过程
-  3. 3. 3/5过程
-  4. 4. 4过程
-* 总结
-* 参考
-

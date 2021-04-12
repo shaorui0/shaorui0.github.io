@@ -67,11 +67,3 @@ benchmarking, A/B testing, 等等。
 反之， 如果你只做到了6#， 但是别人做了1，2，3，4，5，6，7， 那你又怎么能面试成功呢？
 
 有感而发， 组织的不是很严密， 大家去粗取精， 也说说你们的想法。
-
-[# interview](/tags/interview/)
-
-[ how to use pdb __ ](/2020/12/16/how-use-pdb/)
-
-  * 文章目录 
-  * 站点概览 
-

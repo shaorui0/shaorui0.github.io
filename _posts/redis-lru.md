@@ -50,17 +50,3 @@ TODO 更深入的接触到redis后，进行进一步的了解。
 
 [如何实现一个kv形式的严格LRU策略](https://programmer.help/blogs/redis-lru-algorithm-and-
 lru-implementation-of-redis.html)
-
-[# redis](/tags/redis/)
-
-[ __ Redis - data structure ](/2021/02/16/redis-data-structure-in-action/)
-
-[ memory management __ ](/2021/02/16/python-memory-management/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. LRU algorithm and LRU implementation of Redis
-    1. 1.0.1. 【问】如何设计一个redis的内存淘汰机制？
-    2. 1.0.2. 真正到工业级的redis的实现，又和严格LRU的有一些出入
-

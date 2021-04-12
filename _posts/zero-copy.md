@@ -260,24 +260,3 @@ vs-mmap)
   * [https://xunnanxu.github.io/2016/09/10/It-s-all-about-buffers-zero-copy-mmap-and-Java-NIO/](https://xunnanxu.github.io/2016/09/10/It-s-all-about-buffers-zero-copy-mmap-and-Java-NIO/)
   * [https://developer.ibm.com/articles/j-zerocopy/](https://developer.ibm.com/articles/j-zerocopy/)
   * [https://www.man7.org/linux/man-pages/man2/mmap.2.html](https://www.man7.org/linux/man-pages/man2/mmap.2.html)
-
-[# OS](/tags/OS/)
-
-[ __ web server - presure test ](/2021/03/11/web-server-presure-test/)
-
-[ top k value __ ](/2021/03/12/find-k-th-value/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. zero copy
-    1. 1.1. 场景是什么？
-      1. 1.1.1. 可能减少 switch context 次数或者 copy 次数吗？
-    2. 1.2. 为什么使用 zero copy?
-    3. 1.3. 怎么使用 zero copy
-      1. 1.3.1. sendfile
-        1. 1.3.1.1. sendfile 的升级
-      2. 1.3.2. mmap
-        1. 1.3.2.1. 如何使用 mmap
-  2. 2. reference
-

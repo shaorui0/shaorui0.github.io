@@ -47,20 +47,3 @@ primary index 默认为聚簇索引，可以修改表scheme，设置专门的聚
   * [关于聚簇索引/非聚簇索引的基本对比2](https://cloud.tencent.com/developer/article/1541265)
   * [关于 implicit indexes，本质是最左匹配，两种引擎可能有区别](https://dba.stackexchange.com/questions/37643/are-there-implicit-indexes-in-innodb-like-myisam)
   * [一次典型的索引知识点相关的面试，涉及到的『索引下推』有点意思](https://zhuanlan.zhihu.com/p/73204847)
-
-[# database](/tags/database/)
-
-[ __ what is Here Documents ](/2021/03/13/what-is-Here-Documents/)
-
-[ message broker __ ](/2021/03/14/message-broker/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 数据库索引
-    1. 1.1. 聚簇索引、非聚簇索引
-      1. 1.1.1. 索引底层
-      2. 1.1.2. innoDB 与 MyISAM
-    2. 1.2. DB上层
-    3. 1.3. reference
-

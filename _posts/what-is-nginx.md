@@ -242,36 +242,3 @@ nginx 可以进行哪些配置？（目前应该熟悉的）
 
 [nginx config
 example](https://github.com/nginx/nginx/blob/master/conf/nginx.conf)
-
-[# web](/tags/web/)
-
-[ __ TRANSACTION - ISOLATION ](/2021/02/18/transaction-isolation/)
-
-[ What is Callback __ ](/2021/02/20/callback/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 功能
-    1. 1.1. 0. 虚拟主机
-      1. 1.1.1. 为什么要加一层 nginx，而不直接通过后端的路由（框架，比如Django）进行 serve ？
-    2. 1.2. 1. 反向代理
-    3. 1.3. 2. 负载均衡
-      1. 1.3.0.1. 负载均衡有哪些策略？
-    4. 1.3.1. pros
-    5. 1.3.2. cons
-    6. 1.3.3. 从 tiny_lb 项目中学到什么？
-  2. 1.4. 3. 缓存
-* 2. 如何工作？
-
-  1. 2.1. 常见业务架构
-    1. 2.1.1. 如何做到热部署
-      1. 2.1.1.0.1. nginx 做法：
-      2. 2.1.1.0.2. 还有可能的方案：
-* 2.2. 怎么进行高并发
-* 2.3. 怎么进行高可用
-
-* 3. nginx.conf
-* 4. diff nginx / apache
-* 5. reference
-

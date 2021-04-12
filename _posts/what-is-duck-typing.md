@@ -22,13 +22,3 @@ What is given.
 
 [ref: what-is-duck-typing](https://stackoverflow.com/questions/4205130/what-
 is-duck-typing)
-
-[# python](/tags/python/)
-
-[ __ What is event driven model ](/2021/02/16/what-is-event-driven-model/)
-
-[ What is DNS __ ](/2021/02/16/what-is-dns/)
-
-  * 文章目录 
-  * 站点概览 
-

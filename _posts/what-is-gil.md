@@ -167,23 +167,3 @@ CPython, Jython, IronPython and PyPy…
   * [pythons-gil-a-hurdle-to-multithreaded-program](https://medium.com/python-features/pythons-gil-a-hurdle-to-multithreaded-program-d04ad9c1a63#:~:text=Python%20threads%20can%27t%20run,the%20same%20time%20as%20computation)
 
   * [why-do-we-need-locks-for-threads-if-we-have-gil](https://stackoverflow.com/questions/40072873/why-do-we-need-locks-for-threads-if-we-have-gil)
-
-[# python](/tags/python/)
-
-[ __ What is Airflow ](/2021/02/14/airflow-intro/)
-
-[ What is high concurrency? __ ](/2021/02/16/what-is-high-concurrency/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 聊聊python的多线程
-  2. 2. GIL解决了什么问题？
-    1. 2.1. 内存安全问题
-  3. 3. 为什么是GIL？
-    1. 3.1. 不是银弹
-    2. 3.2. 也没有那么坏
-      1. 3.2.1. py3为什么还是没有解决这个问题？
-    3. 3.3. 目前有什么比较好的解决方式？
-  4. 4. ref
-

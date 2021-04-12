@@ -55,13 +55,3 @@ serve requests. [here](https://stackoverflow.com/questions/50478674/redis-aof-
 fsync-always-vs-lsm-tree)
 
 其结论很简单，redis 没有用 LSM tree，因为它根本没想过**更新**这个持久化文件，更多的功能是用来错误恢复。
-
-[# data](/tags/data/) [# redis](/tags/redis/)
-
-[ __ Redis - why redis fast? ](/2021/03/01/why-redis-fast/)
-
-[ what is load balancer __ ](/2021/03/02/what-is-load-balancer/)
-
-  * 文章目录 
-  * 站点概览 
-

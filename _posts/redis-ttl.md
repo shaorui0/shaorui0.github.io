@@ -18,15 +18,3 @@ Redis keys are expired in two ways: a passive way, and an active way.
 
 [how-does-redis-expire-keys](https://stackoverflow.com/questions/36172745/how-
 does-redis-expire-keys)
-
-[# redis](/tags/redis/)
-
-[ __ Waitpid usage ](/2021/02/16/waitpid-flag-set/)
-
-[ Redis - data structure __ ](/2021/02/16/redis-data-structure-in-action/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. How Redis expires keys?
-

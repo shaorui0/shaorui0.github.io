@@ -39,17 +39,3 @@ __ 发表于 2020-12-16 __ 更新于 2021-02-22
 
 [参考](https://stackoverflow.com/questions/4228637/getting-started-with-the-
 python-debugger-pdb)
-
-[# programming language](/tags/programming-language/) [#
-python](/tags/python/)
-
-[ __ 【转】face-to-interview ](/2020/02/22/face-to-interview/)
-
-[ iterator, generator and decorator __ ](/2020/12/16/python-generator-
-iterator-decorator/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 测试代码：
-

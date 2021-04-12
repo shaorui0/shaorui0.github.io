@@ -82,26 +82,3 @@ a URI could have any effect at all.
 ## ref
 
   * [whats-the-difference-between-a-post-and-a-put-http-request](https://stackoverflow.com/questions/107390/whats-the-difference-between-a-post-and-a-put-http-request)
-
-[# web](/tags/web/)
-
-[ __ why stack can overflow but heap cannot? ](/2021/02/16/why-stack-can-
-overflow-but-heap/)
-
-[ What is Protobuf? __ ](/2021/02/16/what-is-protobuf/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. get and post
-  2. 2. put and post
-    1. 2.0.1. put
-    2. 2.0.2. post
-  3. 2.1. DIFF put and post
-  4. 2.2. 工作实践中的场景
-* 3. http
-
-  1. 3.1. 常用状态码
-  2. 3.2. https 过程
-* 4. ref
-

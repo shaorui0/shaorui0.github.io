@@ -109,23 +109,3 @@ HDFS and the Reduce task serializes(writing) the data as the result of the
 Hive query.
 
 ![](/2021/02/16/what-is-map-reduce/hive_procecss_detail.png)
-
-[# data](/tags/data/)
-
-[ __ virtual memory ](/2021/02/16/what-is-memory-management/)
-
-[ partition and sharding __ ](/2021/02/17/diff-between-partition-and-
-sharding/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. example
-  2. 2. mr任务
-    1. 2.0.0.1. mapper
-    2. 2.0.0.2. reducer
-
-* 3. WHY
-
-* relationship-between-hive-and-hadoop-mapreduce
-

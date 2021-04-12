@@ -35,14 +35,3 @@ __ 发表于 2021-02-16 __ 更新于 2021-02-22
 不可变对象，当i修改，i、j此时就指向不同的地方了。
 
 而可变对象，由于底层一些引用计数的关系，还是指向同一个地址的数据。
-
-[# python](/tags/python/)
-
-[ __ What is static link and dynamic link ](/2021/02/16/diff-static-link-and-
-dynamic-link/)
-
-[ why need type system? __ ](/2021/02/16/why-need-type-system/)
-
-  * 文章目录 
-  * 站点概览 
-

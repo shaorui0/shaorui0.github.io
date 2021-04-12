@@ -84,22 +84,3 @@ structure/](https://developpaper.com/redis-5-big-data-structure/)
 ### 怎么实现的？
 
 k-v的部分是通过hash，O(1)，排序的部分呢？
-
-[# redis](/tags/redis/)
-
-[ __ Redis - TTL ](/2021/02/16/redis-ttl/)
-
-[ Redis - LRU __ ](/2021/02/16/redis-lru/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. list
-    1. 1.1. 使用场景
-  2. 2. set
-    1. 2.1. 使用场景
-    2. 2.2. 底层是什么？
-  3. 3. zset
-    1. 3.1. 使用场景呢？
-    2. 3.2. 怎么实现的？
-

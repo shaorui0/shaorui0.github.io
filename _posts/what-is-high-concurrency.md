@@ -22,13 +22,3 @@ __ 发表于 2021-02-16 __ 更新于 2021-02-17
   * 这么复杂的系统会涉及到N个service，N个存储，N个队列…… 这些资源的管理又成为了新的问题，这又需要对**集群和服务做管理**
   * 这么多服务，肯定要解决分布式的Tracing和报警问题
 
-[# web](/tags/web/)
-
-[ __ What is the Python Global Interpreter Lock (GIL)? ](/2021/02/16/what-is-
-gil/)
-
-[ What is event driven model __ ](/2021/02/16/what-is-event-driven-model/)
-
-  * 文章目录 
-  * 站点概览 
-

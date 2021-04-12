@@ -828,30 +828,3 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
 # References
 
   * [https://codeclimate.com/blog/choose-protocol-buffers/](https://codeclimate.com/blog/choose-protocol-buffers/)
-
-[# data](/tags/data/)
-
-[ __ Basic knowledge of web development ](/2021/02/16/diff-between-post-and-
-put/)
-
-[ What is polymorphism? __ ](/2021/02/16/what-is-polymorphism-what-is-it-for-
-and-how-is-it-used/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. why protobuf?
-    1. 1.0.1. pros
-    2. 1.0.2. cons(JSON can solve it)
-    3. 1.0.3. 优势 TODO
-* 2. protobuf有什么优势？
-* 3. how to use
-
-  1. 3.1. proto message parse
-    1. 3.1.1. recursive resolution based on DESCRIPTOR.fields
-    2. 3.1.2. iterative resolution based on proto schema
-    3. 3.1.3. run demo
-    4. 3.1.4. parse HdfsSeqfile
-    5. 3.1.5. a example of .proto
-* 4. References
-

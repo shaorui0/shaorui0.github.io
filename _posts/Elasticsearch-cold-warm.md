@@ -49,20 +49,3 @@ ES官方是建议使用SSD，但是成本
 ## 参考
 
 [Elasticsearch 冷热集群架构](https://www.cnblogs.com/caoweixiong/p/11988457.html)
-
-[# data](/tags/data/) [# ES](/tags/ES/)
-
-[ __ What is IPC ](/2021/01/15/diff-ipc/)
-
-[ multi process, multi thread and IO reuse __ ](/2021/02/05/diff-multi-
-process-multi-thread-io-resue/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 冷热数据索引特征
-  2. 2. 为什么需要冷热节点？
-  3. 3. ES的冷热架构部署
-  4. 4. 支持原理
-  5. 5. 参考
-

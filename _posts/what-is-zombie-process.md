@@ -25,7 +25,7 @@ process)。任何进程在刚终止时都是僵尸进程，正常情况下，僵
 
 会占用进程表一个entry，**表的容量是有限的，占用多了肯定是会出问题的**
 
-### 如何处理僵尸？如何能够不产生僵尸？
+### 如何预防不产生僵尸？
 
 1. waitpid  
 waitpid的返回值是**子进程的退出状态**，根据这个状态能够表示是否需要回收数据
@@ -41,6 +41,10 @@ grandchild exits, no zombie (adopted by init)
 why? 能够让内核知道，可以立即回收，因为父进程表示不管它了
 
 [why-zombie-processes-exist](https://stackoverflow.com/questions/16078985/why-zombie-processes-exist)
+
+### 如何处理
+
+僵尸进程一直停留的原因是父进程的“不作为”（比如：sleep），唯一的外部介入的方法就是 Kill 掉父进程。zombie process 会自动将回收权限交给 Init process。
 
 ### 僵尸进程会占用其他资源吗？
 
@@ -75,7 +79,9 @@ zombie 测试代码，运行时产生`Z+`，结束父进程，僵尸进程也会
   }  
 ```
 ### 什么是孤儿进程？
+diff with zombie
 
+很明显，父进程先于子进程死亡。
 一个父进程在子进程前面死亡，子进程被init process 接管，虽然能够自动调用`wait`。
 
 ### 进程状态

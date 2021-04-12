@@ -43,22 +43,3 @@ link/%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4.jpeg)
   * [diff 1](https://stackoverflow.com/questions/47116485/differences-between-static-libraries-and-dynamic-libraries-ignoring-how-they-are)
   * [diff 2](https://www.quora.com/What-is-the-difference-between-static-and-dynamic-linking)
   * [diff 3](https://stackoverflow.com/questions/61553723/whats-the-difference-between-statically-linked-and-not-a-dynamic-executable)
-
-[# OS](/tags/OS/) [# diff](/tags/diff/)
-
-[ __ Zombie process ](/2021/02/16/what-is-zombie-process/)
-
-[ mutable object __ ](/2021/02/16/mutable-obj/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 对比的角度
-    1. 1.1. 静态编译：
-      1. 1.1.0.1. 静态的好处：
-  2. 1.2. 动态编译：
-    1. 1.2.0.1. 动态的好处：
-* 1.3. 结论
-
-* 2. ref
-

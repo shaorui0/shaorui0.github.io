@@ -121,25 +121,3 @@ python](https://stackoverflow.com/questions/1756096/understanding-generators-
 in-python)
 
 其实本质就是建立在迭代器之上，但是这个迭代器是一个对象，通过yield对这个对象进行迭代，直到`StopIteration` exception
-
-[# python](/tags/python/)
-
-[ __ how to use pdb ](/2020/12/16/how-use-pdb/)
-
-[ What is IPC __ ](/2021/01/15/diff-ipc/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 装饰器
-    1. 1.1. What is ?
-    2. 1.2. why need?
-    3. 1.3. in action
-* 迭代器、生成器
-
-  1. 1. 可迭代对象
-    1. 1.1. iter(iterable_obj) => iterator
-  2. 2. 迭代器
-  3. 3. 闭包
-  4. 4. 生成器
-

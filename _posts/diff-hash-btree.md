@@ -34,18 +34,3 @@ comparisons that use the = or <=> operators.
     * 进一步的优化涉及到新的概念 — LSM-Tree（使用 SSM-Table）
   2. hash 不支持 range search。
   3. hash 不支持多列联合索引的最左匹配规则
-
-[# database](/tags/database/)
-
-[ __ What is polymorphism? ](/2021/02/16/what-is-polymorphism-what-is-it-for-
-and-how-is-it-used/)
-
-[ virtual memory __ ](/2021/02/16/what-is-memory-management/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 从数据结构的角度
-  2. 2. 从数据库的角度
-  3. 3. 不同点
-

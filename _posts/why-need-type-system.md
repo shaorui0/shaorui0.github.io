@@ -15,16 +15,3 @@ system?](https://www.zhihu.com/question/425821639/answer/1535183051)
 
   * C这样的语言选择在编程时指定每个变量的类型，编译时进行检查，这种做法称为静态类型系统，编译完成之后类型信息是可以去掉的。
   * Python这样的语言通过数据结构将类型和数据放在一起存储，在运行中可以检查每一段数据的具体类型，这种系统称为动态类型系统。
-
-[# programming language](/tags/programming-language/)
-
-[ __ mutable object ](/2021/02/16/mutable-obj/)
-
-[ why stack can overflow but heap cannot? __ ](/2021/02/16/why-stack-can-
-overflow-but-heap/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 不是必须的
-

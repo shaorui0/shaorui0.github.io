@@ -369,22 +369,3 @@ manager的责任）。池仅仅作为仓库。这种情况，使用BlockingQueue
     q.join()# Error implement?  
     print('All work completed')  
     os._exit(0)  
-
-[# OS](/tags/OS/) [# multi-process](/tags/multi-process/)
-
-[ __ web server - timerfd/eventfd ](/2021/02/10/web-server-timer/)
-
-[ What is Airflow __ ](/2021/02/14/airflow-intro/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 场景
-  2. 2. how to use
-    1. 2.0.1. 单个线程
-    2. 2.0.2. 多线程配合队列
-* 3. Where should you use BlockingQueue Implementations instead of Simple Queue Implementations?
-* 4. DIFF normal blocking queue and bounded blocking queue
-
-* how to implement a blocking queue
-

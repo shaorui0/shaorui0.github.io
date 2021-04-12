@@ -32,17 +32,3 @@ quickly.**
   * [server](./echo_server_event_driven.py)
 
   * [client](./echo_client.py)
-
-[# OS](/tags/OS/)
-
-[ __ What is high concurrency? ](/2021/02/16/what-is-high-concurrency/)
-
-[ What is duck typing __ ](/2021/02/16/what-is-duck-typing/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. why need event driven model
-  2. 2. how to implement a event driven model
-    1. 2.1. a simple reactor
-

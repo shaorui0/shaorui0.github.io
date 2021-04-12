@@ -37,18 +37,3 @@ on-mmap-starting-from-a-certain-threshold)
 > **mmap does not actually allocate the pages; it just manipulates the page
 map for your process**. That should typically be a **non-blocking operation.**
 (Although I admit I am not 100% sure about this.)
-
-[# OS](/tags/OS/)
-
-[ __ why need type system? ](/2021/02/16/why-need-type-system/)
-
-[ Basic knowledge of web development __ ](/2021/02/16/diff-between-post-and-
-put/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. stack
-  2. 2. heap
-    1. 2.0.1. 关于sbrk和mmap的对比
-

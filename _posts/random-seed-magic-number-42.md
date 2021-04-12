@@ -37,15 +37,3 @@ __ 发表于 2021-03-09
 PS1: 如果不标注 random 的范围， 值区间在 (0, 1)
 
 PS2: 如果不标注 seed ，seed 默认当前时间戳
-
-[# python](/tags/python/) [# other](/tags/other/)
-
-[ __ HTTP - interview issues ](/2021/03/08/HTTP-interview-issues/)
-
-[ distributed system - intro __ ](/2021/03/09/distributed-system-intro/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. seed 是干什么的？
-

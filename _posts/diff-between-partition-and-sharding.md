@@ -96,24 +96,3 @@ vs-partitioning)
 
 [EXAMPLE: handle instagram id](https://instagram-engineering.com/sharding-ids-
 at-instagram-1cf5a71e5a5c)
-
-[# data](/tags/data/) [# database](/tags/database/)
-
-[ __ What is map reduce ](/2021/02/16/what-is-map-reduce/)
-
-[ TRANSACTION - ISOLATION __ ](/2021/02/18/transaction-isolation/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. why need sharding？
-  2. 2. diff partition and sharding
-  3. 3. What is sharding?
-  4. 4. how to shard?
-
-* Instagram instance
-
-  1. 需求：
-  2. 可能的解法（pros and cons）：
-  3. 对比
-

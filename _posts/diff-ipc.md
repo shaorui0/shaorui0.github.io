@@ -69,20 +69,3 @@ Benchmark and Message Boundary:
 
 [comparing-unix-linux-
 ipc](https://stackoverflow.com/questions/404604/comparing-unix-linux-ipc)
-
-[# OS](/tags/OS/)
-
-[ __ iterator, generator and decorator ](/2020/12/16/python-generator-
-iterator-decorator/)
-
-[ (ES) hot and cold data architecture __ ](/2021/01/20/Elasticsearch-cold-
-warm/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. > 如何选择，以什么作为考量？
-  2. 2. > ipc分类
-
-* ref
-

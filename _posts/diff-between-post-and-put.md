@@ -65,11 +65,10 @@ a URI could have any effect at all.
 
 ### 工作实践中的场景
 
-    1  
-    2  
+```
     $api->post('{table}/_tagset/{tagId}/_update', 'MetaController@updateTag');  
     $api->put('{table}/_tagset/{tagId}', 'MetaController@upsertTag');  
-
+```
 曾经理解错误，因为put=create+replace，post=create。我错误的以为，在一个资源上增加某个属性（json增加一个k-v），使用put
 ，结果导致数据从多个k-v，变成了指定的唯一k-v（直接被替换）。
 

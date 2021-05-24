@@ -27,45 +27,25 @@ Here Documents **典型场景**就是与 remote 交互式软件/服务 进行批
 
 多行内容通过管道传递给软件（Interactive）
 
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
+``` 
     cat << EOF | psql ---params  
     BEGIN;  
     `pg_dump ----something`  
     update table .... statement ...;  
     END;  
     EOF  
-
+```
 多行内容重定向到文件
-
-    1  
-    2  
-    3  
-    4  
+```
     cat > outfile.txt <<EOF  
     Multi-line content  
     that will be written to outfile.txt  
     EOF  
-
+```
 ### 典型的交互式软件
 
 ssh
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
+```
     ssh yote@user << EOF  
       cd tests  
       tar -xf $TARGET_TEST.tar  
@@ -73,16 +53,4 @@ ssh
       cd $TARGET_TEST  
       *more stuff goes here*  
     EOF  
-
-[ __ top k value ](/2021/03/12/find-k-th-value/)
-
-[ database - index __ ](/2021/03/14/database-index/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. 背景
-  2. 2. 常用使用方式
-    1. 2.1. cat
-    2. 2.2. 典型的交互式软件
-
+```

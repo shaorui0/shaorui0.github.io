@@ -76,20 +76,13 @@ twitter的snowflake，apache zookeeper，64-bits unique IDs
 以上一些方案，分布式的方法更适合。但是，会引入复杂度。
 
 逻辑分片，粒度：DB => schema => table，而不是传统的DB => schema（public）
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
+```
     # Postgre有内置的语言，通过位运算处理三部分的id  
     41bits（微秒） ===> 41年  
     13bits（逻辑shard）  
     10bits（取模）  
     # 每微秒每个shard产生1024个ID  
-
+```
 [database-sharding-vs-
 partitionin](https://stackoverflow.com/questions/20771435/database-sharding-
 vs-partitioning)

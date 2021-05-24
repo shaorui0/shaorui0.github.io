@@ -52,24 +52,13 @@ htm)
 同时是惰性的，边迭代边求值。
 
 TODO 写一个典型的迭代器class fib
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
+```
     class Fib:  
         def __init__(self):  
         def __iter__self):  
             return self  
         def __next__self):  
-
+```
 `next(obj) => obj.__next__()`
 
 基础的数据类型（list等）都不是迭代器，因为没有next()方法
@@ -81,20 +70,7 @@ attached.
 
 [closure-in-python](https://stackoverflow.com/questions/18274051/closure-in-
 python)
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
+```
     def make_counter():  
         i = 0  
         def counter(): # counter() is a closure  
@@ -106,7 +82,7 @@ python)
     c2 = make_counter()  
     print (c1(), c1(), c2(), c2())  
     # -> 1 2 1 2  
-
+```
 ## 生成器
 
 yield相当于提供了一个语言层面的功能来帮助实现生成器

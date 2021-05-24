@@ -57,42 +57,7 @@ GIL刚好从源头解决了这个问题（只有一把锁）。
 ### 不是银弹
 
 典型的问题就是cpu-bound task执行起来只能**线性执行**。如果使用并发的架构去执行，甚至消耗的时间更多（上下文转换）。
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
-    32  
-    33  
-    34  
-    35  
+```
     import threading  
     import time  
     total = 0  
@@ -122,7 +87,7 @@ GIL刚好从源头解决了这个问题（只有一把锁）。
     print(increment_in_x_threads(70, increment_n_times, 100000))  
     print('\nwith locks:')  
     print(increment_in_x_threads(70, safe_increment_n_times, 100000))  
-
+```
 ### 也没有那么坏
 
 最本质的原因就是performance。如果去掉GIL，性能会不会下降？（多线程的CPU密集型任务那没话说，但是单线程任务和多线程IO密集型的任务呢？）

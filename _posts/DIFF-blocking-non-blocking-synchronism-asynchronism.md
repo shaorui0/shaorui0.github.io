@@ -1,4 +1,4 @@
-#  (Non)blocking / (A)synchrony
+#  (Non-)blocking / (A)synchrony
 
 __ 发表于 2021-02-06 __ 更新于 2021-02-22
 

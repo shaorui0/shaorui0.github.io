@@ -12,19 +12,7 @@ __ 发表于 2020-12-16 __ 更新于 2021-02-22
 
 # 测试代码：
 
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
+``` 
     import pdb  
     def combine(s1,s2):      # define subroutine combine, which...  
         s3 = s1 + s2 + s1    # sandwiches s2 between copies of s1, ...  
@@ -36,6 +24,6 @@ __ 发表于 2020-12-16 __ 更新于 2021-02-22
     c = "ccc"  
     final = combine(a,b)  
     print final  
-
+```
 [参考](https://stackoverflow.com/questions/4228637/getting-started-with-the-
 python-debugger-pdb)

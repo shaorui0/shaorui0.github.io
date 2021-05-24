@@ -13,39 +13,24 @@ __ 发表于 2021-02-16 __ 更新于 2021-02-22
 
 ## example
 
-    1  
-    2  
-    3  
-    4  
-    5  
+```
     print(map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9]))  
     def fn(x, y):  
         return x * 10 + y  
     print(reduce(fn, [1, 2, 3, 4, 5, 6, 7, 8, 9]))  
-    1  
-    2  
-    3  
-    4  
-    5  
+```
+```
     def char2num(s):  
         return {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}[s]  
     def str2int(s):  
         return reduce(lambda x,y: x*10+y, map(char2num, s))  
-
+```
 ## mr任务
 
 ##### mapper
 
 > 读取上游数据，对每行按自己的方式进行组织
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
+```
     if __name__ == "__main__":  
         data_type = int(sys.argv[1])  
         # 上游数据过来，是标准输入  
@@ -53,26 +38,11 @@ __ 发表于 2021-02-16 __ 更新于 2021-02-22
             my_obj = MyClass()  
             my_obj.init_from_json(eachline.strip("\n"))  
             print "\t".join([my_obj.id, eachline.strip("\n")])  
-
+```
 ##### reducer
 
 > 读取到mapper产生的数据，『遍历』对所有行进行一个『**汇总**』
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
+```
     if __name__ == "__main__":  
         old_info = {}  
         check_result = []  
@@ -84,7 +54,7 @@ __ 发表于 2021-02-16 __ 更新于 2021-02-22
             check_result += json_data.get("check_result", [])  
             old_info["check_result"] = check_result  
             print json.dumps(old_info)  
-
+```
 mapreduce为了什么？更好的并发，一切为了效率？它是一种编程框架/模型，为的是更好的抽象，在不同层面上做不同的事情。
 
 ## WHY

@@ -6,8 +6,8 @@ __ 发表于 2021-03-09
 
 不关心这个说法是否正确，来学学里面涉及到的网络知识。
 
-  0. 如果是 TCP Nagle 算法导致的多个 client 端的 send 被合并在一起了，可以通过设置 `TCP_NODELAY` 来处理。注意，Nagle 算法的初衷是为了增加传输性价比，减少网络间的负载（甚至 payload 太小导致 header > payload 这种情况出现），专门将多个小的『package』进行合并发送的算法（1 * header + n * payload）。实现就是某些小的 datagram1 因为没达到一定的大小需要等待后面的 datagram2 ，然后合并起来发送，最终的影响是 datagram1 对应的 ACK 延迟（[但是 99% 的情况下都不会有问题](怎么解决TCP网络传输「粘包」问题？ - 欲三更的回答 - 知乎  
-  1. tcp 面向流。API 层面，recv / send 都会返回接收数据长度，写 socket 代码时都会遇到。就**应用层**来说，一般是有应用层buffer 自动做这件事，根据自己设计的协议（一般是 header(length_of_data) + payload），对数据进行解『包』
+  0. 【TCP 对性能的优化 - 合】如果是 TCP Nagle 算法导致的多个 client 端的 send 被合并在一起了，可以通过设置 `TCP_NODELAY` 来处理。注意，Nagle 算法的初衷是为了增加传输性价比，减少网络间的负载（甚至 payload 太小导致 header > payload 这种情况出现），专门将多个小的『package』进行合并发送的算法（1 * header + n * payload）。实现就是某些小的 datagram1 因为没达到一定的大小需要等待后面的 datagram2 ，然后合并起来发送，最终的影响是 datagram1 对应的 ACK 延迟（[但是 99% 的情况下都不会有问题](怎么解决TCP网络传输「粘包」问题？ - 欲三更的回答 - 知乎  
+  1. 【TCP stream 特性 - 分】tcp 面向流。API 层面，recv / send 都会返回接收数据长度，写 socket 代码时都会遇到。就**应用层**来说，一般是有应用层buffer 自动做这件事，根据自己设计的协议（一般是 header(length_of_data) + payload），对数据进行解『包』
 
 [https://www.zhihu.com/question/20210025/answer/1096399109](https://www.zhihu.com/question/20210025/answer/1096399109)
 
@@ -34,8 +34,8 @@ __ 发表于 2021-03-09
 MSL（Maximum Segment Life）：消息的最大存活时间。
 
 结论：
-1.允许老的重复报文分组在网络中消逝。
-2.保证TCP全双工连接的正确关闭。
+1. 允许老的重复报文分组在网络中消逝。
+2. 保证TCP全双工连接的正确关闭。
 
 挥手过程：
 
@@ -65,8 +65,16 @@ MSL（Maximum Segment Life）：消息的最大存活时间。
 
 ### 会产生什么问题？
 
-一个服务器的端口数量有限制（65535），如果大量的短链接，将导致大量的TCP进入TIME_WAIT状态。在高并发的情况下毫无疑问，这将造成**大量连接无法建立**的问题，那么有什么方法可以处理这些问题？
+#### 大量 TIME_WAIT
+
+
+
+一个服务器的端口数量有限制（65535），如果**大量的短链接**，将导致大量的TCP进入 `TIME_WAIT` 状态。在高并发的情况下毫无疑问，这将造成**大量连接无法建立**的问题，那么有什么方法可以处理这些问题？
 （资源：端口数量）
+
+#### 大量 CLOSE_WAIT
+
+没有正确调用 `close()`
 
 ### 怎么解决？
 
@@ -104,7 +112,7 @@ https://zhuanlan.zhihu.com/p/99943313
 
 ## TCP 如何保证消息可靠？
 
-1. ACK 机制
+1. ACK + 序列号
 2. 超时重传 
   - TAG：RTO/RTT/Adaptive retrans algo
   - 一些场景：

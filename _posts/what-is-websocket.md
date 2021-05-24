@@ -103,20 +103,43 @@ com/question/32039008/answer/1127422609)
 http](https://stackoverflow.com/questions/14703627/websockets-protocol-vs-
 http)
 
-  1. HTTP 1.0
+### HTTP 1.0
 
-    * 短链接（用完就关）
-    * 有确定的事务性质request-response 一对一
-    * 只支持三个函数 GETT/POST/HEAD
-  2. HTTP 1.1
+  * 短链接（用完就关）
+  * 长链接通过`Connection: keep-alive`指定。（复用一个 TCP 连接，客户端指定何时关闭，服务器端也可以制定时间任务）
+  * 有确定的事务性质request-response 一对一
+  * 只支持三个方法 GETT/POST/HEAD
 
-    * 增加了长连接，能够复用一个 TCP 连接
-    * 增加了函数（OPTIONS, PUT, DELETE, TRACE, CONNECT
+### HTTP 1.1
+
+  * [所有链接默认为长链接。根据不同的协议默认 timer 长度。](https://en.wikipedia.org/wiki/HTTP_persistent_connection#:~:text=HTTP%20persistent%20connection%2C%20also%20called%20HTTP%20keep-alive%2C%20or,a%20new%20connection%20for%20every%20single%20request%2Fresponse%20pair.)
+    - **chunked transfer coding** （产生的原因是 Content-Length 不好使（stream，对**客户端**来说），同时由于引入了 pipeline(concurrency) request）
+      - 因为 tcp stream 的缘故，长链接需要对消息进行分割、解析（服务器可能定义了各种解析的方式，但是客户端需要引入一套公共的机制）。**Keepalive makes it difficult for the client to determine where one response ends and the next response begins, particularly during "pipelined" HTTP operation.**
+      > Keepalive makes it difficult for the client to determine where one response ends and the next response begins, particularly during pipelined HTTP operation.[8] This is a serious problem when Content-Length cannot be used due to streaming.[9] To solve this problem, HTTP 1.1 introduced a chunked transfer coding that defines a last-chunk bit.[10] The last-chunk bit is set at the end of each response so that the **client** knows where the next response begins.
+  * 增加了方法（OPTIONS, PUT, DELETE, TRACE, CONNECT
 
 > HTTP 1.1 **pipelining** is not widely deployed so this greatly limits the
 utility of HTTP 1.1 to solve **latency** between browsers and servers.
 
-  3. HTTP 2.0
+#### pros(复用带来的好处)
+
+- handshake
+- cpu (TLS handshake)
+- HTTP pipelining
+TODO pic
+- tcp connection 的减少带来的拥塞控制
+- **Errors can be reported** without the penalty of closing the TCP connection.
+  - 比如超过时长，发出`408`给client
+
+#### cons
+  - 由于长链接导致rw锁的问题？如果服务器实现了这样的逻辑，可用性可能会下降
+  - race condition: server closed, client doesn't know and send a request, may reopen a connection. 
+    - 不仅仅是消耗资源，如果请求**不幂等**，可能会有很多奇怪的问题。
+  > Also a race condition can occur where the client sends a request to the server at the same time that the server closes the TCP connection. A server should send a 408 Request Timeout status code to the client immediately before closing the connection. When a client receives the 408 status code, after having sent the request, it may open a new connection to the server and re-send the request. Not all clients will re-send the request, and many that do will only do so if the request has an **idempotent** HTTP method.
+
+
+
+### HTTP 2.0
 
 > HTTP 2.0: has similar goals to SPDY: reduce HTTP latency and overhead while
 preserving HTTP semantics. The current draft is derived from SPDY and defines
@@ -126,15 +149,49 @@ standard for handshake and framing. An alternate HTTP 2.0 draft proposal
 adds the SPDY multiplexing and HTTP mapping as an WebSocket extension
 (WebSocket extensions are negotiated during the handshake).
 
-    * 主要是降低了延时和负载（reduce HTTP latency and overhead）
-    * upgrade handshake and data framing that is very similar the the WebSocket standard for handshake and framing.
+  * 主要是降低了延时和负载（reduce HTTP latency and overhead）
+  * upgrade handshake and data framing that is very similar the the WebSocket standard for handshake and framing.
 
-【注】 HTTPS
 
-  * 明文 / 加密（安全性），多一个 SSL(Secure Socket Layer ) 握手，协商加密对称密钥（多一次握手带来的效率损失）
-  * 从服务器申请证书，浏览器安装对应根证书（服务器就是 chalar 那个，然后手机端和PC都安装）
-    * 部署成本，还要买 CA 证书
-  * 80 / 443
+###  HTTPS
+
+* 明文 / 加密（安全性），多一个 SSL(Secure Socket Layer ) 握手，协商加密对称密钥（多一次握手带来的效率损失）
+* 从服务器申请证书，浏览器安装对应根证书（服务器就是 chalar 那个，然后手机端和PC都安装）
+  * 部署成本，还要买 CA 证书
+* 80 / 443
+
+
+## Websocket
+
+[wiki](https://en.wikipedia.org/wiki/WebSocket)
+
+> WebSocket is distinct from HTTP. Both protocols are located at layer 7 in the OSI model and depend on TCP at layer 4. Although they are different, RFC 6455 states that WebSocket "is designed to work over HTTP ports 443 and 80 as well as to support HTTP proxies and intermediaries," 
+
+
+
+1. 基于 TCP
+2. 【产生原因】背景是 HTTP 头太大，消息传输效率太低
+```
+  # request
+  GET /chat HTTP/1.1
+  Host: server.example.com
+  Upgrade: websocket
+  Connection: Upgrade
+  Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+  Sec-WebSocket-Protocol: chat, superchat
+  Sec-WebSocket-Version: 13
+  Origin: http://example.com
+
+  # response
+  HTTP/1.1 101 Switching Protocols
+  Upgrade: websocket
+  Connection: Upgrade
+  Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+  Sec-WebSocket-Protocol: chat
+```
+3. 【full-duplex】相比于长链接，websocket的 server 能够**主动**向 client 发消息。acilitating **real-time data transfer** from and to the server. 
+4. 80（不安全）/443（安全） 兼容 HTTP
+
 
 ## References
 
@@ -144,20 +201,4 @@ adds the SPDY multiplexing and HTTP mapping as an WebSocket extension
   * [https://www.zhihu.com/question/32039008/answer/1127422609](https://www.zhihu.com/question/32039008/answer/1127422609)
   * [https://www.zhihu.com/question/20155314](https://www.zhihu.com/question/20155314)
   * [https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http](https://stackoverflow.com/questions/14703627/websockets-protocol-vs-http)
-
-[ __ TCP - basic knowledge ](/2021/03/09/TCP-basic-knowledge/)
-
-[ web server - presure test __ ](/2021/03/11/web-server-presure-test/)
-
-  * 文章目录 
-  * 站点概览 
-
-  1. 1. different between websocket and socket
-    1. 1.1. sending side
-    2. 1.2. receiving side
-  2. 2. different between websocket and http
-    1. 2.1. 应用场景的区别
-  3. 3. WebSocket 协议有哪些缺点？
-  4. 4. HTTP 一路升级有什么提升？
-  5. 5. References
-
+  

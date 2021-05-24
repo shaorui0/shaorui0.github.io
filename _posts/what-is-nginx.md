@@ -99,76 +99,7 @@ nginx 可以进行哪些配置？（目前应该熟悉的）
   * host:port
   * location 静态文件，正则匹配
   * upstream 加权轮询策略权重设置
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
-    32  
-    33  
-    34  
-    35  
-    36  
-    37  
-    38  
-    39  
-    40  
-    41  
-    42  
-    43  
-    44  
-    45  
-    46  
-    47  
-    48  
-    49  
-    50  
-    51  
-    52  
-    53  
-    54  
-    55  
-    56  
-    57  
-    58  
-    59  
-    60  
-    61  
-    62  
-    63  
-    64  
-    65  
-    66  
-    67  
-    68  
-    69  
-    70  
+```
     worker_processes  5;  ## Default: 1  
     error_log  logs/error.log;  
     pid        logs/nginx.pid;  
@@ -228,7 +159,7 @@ nginx 可以进行哪些配置？（目前应该熟悉的）
       }  
     }  
     # https://www.nginx.com/resources/wiki/start/topics/examples/full/  
-
+```
 ## diff nginx / apache
 
   * [https://stackoverflow.com/questions/11171992/nginx-v-apache-for-high-traffic-sites](https://stackoverflow.com/questions/11171992/nginx-v-apache-for-high-traffic-sites)

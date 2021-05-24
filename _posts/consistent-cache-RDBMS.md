@@ -13,7 +13,7 @@ Expiry』和『Cache Aside』就可以了。
 
   1. 30 mins? 可能时间过长
   2. 1 min? 仍然可能时间过长。（huge traffic and high concurrency）
-  3. 5 seconds? 时间设置的太短有失去了设置 cache 的意义。（造成过多的 cache miss ）
+  3. 5 seconds? 时间设置的太短有失去了设置 cache 的意义。（造成过多的 cache miss）
 
 ## 2. Cache Aside
 
@@ -38,7 +38,7 @@ The algorithm for cache aside pattern is:
     * (A - 1) A update new value to mysql
     * (B) B read old value from redis, and return
     * (A - 2) A delete redis key  
-此时 B 读到了脏数据（但能保证最终一致性）
+此时 B 读到了脏数据（但能保证**最终一致性**）
 
   2. 【不保证最终一致性】场景二  
 如果场景一的（A - 2）执行失败 => old value in redis and new value in mysql => 无法保证最终一致性
@@ -152,7 +152,7 @@ The algorithm for double delete pattern is:
 解决了 cache aside 的什么问题？
 
   1. 这里遵循的宗旨是 cache 宁愿不存数据，也不存脏数据（无法保证**最终一致性**）
-
+  2. 之前的 cache aside 存在的并发问题是更新mysql之后可能还没有删除，double delete 要先删一次，就会有事务顺序在里面，然后更新完再删一次，避免有其他事务重新写入。要保证后写入的value在redis/mysql中都奏效。
 # ref doc
 
 [https://www.programmersought.com/article/11164925218/](https://www.programmer

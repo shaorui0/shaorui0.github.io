@@ -69,11 +69,10 @@ mmap() may yield worse performance than simply doing the copy.
 
 #### sendfile
 
-    1  
-    2  
+```
     #include <sys/socket.h>  
     ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);  
-
+```
 ![](/2021/03/11/zero-copy/sendfile1_serve_static_file.png)
 ![](/2021/03/11/zero-copy/sendfile_switch_context.png)
 
@@ -122,79 +121,7 @@ vs-mmap)
 总体区别不大，其核心思想是一致的。
 
 ##### 如何使用 mmap
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
-    32  
-    33  
-    34  
-    35  
-    36  
-    37  
-    38  
-    39  
-    40  
-    41  
-    42  
-    43  
-    44  
-    45  
-    46  
-    47  
-    48  
-    49  
-    50  
-    51  
-    52  
-    53  
-    54  
-    55  
-    56  
-    57  
-    58  
-    59  
-    60  
-    61  
-    62  
-    63  
-    64  
-    65  
-    66  
-    67  
-    68  
-    69  
-    70  
-    71  
-    72  
+```
     // https://www.man7.org/linux/man-pages/man2/mmap.2.html  
     // notice core code  
     #include <sys/mman.h>  
@@ -253,7 +180,7 @@ vs-mmap)
         close(fd);  
         exit(EXIT_SUCCESS);  
     }  
-
+```
 ## reference
 
   * [https://stackoverflow.com/questions/18343365/zero-copy-networking-vs-kernel-bypass](https://stackoverflow.com/questions/18343365/zero-copy-networking-vs-kernel-bypass)

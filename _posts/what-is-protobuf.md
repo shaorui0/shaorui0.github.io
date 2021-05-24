@@ -8,11 +8,10 @@ and hard for the human reading. There are two ways to solve it:
   1. read strcture of proto by watching the .proto file, pay attention to keywords ‘optional’(not in **pb3**).
 
   2. MessageToJson
-    1  
-    2  
+``` 
     from google.protobuf.json_format import MessageToJson  
     jsonObj = MessageToJson(pb)  
-
+```
 # why protobuf?
 
 Some scenarios require **schema** (Define once, use everywhere).
@@ -100,29 +99,13 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
 
 # how to use
 
-    1  
+```
     ls *.proto | awk '{print "protoc -I=. --python_out=. ./"$0}' | sh  
-
+```
 ## proto message parse
 
 ### recursive resolution based on DESCRIPTOR.fields
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
+```
     def dump_object(obj):  
         for descriptor in obj.DESCRIPTOR.fields:  
             value = getattr(obj, descriptor.name)  
@@ -139,50 +122,9 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
                     pass  
                 else:  
                     pass  
-
+```
 ### iterative resolution based on proto schema
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
-    32  
-    33  
-    34  
-    35  
-    36  
-    37  
-    38  
-    39  
-    40  
-    41  
+```
     def parse_general_field(pb):  
         if len(pb.general_ad_field.ad_packs) == 0:  
             return []  
@@ -216,43 +158,9 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
                     if len(text_cont_list) != 0:  
                         arr_material.append((product_id, user_id, text_type, '  '.join(text_cont_list)))  
         return arr_material  
-
+```
 ### run demo
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
-    32  
-    33  
-    34  
+```
     # -*- coding: utf-8 -*-  
     import sys  
     from proto_pb import ad_review_service_pb2  
@@ -278,40 +186,9 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
                 ret = do_item(key, value)  
             except Exception as ex:  
                 print("key:{}, ex:{}".format(key, ex))  
-
+```
 ### parse HdfsSeqfile
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
+```
     # -*- coding: utf-8 -*-  
     import sys  
     import struct  
@@ -339,251 +216,9 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
             val_fm = '>%ds' % (val_len)  
             val = struct.unpack(val_fm, val_byte)[0]  
             return (key, val)  
-
+```
 ### a example of .proto
-
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-    17  
-    18  
-    19  
-    20  
-    21  
-    22  
-    23  
-    24  
-    25  
-    26  
-    27  
-    28  
-    29  
-    30  
-    31  
-    32  
-    33  
-    34  
-    35  
-    36  
-    37  
-    38  
-    39  
-    40  
-    41  
-    42  
-    43  
-    44  
-    45  
-    46  
-    47  
-    48  
-    49  
-    50  
-    51  
-    52  
-    53  
-    54  
-    55  
-    56  
-    57  
-    58  
-    59  
-    60  
-    61  
-    62  
-    63  
-    64  
-    65  
-    66  
-    67  
-    68  
-    69  
-    70  
-    71  
-    72  
-    73  
-    74  
-    75  
-    76  
-    77  
-    78  
-    79  
-    80  
-    81  
-    82  
-    83  
-    84  
-    85  
-    86  
-    87  
-    88  
-    89  
-    90  
-    91  
-    92  
-    93  
-    94  
-    95  
-    96  
-    97  
-    98  
-    99  
-    100  
-    101  
-    102  
-    103  
-    104  
-    105  
-    106  
-    107  
-    108  
-    109  
-    110  
-    111  
-    112  
-    113  
-    114  
-    115  
-    116  
-    117  
-    118  
-    119  
-    120  
-    121  
-    122  
-    123  
-    124  
-    125  
-    126  
-    127  
-    128  
-    129  
-    130  
-    131  
-    132  
-    133  
-    134  
-    135  
-    136  
-    137  
-    138  
-    139  
-    140  
-    141  
-    142  
-    143  
-    144  
-    145  
-    146  
-    147  
-    148  
-    149  
-    150  
-    151  
-    152  
-    153  
-    154  
-    155  
-    156  
-    157  
-    158  
-    159  
-    160  
-    161  
-    162  
-    163  
-    164  
-    165  
-    166  
-    167  
-    168  
-    169  
-    170  
-    171  
-    172  
-    173  
-    174  
-    175  
-    176  
-    177  
-    178  
-    179  
-    180  
-    181  
-    182  
-    183  
-    184  
-    185  
-    186  
-    187  
-    188  
-    189  
-    190  
-    191  
-    192  
-    193  
-    194  
-    195  
-    196  
-    197  
-    198  
-    199  
-    200  
-    201  
-    202  
-    203  
-    204  
-    205  
-    206  
-    207  
-    208  
-    209  
-    210  
-    211  
-    212  
-    213  
-    214  
-    215  
-    216  
-    217  
-    218  
-    219  
-    220  
-    221  
-    222  
-    223  
-    224  
-    225  
-    226  
-    227  
-    228  
-    229  
-    230  
-    231  
-    232  
-    233  
-    234  
-    235  
-    236  
-    237  
-    238  
-    239  
-    240  
-    241  
-    242  
+```
     // @brief 物料接口   
     package aka;  
     import "audit_exclusive_field.proto";  
@@ -824,7 +459,7 @@ cn/content/ch4.html](https://vonng.gitbooks.io/ddia-cn/content/ch4.html)
         optional bytes cont_add_info           = 3; //附加字段  
         optional uint64 pts                    = 4; //Presentation Time Stamp, 展现时间戳(ms)  
         optional bytes reason                  = 5; //视频单帧拒绝理由  
-
+```
 # References
 
   * [https://codeclimate.com/blog/choose-protocol-buffers/](https://codeclimate.com/blog/choose-protocol-buffers/)

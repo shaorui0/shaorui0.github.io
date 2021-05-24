@@ -43,14 +43,11 @@ __ 发表于 2021-02-08 __ 更新于 2021-03-08
 本质是 scheme 与 non-scheme（处理 json、关系型，后面还有类似 protobuffer 的数据协议）
 
 关系型，migration
-
-    1  
-    2  
-    3  
+```
     ALTER TABLE users ADD COLUMN first_name text;  
     UPDATE users SET first_name = split_part(name, ' ', 1);         -- PostgreSQL  
     UPDATE users SET first_name = substring_index(name, ' ', 1);     -- MySQL  
-
+```
 [ __ (Non)blocking / (A)synchrony ](/2021/02/06/DIFF-blocking-non-blocking-
 synchronism-asynchronism/)
 

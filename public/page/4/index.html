@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="RShao">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-mysql - log" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/mysql%20-%20log/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mysql-log"><a href="#mysql-log" class="headerlink" title="mysql - log"></a>mysql - log</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/190886874">https://zhuanlan.zhihu.com/p/190886874</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/mysql%20-%20log/" data-id="cku5hzzze000scjt8997bf4m4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mysql-cluster" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/mysql-cluster/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mysql-主从架构"><a href="#mysql-主从架构" class="headerlink" title="mysql 主从架构"></a>mysql 主从架构</h1><h1 id="基本的各种主从、从从、多主"><a href="#基本的各种主从、从从、多主" class="headerlink" title="基本的各种主从、从从、多主"></a>基本的各种主从、从从、多主</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/mysql-cluster/" data-id="cku5hzzze000tcjt85ngsb97y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python-generator-iterator-decorator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/python-generator-iterator-decorator/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="iterator-generator-and-decorator"><a href="#iterator-generator-and-decorator" class="headerlink" title="iterator, generator and decorator"></a>iterator, generator and decorator</h1><p>__ 发表于 2020-12-16 __ 更新于 2021-02-22</p>
+<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="What-is"><a href="#What-is" class="headerlink" title="What is ?"></a>What is ?</h3><ol>
+<li>一种语法糖，能够使得修改函数变得容易</li>
+<li>典型的实现是通过使用闭包<br>def foo(x):</li>
+</ol>
+<p>def bar(y):</p>
+<pre><code> # do something to y
+</code></pre>
+<p>return bar(x) * x</p>
+<h3 id="why-need"><a href="#why-need" class="headerlink" title="why need?"></a>why need?</h3><p>其实就是为了能够更好的在普通函数上增加一些额外的功能</p>
+<p>通过在语言级别加一些语法糖，能够更方便的使用功能，一切为了简单。</p>
+<h3 id="in-action"><a href="#in-action" class="headerlink" title="in action"></a>in action</h3><p>日志：普通函数、扩展类成员函数</p>
+<h1 id="迭代器、生成器"><a href="#迭代器、生成器" class="headerlink" title="迭代器、生成器"></a>迭代器、生成器</h1><p>为什么两个要一起说。生成器是在可迭代对象的基础上工作的。</p>
+<h2 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h2><p>在python里面，能够for-in遍历的，都是可迭代对象</p>
+<p>可迭代对象的底层是两个函数实现 <code>__iter__</code>, <code>__getitem__</code>，</p>
+<p>显然list、dict、tuple、str都是可迭代的</p>
+<h3 id="iter-iterable-obj-gt-iterator"><a href="#iter-iterable-obj-gt-iterator" class="headerlink" title="iter(iterable_obj) =&gt; iterator"></a>iter(iterable_obj) =&gt; iterator</h3><p>[<a target="_blank" rel="noopener" href="https://www.jb51.net/article/149093.htm]">https://www.jb51.net/article/149093.htm]</a>(<a target="_blank" rel="noopener" href="https://www.jb51.net/article/149093">https://www.jb51.net/article/149093</a>.<br>htm)</p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>迭代器是访问集合元素的一种方式。能通过for-in遍历，<strong>并且能够使用next()进行迭代</strong></p>
+<p>主要的不同点就是可以使用next()进行遍历，并且对长度未知，比如一个典型的fib功能可以无限迭代。</p>
+<p>同时是惰性的，边迭代边求值。</p>
+<p>TODO 写一个典型的迭代器class fib</p>
+<pre><code>1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+class Fib:  
+    def __init__(self):  
+    def __iter__self):  
+        return self  
+    def __next__self):  
+</code></pre>
+<p><code>next(obj) =&gt; obj.__next__()</code></p>
+<p>基础的数据类型（list等）都不是迭代器，因为没有next()方法</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><blockquote>
+<p>Objects are data with methods attached, closures are functions with data<br>attached.</p>
+</blockquote>
+<p>[closure-in-python](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18274051/closure-in-">https://stackoverflow.com/questions/18274051/closure-in-</a><br>python)</p>
+<pre><code>1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+def make_counter():  
+    i = 0  
+    def counter(): # counter() is a closure  
+        nonlocal i # python3  
+        i += 1  
+        return i  
+    return counter  
+c1 = make_counter()  
+c2 = make_counter()  
+print (c1(), c1(), c2(), c2())  
+# -&gt; 1 2 1 2  
+</code></pre>
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>yield相当于提供了一个语言层面的功能来帮助实现生成器</p>
+<blockquote>
+<p>A generator is simply a function which returns an object on which you can<br>call next, such that for every call it returns some value, until it raises a<br>StopIteration exception, signaling that all values have been generated. Such<br>an object is called an iterator.</p>
+</blockquote>
+<p>[generators-in-<br>python](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1756096/understanding-generators-">https://stackoverflow.com/questions/1756096/understanding-generators-</a><br>in-python)</p>
+<p>其实本质就是建立在迭代器之上，但是这个迭代器是一个对象，通过yield对这个对象进行迭代，直到<code>StopIteration</code> exception</p>
+<p><a href="/tags/python/"># python</a></p>
+<p><a href="/2020/12/16/how-use-pdb/"> __ how to use pdb </a></p>
+<p><a href="/2021/01/15/diff-ipc/"> What is IPC __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>装饰器    1. 1.1. What is ?    2. 1.2. why need?    3. 1.3. in action</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li><p>迭代器、生成器</p>
+<ol>
+<li><ol>
+<li>可迭代对象</li>
+</ol>
+</li>
+<li>1.1. iter(iterable_obj) =&gt; iterator</li>
+<li><ol start="2">
+<li>迭代器</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>闭包</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>生成器</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/python-generator-iterator-decorator/" data-id="cku5hzzzf000ucjt864cs3vuk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python-memory-management" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/python-memory-management/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="memory-management"><a href="#memory-management" class="headerlink" title="memory management"></a>memory management</h1><p>__ 发表于 2021-02-16 __ 更新于 2021-02-17</p>
+<p>python怎么管理内存？</p>
+<ul>
+<li><p>引用语义<br>一个对象，多个指针指向它，这也就是 is 和 == 的不同指出，检查是否是同一个对象，以及对象的值是否相同</p>
+</li>
+<li><p>GC<br>python的GC，典型的ref_count=0的时候；循环引用能被释放</p>
+</li>
+<li><p>内存池</p>
+<ul>
+<li>内存的垃圾回收是怎么样的？将不用的内存放到内存池而不是返回给操作系统</li>
+<li>Pymalloc机制：python的内存池机制，管理小块的内存申请和释放</li>
+<li>不同python对象，都有独立的私有内存池</li>
+</ul>
+</li>
+</ul>
+<h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><h3 id="引用计数会有什么问题？"><a href="#引用计数会有什么问题？" class="headerlink" title="引用计数会有什么问题？"></a>引用计数会有什么问题？</h3><p>典型的循环引用问题</p>
+<p>循环引用会导致一个应该被回收的对象无法被回收（ref_count==1）</p>
+<p>python如何解决这个问题？（C++的智能指针shared_ptr是如何解决这个问题的？）</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62282961">https://zhuanlan.zhihu.com/p/62282961</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/32373436/answer/549698608]">https://www.zhihu.com/question/32373436/answer/549698608]</a>(<a target="_blank" rel="noopener" href="https://www.zhihu.c/">https://www.zhihu.c</a><br>om/question/32373436/answer/549698608)</p>
+<h3 id="如何使用GC？"><a href="#如何使用GC？" class="headerlink" title="如何使用GC？"></a>如何使用GC？</h3><ol>
+<li>import gc，解决循环引用的问题    * gc.garbage，[]，保存准备回收的对象    * gc模快有一个自动垃圾回收的阀值，即通过gc.get_threshold函数获取到的长度为3的元组，例如(700,10,10)    * 如果对象定义了__del__，则不回收</li>
+<li>分代回收。三代，老年代数据停留时间最长    * 分代回收是建立在<strong>标记清除</strong>技术基础之上。分代回收同样作为Python的辅助垃圾收集技术处理那些容器对象</li>
+<li>标记清除    * 标记清除算法作为Python的辅助垃圾收集技术主要处理的是一些容器对象    * TODO 具体怎么组织的？</li>
+</ol>
+<p><a href="/tags/python/"># python</a></p>
+<p><a href="/2021/02/16/redis-lru/"> __ Redis - LRU </a></p>
+<p><a href="/2021/02/16/coroutine/"> Coroutine __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>GC    1. 1.1. 引用计数会有什么问题？    2. 1.2. 如何使用GC？</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/python-memory-management/" data-id="cku5hzzzf000vcjt87mjn78l0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-random-seed-magic-number-42" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/random-seed-magic-number-42/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="random-seed-magic-number-42"><a href="#random-seed-magic-number-42" class="headerlink" title="random - seed - magic number 42"></a>random - seed - magic number 42</h1><p>__ 发表于 2021-03-09</p>
+<h3 id="seed-是干什么的？"><a href="#seed-是干什么的？" class="headerlink" title="seed 是干什么的？"></a>seed 是干什么的？</h3><ol>
+<li><p>注意 random 是不是真正的『随机』，而是伪随机，计算机会根据某个值进行随机数生成，生成的方式在 python 里面是通过 generator</p>
+</li>
+<li><p>在这个基础上才有为什么需要 <code>seed</code></p>
+</li>
+<li><p><code>seed</code>在实践中一个重要的作用就是『可重现性』，用于测试<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>import random<br>random.seed(3)   </p>
+<h1 id="print-a-random-number-between-1-and-1000"><a href="#print-a-random-number-between-1-and-1000" class="headerlink" title="print a random number between 1 and 1000."></a>print a random number between 1 and 1000.</h1><p>print(random.randint(1, 1000))   </p>
+<h1 id="if-you-want-to-get-the-same-random-number-again-then"><a href="#if-you-want-to-get-the-same-random-number-again-then" class="headerlink" title="if you want to get the same random number again then,"></a>if you want to get the same random number again then,</h1><p>random.seed(3)<br>print(random.randint(1, 1000))   </p>
+<h1 id="If-seed-function-is-not-used"><a href="#If-seed-function-is-not-used" class="headerlink" title="If seed function is not used"></a>If seed function is not used</h1><h1 id="Gives-totally-unpredictable-responses"><a href="#Gives-totally-unpredictable-responses" class="headerlink" title="Gives totally unpredictable responses."></a>Gives totally unpredictable responses.</h1><p>print(random.randint(1, 1000))   </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://medium.com/@leticia.b/the-story-of-seed-42-874953452b94"><code>seed</code>值设置为<code>42</code>是一件比较 geek 风情的事</a></p>
+</li>
+</ol>
+<p>PS1: 如果不标注 random 的范围， 值区间在 (0, 1)</p>
+<p>PS2: 如果不标注 seed ，seed 默认当前时间戳</p>
+<p><a href="/tags/python/"># python</a> <a href="/tags/other/"># other</a></p>
+<p><a href="/2021/03/08/HTTP-interview-issues/"> __ HTTP - interview issues </a></p>
+<p><a href="/2021/03/09/distributed-system-intro/"> distributed system - intro __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>seed 是干什么的？</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/random-seed-magic-number-42/" data-id="cku5hzzzf000wcjt8bioo0v3n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis-data-structure-in-action" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/redis-data-structure-in-action/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis-data-structure"><a href="#Redis-data-structure" class="headerlink" title="Redis - data structure"></a>Redis - data structure</h1><p>__ 发表于 2021-02-16 __ 更新于 2021-02-22</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>lpush</p>
+<p>rpush</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>Lpush + lpop = stack</li>
+<li>Lpush + rpop = queue</li>
+<li>Lpush + ltrim = capped collection <a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro">What is ltrim?</a></li>
+<li>Lpush + brpop = message queue (blocking queue)</li>
+</ul>
+<p>可以剪枝，只保存前多少个，后面的都去掉（一次性/事务性删掉多个）</p>
+<ol>
+<li>典型的就是消息队列，用于阻塞，空的时候无法获取，那会阻塞？</li>
+<li>典型的还是airticle list，有多少个文章，无需排序，仅仅是通过index去索引</li>
+</ol>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>不重复，无序</p>
+<p>那么典型的什 么场景</p>
+<h3 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>tag<br>用户标签，对某些东西感兴趣，实现应该是一棵树？</li>
+</ol>
+<p>那zset呢？有序无序之间的区别？</p>
+<h3 id="底层是什么？"><a href="#底层是什么？" class="headerlink" title="底层是什么？"></a>底层是什么？</h3><h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><ul>
+<li>element不能重复</li>
+<li>通过score进行排序<br>有点类似学生id和学生分数</li>
+</ul>
+<p>这个分数是个什么性质，比如说我想按时间排序，能做到吗？</p>
+<h3 id="使用场景呢？"><a href="#使用场景呢？" class="headerlink" title="使用场景呢？"></a>使用场景呢？</h3><p>主要是和list的一个对比：</p>
+<ol start="0">
+<li>set 当然就是不可重复了</li>
+<li>find，zset 更快 (tree)</li>
+<li>edge work，list 更快 (lpop、lpush)</li>
+<li>排序，可以根据某种分数和权重</li>
+</ol>
+<blockquote>
+<p>The sorted set ensure that the key is unique. If you want to do something<br>complex. For example, every time a user login, you add the userid to a sorted<br>set. And there is a backend service read the sorted set and update the user’s<br>information and action habbit. It can save a lot of work if you are using<br>sorted set.</p>
+</blockquote>
+<p>一些复杂的功能，比如每次登陆，都更新一下，按照登陆频率排序。</p>
+<blockquote>
+<p>What’s more, if the user is a premium paid member, you can set the score of<br>his or her id higher, and refresh this user’s habbit match earlier.</p>
+</blockquote>
+<p>高级会员，放在redis set前面，这样取这个id更快</p>
+<p>总结起来，就是你需要动态排序，然后取一些顶点值的时候。如果是list，你可能要用代码实现，取top_k，但是zset就可以直接按照权重去获取。</p>
+<p>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-">https://stackoverflow.com/questions/48630763/why-use-sorted-set-instead-of-</a><br>list-redis](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/48630763/why-use-sorted-set-">https://stackoverflow.com/questions/48630763/why-use-sorted-set-</a><br>instead-of-list-redis)</p>
+<p>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-</a><br>set](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-">https://stackoverflow.com/questions/64020570/why-redis-zset-means-sorted-</a><br>set)</p>
+<p>[<a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-intro]">https://redis.io/topics/data-types-intro]</a>(<a target="_blank" rel="noopener" href="https://redis.io/topics/data-types-">https://redis.io/topics/data-types-</a><br>intro)</p>
+<p><a target="_blank" rel="noopener" href="https://developpaper.com/redis-5-big-data-structure/">https://developpaper.com/redis-5-big-data-<br>structure/</a></p>
+<h3 id="怎么实现的？"><a href="#怎么实现的？" class="headerlink" title="怎么实现的？"></a>怎么实现的？</h3><p>k-v的部分是通过hash，O(1)，排序的部分呢？</p>
+<p><a href="/tags/redis/"># redis</a></p>
+<p><a href="/2021/02/16/redis-ttl/"> __ Redis - TTL </a></p>
+<p><a href="/2021/02/16/redis-lru/"> Redis - LRU __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>list    1. 1.1. 使用场景</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>set    1. 2.1. 使用场景    2. 2.2. 底层是什么？</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>zset    1. 3.1. 使用场景呢？    2. 3.2. 怎么实现的？</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/redis-data-structure-in-action/" data-id="cku5hzzzg000xcjt81qqxbri3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis-lru" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/redis-lru/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis-LRU"><a href="#Redis-LRU" class="headerlink" title="Redis - LRU"></a>Redis - LRU</h1><p>__ 发表于 2021-02-16 __ 更新于 2021-02-22</p>
+<h1 id="LRU-algorithm-and-LRU-implementation-of-Redis"><a href="#LRU-algorithm-and-LRU-implementation-of-Redis" class="headerlink" title="LRU algorithm and LRU implementation of Redis"></a>LRU algorithm and LRU implementation of Redis</h1><h3 id="【问】如何设计一个redis的内存淘汰机制？"><a href="#【问】如何设计一个redis的内存淘汰机制？" class="headerlink" title="【问】如何设计一个redis的内存淘汰机制？"></a>【问】如何设计一个redis的内存淘汰机制？</h3><p>面试过程的遇到过这个问题。</p>
+<ol start="0">
+<li>典型的内存淘汰机制是LRU</li>
+<li>LRU的常规实现是双向链表</li>
+</ol>
+<p>但问题并不只是这么简单。一个典型的面试场景是这样的：</p>
+<ul>
+<li>如果一个key在里面，再次访问需要拿到前面来，那么如何拿？<ul>
+<li>基于目前的情况，只能是<strong>遍历</strong>。</li>
+</ul>
+</li>
+<li>遍历是不是太慢了？<ul>
+<li>脱口而出 排序 + 二分</li>
+</ul>
+</li>
+<li>那么排序后，『优先级』的信息是不是丢失了？<ul>
+<li>排序肯定是错误的。说到优先级，这个时候我又想到了优先队列（基于堆）。但其实这个就不是双向链表的实现了，以及整个过程有点偏离正确答案了。</li>
+<li>想到维护一个树的话，查找速度从 n =&gt; logn，这是一个进步。</li>
+</ul>
+</li>
+<li>什么样的树呢？<ul>
+<li>为了保证树不会退化到链表，需要维护<strong>平衡</strong>，这里想到了<strong>红黑树</strong></li>
+</ul>
+</li>
+<li>那么一开始为什么不使用红黑树而要使用双向链表？<ul>
+<li>其实是两个数据结构联合实现的<ul>
+<li>【index 解决 search 的问题】查找的速度通过红黑树解决（也可以使用unsorted_map，也就是索引解决）</li>
+<li>【双向链表解决 write 的问题】维护优先级的问题通过双向链表解决</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>解决方案：</p>
+<ul>
+<li>(key, addr) 在 hash table 中，</li>
+<li>(key, value) 在 two-way chain table 中。</li>
+</ul>
+<p>TODO 实现</p>
+<h3 id="真正到工业级的redis的实现，又和严格LRU的有一些出入"><a href="#真正到工业级的redis的实现，又和严格LRU的有一些出入" class="headerlink" title="真正到工业级的redis的实现，又和严格LRU的有一些出入"></a>真正到工业级的redis的实现，又和严格LRU的有一些出入</h3><ol>
+<li>维护严格的LRU比较耗费空间（大量的前后指针）。</li>
+</ol>
+<pre><code>* 能想到怎么优化吗？将n减少到常数级别，只对少量的kv进行维护。
+* 这里涉及到一个『采样』的问题。有什么比较好的采样策略，能够使每次的最终结果接近于严格LRU？`maxmemory-samples 5 `
+</code></pre>
+<ol start="2">
+<li>redis提供了多种驱逐策略，应该怎么选用？</li>
+</ol>
+<p>业务中的使用场景有关</p>
+<p>TODO 更深入的接触到redis后，进行进一步的了解。</p>
+<p><a target="_blank" rel="noopener" href="https://redis.io/topics/lru-cache">LRU cache</a></p>
+<p>[如何实现一个kv形式的严格LRU策略](<a target="_blank" rel="noopener" href="https://programmer.help/blogs/redis-lru-algorithm-and-">https://programmer.help/blogs/redis-lru-algorithm-and-</a><br>lru-implementation-of-redis.html)</p>
+<p><a href="/tags/redis/"># redis</a></p>
+<p><a href="/2021/02/16/redis-data-structure-in-action/"> __ Redis - data structure </a></p>
+<p><a href="/2021/02/16/python-memory-management/"> memory management __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>LRU algorithm and LRU implementation of Redis    1. 1.0.1. 【问】如何设计一个redis的内存淘汰机制？    2. 1.0.2. 真正到工业级的redis的实现，又和严格LRU的有一些出入</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/redis-lru/" data-id="cku5hzzzg000ycjt8cgpddgz2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis-persistence" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/redis-persistence/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis-persistence"><a href="#Redis-persistence" class="headerlink" title="Redis - persistence"></a>Redis - persistence</h1><p>__ 发表于 2021-03-01 __ 更新于 2021-03-10</p>
+<p>Redis trades data safety versus performance, like most NoSQL-DBs do.</p>
+<ol>
+<li>两种持久化的缩写</li>
+</ol>
+<pre><code>* redis database
+* append only file  
+</code></pre>
+<p>概念上还是非常清晰，一个是定时备份快照，适合那些时效性不强的，丢了也没关系的数据，比如缓存，一个小时备份一次，一些冷数据没必要继续留着。另一个是实时的（当然<br>，无法精确一致性到单条数据的恢复级别（事务）），每执行一次server，备份一条数据</p>
+<ol start="2">
+<li><p>大概的实现方式</p>
+</li>
+<li><p>有什么区别？各自的优势、劣势？trade-offs </p>
+</li>
+</ol>
+<pre><code>* fork 可能会影响效率
+  * 为什么AOF也是fork大事影响小？
+    * 从之前学得 LSM tree 来回答，only append 的效率，肯定是比一大坨数据在内存中进行处理，然后写入到disk效率更高
+    * so there are no seeks, 
+* append only 
+  * redis-check-aof tool
+* 如何进行 roll 的？切换文件的过程是怎么做的？
+  * mi’nimal set, switch
+* flush all 了也有办法恢复，只要没有 rewrite
+* Using AOF Redis is much more durable
+* RDB 因为是一坨数据 ， 处理完以后再加进去， 所以数据encode会更加『紧致』，空间占用更小
+* RDB 保证极限可控， AOF 可能在极端情况下，写数据比较慢（很多客户端都在往 process 进行写）
+* RDB 是每次都创建所有内容（一个serevr里面de ）
+  * RDB 基本是不会丢失数据（那个point而言）
+  * 但是 AOF可能丢失某些数据
+    * 然后，每次rewrite是从 AOF file里面读取，而不是从内存？
+    * 应该注意的是，每次Redis重写AOF时，都会从数据集中包含的实际数据开始从头开始重新创建AOF，与始终附加AOF文件相比，对错误的抵抗力更强  
+</code></pre>
+<p>【问】AOF的rewriten是怎么工作的？</p>
+<p>one rewritten reading the old AOF instead of reading the data in memory</p>
+<ol start="4">
+<li>为什么这么设计，各有什么使用场景    * 缓存，有冷热数据的时候，通常每小时备份一下就可以了？    * 除了缓存，还有什么使用场景？</li>
+<li>配置上有什么需要注意的？</li>
+<li>底层实现上有什么不同导致这两种不同的结果？</li>
+<li>分布式的场景下，持久化如何工作？</li>
+</ol>
+<hr>
+<p>有件好玩的事，学 redis 时我想起来之前学过 LSM（log structure merge） tree，这个数据结构设计本质上是专门针对 write<br>优化的。但是我好奇 redis 的持久化 aof（append only file） 是否用了 LSM tree ，通过搜索我发现有这个疑问的不止我一个：</p>
+<blockquote>
+<p>LSM is AOF that you want to actually read sometimes. You do some overhead<br>work so you can read it faster later. Redis is designed so you never or only<br>in a special case read it. On the other hand, Cassandra often reads it to<br>serve requests. [here](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50478674/redis-aof-">https://stackoverflow.com/questions/50478674/redis-aof-</a><br>fsync-always-vs-lsm-tree)</p>
+</blockquote>
+<p>其结论很简单，redis 没有用 LSM tree，因为它根本没想过<strong>更新</strong>这个持久化文件，更多的功能是用来错误恢复。</p>
+<p><a href="/tags/data/"># data</a> <a href="/tags/redis/"># redis</a></p>
+<p><a href="/2021/03/01/why-redis-fast/"> __ Redis - why redis fast? </a></p>
+<p><a href="/2021/03/02/what-is-load-balancer/"> what is load balancer __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/redis-persistence/" data-id="cku5hzzzh000zcjt894rvgvwn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis-ttl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/redis-ttl/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis-TTL"><a href="#Redis-TTL" class="headerlink" title="Redis - TTL"></a>Redis - TTL</h1><p>__ 发表于 2021-02-16 __ 更新于 2021-02-22</p>
+<h2 id="How-Redis-expires-keys"><a href="#How-Redis-expires-keys" class="headerlink" title="How Redis expires keys?"></a>How Redis expires keys?</h2><p>Redis keys are expired in two ways: a passive way, and an active way.</p>
+<p>使用频繁的是passive way，典型的就是只有当反问到某个key的时候，才判断它是否过期了。</p>
+<p>但是这样会产生一个问题。</p>
+<ul>
+<li>如果一个key一致不被访问到，那会一直占用空间。</li>
+</ul>
+<p>解决这个问题的一个简单的思路就是：固定的时间随机找到一些key，判断这些key是否存在过期的，然后删除。</p>
+<p>更进一步的，如果key的数量超过25%，重新执行一次上面的操作。</p>
+<p>[how-does-redis-expire-keys](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36172745/how-">https://stackoverflow.com/questions/36172745/how-</a><br>does-redis-expire-keys)</p>
+<p><a href="/tags/redis/"># redis</a></p>
+<p><a href="/2021/02/16/waitpid-flag-set/"> __ Waitpid usage </a></p>
+<p><a href="/2021/02/16/redis-data-structure-in-action/"> Redis - data structure __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>How Redis expires keys?</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/redis-ttl/" data-id="cku5hzzzh0010cjt8cbzq6g5t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-transaction-isolation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/transaction-isolation/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="TRANSACTION-ISOLATION"><a href="#TRANSACTION-ISOLATION" class="headerlink" title="TRANSACTION - ISOLATION"></a>TRANSACTION - ISOLATION</h1><p>__ 发表于 2021-02-18 __ 更新于 2021-02-25</p>
+<h2 id="为什么会需要隔离性"><a href="#为什么会需要隔离性" class="headerlink" title="为什么会需要隔离性"></a>为什么会需要隔离性</h2><p>如果<strong>两个事务</strong>不触及相同的数据，它们可以安全地并行（parallel）<br>运行，因为两者都不依赖于另一个。当一个事务读取由另一个事务同时修改的数据时，或者当两个事务试图同时修改相同的数据时，并发问题（<strong>竞争条件</strong>）才会出现。</p>
+<h2 id="先说概念"><a href="#先说概念" class="headerlink" title="先说概念"></a>先说概念</h2><p>四种隔离级别：</p>
+<ul>
+<li>读未提交</li>
+<li>读已提交</li>
+<li>可重复读</li>
+<li>可串行化</li>
+</ul>
+<h2 id="各个隔离级别解决了什么问题？"><a href="#各个隔离级别解决了什么问题？" class="headerlink" title="各个隔离级别解决了什么问题？"></a>各个隔离级别解决了什么问题？</h2><h3 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a>读已提交</h3><h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><p>读 x 1, 写 x 1（关键字：部分对象）：</p>
+<pre><code>1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+init x=0, y=0  
+update x = 1  
+                get x = 1, y=0 (不一致)  
+update y = 2  
+commit  
+final: x = 1, y = 2  
+</code></pre>
+<p><img src="/2021/02/18/transaction-isolation/%E8%84%8F%E8%AF%BB.jpg"></p>
+<ul>
+<li>用户2可能看到<strong>部分</strong>用户1修改的数据，可能在<strong>一致性</strong>上不合法。比如用户看到新的未读电子邮件（对象1），但看不到更新的计数器（对象2）。</li>
+<li>用户2如果事务中止需要<strong>回滚</strong>，用户1可能读到回滚前的数据。</li>
+</ul>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
+<li>读写锁？效果并不好，可能某一方长时间占用锁</li>
+<li>临时变量保存写的对象，让读可以读这个var，避免读被写阻塞</li>
+</ul>
+<h4 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h4><h5 id="场景-1"><a href="#场景-1" class="headerlink" title="场景"></a>场景</h5><p><del>两个对同一个对象的写，后提交的数据覆盖了前面提交的数据</del></p>
+<p>这里还和之前理解的不太一样。脏写真正的含义是，两个用户写入多个对象</p>
+<pre><code>1  
+2  
+3  
+4  
+5  
+update x = 1  
+                update x = 2  
+                update y = 2  
+update y = 1  
+final: x = 2, y = 1  
+</code></pre>
+<p><img src="/2021/02/18/transaction-isolation/%E8%84%8F%E5%86%99.jpg"></p>
+<h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><ul>
+<li>行锁</li>
+</ul>
+<h5 id="没有解决什么？（丢失更新）"><a href="#没有解决什么？（丢失更新）" class="headerlink" title="没有解决什么？（丢失更新）"></a>没有解决什么？（丢失更新）</h5><p>典型的计数器递增，主要的错误是<strong>读</strong>的过程出了问题。</p>
+<pre><code>1  
+2  
+3  
+4  
+5  
+get x = 1  
+                get x = 1  
+update x += 1(2)  
+                update x += 1(2)  
+final: x = 2  
+</code></pre>
+<p>![](/2021/02/18/transaction-<br>isolation/%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.jpg)</p>
+<p>以上的隔离级别基本解决了一些常见的麻烦。</p>
+<ul>
+<li>读取不完整的事务结果</li>
+<li>并排写入的并发</li>
+</ul>
+<h3 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a>可重复读</h3><p>持续时间长的事务，由于没有阻塞其他写，导致时间跨度较长的前后时间点读取的某个对象的数据不一致。</p>
+<p>![](/2021/02/18/transaction-<br>isolation/%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB.jpg)</p>
+<h5 id="场景-2"><a href="#场景-2" class="headerlink" title="场景"></a>场景</h5><ol>
+<li><p>备份，<strong>持续时间长</strong>。这段时间，肯定是接受写入操作的。如果想从这个备份进行恢复，那么不一致就会变成永久的。</p>
+</li>
+<li><p>分析查询和完整性检查</p>
+</li>
+</ol>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><ul>
+<li>快照隔离。MVCC。</li>
+</ul>
+<h5 id="What-is-MVCC"><a href="#What-is-MVCC" class="headerlink" title="What is MVCC?"></a>What is MVCC?</h5><p><img src="/2021/02/18/transaction-isolation/MVCC.jpg"></p>
+<ol>
+<li><strong>多版本</strong>是指某个对象的某个版本</li>
+<li>一个事务一个id（txid，自增长）。</li>
+<li>每当一个事务写入内容，他所写入的数据都会标记上写入者的事务ID。（create_by, delete_by）</li>
+</ol>
+<p>MVCC也可以用在读已提交上面，主要实现是保留两个版本的快照，为每个查询适用单独的快照</p>
+<h5 id="索引在快照隔离上起作用"><a href="#索引在快照隔离上起作用" class="headerlink" title="索引在快照隔离上起作用"></a>索引在快照隔离上起作用</h5><ul>
+<li>一种选择是使用索引简单的指向对象的<strong>所有版本</strong>，并通过索引查询<strong>过滤</strong>当前事务不可见的任何对象版本</li>
+<li>也有一些数据库选用了仅追加的B-tree，每个写入的事务都创建新的树</li>
+</ul>
+<h3 id="防止丢失更新"><a href="#防止丢失更新" class="headerlink" title="防止丢失更新"></a>防止丢失更新</h3><p>只读事务 在 并发写入时看到什么？<strong>读已提交、快照隔离。</strong></p>
+<p>那么写事务进行并发写入呢？（计数器递增）</p>
+<ol>
+<li>原子写<br>1<br>UPDATE counters SET value = value + 1 WHERE key = ‘foo’;  </li>
+</ol>
+<p>游标稳定性（cursor stability）</p>
+<ol start="2">
+<li>显式锁定<br><code>FOR UPDATE</code>对select返回的所有行<strong>加锁</strong></li>
+</ol>
+<pre><code>1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+BEGIN TRANSACTION;  
+SELECT * FROM figures  
+    WHERE name = &#39;robot&#39; AND game_id = 222  
+FOR UPDATE;  
+-- 检查玩家的操作是否有效，然后更新先前SELECT返回棋子的位置。  
+UPDATE figures SET position = &#39;c4&#39; WHERE id = 1234;  
+COMMIT;  
+</code></pre>
+<ol start="3">
+<li>自动检测丢失的更新</li>
+</ol>
+<pre><code>* 允许并发写入，写入过后对结果进行检查（中止事务，强制重试 read-update-commit）
+</code></pre>
+<ol start="4">
+<li>比较并设置（CAS）<br>1<br>2<br>3      – 根据数据库的实现情况，这可能也可能不安全<br>UPDATE wiki_pages SET content = ‘新内容’<br>WHERE id = 1234 AND content = ‘旧内容’;  </li>
+</ol>
+<p>也可能不安全，where从旧的快照中获取数据（MVCC带来的问题）</p>
+<ol start="5">
+<li>冲突解决和复制（<strong>分布式的场景</strong>，多节点）</li>
+</ol>
+<pre><code>* 复制数据库中，多对个『**兄弟**』值应用代码进行处理
+* 如果有可交换性，最终结果也能一致。例如，递增计数器或向集合添加元素是可**交换的操作**。
+* **最后写入为准**（LWW）的冲突解决方法很容易丢失更新。不幸的是，LWW是许多复制数据库中的默认值。
+</code></pre>
+<h3 id="写入偏差与幻读"><a href="#写入偏差与幻读" class="headerlink" title="写入偏差与幻读"></a>写入偏差与幻读</h3><p>前面说的，<strong>脏写、丢失更新</strong>，主要是并发写入相同对象。那么不同对象呢（但又影响最终结果）？</p>
+<p><strong>写入偏差</strong>视为<strong>丢失更新</strong>问题的一般化。</p>
+<h4 id="场景-3"><a href="#场景-3" class="headerlink" title="场景"></a>场景</h4><p>![](/2021/02/18/transaction-<br>isolation/%E5%86%99%E5%85%A5%E5%81%8F%E5%B7%AE.jpg)</p>
+<pre><code>1  
+2  
+3  
+4  
+5  
+6  
+7  
+get x  
+                get x  
+check x  
+                check x  
+update y  
+                update y  
+</code></pre>
+<h4 id="为什么会出现写入偏差"><a href="#为什么会出现写入偏差" class="headerlink" title="为什么会出现写入偏差"></a>为什么会出现写入偏差</h4><p>幻读</p>
+<p>所有这些例子都遵循类似的模式：</p>
+<ol>
+<li><p>一个SELECT查询找出符合条件的行，并检查是否符合一些要求。（例如：至少有两名医生在值班；不存在对该会议室同一时段的预定；棋盘上的位置没有被其他棋子占据；用户名还没有被抢注；账户里还有足够余额）</p>
+</li>
+<li><p>按照第一个查询的结果，应用代码决定是否继续。（可能会继续操作，也可能中止并报错）</p>
+</li>
+<li><p>如果应用决定继续操作，就执行写入（插入、更新或删除），并提交事务。</p>
+</li>
+</ol>
+<p>这个<strong>写入</strong>的效果改变了步骤2 中的先决条件。换句话说，如果在提交写入后，重复执行一次步骤1 的<strong>SELECT</strong>查询，将会得到<strong>不同的结果</strong>。因<br>为<strong>写入改变符合搜索条件的行集</strong>（现在少了一个医生值班，那时候的会议室现在已经被预订了，棋盘上的这个位置已经被占据了，用户名已经被抢注，账户余额不够了）<br>。</p>
+<p>这些步骤可能以不同的顺序发生。例如可以首先进行写入，然后进行SELECT查询，最后根据查询结果决定是放弃还是提交。</p>
+<p>在医生值班的例子中，在步骤3中修改的行，是步骤1中返回的行之一，所以我们可以通过锁定步骤1 中的行（<strong>SELECT FOR UPDATE</strong>）来使事务安全<br>并避免写入偏差。但是其他四个例子是不同的：它们检查是否不存在某些满足条件的行，写入会添加一个匹配相同条件的行。<strong>如果步骤1中的查询没有返回任何行，则SEL<br>ECT FOR UPDATE锁不了任何东西</strong>。</p>
+<p>这种效应：<strong>一个事务中的写入改变另一个事务的搜索查询的结果，被称为幻读</strong>【3】。快照隔离避免了只读查询中幻读，但是在像我们讨论的例子那样的读写事务中，幻<br>影会导致特别棘手的写歪斜情况。</p>
+<p>总结：某些情况可以使用<code>SELECT FOR UPDATE</code>防止幻读，但是如果<code>SELECT FOR UPDATE</code>没有结果行，锁不住任何东西，潜在还是会出错。</p>
+<p><a href="/tags/RDBMS/"># RDBMS</a></p>
+<p>[ __ partition and sharding ](/2021/02/17/diff-between-partition-and-<br>sharding/)</p>
+<p><a href="/2021/02/20/what-is-nginx/"> What is NGINX __ </a></p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>为什么会需要隔离性</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>先说概念</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>各个隔离级别解决了什么问题？    1. 3.1. 读已提交</li>
+<li>3.1.1. 脏读</li>
+<li>3.1.1.1. 场景</li>
+<li>3.1.1.2. 解决方法</li>
+<li>3.1.2. 脏写</li>
+<li>3.1.2.1. 场景</li>
+<li>3.1.2.2. 解决方法</li>
+<li>3.1.2.3. 没有解决什么？（丢失更新）    2. 3.2. 可重复读</li>
+<li>3.2.0.1. 场景</li>
+<li>3.2.0.2. 解决方案</li>
+<li>3.2.0.3. What is MVCC?</li>
+<li>3.2.0.4. 索引在快照隔离上起作用</li>
+</ol>
+</li>
+<li>3.3. 防止丢失更新</li>
+<li>3.4. 写入偏差与幻读    1. 3.4.1. 场景    2. 3.4.2. 为什么会出现写入偏差</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/transaction-isolation/" data-id="cku5hzzzi0011cjt8adbu51ai" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/09/29/why-redis-fast/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/why-stack-can-overflow-but-heap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/%E6%88%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/coroutine/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/DB%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 RShao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

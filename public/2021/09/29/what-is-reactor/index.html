@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="what is reactor__ 发表于 2021-03-03 __ 更新于 2021-03-11 本质是事件驱动 + 事件回调，通过 IO 复用 + 非阻塞 IO（它们为什么必须搭配使用？）的形式，利用可以执行多个 loop（多线程，IO线程），可以加入线程池做计算资源。（one loop per thread） 由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2021/09/29/what-is-reactor/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="what is reactor__ 发表于 2021-03-03 __ 更新于 2021-03-11 本质是事件驱动 + 事件回调，通过 IO 复用 + 非阻塞 IO（它们为什么必须搭配使用？）的形式，利用可以执行多个 loop（多线程，IO线程），可以加入线程池做计算资源。（one loop per thread） 由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/03/03/what-is-reactor/reactor_patterns.png">
+<meta property="article:published_time" content="2021-09-29T12:41:35.140Z">
+<meta property="article:modified_time" content="2021-09-29T12:41:41.430Z">
+<meta property="article:author" content="RShao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/03/what-is-reactor/reactor_patterns.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-what-is-reactor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/09/29/what-is-reactor/" class="article-date">
+  <time datetime="2021-09-29T12:41:35.140Z" itemprop="datePublished">2021-09-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="what-is-reactor"><a href="#what-is-reactor" class="headerlink" title="what is reactor"></a>what is reactor</h1><p>__ 发表于 2021-03-03 __ 更新于 2021-03-11</p>
+<p>本质是事件驱动 + 事件回调，通过 IO 复用 + 非阻塞 IO（它们为什么必须搭配使用？）的形式，利用可以执行多个 loop（多线程，IO<br>线程），可以加入线程池做计算资源。（one loop per thread）</p>
+<p>由于 IO reuse 是通过监测事件（TCP 的三个半事件：）来完成的，如果用阻塞 IO，一次只能 serve 一个连接，浪费了时间，IO<br>复用的性能得不到体现</p>
+<h2 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h2><p><img src="/2021/03/03/what-is-reactor/reactor_patterns.png"></p>
+<h4 id="C10K-C100K…"><a href="#C10K-C100K…" class="headerlink" title="C10K, C100K…"></a>C10K, C100K…</h4><p>TODO <a target="_blank" rel="noopener" href="http://scotdoyle.com/python-epoll-howto.html">http://scotdoyle.com/python-epoll-<br>howto.html</a></p>
+<h3 id="有没有可能阻塞IO更好？"><a href="#有没有可能阻塞IO更好？" class="headerlink" title="有没有可能阻塞IO更好？"></a>有没有可能阻塞IO更好？</h3><ol start="0">
+<li>直观，整体流程非常明显，更适用于短链接</li>
+<li>当线程比较 cheap（比如 go 中的 goroutine 、python 中的gevent等，可以用每个线程去处理一个链接（阻塞 IO ）），而线程 expensive 的时候（<code>pthread_create</code>）最好还是用 reactor（事件驱动 + 事件回调）</li>
+</ol>
+<h2 id="select、poll和epoll的区别"><a href="#select、poll和epoll的区别" class="headerlink" title="select、poll和epoll的区别"></a>select、poll和epoll的区别</h2><h3 id="为什么epoll"><a href="#为什么epoll" class="headerlink" title="为什么epoll"></a>为什么epoll</h3><p>要理解，整个select -&gt; poll -&gt; epoll 的进化过程，实际上是为了不断加快事件响应时间。</p>
+<p>毕竟响应越快，处理越快，处理完丢掉减小<code>len_fd_list</code>，从而增加系统的吞吐。</p>
+<h2 id="ET和LT的区别"><a href="#ET和LT的区别" class="headerlink" title="ET和LT的区别"></a>ET和LT的区别</h2><ol>
+<li>一般意义上，我们说 ET 好，是指 edge-trigger 模式能够减少（只在两个极端事件） epoll 相关<strong>系统调用</strong>（系统调用总是 expensive 的（TODO 用户态陷入内核会发生什么？））</li>
+<li>【问】如果是电平触发，那么什么时候关注 EPOLLOUT 事件？会不会造成 busy-loop？如果是边沿触发，如何防止漏读造成的饥饿？    * LT 可能导致 busy loop（比如 1byte 1 byte 的传输过来，应用层的 buffer 解决）<ul>
+<li>比如 <code>EPOLLOUT</code> ，什么时候关注？是等应用层的缓冲区管理好所有的写数据，能够写了，才 register EPOLLOUT。    * ET 可能导致 hungry（漏掉事件，ready_list 非空都是 epoll_wait 无法返回）（每次 while True 处理完 ready_list 所有事件）</li>
+</ul>
+</li>
+</ol>
+<h3 id="为什么会出现两种模式？"><a href="#为什么会出现两种模式？" class="headerlink" title="为什么会出现两种模式？"></a>为什么会出现两种模式？</h3><p>[为什么会产生 ET](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9162712/what-is-the-purpose-">https://stackoverflow.com/questions/9162712/what-is-the-purpose-</a><br>of-epolls-edge-triggered-option)</p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/229224">这里讨论了ET是不是一定好？</a></p>
+<p>epoll 之前的的 IO-reuse 底层通过顺序表迭代找到某个 fd（O(n)），epoll则是引入了红黑树，将时间复杂度减小到了 O(logn)。</p>
+<ol>
+<li>LT 是一直以来的标准，为什么会产生 ET ？    * 相比于 LT ， ET 更为惰性，不会频繁的对某个事件进行读写。至少从设计上，作者是希望能够降低单个 fd 的性能消耗从而提升整个系统的吞吐率。    * 本质上， epoll_wait 关心哪些 event，就返回哪些。ET 只关心 buffer 状态发生变化的，那么理论上，每次返回的 fd 会少很多。</li>
+<li>那么效果是否达到了？    * 回想之前读的《CSAPP》，里面使用了 select 作为 system call。里面有两个变量：<code>read_list</code> 和 <code>ready_list</code>。这里的 epoll_wait 每次返回的就是 <code>ready_list</code> 。<strong>在 LT 和 ET 的实现区别就是 ET 每次执行完 fd 的事件会从 <code>ready_list</code> 中删掉这个 fd</strong>。    * 但是，在某些场景下，应用层需要自己维护 <code>ready_list</code> ，<strong>避免某个 cold data 迟迟无法被处理导致饿死</strong>（通过迭代应用层的 ready_list ）。这样一来，反而增加了应用程序员<strong>心智负担</strong>。甚至可能由于程序员水平不过关，性能可能比 kernel 的实现更差，导致负载降低。</li>
+</ol>
+<blockquote>
+<p>Receiving an event from epoll_wait(2) should suggest to you</p>
+</blockquote>
+<p>that such file descriptor is ready for the requested I/O</p>
+<p>operation. You must consider it ready until the next</p>
+<p>(nonblocking) read/write yields EAGAIN. When and how you</p>
+<p>will use the file descriptor is entirely up to you.</p>
+<p><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/epoll.7.html">man page: epoll</a>建议我们读到<br>EAGAIN 再退出，原因是什么？</p>
+<h3 id="epoll-ET-存在的问题"><a href="#epoll-ET-存在的问题" class="headerlink" title="epoll ET 存在的问题"></a>epoll ET 存在的问题</h3><p>考虑<strong>新建连接</strong>与<strong>读写数据</strong>两种不同的场景。</p>
+<p>考虑这种情况：多个连接同时到达，服务器的TCP就绪队列瞬间积累多个就绪连接，由于是边缘触发模式，epoll只会通知一次，accept只处理一个连接，导致TC<br>P就绪队列中剩下的连接都得不到处理。— 导致<strong>饥饿</strong></p>
+<p>解决办法是：</p>
+<ul>
+<li>一次性处理完所有事件。用 <strong>while 循环</strong>抱住accept调用，处理完TCP就绪队列中的所有连接后再退出循环。如何知道是否处理完就绪队列中的所有连接呢？accept返回-1并且errno设置为EAGAIN就表示所有连接都处理完。</li>
+<li>缓存所有事件。或者设计一个应用层的 cache 保存这些事件（一个 list）</li>
+</ul>
+<blockquote>
+<p>The difference is only visible when you use long-lived sessions and you’re<br>forced to constantly stop/start because of buffers full/empty (typically with<br>a proxy). When you’re doing this, you most often need an event cache, and when<br>your event cache is processing events, you can use ET and avoid all the<br>epoll_ctl(DEL)+epoll_ctl(ADD) dance. For short-lived sessions, the savings are<br>less obvious, because for ET you’ll need at least one epoll_ctl(ADD) call to<br>enable polling on the FD, and if you don’t expect to have more of them during<br>the session’s life (eg: exchanges are smaller than buffers most of the time),<br>then you shouldn’t expect any difference. Most of your savings will generally<br>come from using an event cache only since you can often perform a lot of<br>operations (eg: writes) without polling thanks to kernel buffers.</p>
+</blockquote>
+<p>[<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13848143/is-level-triggered-or-edge-">https://stackoverflow.com/questions/13848143/is-level-triggered-or-edge-</a><br>triggered-more-performant](<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13848143/is-">https://stackoverflow.com/questions/13848143/is-</a><br>level-triggered-or-edge-triggered-more-performant)</p>
+<p>思考以下场景：</p>
+<ol start="0">
+<li>【init】</li>
+</ol>
+<ul>
+<li>server 启动 et （必须在应用代码层面读完所有数据），</li>
+<li>client 启动 lt （一次能发完 MAXSIZE=8）</li>
+</ul>
+<ol>
+<li>【场景一】</li>
+</ol>
+<ul>
+<li>client 发送 ‘aabbcc’</li>
+<li>server 只能收到 ‘aa’, <ul>
+<li>如果此时关闭 client, server 还能收到’bb’，但是’cc’丢失</li>
+<li>如果此时发送 ‘dd’, server 继续接收 ‘bb’ …</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>【场景二】</li>
+</ol>
+<ul>
+<li>client 发送 ‘a’，server 接收到 ‘a’</li>
+<li>client 发送 ‘bcd’，server 接收到 ‘bc’ （<strong>发送端</strong>（理解这里） buffer 里面还有 ‘c’）</li>
+<li>client 断开链接，server 接收到 ‘d’ </li>
+</ul>
+<p>上面的例子中，server 端有三个事件是 <strong>epoll_ET 关心的</strong>：</p>
+<ul>
+<li>发送端建立链接</li>
+<li>接收端 buffer 从 empty =&gt; non-empty</li>
+<li>发送端断开链接</li>
+</ul>
+<p>【问】</p>
+<p>连续『回车』以后，为什么写不出去了？因为没东西写，fd会在代码中被删除，避免<strong>频繁唤醒</strong>。</p>
+<p>所以，如果 server 无法一次读完所有的数据（一直读到 <code>EAGAIN</code> ），可能会造成数据的丢失。</p>
+<p>进一步推出，选用 ET 还是 LT ，应用层的代码设计区别还是很明显的。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Manistein/test_epoll_lt_and_et">&gt; 看再多的资料，不如写个代码跑一下</a></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本质是 system call (epoll_wait) 对事件的关心程度不同。</p>
+<ul>
+<li>ET 是消极的，LT 是积极的</li>
+<li>ET 只关心 空 =&gt; 非空 ， 满 =&gt; 非满 两个极端。这里的关心是指是否选择从（往） buffer 读（写）数据。从代码层面来看，是 <code>recv</code>/<code>send</code>返回 <code>EAGAIN</code></li>
+<li>ET 需要手动积极管理 buffer，LT 需要手动积极管理 fd 的返回与否（ready_list）</li>
+</ul>
+<ol>
+<li>server read 中，    * 如果 server 为 ET，receiver buffer 会保存 server 读不完的数据，直到下一次有<strong>新的数据包</strong>发送过来。所以应用层面需要在应用层代码中<strong>手动添加读完 buffer 的逻辑</strong>。好处是不删的话，下次作为 cache ，适合长链接。    * 如果 server 为 LT，receiver buffer 会保存 server 读不完的数据，然后server 不断的读完 buffer 里面所有的数据。所以应用层面需要在<strong>读完以后删掉fd</strong>。适合短链接。</li>
+<li>同上，client write 中，    * 如果 client 为 ET，需要手动在应用层加上读完 buffer 的逻辑    * 如果 client 为 LT，需要判断写返回值为 EAGAIN 之后删掉fd。</li>
+</ol>
+<h3 id="基本的EPOLL架构是怎样的？"><a href="#基本的EPOLL架构是怎样的？" class="headerlink" title="基本的EPOLL架构是怎样的？"></a>基本的EPOLL架构是怎样的？</h3><h3 id="buffer"><a href="#buffer" class="headerlink" title="buffer"></a>buffer</h3><p>注意，这里所有 low level 级别的代码（1. 什么时候 epoll_wait 退出？ 2. read 多少数据？…）都是应用层与 TCP<br>层的纠葛，本质是 buffer 在起作用。所以，设计一个好用的、性能强大的『应用层 buffer 』是非常有必要的。</p>
+<p><a href="/2021/03/02/what-is-load-balancer/"> __ what is load balancer </a></p>
+<p>[ Double buffer asynchronous log __ ](/2021/03/07/Double-buffer-asynchronous-<br>log/)</p>
+<ul>
+<li>文章目录 </li>
+<li>站点概览 </li>
+</ul>
+<ol>
+<li><ol>
+<li>架构图    1. 1.0.1. C10K, C100K…</li>
+</ol>
+</li>
+<li>1.1. 有没有可能阻塞IO更好？</li>
+</ol>
+<ul>
+<li><ol start="2">
+<li><p>select、poll和epoll的区别</p>
+</li>
+<li><p>2.1. 为什么epoll</p>
+</li>
+</ol>
+</li>
+<li><ol start="3">
+<li><p>ET和LT的区别</p>
+</li>
+<li><p>3.1. 为什么会出现两种模式？</p>
+</li>
+<li><p>3.2. epoll ET 存在的问题</p>
+</li>
+<li><p>3.2.1. 总结</p>
+</li>
+<li><p>3.3. 基本的EPOLL架构是怎样的？</p>
+</li>
+<li><p>3.4. buffer</p>
+</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/09/29/what-is-reactor/" data-id="cku5hzzzt001hcjt8a6nbcemg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/09/29/what-is-polymorphism-what-is-it-for-and-how-is-it-used/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/09/29/what-is-websocket/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/09/29/why-redis-fast/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/why-stack-can-overflow-but-heap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/%E6%88%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/coroutine/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/29/DB%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 RShao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

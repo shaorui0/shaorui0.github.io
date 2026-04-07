@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"ryan42xyz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shaorui0.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="仪表盘一片绿色，用户已经宕机了。你遇到的不是可观测性问题，是控制系统故障。 这篇文章来自一次真实事故的复盘。不是监控入门，是设计审查：为什么生产组织在最需要可见性的时候反而看不见。 那次凌晨两点的事故 现场 凌晨 02:17，客户支持群冒出第一条消息：某大客户请求大量超时。 02:19，Oncall 被拉醒。 02:21，打开 Grafana，一片绿色。CPU 正常，Memory 正常，Error">
 <meta property="og:type" content="article">
 <meta property="og:title" content="监控系统会死在哪里">
-<meta property="og:url" content="https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_zh/index.html">
+<meta property="og:url" content="https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_zh/index.html">
 <meta property="og:site_name" content="Rui Shao&#39;s Blog">
 <meta property="og:description" content="仪表盘一片绿色，用户已经宕机了。你遇到的不是可观测性问题，是控制系统故障。 这篇文章来自一次真实事故的复盘。不是监控入门，是设计审查：为什么生产组织在最需要可见性的时候反而看不见。 那次凌晨两点的事故 现场 凌晨 02:17，客户支持群冒出第一条消息：某大客户请求大量超时。 02:19，Oncall 被拉醒。 02:21，打开 Grafana，一片绿色。CPU 正常，Memory 正常，Error">
 <meta property="og:locale" content="en_US">
@@ -38,10 +38,10 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_zh/">
+<link rel="canonical" href="https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_zh/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_zh/","path":"2026/02/11/2026-02-11_production-monitoring_zh/","title":"监控系统会死在哪里"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_zh/","path":"2026/02/11/2026-02-11_production-monitoring_zh/","title":"监控系统会死在哪里"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>监控系统会死在哪里 | Rui Shao's Blog</title>
@@ -176,7 +176,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -187,14 +187,14 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">46</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/ryan42xyz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ryan42xyz" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://github.com/shaorui0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shaorui0" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
         <a href="https://www.linkedin.com/in/rui-shao-a21a55194/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;rui-shao-a21a55194&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
@@ -222,7 +222,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_zh/">
+    <link itemprop="mainEntityOfPage" href="https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_zh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -585,24 +585,24 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/SRE/" rel="tag"># SRE</a>
               <a href="/tags/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F/" rel="tag"># 监控系统</a>
               <a href="/tags/%E7%94%9F%E4%BA%A7%E8%BF%90%E7%BB%B4/" rel="tag"># 生产运维</a>
               <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag"># 系统设计</a>
               <a href="/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/" rel="tag"># 可观测性</a>
+              <a href="/tags/SRE/" rel="tag"># SRE</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/02/11/2026-02-11_ai-writing-modeling_en/" rel="prev" title="Writing as Modeling, Not Just Expression">
-                  <i class="fa fa-angle-left"></i> Writing as Modeling, Not Just Expression
+                <a href="/2026/02/11/2026-02-11_production-monitoring_en/" rel="prev" title="Where Monitoring Systems Die">
+                  <i class="fa fa-angle-left"></i> Where Monitoring Systems Die
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/02/11/2026-02-11_production-monitoring_en/" rel="next" title="Where Monitoring Systems Die">
-                  Where Monitoring Systems Die <i class="fa fa-angle-right"></i>
+                <a href="/2026/02/11/2026-02-11_production-systems-refuse-to-die_en/" rel="next" title="Production Systems That Refuse to Die">
+                  Production Systems That Refuse to Die <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

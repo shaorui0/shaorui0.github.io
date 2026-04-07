@@ -1,87 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Rui Shao&apos;s Blog</title>
-  <link href="https://ryan42xyz.github.io/atom.xml" rel="self"/>
-  <link href="https://ryan42xyz.github.io/"/>
-  <updated>2026-03-23T03:57:11.752Z</updated>
-  <id>https://ryan42xyz.github.io/</id>
+  <link href="https://shaorui0.github.io/atom.xml" rel="self"/>
+  <link href="https://shaorui0.github.io/"/>
+  <updated>2026-03-27T14:30:22.897Z</updated>
+  <id>https://shaorui0.github.io/</id>
   <author><name>Rui Shao</name></author>
   <entry>
+    <title>少做决策，做对决策</title>
+    <link href="https://shaorui0.github.io/2026/03/27/2026-03-27_make-decisions-less-frequently_zh/"/>
+    <id>https://shaorui0.github.io/2026/03/27/2026-03-27_make-decisions-less-frequently_zh/</id>
+    <updated>2026-03-27T14:30:22.897Z</updated>
+    <published>2026-03-27T01:00:00.000Z</published>
+    <content type="html"><![CDATA[<p>我打篮球的时候有个阶段，每次拿球就想出手。后来发现真正拉开差距的不是出手次数，是出手前脚步做了什么。 人生是乘法，不是加法 多数人觉得努力就是做更多事、做更快。底层假设是加法：多一分努力多一分收获。 但真实结构更接近乘法。每一次重大决策是一个系数，人生结果是所有关键系数的连乘。一个系数接近零，后面全白搭。 这个模型一旦接受，很多事情的优先级就变了。&quot;多做事&quot;排不上号，&quot;别在关键节点犯致命错误&quot;才是第一优先。 致命错误比抓住机会重要…</p>]]></content>
+  </entry>
+  <entry>
     <title>The Function You&apos;re Already Optimizing</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_objective-function-thinking_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_objective-function-thinking_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_objective-function-thinking_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_objective-function-thinking_en/</id>
     <updated>2026-03-23T03:57:11.752Z</updated>
     <published>2026-02-12T09:42:00.000Z</published>
     <content type="html"><![CDATA[<p>Most people aren’t struggling with effort. They’re optimizing an objective function they never consciously chose. The Puzzle Some people execute well and still go nowhere. Others move slowly and accumulate over time. Execution quality alone doesn’t explain trajectory. The common…</p>]]></content>
   </entry>
   <entry>
     <title>你到底在优化什么</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_objective-function-thinking_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_objective-function-thinking_zh/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_objective-function-thinking_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_objective-function-thinking_zh/</id>
     <updated>2026-03-23T03:50:16.555Z</updated>
     <published>2026-02-12T09:42:00.000Z</published>
     <content type="html"><![CDATA[<p>多数人不缺努力，缺的是搞清楚自己到底在优化什么。 执行力很强但原地踏步 有些人执行力很强但还是原地踏步，有些人看着慢，时间一长反而走得远。光看执行质量解释不了这种差距。 常见的归因都站不住。不是方法问题：努力的人往往技巧更好。不是投入问题：他们花的时间更多。不是资源问题：他们手里的牌可能更好。 方向错了，执行力越强偏得越远。 生活中多数让人卡住的问题，不是执行问题，是目标函数的问题。 用优化的视角看决策 把生活看成一个优化系统，不是因为这是唯一正确的视角，是因为它能让决策方向变得明确、可讨论。…</p>]]></content>
   </entry>
   <entry>
     <title>Same Decision, Opposite Results: How Cycles Reshape Wealth</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_real-estate-cycle-position_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_real-estate-cycle-position_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_real-estate-cycle-position_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_real-estate-cycle-position_en/</id>
     <updated>2026-03-23T03:54:30.521Z</updated>
     <published>2026-02-12T09:31:00.000Z</published>
     <content type="html"><![CDATA[<p>From 2008 to 2018, almost everyone who bought property in Chinese first-tier cities completed an asset transition. Not a few people. An entire generation. Many didn’t have special investment abilities. They just bought a property, and it became their life’s most successful…</p>]]></content>
   </entry>
   <entry>
     <title>Microeconomics as a Decision Operating System</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_microeconomics-decision-framework_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_microeconomics-decision-framework_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_microeconomics-decision-framework_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_microeconomics-decision-framework_en/</id>
     <updated>2026-03-23T03:56:55.659Z</updated>
     <published>2026-02-12T09:30:00.000Z</published>
     <content type="html"><![CDATA[<p>Microeconomics as a Decision Operating System Five Tools for Resource Allocation: Entry, Investment, Environment, Position, and Exit Microeconomics Isn’t What You Think When most people hear “microeconomics,” they think GDP, inflation, policy, macro forecasting. Finance stuff.…</p>]]></content>
   </entry>
   <entry>
     <title>Treat Yourself as a Company: A Capital Allocation Audit</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_en/</id>
     <updated>2026-03-23T03:56:41.745Z</updated>
     <published>2026-02-12T09:30:00.000Z</published>
     <content type="html"><![CDATA[<p>Treat Yourself as a Company: A Capital Allocation Audit The Era Reprices Individuals Most people have never examined themselves from an investor’s perspective. We do career planning, learning plans, life planning. But few of us examine our capital structure like a CFO. We work…</p>]]></content>
   </entry>
   <entry>
     <title>把自己当公司：一个30岁技术人的资本配置审计</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_zh/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_self-as-company-capital-allocation-audit_zh/</id>
     <updated>2026-03-23T03:58:33.043Z</updated>
     <published>2026-02-12T09:30:00.000Z</published>
     <content type="html"><![CDATA[<p>把自己当公司：一个30岁技术人的资本配置审计 第一幕：时代重新定价个人 我们做职业规划、学习计划、人生规划，但很少有人像 CFO 一样审视自己的资本结构。我们用员工思维努力，却在用资本市场规则被定价。这种错配，在 AI 时代被放大了。 定价机制的改变是结构性的。过去看时间投入：你工作了多少小时、多努力、投入了多少时间，大致是时间 × 努力 &#x3D; 收入。现在看资产结构：你有什么可复用的资产、能产生什么杠杆、资本配置能力如何，更接近资产结构 × 杠杆 &#x3D; 价值。市场越来越少问「工作了多少小时」，越来越多问「你的资产结构是什么、期权有多少、资本配置能力如何」。…</p>]]></content>
   </entry>
   <entry>
     <title>Why Long-Term Investment Logic Converges to the S&amp;P 500</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_en/</id>
     <updated>2026-03-23T03:56:08.489Z</updated>
     <published>2026-02-12T08:12:00.000Z</published>
     <content type="html"><![CDATA[<p>A Counterintuitive Will Buffett’s will allocation: 90% S&amp;P 500 index fund, 10% US short-term treasury bonds. This gets quoted constantly but rarely understood. The interesting question is not “why is the S&amp;P good?” It’s: why would someone who spent a lifetime actively…</p>]]></content>
   </entry>
   <entry>
     <title>为什么长期投资逻辑最终都会收敛到标普500</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_zh/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_sp500-investment-convergence_zh/</id>
     <updated>2026-03-23T03:52:08.568Z</updated>
     <published>2026-02-12T08:12:00.000Z</published>
     <content type="html"><![CDATA[<p>投资的本质不是找最高收益，是在结构性约束下构建一个能持续复利的系统。下文沿着一条逻辑链展开：资源怎么跨时间配置、用什么工具、投在哪个系统、为什么收敛到标普500、怎么分散风险、怎么组合、怎么执行。 巴菲特那个反直觉的遗嘱 巴菲特给后代留的配置很简单：90% 标普500指数基金，10% 美国短期国债。 这句话被引用很多，被真正想透的很少。 值得琢磨的不是&quot;标普为什么好&quot;，是：一个一辈子做主动投资的人，为什么最终给家人留了一个极度被动、甚至有点无聊的方案？…</p>]]></content>
   </entry>
   <entry>
     <title>复利只属于活下来的人</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_zh/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_zh/</id>
     <updated>2026-03-23T03:49:13.888Z</updated>
     <published>2026-02-12T07:19:00.000Z</published>
     <content type="html"><![CDATA[<p>多数投资者一上来就问&quot;买什么回报高&quot;，但复利只发生在那些能一直待在牌桌上的人身上。 问题从一开始就问错了 “现在该买黄金吗？”“今年能赚多少？”“什么资产最好？” 这些问题听起来合理，底下藏着同一个假设：投资就是追回报。 我以前也这么想。后来发现一个更根本的问题被忽略了：你怎么在几十年里一直留在场上、持续增长？ 多数投资建议都在回答&quot;买什么&quot;，优化的是回报。但如果你没办法在游戏里待够久，那些回报跟你没关系。…</p>]]></content>
   </entry>
   <entry>
     <title>Compound Interest Only Belongs to Survivors</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_compound-interest-only-belongs-to-survivors_en/</id>
     <updated>2026-03-23T03:54:30.809Z</updated>
     <published>2026-02-12T07:19:00.000Z</published>
     <content type="html"><![CDATA[<p>Most investors optimize for returns. But compound interest only works for systems that stay alive long enough to compound.</p>
@@ -91,17 +99,9 @@
 <p>These sound reasonable. Everyone asks them. But they’re built on a hidden assumption: investment is about maximizing returns.</p>]]></content>
   </entry>
   <entry>
-    <title>执行变廉价之后，什么能力还值钱</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_zh/</id>
-    <updated>2026-03-23T03:50:40.752Z</updated>
-    <published>2026-02-12T07:15:00.000Z</published>
-    <content type="html"><![CDATA[<p>执行变廉价之后，什么能力还值钱 AI 改变的不是效率，是定价机制 AI 让很多事情变快了，但职业差距在拉大。 junior 被 AI 放大，senior 更值钱，但 senior 更难被组织看见。 所有人都能用 AI 写代码、做分析、出报告的时候，执行效率就不再稀缺了。市场在重新定价：什么能力真正稀缺？什么能力 AI 替不了？ 我想讨论的就一件事：在 AI 时代，什么才是真正的长期定价能力。不聊怎么用 AI，不聊 prompt 工程，不聊求职技巧。 职业价值的本质：降低不确定性 从第一性原理讲，不确定环境中职业价值的公式是： 价值 &#x3D; 正确性 x…</p>]]></content>
-  </entry>
-  <entry>
     <title>When Execution Becomes Cheap: Professional Value in the AI Era</title>
-    <link href="https://ryan42xyz.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_en/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_en/</id>
     <updated>2026-03-23T03:53:29.094Z</updated>
     <published>2026-02-12T07:15:00.000Z</published>
     <content type="html"><![CDATA[<h1>When Execution Becomes Cheap: Professional Value in the AI Era</h1>
@@ -110,18 +110,34 @@
 <p>When everyone can use AI to write code, run analysis, and generate reports, execution efficiency stops being scarce. The market reprices: what capabilities are truly scarce? What can’t AI replace?</p>]]></content>
   </entry>
   <entry>
+    <title>执行变廉价之后，什么能力还值钱</title>
+    <link href="https://shaorui0.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/12/2026-02-12_ai-era-professional-value-first-principle_zh/</id>
+    <updated>2026-03-23T03:50:40.752Z</updated>
+    <published>2026-02-12T07:15:00.000Z</published>
+    <content type="html"><![CDATA[<p>执行变廉价之后，什么能力还值钱 AI 改变的不是效率，是定价机制 AI 让很多事情变快了，但职业差距在拉大。 junior 被 AI 放大，senior 更值钱，但 senior 更难被组织看见。 所有人都能用 AI 写代码、做分析、出报告的时候，执行效率就不再稀缺了。市场在重新定价：什么能力真正稀缺？什么能力 AI 替不了？ 我想讨论的就一件事：在 AI 时代，什么才是真正的长期定价能力。不聊怎么用 AI，不聊 prompt 工程，不聊求职技巧。 职业价值的本质：降低不确定性 从第一性原理讲，不确定环境中职业价值的公式是： 价值 &#x3D; 正确性 x…</p>]]></content>
+  </entry>
+  <entry>
     <title>Production Systems That Refuse to Die</title>
-    <link href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-systems-refuse-to-die_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-systems-refuse-to-die_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/11/2026-02-11_production-systems-refuse-to-die_en/"/>
+    <id>https://shaorui0.github.io/2026/02/11/2026-02-11_production-systems-refuse-to-die_en/</id>
     <updated>2026-03-23T03:52:20.120Z</updated>
     <published>2026-02-11T10:47:32.000Z</published>
     <content type="html"><![CDATA[<h2 id="Production-Systems-Are-Survival-Systems-First">Production Systems Are Survival Systems First</h2>
 <p>We keep saying “production environment” like it’s just another deployment target. It’s not. Demo systems optimize for success. Production systems optimize for survival. Completely different species.</p>]]></content>
   </entry>
   <entry>
+    <title>监控系统会死在哪里</title>
+    <link href="https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_zh/</id>
+    <updated>2026-03-23T03:53:15.741Z</updated>
+    <published>2026-02-11T09:01:31.000Z</published>
+    <content type="html"><![CDATA[<p>仪表盘一片绿色，用户已经宕机了。你遇到的不是可观测性问题，是控制系统故障。 这篇文章来自一次真实事故的复盘。不是监控入门，是设计审查：为什么生产组织在最需要可见性的时候反而看不见。 那次凌晨两点的事故 现场 凌晨 02:17，客户支持群冒出第一条消息：某大客户请求大量超时。 02:19，Oncall 被拉醒。 02:21，打开 Grafana，一片绿色。CPU 正常，Memory 正常，Error rate 接近 0。系统看上去啥事没有。 02:25，更多客户报告超时。业务负责人进会议，开始问：影响多少客户？范围多大？要不要回滚？多久能恢复？…</p>]]></content>
+  </entry>
+  <entry>
     <title>Where Monitoring Systems Die</title>
-    <link href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_en/"/>
+    <id>https://shaorui0.github.io/2026/02/11/2026-02-11_production-monitoring_en/</id>
     <updated>2026-03-23T03:50:59.010Z</updated>
     <published>2026-02-11T09:01:31.000Z</published>
     <content type="html"><![CDATA[<p><strong>When dashboards are all green but users are already down, you’re facing a control system failure, not an observability problem.</strong></p>
@@ -133,17 +149,9 @@
 <p>No one can answer. Monitoring systems exist, but they provide nothing usable for decisions.</p>]]></content>
   </entry>
   <entry>
-    <title>监控系统会死在哪里</title>
-    <link href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/11/2026-02-11_production-monitoring_zh/</id>
-    <updated>2026-03-23T03:53:15.741Z</updated>
-    <published>2026-02-11T09:01:31.000Z</published>
-    <content type="html"><![CDATA[<p>仪表盘一片绿色，用户已经宕机了。你遇到的不是可观测性问题，是控制系统故障。 这篇文章来自一次真实事故的复盘。不是监控入门，是设计审查：为什么生产组织在最需要可见性的时候反而看不见。 那次凌晨两点的事故 现场 凌晨 02:17，客户支持群冒出第一条消息：某大客户请求大量超时。 02:19，Oncall 被拉醒。 02:21，打开 Grafana，一片绿色。CPU 正常，Memory 正常，Error rate 接近 0。系统看上去啥事没有。 02:25，更多客户报告超时。业务负责人进会议，开始问：影响多少客户？范围多大？要不要回滚？多久能恢复？…</p>]]></content>
-  </entry>
-  <entry>
     <title>Writing as Modeling, Not Just Expression</title>
-    <link href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_ai-writing-modeling_en/"/>
-    <id>https://ryan42xyz.github.io/2026/02/11/2026-02-11_ai-writing-modeling_en/</id>
+    <link href="https://shaorui0.github.io/2026/02/11/2026-02-11_ai-writing-modeling_en/"/>
+    <id>https://shaorui0.github.io/2026/02/11/2026-02-11_ai-writing-modeling_en/</id>
     <updated>2026-03-23T03:49:13.578Z</updated>
     <published>2026-02-11T08:22:42.000Z</published>
     <content type="html"><![CDATA[<h2 id="If-AI-Can-Write-Blogs-Why-Bother-Writing-Yourself">If AI Can Write Blogs, Why Bother Writing Yourself?</h2>
@@ -152,8 +160,8 @@
   </entry>
   <entry>
     <title>AI 能写文章，但写不出能力</title>
-    <link href="https://ryan42xyz.github.io/2026/02/11/2026-02-11_ai-writing-modeling_zh/"/>
-    <id>https://ryan42xyz.github.io/2026/02/11/2026-02-11_ai-writing-modeling_zh/</id>
+    <link href="https://shaorui0.github.io/2026/02/11/2026-02-11_ai-writing-modeling_zh/"/>
+    <id>https://shaorui0.github.io/2026/02/11/2026-02-11_ai-writing-modeling_zh/</id>
     <updated>2026-03-23T03:49:12.379Z</updated>
     <published>2026-02-11T08:22:42.000Z</published>
     <content type="html"><![CDATA[<h2 id="AI-写得挺好，为什么还要自己写？">AI 写得挺好，为什么还要自己写？</h2>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rui Shao</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #fafafa;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+    .blogs {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .blog-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 2rem 2.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, transform 0.2s;
+      min-width: 200px;
+    }
+    .blog-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .blog-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .blog-card p {
+      color: #888;
+      font-size: 0.9rem;
+    }
+    footer {
+      position: fixed;
+      bottom: 2rem;
+      width: 100%;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rui Shao</h1>
+    <p class="subtitle">Writing about what I build, invest in, and think about.</p>
+    <div class="blogs">
+      <a href="/tech/" class="blog-card">
+        <h2>Tech & AI</h2>
+        <p>Systems, infrastructure, and AI</p>
+      </a>
+      <a href="/finance/" class="blog-card">
+        <h2>Finance</h2>
+        <p>Markets, cycles, and capital</p>
+      </a>
+      <a href="/life/" class="blog-card">
+        <h2>Life</h2>
+        <p>Thinking, decisions, and living</p>
+      </a>
+    </div>
+  </div>
+  <footer>shaorui0.github.io</footer>
+</body>
+</html>

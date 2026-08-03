@@ -1,0 +1,90 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8} % 加载CJKutf8宏包
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multicol}
+\geometry{margin=1in}
+
+% Formatting for sections
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\begin{document}
+
+\begin{CJK}{UTF8}{gbsn} % 开启CJK环境，使用简体中文字体
+% 联系信息
+\begin{center}
+    \textbf{\Huge 邵瑞} \\[0.5em]
+    +86-15623713170 \textbar \href{mailto:sr1054461216@gmail.com}{sr1054461216@gmail.com} \textbar \href{https://github.com/shaorui0}{https://github.com/shaorui0}
+\end{center}
+
+% 工作经验
+\section*{工作经验}
+
+\noindent\textbf{英特尔} \hfill \textit{云软件开发工程师} \hfill \textit{2021/10 -- 至今}
+\begin{itemize}[leftmargin=*,noitemsep]
+
+    \item 构建了一个云原生数据处理和可观测性平台，支持5G RAN环境下的高流量数据处理、实时监控和系统可观测性。
+
+    \textbf{使用技术：}Kubernetes, Operator SDK, gRPC, Redis, Prometheus, Grafana, Loki Stack, MinIO, Kafka
+    \begin{itemize}[noitemsep]
+        \item 优化了高频率指标传输的\textbf{gRPC双向流}，减少了\textbf{35\%}的内存使用，并将延迟从\textbf{200ms}提升到\textbf{50ms}，在\textbf{10,000个并发连接}下，传输效率提高了\textbf{75\%}。
+        \item 使用\textbf{对象池}和\textbf{Goroutine复用}管理高并发请求，减少了\textbf{40\%}的内存分配，响应时间减少至\textbf{100ms}。
+        \item 引入了多层缓存机制，结合\textbf{Redis}和\textbf{LRU本地缓存}，数据库访问减少了\textbf{70\%}，响应速度提升了\textbf{40\%}。
+        \item 优化了\textbf{Kafka分区}和复制机制，使消息吞吐量提升了\textbf{30\%}，可以在高负载下处理\textbf{每秒10万条消息}。
+        \item 通过\textbf{Kubernetes Operator}自动化\textbf{Prometheus规则更新}，管理了\textbf{100多项动态监控指标}，增强了灵活性和实时可观测性。
+        \item 扩展了日志摄取并通过\textbf{Promtail}和\textbf{分片}优化了\textbf{Loki存储}，日志处理能力提高了\textbf{80\%}，瓶颈减少了\textbf{40\%}。
+        \item 通过\textbf{冷热数据分离}和迁移到\textbf{MinIO}，优化了\textbf{30\%}的存储成本，同时在大容量日志环境下保持了查询性能。
+    \end{itemize}
+
+    \item 构建了一个云原生AI模型生命周期管理平台，用于管理5G RAN环境下的AI模型训练和推理任务，包括用于管理任务调度、部署和扩展的\textbf{Kubernetes Operator}，确保无缝集成和自动化生命周期管理。
+
+    \textbf{使用技术：}Kubernetes, Golang, MySQL, Redis, Containerd
+    \begin{itemize}[noitemsep]
+        \item 通过集群范围的镜像预取（\textbf{kube-fledged}）和节点级并发解压缩（\textbf{containerd}）优化了大规模离线数据镜像拉取，将冷启动时间减少了\textbf{60\%}，训练效率提高了\textbf{50\%}。
+        \item 应用了\textbf{Redis分布式锁}和过期机制，将任务调度冲突减少了\textbf{40\%}，调度延迟从\textbf{200ms}减少到\textbf{120ms}。
+        \item 设计了\textbf{MySQL事务}和依赖管理机制，确保在高并发环境下可靠且一致的模型版本升级。
+    \end{itemize}
+
+\end{itemize}
+
+% 实习经验
+\section*{实习经验}
+
+\noindent\textbf{腾讯} \hfill \textit{软件开发工程师实习生} \hfill \textit{2021/06 -- 2021/09}\vspace{-0.5em}
+\begin{itemize}[leftmargin=*,noitemsep]
+    \item 设计并开发了高并发\textbf{RPC服务}用于节日活动，使用\textbf{Kafka}进行消息队列管理，结合\textbf{Golang}和\textbf{RPC APIs}实现高效的服务通信和实时数据处理，利用\textbf{Redis}进行动态存储和维护\textbf{TOP用户数据}。
+\end{itemize}
+
+\noindent\textbf{字节跳动} \hfill \textit{软件开发工程师实习生} \hfill \textit{2021/03 -- 2021/05}\vspace{-0.5em}
+\begin{itemize}[leftmargin=*,noitemsep]
+    \item 负责开发一个\textbf{ToB游戏平台}的核心后端服务，使用\textbf{Golang}实现高性能的数据处理模块，优化复杂数据查询的\textbf{MySQL}操作，并利用\textbf{Redis}提高数据访问效率，保证平台在高并发环境下的响应速度与稳定性。
+\end{itemize}
+
+\noindent\textbf{百度} \hfill \textit{软件开发工程师实习生} \hfill \textit{2020/01 -- 2020/10}\vspace{-0.5em}
+\begin{itemize}[leftmargin=*,noitemsep]
+    \item 设计并实现了一个基于\textbf{HDFS}和\textbf{Hive}的广告大数据处理系统，构建数据处理管道，优化广告数据流的清洗、聚合和实时查询，使用\textbf{Python}开发Web接口以支持数据监控和管理。
+\end{itemize}
+
+% 教育背景
+\section*{教育背景}
+\setlength{\parskip}{0em} % 设置全局段落间距为0
+
+\textbf{硕士，北京科技大学（北京，中国）} \\ 
+\textit{计算机科学与技术} \hfill \textit{2019/09 -- 2022/06} \\
+
+\textbf{学士，文华学院（武汉，中国）} \\ 
+\textit{电子信息工程} \hfill \textit{2014/09 -- 2018/06}
+
+% 技能
+\section*{技能}
+
+\textbf{编程语言：}\textbf{Golang}, \textbf{Python}, \textbf{C/C++}, \textbf{Shell}, \textbf{SQL}, \textbf{HTML} \\ 
+\textbf{工具：}\textbf{Kubernetes}, \textbf{Operator SDK}, \textbf{Docker}, \textbf{MySQL}, \textbf{Redis}, \textbf{Kafka}, \textbf{Elasticsearch}, \textbf{Prometheus}, \textbf{Grafana}, \textbf{Loki}, \textbf{gRPC}, \textbf{Helm Chart}, \textbf{MinIO}, \textbf{Containerd}
+
+\end{CJK}
+\end{document}

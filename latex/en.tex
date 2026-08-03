@@ -1,0 +1,87 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multicol}
+\geometry{margin=1in}
+
+% Formatting for sections
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\begin{document}
+
+% Contact Information
+\begin{center}
+    \textbf{\Huge Justin Shao} \\[0.5em]
+    +86-15623713170 \textbar \href{mailto:sr1054461216@gmail.com}{sr1054461216@gmail.com} \textbar \href{https://github.com/shaorui0}{https://github.com/shaorui0}
+\end{center}
+
+% Experience Section
+\section*{Experience}
+
+\noindent\textbf{Intel} \hfill \textit{Cloud software development engineer} \hfill \textit{2021/10 -- Recent}
+\begin{itemize}[leftmargin=*,noitemsep]
+
+    \item Built a cloud-native data processing and observability platform to support high-traffic data processing, real-time monitoring, and system observability in 5G RAN environments.
+
+    \textbf{Technologies Used:} Kubernetes, Operator SDK, gRPC, Redis, Prometheus, Grafana, Loki Stack, MinIO, Kafka
+    \begin{itemize}[noitemsep]
+        \item Optimized \textbf{gRPC bidirectional streaming} for high-frequency metrics transmission, reducing memory usage by \textbf{35\%} and improving latency from \textbf{200ms} to \textbf{50ms}, ensuring stability in \textbf{10,000 concurrent connections} with \textbf{75\% transmission efficiency increase}.
+        \item Managed high-concurrency requests using \textbf{object pools} and \textbf{Goroutine reuse}, reducing memory allocation by \textbf{40\%} and response times to \textbf{100ms}.
+        \item Introduced multi-layer caching with \textbf{Redis} and \textbf{LRU local cache}, reducing database access by \textbf{70\%} and improving response speed by \textbf{40\%}.
+        \item Optimized \textbf{Kafka partitioning} and replication to increase message throughput by \textbf{30\%}, handling \textbf{100k messages per second} under high load.
+        \item Automated \textbf{Prometheus rule updates} using \textbf{Kubernetes Operator}, managing over \textbf{100 dynamic monitoring metrics} to enhance flexibility and real-time observability.
+        \item Scaled log ingestion and optimized \textbf{Loki storage} with \textbf{Promtail} and \textbf{sharding}, improving log processing by \textbf{80\%} and reducing bottlenecks by \textbf{40\%}.
+        \item Optimized storage costs by \textbf{30\%} through \textbf{cold-hot data separation} and migration to \textbf{MinIO}, ensuring compliance and maintaining query performance in a high-volume log environment.
+    \end{itemize}
+
+    \item Built a cloud-native AI model life-cycle management platform to manage AI model training and inference tasks in 5G RAN environments, including a \textbf{Kubernetes Operator} for managing the scheduling, deployment, and scaling of these tasks, ensuring seamless integration and automated life-cycle management.
+
+    \textbf{Technologies Used:} Kubernetes, Golang, MySQL, Redis, Containerd
+    \begin{itemize}[noitemsep]
+        \item Optimized large-scale offline data image pull using cluster-wide image pre-fetching (\textbf{kube-fledged}) and node-level concurrent decompression (\textbf{containerd}), reducing cold start time by \textbf{60\%} and improving training efficiency by \textbf{50\%}.
+        \item Applied \textbf{Redis distributed locks} and expiration mechanisms to reduce task scheduling conflicts by \textbf{40\%} and decreased scheduling latency from \textbf{200ms} to \textbf{120ms}.
+        \item Designed \textbf{MySQL transactions} and dependency management to ensure reliable and consistent model version upgrades in high-concurrency environments.
+    \end{itemize}
+
+\end{itemize}
+
+% Intern Experience Section
+\section*{Intern Experience}
+
+\noindent\textbf{Tencent Inc.} \hfill \textit{Software development engineer intern} \hfill \textit{2021/06 -- 2021/09}\vspace{-0.5em}
+\begin{itemize}[leftmargin=*,noitemsep]
+    \item Designed and developed high-concurrency \textbf{RPC services} for festival events, utilizing \textbf{Kafka} for message queue management, combining \textbf{Golang} and \textbf{RPC APIs} to achieve efficient service communication and real-time data processing, and using \textbf{Redis} for dynamic storage and maintenance of \textbf{TOP user data}.
+\end{itemize}
+
+\noindent\textbf{Byte Dance Inc.} \hfill \textit{Software development engineer intern} \hfill \textit{2021/03 -- 2021/05}\vspace{-0.5em}
+\begin{itemize}[leftmargin=*,noitemsep]
+    \item Responsible for developing core backend services for a \textbf{ToB gaming platform}, implemented high-performance data processing modules with \textbf{Golang}, optimized complex data queries using \textbf{MySQL}, and leveraged \textbf{Redis} to improve data access efficiency, ensuring platform responsiveness and stability in high-concurrency environments.
+\end{itemize}
+
+\noindent\textbf{Baidu Inc.} \hfill \textit{Software development engineer intern} \hfill \textit{2020/01 -- 2020/10}\vspace{-0.5em}
+\begin{itemize}[leftmargin=*,noitemsep]
+    \item Designed and implemented an \textbf{advertising big data processing system} based on \textbf{HDFS} and \textbf{Hive}, built \textbf{data processing pipelines}, optimized data flow for ad cleaning, aggregation, and real-time querying, and developed web interfaces with \textbf{Python} to support data monitoring and management.
+\end{itemize}
+
+% Education Section
+\section*{Education}
+
+\textbf{Master, University of Science \& Technology (Beijing, China)} \\ 
+\textit{Computer Science and Technology} \hfill \textit{2019/09 -- 2022/06} \\
+
+\textbf{Bachelor, Wenhua College (Wuhan, China)} \\ 
+\textit{Electronic Information Engineering} \hfill \textit{2014/09 -- 2018/06}
+
+% Skills Section
+\section*{Skills}
+
+\textbf{Languages:} \textbf{Chinese} (native level), \textbf{English} (business level) \\
+\textbf{Programming Languages:} \textbf{Golang}, \textbf{Python}, \textbf{C/C++}, \textbf{Shell}, \textbf{SQL}, \textbf{HTML} \\ 
+\textbf{Tools:} \textbf{Kubernetes}, \textbf{Operator SDK}, \textbf{Docker}, \textbf{MySQL}, \textbf{Redis}, \textbf{Kafka}, \textbf{Elasticsearch}, \textbf{Prometheus}, \textbf{Grafana}, \textbf{Loki}, \textbf{gRPC}, \textbf{Helm Chart}, \textbf{MinIO}, \textbf{Containerd}
+
+\end{document}

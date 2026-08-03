@@ -45,6 +45,10 @@
       transition: box-shadow 0.2s, transform 0.2s;
       min-width: 200px;
     }
+    .blog-card.primary {
+      border-color: #d8d8d8;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
     .blog-card:hover {
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transform: translateY(-2px);
@@ -70,19 +74,15 @@
 <body>
   <div class="container">
     <h1>Rui Shao</h1>
-    <p class="subtitle">Writing about what I build, invest in, and think about.</p>
+    <p class="subtitle">Site reliability engineering, storage engines, and agents that help me run them.</p>
     <div class="blogs">
+      <a href="/resume/" class="blog-card primary">
+        <h2>Résumé</h2>
+        <p>What I build, and the write-ups behind it</p>
+      </a>
       <a href="/tech/" class="blog-card">
-        <h2>Tech & AI</h2>
+        <h2>Tech &amp; AI</h2>
         <p>Systems, infrastructure, and AI</p>
-      </a>
-      <a href="/finance/" class="blog-card">
-        <h2>Finance</h2>
-        <p>Markets, cycles, and capital</p>
-      </a>
-      <a href="/life/" class="blog-card">
-        <h2>Life</h2>
-        <p>Thinking, decisions, and living</p>
       </a>
     </div>
   </div>

@@ -989,7 +989,7 @@ var GEN_WRITINGS = [
    "cn": "ClickHouse → Doris 存算分离：内存工程、引擎级路由、两次 compaction 事故，以及经受住重测的数字。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/"
   }
  },
@@ -1009,7 +1009,7 @@ var GEN_WRITINGS = [
    "cn": "整数尾延迟是人为常量：一个周期性尖刺，追到藏在限流插件里的缓存超时。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-p100-that-was-exactly-one-second_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_the-p100-that-was-exactly-one-second_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-p100-that-was-exactly-one-second_zh/"
   }
  },
@@ -1029,7 +1029,7 @@ var GEN_WRITINGS = [
    "cn": "先分流、再卸载、后扩容，以及为什么直觉顺序会把数据库放倒。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_order-of-operations-under-fire_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_order-of-operations-under-fire_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_order-of-operations-under-fire_zh/"
   }
  },
@@ -1049,7 +1049,7 @@ var GEN_WRITINGS = [
    "cn": "两个词把搜索空间砍半；走完八跳找到两个根因。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_refused-is-not-timeout_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_refused-is-not-timeout_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_refused-is-not-timeout_zh/"
   }
  },
@@ -1069,7 +1069,7 @@ var GEN_WRITINGS = [
    "cn": "一场纠正了自身前提的恢复演练，第一次把 RPO 写成显式数字。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_restoring-5b-rows-without-touching-prod_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_restoring-5b-rows-without-touching-prod_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_restoring-5b-rows-without-touching-prod_zh/"
   }
  },
@@ -1089,7 +1089,7 @@ var GEN_WRITINGS = [
    "cn": "把 50 个 Kubernetes 集群从每周 OOM 的 Federation 拓扑迁到 VictoriaMetrics 平台：1.2M active series，数据延迟 45s 降到 5s 以内，切换全程告警不断流。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_zh/"
   }
  },
@@ -1109,7 +1109,7 @@ var GEN_WRITINGS = [
    "cn": "用 Upgrade Safety System（check → plan → apply + evidence）把 18-21 小时、需要两人结对的手工升级压缩为 6-8 小时单人操作，并在两套生产集群上以零客户可感知停机完成执行。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_zh/"
   }
  },
@@ -1129,7 +1129,7 @@ var GEN_WRITINGS = [
    "cn": "在 Apache Doris FE 内新增一条 SQL 语句，每条查询执行前 6-8ms 判定 heavy/light。工作在 fork 上完成，mechanism 准备 upstream，policy 刻意留在内部。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_engine-level-query-routing_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_engine-level-query-routing_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_engine-level-query-routing_zh/"
   }
  },
@@ -1149,7 +1149,7 @@ var GEN_WRITINGS = [
    "cn": "一个在打开任何 tablet 之前把 566 个 tablet 剪到约 1 个的跨 tablet 点查索引，以及一个消掉串行化而不是消掉 IO 的宽读预取 —— 选这两个是因为它们的成本里大部分是可避免的扇出，做成 fail-open 是因为它们永远不许改变结果。包含我们真正付出的那个代价，以及它造成的一次静默事故。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_fan-out-is-the-floor_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_fan-out-is-the-floor_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_fan-out-is-the-floor_zh/"
   }
  },
@@ -1169,7 +1169,7 @@ var GEN_WRITINGS = [
    "cn": "一个平时 0 副本的重查询计算池背后的五个设计决策：用物理隔离而不是负载分级、用离散容量而不是逐查询伸缩、按瓶颈类型而不是按数据量定容、把 controller 收敛成对一个字段的 patch，以及一条假设「每个健康信号最终都会骗人」而设计的 readiness 路径。spot 只是分池决策的结果，不是重点。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_designing-the-elastic-compute-tier_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_designing-the-elastic-compute-tier_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_designing-the-elastic-compute-tier_zh/"
   }
  },
@@ -1189,7 +1189,7 @@ var GEN_WRITINGS = [
    "cn": "审计了一个每天产出约 960 条 OpsGenie 告警、约 85% 是默认 P3、背后有 367 条 paging 规则的 pager：定位四个结构性根因，重建准入、去重和 ownership，让腐化从默认结局变成需要对抗系统的例外。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_alert-governance_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_alert-governance_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_alert-governance_zh/"
   }
  },
@@ -1209,7 +1209,7 @@ var GEN_WRITINGS = [
    "cn": "「熟悉 Jenkins」写在无数 JD 里，但会写 pipeline 脚本不是那个能力。真正的能力是把交付流水线当生产系统对待：流程幂等、job 状态可观测、配置进代码，并且知道自动化本身什么时候会变成新的熵源。落地素材来自一次真实的 Jenkins 迁移，和其中 diagnose 与 fix 脚本的配对。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_zh/"
   }
  },
@@ -1229,7 +1229,7 @@ var GEN_WRITINGS = [
    "cn": "一个把 SRE oncall triage 从人肉执行重构为「agent 自主调查 + 人保留 mutation 主权」的 harness：所有不可逆操作都挡在确定性门禁之后。它建立在 Spec / Loop / Hook / Fork 四个控制原语之上，用 Kubernetes 控制平面的可靠性范式去约束一个不确定的推理内核。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/"
   }
  },
@@ -1249,7 +1249,7 @@ var GEN_WRITINGS = [
    "cn": "一个自研、持续运行的 systemd 层 daemon，把 Intel 的 Best Known Configuration 从一份 prose 加 shell 的文档，变成 git 里声明式、被持续审计的 desired state，覆盖分布在多个 cluster 的约 30 台裸金属服务器。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_zh/"
   }
  },
@@ -1269,7 +1269,7 @@ var GEN_WRITINGS = [
    "cn": "一条 Kafka 消费积压告警，真因是 ClickHouse 里超过 1 TiB 的升级残留，被一次一秒内完成的后台 merge 引爆"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_zombie-system-tables-subsecond-oom_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_zombie-system-tables-subsecond-oom_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_zombie-system-tables-subsecond-oom_zh/"
   }
  },
@@ -1289,7 +1289,7 @@ var GEN_WRITINGS = [
    "cn": "雷达为什么是九个轴：一个按问题类别而不是工具清单构建的能力模型，以及护城河到底在哪里。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-i-understand-sre-to-require_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-i-understand-sre-to-require_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-i-understand-sre-to-require_zh/"
   }
  },
@@ -1309,7 +1309,7 @@ var GEN_WRITINGS = [
    "cn": "九个分数如何从证据密度推导、每个分数意味着什么，以及一份独立交叉验证雷达形状的行为记录。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_an-audit-of-my-own-radar_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_an-audit-of-my-own-radar_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_an-audit-of-my-own-radar_zh/"
   }
  },
@@ -1329,7 +1329,7 @@ var GEN_WRITINGS = [
    "cn": "雷达上的 target 虚线是承诺，不是装饰：三个按优先级排列的缺口，每个都带一条可检验的补齐定义。"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-i-know-i-cant-do-yet_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-i-know-i-cant-do-yet_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-i-know-i-cant-do-yet_zh/"
   }
  },
@@ -1349,7 +1349,7 @@ var GEN_WRITINGS = [
    "cn": "什么变了，什么还需要工程师"
   },
   "url": {
-   "en": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/",
+   "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/",
    "cn": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_zh/"
   }
  },

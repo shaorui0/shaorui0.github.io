@@ -144,7 +144,7 @@
     <p class="tagline" data-l="cn">我让大规模反欺诈基础设施活着，并且造 agent 来帮我干这件事 🛠️📉🤖</p>
     <div class="links">
       <a href="https://github.com/shaorui0">GitHub</a><span class="sep">·</span>
-      <a href="https://shaorui0.github.io/tech/" data-l="en">Blog</a><a href="https://shaorui0.github.io/tech/" data-l="cn">博客</a><span class="sep">·</span>
+      <a href="https://shaorui0.github.io/tech-en/" data-l="en">Blog</a><a href="https://shaorui0.github.io/tech/" data-l="cn">博客</a><span class="sep">·</span>
       <a href="mailto:sr1054461216@gmail.com" data-l="en">Email</a><a href="mailto:sr1054461216@gmail.com" data-l="cn">邮箱</a><span class="sep">·</span>
       <a href="deep.html" data-l="en">Deeper résumé</a><a href="deep.html" data-l="cn">深度简历</a><span class="sep">·</span>
       <span class="lang-switch"><a href="#/en">EN</a>·<a href="#/cn">中文</a></span>
@@ -174,22 +174,22 @@
       <p>My share of the platform:</p>
       <ol>
         <li><b>Cluster lifecycle</b> — took the fleet from Kubernetes 1.24 to 1.29 with zero customer-impacting
-          downtime. <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/" target="_blank" rel="noopener">How →</a></li>
+          downtime. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Infrastructure as code</b> — the build path those clusters come from: baked images, Ansible roles,
           kubeadm control planes, worker changes shipped as immutable replacement.</li>
         <li><b>CI/CD</b> — the Jenkins delivery layer, moved onto Kubernetes and then stabilized.
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">How →</a></li>
+          <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Observability</b> — the monitoring platform, rebuilt when Prometheus Federation stopped scaling.
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">How →</a></li>
+          <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Analytics data platform</b> — moved off ClickHouse onto Doris with compute–storage separation, and
-          taken down into the query engine itself. <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a></li>
+          taken down into the query engine itself. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Ops agents</b> — an on-call triage agent that takes an alert or a customer-reported symptom and runs
           the investigation itself: pulls metrics and logs, decomposes latency layer by layer, rules layers in and
           out, and comes back with a root-cause hypothesis and the evidence chain behind it. Every irreversible
           action stays behind a deterministic gate — the agent may read production, never change it. The hard part
           isn't the reasoning, it's context: one raw range query returns 30K tokens, so fetching is pushed down to
           subagents that must answer in 500, and the main loop keeps only judgment.
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">How →</a></li>
+          <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">How →</a></li>
       </ol>
     </div>
   </div>
@@ -203,7 +203,7 @@
       <p>I was a Cloud Software Development Engineer at Intel working on the cloud-ification of 5G vRAN — moving the
       radio access network off purpose-built silicon and onto general-purpose servers. I wrote Go microservices and
       Kubernetes operators for platform tooling, and an
-      <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">internal infrastructure-as-code daemon</a> that held kernel-level machine
+      <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">internal infrastructure-as-code daemon</a> that held kernel-level machine
       configuration to a declared spec on bare-metal nodes carrying real-time traffic. This is also where I learned
       observability from the ground up — Prometheus, Loki, Jaeger, OpenTelemetry — and eventually why labeling CPU
       is not monitoring.</p>
@@ -272,8 +272,8 @@
   <a href="https://github.com/shaorui0/agent-control-plane">an agent control plane</a> that governs agents the way SRE
   governs a service — SLOs, error budgets, sealed tools, autonomy as a budget rather than a grant — an on-call triage
   harness that investigates end to end but cannot mutate anything, and the context infrastructure my own agents run on.
-  The current thesis is written up in <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/" target="_blank" rel="noopener">SRE in the age of AI agents</a>; the rest
-  goes on <a href="https://shaorui0.github.io/tech/">my blog</a>, in English and Chinese.</p>
+  The current thesis is written up in <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/" target="_blank" rel="noopener">SRE in the age of AI agents</a>; the rest
+  goes on <a href="https://shaorui0.github.io/tech-en/">my blog</a>, in English and Chinese.</p>
 </div>
 
 <hr>
@@ -297,54 +297,54 @@
 <!-- ===================== FEATURED WRITING ===================== -->
 <h2>Featured writing</h2>
 <p class="hint">Long-form write-ups from the deeper résumé — every one is a system I actually operated.
-Shorter, broader posts live on <a href="https://shaorui0.github.io/tech/">the blog</a>.</p>
+Shorter, broader posts live on <a href="https://shaorui0.github.io/tech-en/">the blog</a>.</p>
 
 <div class="glist">
   <div class="glabel">Case study</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding a 5-billion-row event store, down to the engine</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding a 5-billion-row event store, down to the engine</a></div>
     <div class="d">ClickHouse → Doris compute–storage separation: memory engineering, engine-level routing, two compaction incidents, numbers that survived re-measurement.</div></div>
 </div>
 
 <div class="glist">
   <div class="glabel">Incidents &amp; recovery</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-p100-that-was-exactly-one-second_en/" target="_blank" rel="noopener">The P100 that was exactly 1.00 seconds</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_the-p100-that-was-exactly-one-second_en/" target="_blank" rel="noopener">The P100 that was exactly 1.00 seconds</a></div>
     <div class="d">Integer tail latencies are human constants — traced to a cache timeout hiding inside a rate-limiter plugin.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_zombie-system-tables-subsecond-oom_en/" target="_blank" rel="noopener">Zombie system tables: the sub-second OOM 30-second monitoring could not see</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_zombie-system-tables-subsecond-oom_en/" target="_blank" rel="noopener">Zombie system tables: the sub-second OOM 30-second monitoring could not see</a></div>
     <div class="d">When your sampling interval is longer than your failure.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_order-of-operations-under-fire_en/" target="_blank" rel="noopener">Order of operations under fire</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_order-of-operations-under-fire_en/" target="_blank" rel="noopener">Order of operations under fire</a></div>
     <div class="d">Split, shed, then scale — and why the intuitive order takes the database down.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_refused-is-not-timeout_en/" target="_blank" rel="noopener">Refused is not timeout</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_refused-is-not-timeout_en/" target="_blank" rel="noopener">Refused is not timeout</a></div>
     <div class="d">Two words that halve the search space, and two root causes found by walking eight hops.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_restoring-5b-rows-without-touching-prod_en/" target="_blank" rel="noopener">Restoring 5.2 billion rows without touching prod</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_restoring-5b-rows-without-touching-prod_en/" target="_blank" rel="noopener">Restoring 5.2 billion rows without touching prod</a></div>
     <div class="d">A restore drill that corrected its own premise and made RPO an explicit number for the first time.</div></div>
 </div>
 
 <div class="glist">
   <div class="glabel">Projects</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">Replacing Prometheus Federation: rebuilding a multi-tenant monitoring platform</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/" target="_blank" rel="noopener">Kubernetes upgrade engineering: 50 clusters, 1.24 → 1.29, zero incidents</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_engine-level-query-routing_en/" target="_blank" rel="noopener">Engine-level query routing: <span class="mono">EXPLAIN ROUTE PLAN</span></a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_fan-out-is-the-floor_en/" target="_blank" rel="noopener">Fan-out is the floor: two targeted optimizations for query shapes nobody controls</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">Replacing Prometheus Federation: rebuilding a multi-tenant monitoring platform</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/" target="_blank" rel="noopener">Kubernetes upgrade engineering: 50 clusters, 1.24 → 1.29, zero incidents</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_engine-level-query-routing_en/" target="_blank" rel="noopener">Engine-level query routing: <span class="mono">EXPLAIN ROUTE PLAN</span></a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_fan-out-is-the-floor_en/" target="_blank" rel="noopener">Fan-out is the floor: two targeted optimizations for query shapes nobody controls</a></div>
     <div class="d">A cross-tablet point-query index, a prefetch that removes serialization rather than IO — plus the cache tradeoff that cost us and the silent incident it caused.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_designing-the-elastic-compute-tier_en/" target="_blank" rel="noopener">Designing the elastic compute tier: discrete capacity, one write primitive, readiness that cannot lie</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_alert-governance_en/" target="_blank" rel="noopener">Alert governance: turning the pager from noise back into decision signal</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">An SRE on-call triage harness: autonomous investigation, human-owned mutation</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">Compiling a document into a control loop: a machine-level configuration reconciler for 5G vRAN bare metal</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">"Knows Jenkins": what that line actually tests in an SRE</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_designing-the-elastic-compute-tier_en/" target="_blank" rel="noopener">Designing the elastic compute tier: discrete capacity, one write primitive, readiness that cannot lie</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_alert-governance_en/" target="_blank" rel="noopener">Alert governance: turning the pager from noise back into decision signal</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">An SRE on-call triage harness: autonomous investigation, human-owned mutation</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">Compiling a document into a control loop: a machine-level configuration reconciler for 5G vRAN bare metal</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">"Knows Jenkins": what that line actually tests in an SRE</a></div></div>
 </div>
 
 <div class="glist">
   <div class="glabel">Perspective</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-i-understand-sre-to-require_en/" target="_blank" rel="noopener">What I understand SRE to require</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_an-audit-of-my-own-radar_en/" target="_blank" rel="noopener">An audit of my own radar</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-i-know-i-cant-do-yet_en/" target="_blank" rel="noopener">What I know I can't do yet</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/" target="_blank" rel="noopener">SRE in the age of AI agents</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-i-understand-sre-to-require_en/" target="_blank" rel="noopener">What I understand SRE to require</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_an-audit-of-my-own-radar_en/" target="_blank" rel="noopener">An audit of my own radar</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-i-know-i-cant-do-yet_en/" target="_blank" rel="noopener">What I know I can't do yet</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/" target="_blank" rel="noopener">SRE in the age of AI agents</a></div></div>
 </div>
 
 <div class="glist">
   <div class="glabel">Engineering philosophy</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/07/20/2026-07-20_slo-top-down-monitoring_zh/" target="_blank" rel="noopener">From labeling CPU to designing SLOs: relearning what monitoring is</a></div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/07/20/2026-07-20_infra-engineer-value-cloud-philosophy_zh/" target="_blank" rel="noopener">The value of an infra engineer: large-scale cloud management as a philosophy of deliberate sacrifice</a></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/07/20/2026-07-20_slo-top-down-monitoring_zh/" target="_blank" rel="noopener">From labeling CPU to designing SLOs: relearning what monitoring is</a> <span style="color:var(--muted);font-size:13px">(in Chinese)</span></div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/07/20/2026-07-20_infra-engineer-value-cloud-philosophy_zh/" target="_blank" rel="noopener">The value of an infra engineer: large-scale cloud management as a philosophy of deliberate sacrifice</a> <span style="color:var(--muted);font-size:13px">(in Chinese)</span></div></div>
 </div>
 
 <hr>
@@ -366,13 +366,13 @@ the routing policy deliberately kept internal.</p>
   because the cost of a wide read is not bytes but cold-opening thousands of column files in object storage. Both
   were fixed by replacing an estimate with a structural fact — bounded input cardinality, projected output column
   count — which is also why a later revision dropped byte-estimate rules altogether.
-  <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_engine-level-query-routing_en/" target="_blank" rel="noopener">The routing write-up →</a></p>
+  <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_engine-level-query-routing_en/" target="_blank" rel="noopener">The routing write-up →</a></p>
   <p>Downstream of that came the layer that actually makes a query cheaper, and it is deliberately targeted rather than
   general: query text, workload and shape are inputs we don't control, so the only lever left is making the shapes a
   caller might write structurally cheaper — attacking avoidable fan-out and nothing else. A cross-tablet point-query
   index prunes 566 tablets to about one before any tablet is opened; a wide-read prefetch removes the serialization of
   column reads rather than the reads themselves. Both fail open: a broken index can only make a query slower, never
-  wrong. <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_fan-out-is-the-floor_en/" target="_blank" rel="noopener">Fan-out is the floor →</a></p>
+  wrong. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_fan-out-is-the-floor_en/" target="_blank" rel="noopener">Fan-out is the floor →</a></p>
 </div>
 
 <hr>
@@ -421,7 +421,7 @@ the routing policy deliberately kept internal.</p>
 <div class="proj">
   <div class="n">Small tools <span class="tag">misc</span></div>
   <p>A Kindle syncer that watches a folder and mails PDFs to my device; a Hexo
-  <a href="https://shaorui0.github.io/tech/">blog</a> on systems, infrastructure and AI; Anki audio
+  <a href="https://shaorui0.github.io/tech-en/">blog</a> on systems, infrastructure and AI; Anki audio
   back-fillers; deep-research and slide-generation pipelines that drive several agents in parallel.</p>
 </div>
 

@@ -65,7 +65,10 @@
     display:flex;align-items:center;justify-content:center;
     font-size:23px;font-weight:650;color:#8b8b8b;letter-spacing:.01em;overflow:hidden;
   }
-  .tile img{width:100%;height:100%;object-fit:cover;display:block}
+  .tile img{width:100%;height:100%;object-fit:contain;display:block}
+  .tile.logo{padding:11px;background:#fff}
+  .tile.quad{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;padding:8px;background:#fff}
+  .tile.quad img{width:100%;height:100%;object-fit:contain}
   .tile.txt{font-size:16px;font-weight:620;letter-spacing:.02em}
   .what .h{font-size:17.5px;font-weight:650;line-height:1.3}
   .what .role{font-size:14.5px;color:var(--soft);margin-top:2px}
@@ -160,7 +163,7 @@
     <div class="when mono">2025.03 – now</div>
     <div class="dot"><i></i></div>
     <!-- Optional real logo: drop logo-datavisor.png (72×72) next to this file; it replaces the monogram. -->
-    <div class="tile"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
+    <div class="tile logo"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
     <div class="what">
       <div class="h">DataVisor</div>
       <p>I'm a Senior Site Reliability Engineer at DataVisor in Japan. DataVisor sells fraud detection as a service,
@@ -194,7 +197,7 @@
   <div class="row">
     <div class="when mono">2022.06 – 2025.02</div>
     <div class="dot"><i></i></div>
-    <div class="tile"><img src="logo-intel.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></div>
+    <div class="tile logo"><img src="logo-intel.svg" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></div>
     <div class="what">
       <div class="h">Intel</div>
       <p>I was a Cloud Software Development Engineer at Intel working on the cloud-ification of 5G vRAN — moving the
@@ -210,7 +213,7 @@
   <div class="row">
     <div class="when mono">2020.01 – 2021.09</div>
     <div class="dot"><i></i></div>
-    <div class="tile txt">···</div>
+    <div class="tile quad" title="Tencent · ByteDance · App Annie · Baidu"><img src="logo-tencent.png" alt="Tencent"><img src="logo-bytedance.svg" alt="ByteDance"><img src="logo-appannie.png" alt="App Annie"><img src="logo-baidu.png" alt="Baidu"></div>
     <div class="what">
       <div class="h">Internships</div>
       <p>Four of them in under two years: <b>Tencent</b> (QQ live-streaming), <b>ByteDance</b> (data platform),
@@ -438,7 +441,7 @@ the routing policy deliberately kept internal.</p>
   <div class="row">
     <div class="when mono">2025.03 – 现在</div>
     <div class="dot"><i></i></div>
-    <div class="tile"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
+    <div class="tile logo"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
     <div class="what">
       <div class="h">DataVisor</div>
       <p>我是 DataVisor 日本的高级 SRE。公司做的是以 SaaS 形式交付的欺诈检测，客户主要是银行和支付机构；我从中国团队起步，随着公司开拓日本市场、数据合规要求基础设施必须本地化而转到日本。四人 SRE 团队负责全公司的基础设施层，而我是它的 primary on-call：50 个自管理 Kubernetes 集群、6 个 AWS region、600+ 节点。</p>
@@ -462,7 +465,7 @@ the routing policy deliberately kept internal.</p>
   <div class="row">
     <div class="when mono">2022.06 – 2025.02</div>
     <div class="dot"><i></i></div>
-    <div class="tile"><img src="logo-intel.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></div>
+    <div class="tile logo"><img src="logo-intel.svg" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></div>
     <div class="what">
       <div class="h">Intel</div>
       <p>我在 Intel 做云软件开发工程师，方向是 5G vRAN 的云化 —— 把无线接入网从专用芯片搬到通用服务器上。我写 Go 微服务和 Kubernetes operator 做平台工具，也写了一个<a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_zh/" target="_blank" rel="noopener">内部使用的基础设施即代码 daemon</a>，把内核级机器配置收敛到声明的 spec 上，跑在承载实时流量的裸机节点上。这里也是我从零学可观测性的地方 —— Prometheus、Loki、Jaeger、OpenTelemetry —— 以及最终想明白为什么「给 CPU 打标签」不叫监控。</p>
@@ -472,7 +475,7 @@ the routing policy deliberately kept internal.</p>
   <div class="row">
     <div class="when mono">2020.01 – 2021.09</div>
     <div class="dot"><i></i></div>
-    <div class="tile txt">···</div>
+    <div class="tile quad" title="Tencent · ByteDance · App Annie · Baidu"><img src="logo-tencent.png" alt="Tencent"><img src="logo-bytedance.svg" alt="ByteDance"><img src="logo-appannie.png" alt="App Annie"><img src="logo-baidu.png" alt="Baidu"></div>
     <div class="what">
       <div class="h">实习</div>
       <p>不到两年里四段：<b>腾讯</b>（QQ 直播平台）、<b>字节跳动</b>（数据中台）、<b>App Annie</b>（Web 后端）、<b>百度</b>（风控数据开发）。</p>

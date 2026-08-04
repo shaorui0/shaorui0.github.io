@@ -94,13 +94,6 @@
   .block-head h2{font-size:13px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;margin:0;font-family:"SF Mono",ui-monospace,Menlo,monospace}
   .block-head .hint{font-size:12px;color:var(--muted)}
 
-  .wlist{display:flex;flex-direction:column}
-  .wrow{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:14px 6px;border-bottom:1px solid var(--line-soft);text-decoration:none;align-items:baseline}
-  .wrow:hover{background:var(--panel)}
-  .wrow .kick{font-size:10.5px}
-  .wrow .ti{font-size:16.5px;font-weight:600;line-height:1.25}
-  .wrow .sub{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.45}
-  @media(max-width:560px){.wrow{grid-template-columns:1fr;gap:4px}}
 
   details.note{border-bottom:1px solid var(--line-soft)}
   details.note summary{
@@ -153,10 +146,6 @@
   .zoom-divider{display:flex;align-items:center;gap:14px;margin:56px 0 30px}
   .zoom-divider .zl{flex:1;border-top:1px solid var(--line)}
   .zoom-divider .zt{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;color:var(--amber);text-transform:uppercase;white-space:nowrap}
-  .persp-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-  .persp-row a{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:11.5px;padding:6px 11px;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--ink-soft);text-decoration:none}
-  .persp-row a:hover{border-color:var(--amber);color:var(--amber)}
-  .wgroup-head{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;padding:16px 6px 6px;border-bottom:1px solid var(--line-soft)}
   .track-line{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--amber);margin:0 0 6px}
   .track-note{font-size:12px;color:var(--muted);margin:0 0 4px;max-width:72ch}
   /* markdown tables inside long-form articles */
@@ -581,8 +570,6 @@ var UI = {
   radarNote:   {en:"Nine axes. Depth scores come from evidence density — each axis links to concrete projects and write-ups. The two weakest axes are labeled as growth areas rather than hidden.",
                 cn:"九个轴。深度分数由证据密度推导：每个轴链接到具体项目和文章。较弱的两个轴标注为成长方向，不做掩饰。"},
   axesHead:    {en:"Nine axes · open any", cn:"九个轴 · 任意点开"},
-  writingHead: {en:"Selected Writing", cn:"精选文章"},
-  writingHint: {en:"long-form write-ups behind the claims above", cn:"支撑上述能力声明的长文"},
   notesHead:   {en:"Field Notes", cn:"现场笔记"},
   notesHint:   {en:"operational heuristics, each from a real incident or experiment", cn:"运维经验规则，每条来自一次真实事故或实验"},
   expHead:     {en:"Experience", cn:"工作经历"},

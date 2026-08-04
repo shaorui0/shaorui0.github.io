@@ -330,10 +330,10 @@
 
 <!-- ===================== PET PROJECTS ===================== -->
 <h2>Pet projects</h2>
-<p class="hint">Things I build after hours, mostly to run my own life as an operated system.</p>
+<p class="hint">After-hours work, mostly about running my own life and my own agents as operated systems. All four have code you can read.</p>
 
 <div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agent-control-plane">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
+  <div class="n"><a href="https://github.com/shaorui0/agent-control-plane" target="_blank" rel="noopener">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
   <p>Kubernetes-style governance for AI agents. One process, one SQLite file, no infra deps: per-task-class SLOs,
   multi-window burn rates, error budgets and hard caps — plus a cross-model judge that scores outputs without sharing
   the agent's blind spots, outcome-derived verdicts that can retroactively flip a "pass" to "fail", sealed tools behind
@@ -342,38 +342,29 @@
 </div>
 
 <div class="proj">
-  <div class="n">context-infrastructure <span class="tag">personal AI workspace</span></div>
-  <p>The repo my agents live in. Three-layer memory (global rules loaded every session, dynamic observations retrieved
-  on demand), skills as versioned reusable capabilities, and a daily observer / weekly reflector cron that accumulates
-  what I'd otherwise forget. Written for AI readers first, humans second.</p>
+  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">the on-call triage agent, twice</span></div>
+  <p>The same SRE triage agent built at two abstraction layers — once as a Claude Code skill, once as a standalone
+  Python agent on the SDK — sharing one knowledge base. Building it twice is the point: it separates what the harness
+  gives you for free from what you have to write yourself, which is the only honest way to find out where the
+  product layer ends.</p>
 </div>
 
 <div class="proj">
-  <div class="n">Goal–behavior alignment engine <span class="tag">Anki as sensor</span></div>
-  <p>Anki already logs what I actually did every day. This turns that log into a control loop: a deterministic engine
-  plus a fleet of agents that replaces "I think I'm studying in a balanced way" with "the log says you haven't touched
-  listening in three days," and proposes the cheapest way back on track. Frozen contracts first, then four parallel
-  builders; Anki is just the first sensor.</p>
+  <div class="n"><a href="https://github.com/shaorui0/context-infrastructure" target="_blank" rel="noopener">context-infrastructure</a> <span class="tag">personal AI workspace</span></div>
+  <p>The repo my agents live in, and the one I get the most daily use out of. Three-layer memory (global rules loaded
+  every session, dynamic observations retrieved on demand), skills as versioned reusable capabilities, and a daily
+  observer / weekly reflector cron that accumulates what I'd otherwise forget. Written for AI readers first, humans
+  second.</p>
+  <p>Its most useful application so far is a goal-versus-behaviour loop: Anki already logs what I actually studied
+  each day, so a deterministic engine reads that log and replaces "I think I'm studying in a balanced way" with
+  "you haven't touched listening in three days," then proposes the cheapest way back. Anki is just the first sensor.</p>
 </div>
 
 <div class="proj">
-  <div class="n">Japanese decks as code <span class="tag">JLPT N2</span></div>
-  <p>My Japanese corpus is a repo: generators, TTS pronunciation audio, and a build step that emits <span class="mono">.apkg</span>
-  decks. Sentences are source, cards are artifacts — so regenerating a deck is a build, not an afternoon of copy-paste.</p>
-</div>
-
-<div class="proj">
-  <div class="n">This résumé <span class="tag">four drill-down layers</span></div>
-  <p>A résumé where content is data and every capability claim has to link to an artifact — bullet → project deep dive
-  → thinking, with an honest radar that shows a target line next to the current one.
-  <a href="deep.html">See it →</a></p>
-</div>
-
-<div class="proj">
-  <div class="n">Small tools <span class="tag">misc</span></div>
-  <p>A Kindle syncer that watches a folder and mails PDFs to my device; a Hexo
-  <a href="https://shaorui0.github.io/tech-en/">blog</a> on systems, infrastructure and AI; Anki audio
-  back-fillers; deep-research and slide-generation pipelines that drive several agents in parallel.</p>
+  <div class="n">This résumé <span class="tag">content is data</span></div>
+  <p>Every capability claim has to link to an artifact — bullet → project write-up → thinking — with an honest radar
+  that draws a target line next to the current one. One markdown source feeds both this site and the blog.
+  <a href="deep.html">See the deeper version →</a></p>
 </div>
 
 <footer>
@@ -528,39 +519,35 @@
 
 <hr>
 
-<!-- ===================== 业余项目 ===================== -->
+<!-- ===================== PET PROJECTS ===================== -->
 <h2>业余项目</h2>
-<p class="hint">下班后做的东西，大多是为了把自己的人生当成一个被运维的系统来跑。</p>
+<p class="hint">下班后做的东西，大多是把自己的生活和自己的 agent 当成被运维的系统来跑。四个都有可读的代码。</p>
 
 <div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agent-control-plane">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
-  <p>给 AI agent 的 Kubernetes 式治理。一个进程、一个 SQLite 文件、零基础设施依赖：按任务类分的 SLO、多窗口燃烧率、error budget 与硬上限 —— 外加一个不与 agent 共享盲区的跨模型 judge、能把「通过」追溯翻成「失败」的结果导出判定、藏在单一 deny-by-default 网关后面的 sealed tools，以及一条 <i>Earned Autonomy Gradient</i>：自主性是 agent 花出去的预算，燃烧时自动收缩，只有拿到操作者签名才升级。</p>
+  <div class="n"><a href="https://github.com/shaorui0/agent-control-plane" target="_blank" rel="noopener">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
+  <p>给 AI agent 的 Kubernetes 式治理。一个进程、一个 SQLite 文件、零基础设施依赖：按任务类分的 SLO、多窗口燃烧率、error budget 与硬上限 ——
+  外加一个不与 agent 共享盲区的跨模型 judge、能把「通过」追溯翻成「失败」的结果导出判定、藏在单一 deny-by-default 网关后面的 sealed tools，
+  以及一条 <i>Earned Autonomy Gradient</i>：自主性是 agent 花出去的预算，燃烧时自动收缩，只有拿到操作者签名才升级。</p>
 </div>
 
 <div class="proj">
-  <div class="n">context-infrastructure <span class="tag">个人 AI 工作区</span></div>
-  <p>我那些 agent 住的仓库。三层记忆（每次 session 被动加载的全局规则 + 按需检索的动态观察）、把能力做成可复用且带版本的 skill，以及每日 observer / 每周 reflector 的 cron，替我累积那些否则会忘掉的东西。写给 AI 读者看的，人是第二顺位。</p>
+  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">同一个 oncall agent，写两遍</span></div>
+  <p>同一个 SRE triage agent 在两个抽象层各写一遍 —— 一遍做成 Claude Code skill，一遍用 SDK 做成独立 Python agent，共用同一套知识库。
+  写两遍本身就是目的：它把「harness 免费给你的」和「你必须自己写的」分开，而这是唯一诚实的办法去搞清楚产品层到哪儿为止。</p>
 </div>
 
 <div class="proj">
-  <div class="n">目标-行为对齐引擎 <span class="tag">Anki 当传感器</span></div>
-  <p>Anki 本来就记录了我每天真正做了什么。这个项目把那份日志变成一个控制回路：一个确定性引擎加一队 agent，把「我觉得我在均衡地学」换成「日志说你三天没碰听力」，并给出拨回正轨最省力的那条路。先冻结契约，再四路并行 builder；Anki 只是第一个传感器。</p>
+  <div class="n"><a href="https://github.com/shaorui0/context-infrastructure" target="_blank" rel="noopener">context-infrastructure</a> <span class="tag">个人 AI 工作区</span></div>
+  <p>我那些 agent 住的仓库，也是我日常用得最多的一个。三层记忆（每次 session 被动加载的全局规则 + 按需检索的动态观察）、把能力做成可复用且带版本的 skill，
+  以及每日 observer / 每周 reflector 的 cron，替我累积那些否则会忘掉的东西。写给 AI 读者看的，人是第二顺位。</p>
+  <p>目前它最有用的一个应用是「目标 vs 行为」的闭环：Anki 本来就记录了我每天真正学了什么，于是一个确定性引擎读那份日志，
+  把「我觉得我在均衡地学」换成「你三天没碰听力」，并给出拨回正轨最省力的那条路。Anki 只是第一个传感器。</p>
 </div>
 
 <div class="proj">
-  <div class="n">日语卡组即代码 <span class="tag">JLPT N2</span></div>
-  <p>我的日语语料是一个仓库：生成器、TTS 发音音频，以及一个吐出 <span class="mono">.apkg</span> 卡组的构建步骤。句子是源码，卡片是产物 —— 于是重新生成一个卡组是一次 build，不是一下午的复制粘贴。</p>
-</div>
-
-<div class="proj">
-  <div class="n">这份简历本身 <span class="tag">四层钻取</span></div>
-  <p>一份「内容即数据」的简历，每一条能力声明都必须链接到实物 —— bullet → 项目深页 → 思考，配一张诚实的雷达：把目标线画在当前线旁边。
-  <a href="deep.html#/cn">看看 →</a></p>
-</div>
-
-<div class="proj">
-  <div class="n">小工具 <span class="tag">杂项</span></div>
-  <p>一个 Kindle syncer，盯着一个目录、把 PDF 邮寄到设备；一个写系统、基础设施与 AI 的 Hexo <a href="https://shaorui0.github.io/tech/">博客</a>；Anki 语音补齐脚本；以及并行驱动多个 agent 的深度调研与幻灯片生成流水线。</p>
+  <div class="n">这份简历本身 <span class="tag">内容即数据</span></div>
+  <p>每一条能力声明都必须链接到实物 —— bullet → 项目长文 → 思考，配一张诚实的雷达：把目标线画在当前线旁边。
+  一份 markdown 源同时供给这个站点和博客。<a href="deep.html">看更深的版本 →</a></p>
 </div>
 
 <footer>

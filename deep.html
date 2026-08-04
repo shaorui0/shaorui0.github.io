@@ -588,7 +588,7 @@ var UI = {
   expHead:     {en:"Experience", cn:"工作经历"},
   skillsBlock: {en:"Skills", cn:"技能"},
   eduHead:     {en:"Education", cn:"教育经历"},
-  zoomLabel:   {en:"Zoom in · competency map & write-ups", cn:"深入 · 能力地图与长文"},
+  zoomLabel:   {en:"Zoom in · competency map", cn:"深入 · 能力地图"},
   trackHead:   {en:"On-call track record", cn:"Oncall 战绩"},
   trackNote:   {en:"Each entry is a real production incident I was on call for, distilled into symptom → localization → fix → lesson, with the causal evidence chain preserved and all customer, cluster, and internal-service identifiers stripped.",
                 cn:"每条记录都是 on-call 处理过的真实生产事故，蒸馏成症状 → 定位 → 修复 → 教训四段，保留因果证据链，去除全部客户、集群与内部服务标识。"},
@@ -1648,13 +1648,8 @@ function viewHome(){
   h+='<h1 class="name">Rui Shao<span class="dot">.</span></h1>';
   h+='<p class="thesis">'+esc(T(UI.thesis))+'</p>';
   h+='<p class="subthesis">'+esc(T(UI.subthesis))+'</p>';
-  var persp=WRITINGS.filter(function(w){return w.group==="perspective";});
-  if(persp.length){
-    h+='<div class="persp-row">';
-    persp.forEach(function(w){ h+='<a href="'+W(w.id)+'" target="_blank" rel="noopener">'+esc(T(w.title))+'</a>'; });
-    h+='</div>';
-  }
-  h+='<div class="contact mono"><a href="index.html#/'+LANG+'">'+(LANG==="cn"?"← 首页":"← Home")+'</a><a href="https://github.com/shaorui0">github.com/shaorui0</a><a href="mailto:sr1054461216@gmail.com">sr1054461216@gmail.com</a></div>';
+  /* perspective chips removed 2026-08-04: the landing page owns the article index */
+h+='<div class="contact mono"><a href="index.html#/'+LANG+'">'+(LANG==="cn"?"← 首页":"← Home")+'</a><a href="https://github.com/shaorui0">github.com/shaorui0</a><a href="mailto:sr1054461216@gmail.com">sr1054461216@gmail.com</a></div>';
   h+='</header>';
 
   /* ---- resume block (L0) ---- */
@@ -1720,25 +1715,7 @@ function viewHome(){
   });
   h+='</section>';
 
-  h+='<section class="block"><div class="block-head"><h2>'+esc(T(UI.writingHead))+'</h2><span class="hint">'+esc(T(UI.writingHint))+'</span></div><div class="wlist">';
-  var WGROUPS=[
-    {g:"case",        label:{en:"Featured case study", cn:"精选案例研究"}},
-    {g:"project",     label:{en:"Projects · why / how / hard parts", cn:"项目 · why / how / 难点"}},
-    {g:"incident",    label:{en:"Incidents & recovery", cn:"事故与恢复"}},
-    {g:"philosophy",  label:{en:"Engineering philosophy", cn:"工程哲学"}},
-    {g:"perspective", label:{en:"Perspectives", cn:"视角"}}
-  ];
-  WGROUPS.forEach(function(gr){
-    var ws=WRITINGS.filter(function(w){return (w.group||"case")===gr.g;});
-    if(!ws.length) return;
-    h+='<div class="wgroup-head">'+esc(T(gr.label))+'</div>';
-    ws.forEach(function(w){
-      var kc = (w.group==="incident"&&w.id==="w-dr-restore") ? "var(--petrol)" : ((w.group==="perspective"||w.group==="philosophy") ? "var(--petrol)" : "var(--amber)");
-      h+='<a class="wrow" href="'+W(w.id)+'" target="_blank" rel="noopener"><span class="kick eyebrow" style="color:'+kc+'">'+esc(T(w.kicker))+'</span><span><span class="ti">'+esc(T(w.title))+'</span><div class="sub">'+esc(T(w.sub))+'</div></span></a>';
-    });
-  });
-  h+='</div></section>';
-
+    /* writing list removed 2026-08-04: it lived here and on the landing page; the landing page wins */
   h+='<section class="block"><div class="block-head"><h2>'+esc(T(UI.notesHead))+'</h2><span class="hint">'+esc(T(UI.notesHint))+'</span></div>';
   NOTES.forEach(function(nt,i){
     h+='<details class="note"><summary><span class="idx mono">N'+(i+1)+'</span>'+esc(T(nt.t))+'</summary><p>'+esc(T(nt.b))+'</p></details>';

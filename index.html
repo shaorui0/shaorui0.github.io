@@ -120,6 +120,19 @@
 
   footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 
+  /* ---------- whoami widget ---------- */
+  .whoami{margin:0 0 8px}
+  .whoami-btn{
+    font:inherit;font-size:14.5px;font-weight:600;color:var(--ink);
+    background:var(--tile);border:1px solid var(--line);border-radius:5px;
+    padding:9px 16px;cursor:pointer;
+  }
+  .whoami-btn:hover{background:#ececea}
+  .whoami-btn:disabled{opacity:.55;cursor:default}
+  .whoami-hint{margin:7px 0 0;font-size:12.5px;color:var(--muted)}
+  .whoami-out{margin-top:14px;font-size:15.5px;color:var(--ink);white-space:pre-wrap;max-width:47rem}
+  .whoami-out:empty{display:none}
+
   /* ---------- bilingual: hide the inactive language ---------- */
   :root[data-lang="en"] [data-l="cn"]{display:none}
   :root[data-lang="cn"] [data-l="en"]{display:none}
@@ -329,6 +342,15 @@
   "you haven't touched listening in three days," then proposes the cheapest way back. Anki is just the first sensor.</p>
 </div>
 
+<hr>
+
+<!-- ===================== WHO AM I ===================== -->
+<div class="whoami">
+  <button class="whoami-btn" data-whoami-btn="en" onclick="askWhoAmI('en')">Who am I? →</button>
+  <p class="whoami-hint">Live call to an open-weight model, grounded in a fixed fact sheet about this site — not a canned response. Rate-limited, so it may occasionally be unavailable.</p>
+  <div class="whoami-out" data-whoami-out="en"></div>
+</div>
+
 <footer>
   <span class="mono">CONTENT IS DATA · EVERY CLAIM LINKS TO AN ARTIFACT</span>
   <span class="mono">Tokyo, UTC+9</span>
@@ -469,6 +491,15 @@
   把「我觉得我在均衡地学」换成「你三天没碰听力」，并给出拨回正轨最省力的那条路。Anki 只是第一个传感器。</p>
 </div>
 
+<hr>
+
+<!-- ===================== 我是谁 ===================== -->
+<div class="whoami">
+  <button class="whoami-btn" data-whoami-btn="cn" onclick="askWhoAmI('cn')">我是谁？ →</button>
+  <p class="whoami-hint">实时调用一个开源模型，回答内容固定在一份关于这个站点的事实简介里，不是写死的罐头文案。有限流，偶尔可能暂时用不了。</p>
+  <div class="whoami-out" data-whoami-out="cn"></div>
+</div>
+
 <footer>
   <span class="mono">内容即数据 · 每条声明都链接到实物</span>
   <span class="mono">东京，UTC+9</span>
@@ -510,6 +541,32 @@
   window.addEventListener("hashchange", route);
   route();
 })();
+
+/* "Who am I" widget: live call to a Cloudflare Worker proxying Workers AI
+   (open-weight model), grounded server-side in a fixed fact sheet. */
+var WHOAMI_ENDPOINT = "https://whoami-proxy.whoami-worker.workers.dev";
+var WHOAMI_ERR = {
+  en: "Couldn't reach the model right now (rate limit or transient error) — try again in a bit.",
+  cn: "现在联系不上模型（可能限流了，也可能临时抖动）——过一会儿再试。"
+};
+function askWhoAmI(lang){
+  var btn = document.querySelector('[data-whoami-btn="' + lang + '"]');
+  var out = document.querySelector('[data-whoami-out="' + lang + '"]');
+  if(!btn || !out) return;
+  btn.disabled = true;
+  out.textContent = lang === "cn" ? "……想一下……" : "…thinking…";
+  fetch(WHOAMI_ENDPOINT, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({lang: lang})
+  })
+  .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, body:j}; }); })
+  .then(function(res){
+    out.textContent = (res.ok && res.body && res.body.text) ? res.body.text : WHOAMI_ERR[lang];
+  })
+  .catch(function(){ out.textContent = WHOAMI_ERR[lang]; })
+  .finally(function(){ btn.disabled = false; });
+}
 </script>
 </body>
 </html>

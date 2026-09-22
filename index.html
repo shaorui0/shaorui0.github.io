@@ -196,10 +196,15 @@
           <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Observability</b> — tenant-aware alerting on top of the metrics platform: three-tier severity and
           per-tenant SLI recording rules, replacing resource-centric paging. (The platform itself — VictoriaMetrics
-          replacing Prometheus Federation — was migrated before I owned this scope.)
+          replacing Prometheus Federation — was migrated before I owned this scope.) Separately audited the pager
+          itself: 367 paging rules, ~960 alerts a day, ~85% at default lowest priority. The noise traces to four
+          structural causes, and what I designed is an admission gate rather than a cleanup pass.
           <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Analytics data platform</b> — moved off ClickHouse onto Doris with compute–storage separation, and
-          taken down into the query engine itself. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a></li>
+          taken down into the query engine itself. Its control plane runs on signals, so the observability layer is
+          mine too, including the way it bites: a compute group that was genuinely queueing read as idle because
+          empty queue timestamps parsed as real zeros, so it never scaled up. A dashboard that cannot separate
+          'no reading' from 'zero' fails exactly where you need it. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Ops agents</b> — an on-call triage agent that takes an alert or a customer-reported symptom and runs
           the investigation itself: pulls metrics and logs, decomposes latency layer by layer, rules layers in and
           out, and comes back with a root-cause hypothesis and the evidence chain behind it. Every irreversible
@@ -362,9 +367,9 @@
         <li><b>基础设施即代码</b> —— 这些集群是怎么造出来的：镜像烘焙、Ansible role、kubeadm 控制面，worker 变更走不可变替换。</li>
         <li><b>CI/CD</b> —— Jenkins 交付层，迁上 Kubernetes 之后再稳定化。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>可观测性</b> —— 在指标平台之上做租户级告警设计：三层严重度分级加分租户 SLI recording rules，把资源型告警换成用户影响型告警。（平台本身——VictoriaMetrics 替换 Prometheus Federation——是在我接手这个范围之前完成的迁移。）
+        <li><b>可观测性</b> —— 在指标平台之上做租户级告警设计：三层严重度分级加分租户 SLI recording rules，把资源型告警换成用户影响型告警。（平台本身——VictoriaMetrics 替换 Prometheus Federation——是在我接手这个范围之前完成的迁移。）另外把 pager 本身审计了一遍：367 条 paging 规则、每天约 960 条、约 85% 停在默认最低优先级。噪音归因到四个结构性成因，我设计的解法是准入门禁，不是一次大扫除。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>分析数据平台</b> —— 从 ClickHouse 迁到 Doris 存算分离，并且一路做到查询引擎里面。
+        <li><b>分析数据平台</b> —— 从 ClickHouse 迁到 Doris 存算分离，并且一路做到查询引擎里面。它的控制面靠信号驱动，所以可观测层也是我设计的，包括它咬人的方式：一个真在排队的 compute group 读出来是空闲，因为空的排队时间戳被解析成了真实的 0，于是它从来没有扩容。一块分不清「没读到」和「零」的大盘，恰好在你最需要它的地方失效。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
         <li><b>Ops agent</b> —— 一个 on-call triage agent：接一条告警或一个客户报的现象，自己把调查跑完 —— 拉 metrics 和日志、逐层拆解延迟、逐层排除或坐实，最后带着根因假设和支撑它的证据链回来。所有不可逆动作都挡在确定性门禁之后：agent 可以读生产，永远不能改生产。难点不在推理，在上下文：一条 raw range query 就是 3 万 token，所以取数下沉给 subagent、必须用 500 token 之内答复，主循环只留判断。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>

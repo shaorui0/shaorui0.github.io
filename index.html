@@ -180,7 +180,9 @@
           kubeadm control planes, worker changes shipped as immutable replacement.</li>
         <li><b>CI/CD</b> — the Jenkins delivery layer, moved onto Kubernetes and then stabilized.
           <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">How →</a></li>
-        <li><b>Observability</b> — the monitoring platform, rebuilt when Prometheus Federation stopped scaling.
+        <li><b>Observability</b> — tenant-aware alerting on top of the metrics platform: three-tier severity and
+          per-tenant SLI recording rules, replacing resource-centric paging. (The platform itself — VictoriaMetrics
+          replacing Prometheus Federation — was migrated before I owned this scope.)
           <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Analytics data platform</b> — moved off ClickHouse onto Doris with compute–storage separation, and
           taken down into the query engine itself. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a></li>
@@ -277,18 +279,20 @@
 
 <!-- ===================== FEATURED WRITING ===================== -->
 <h2>Featured writing</h2>
-<p class="hint">Long-form write-ups — every one is a system I actually operated. The four at the top are the ones I'd hand someone first; the rest is grouped by what it is.</p>
+<p class="hint">Long-form write-ups — every one is a system I actually operated. The five at the top are the ones I'd hand someone first; the rest is on the blog.</p>
 
 <div class="glist">
   <div class="glabel">Start here</div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding a 5-billion-row event store, down to the engine</a></div>
     <div class="d">ClickHouse → Doris compute–storage separation: memory engineering, engine-level routing, two compaction incidents, and numbers that survived re-measurement.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_fan-out-is-the-floor_en/" target="_blank" rel="noopener">Fan-Out Is the Floor: Two Targeted Optimizations for Query Shapes Nobody Controls</a></div>
-    <div class="d">A cross-tablet point-query index and a prefetch that removes serialization rather than IO — plus the cache tradeoff that actually cost us, and the silent incident it caused.</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/" target="_blank" rel="noopener">Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward</a></div>
+    <div class="d">Our own benchmark showed ClickHouse still faster. The decision underneath the migration above: how it got framed as constraint elimination, not a speed claim, and defended to leadership.</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_the-os-fallacy_en/" target="_blank" rel="noopener">The OS fallacy: why stronger models make orchestration matter more, not less</a></div>
     <div class="d">"Models are getting better, so orchestration will disappear" is the same claim as "CPUs got faster, so the OS will disappear." Includes a testable criterion for what a model absorbs and what stays in the harness.</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">An SRE Oncall Triage Harness — Autonomous Investigation, Human-Owned Mutation</a></div>
     <div class="d">The agent runs the investigation end to end; every irreversible action stays behind a deterministic gate. The binding constraint turned out to be context, not reasoning.</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">Compiling a Document into a Control Loop</a></div>
+    <div class="d">From Intel: a self-authored systemd-level daemon that turned a prose-and-shell Best Known Configuration into a git-declared, continuously audited desired state across ~30 bare-metal servers.</div></div>
 </div>
 
 <p class="hint" style="margin-top:18px">The rest, and shorter posts, are on the <a href="https://shaorui0.github.io/tech-en/" target="_blank" rel="noopener">blog</a>.</p>
@@ -361,7 +365,7 @@
         <li><b>基础设施即代码</b> —— 这些集群是怎么造出来的：镜像烘焙、Ansible role、kubeadm 控制面，worker 变更走不可变替换。</li>
         <li><b>CI/CD</b> —— Jenkins 交付层，迁上 Kubernetes 之后再稳定化。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>可观测性</b> —— Prometheus Federation 扛不住之后重建的监控平台。
+        <li><b>可观测性</b> —— 在指标平台之上做租户级告警设计：三层严重度分级加分租户 SLI recording rules，把资源型告警换成用户影响型告警。（平台本身——VictoriaMetrics 替换 Prometheus Federation——是在我接手这个范围之前完成的迁移。）
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
         <li><b>分析数据平台</b> —— 从 ClickHouse 迁到 Doris 存算分离，并且一路做到查询引擎里面。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
@@ -435,18 +439,20 @@
 
 <!-- ===================== FEATURED WRITING ===================== -->
 <h2>精选文章</h2>
-<p class="hint">长文 —— 每一篇背后都是我真正运维过的系统。最上面四篇是我会先递给别人看的；其余按性质分组。</p>
+<p class="hint">长文 —— 每一篇背后都是我真正运维过的系统。最上面五篇是我会先递给别人看的；其余的在博客上。</p>
 
 <div class="glist">
-  <div class="glabel">先看这四篇</div>
+  <div class="glabel">先看这五篇</div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">重构一个 50 亿行的事件存储：一路做到引擎里</a></div>
     <div class="d">ClickHouse → Doris 存算分离：内存工程、引擎级路由、两次 compaction 事故，以及经受住重测的数字。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_fan-out-is-the-floor_zh/" target="_blank" rel="noopener">扇出是地板：两个针对「没人能控制的查询形态」的定向优化</a></div>
-    <div class="d">一个跨 tablet 点查索引，一个消掉串行化而不是消掉 IO 的预取 —— 外加我们真正付出的那个缓存代价，以及它造成的静默事故。</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/" target="_blank" rel="noopener">不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听</a></div>
+    <div class="d">我们自己的 benchmark 明明显示 ClickHouse 更快。上面那次迁移背后的决策本身：怎么讲成约束消除而不是性能优势，又怎么讲给领导层听。</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-os-fallacy_zh/" target="_blank" rel="noopener">「操作系统谬误」：为什么模型越强，orchestration 反而越重要</a></div>
     <div class="d">「模型变强所以 orchestration 会消失」等价于「CPU 变快所以操作系统会消失」。附一条可检验的判别式：什么会被模型吸收，什么会留在 harness。</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/" target="_blank" rel="noopener">一个 SRE Oncall Triage Harness：agent 自主调查，mutation 主权归人</a></div>
     <div class="d">agent 端到端跑完调查，所有不可逆动作挡在确定性门禁之后。真正的硬约束是上下文，不是推理能力。</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_zh/" target="_blank" rel="noopener">把一份文档编译成 control loop</a></div>
+    <div class="d">来自 Intel：一个自研的 systemd 层 daemon，把一份 prose 加 shell 的 Best Known Configuration，变成 git 里声明式、持续审计的 desired state，覆盖约 30 台裸金属服务器。</div></div>
 </div>
 
 <p class="hint" style="margin-top:18px">其余的文章，以及更短的随笔，在<a href="https://shaorui0.github.io/tech/" target="_blank" rel="noopener">博客上</a>.</p>

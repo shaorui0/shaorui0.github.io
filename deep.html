@@ -654,9 +654,9 @@ var DOMAINS = [
             cn:["SLI/SLO 设计与分租户 SLA","大规模 VictoriaMetrics / Prometheus","Loki 与日志取证","Latency 分段归因","告警降噪治理","Dashboard 工程（400+ 指标）"]},
     evidence:[
       {w:"w-p-vm",
-       name:{en:"Multi-tenant monitoring platform: 50 clusters, 1.2M active series", cn:"多租户监控平台：50 集群、120 万活跃序列"},
-       note:{en:"VictoriaMetrics + Grafana + Loki at ~80K samples/s. Replaced federation that OOMed weekly; data lag 45s → <5s. Three-tier alerting with per-tenant SLI recording rules for tenant-level fault isolation.",
-             cn:"VictoriaMetrics + Grafana + Loki，约 8 万 samples/s。替换掉每周 OOM 的 federation，数据延迟从 45 秒降到 5 秒以内。三层告警加分租户 SLI recording rules，实现租户级故障隔离。"}},
+       name:{en:"Tenant-aware alerting on VictoriaMetrics: 50 clusters, 1.2M active series", cn:"VictoriaMetrics 上的告警分层设计：50 集群、120 万活跃序列"},
+       note:{en:"Platform is VictoriaMetrics + Grafana + Loki at ~80K samples/s (migrated off a weekly-OOMing federation topology before my scope — I operate on it, didn't build it). What I own: three-tier alerting with per-tenant SLI recording rules for tenant-level fault isolation.",
+             cn:"平台是 VictoriaMetrics + Grafana + Loki，约 8 万 samples/s（在我接手之前就已从每周 OOM 的 federation 迁移过来——我在上面工作，不是我建的）。我 own 的是三层告警加分租户 SLI recording rules，实现租户级故障隔离。"}},
       {name:{en:"Latency decomposition that proved a layer innocent", cn:"证明某一层无罪的延迟分解"},
        note:{en:"Segment-by-segment attribution (waiting / connect / response) across an A/B cluster pair showed the suspected network path was flat at 1 ms while the real variance sat in the application tier — and shipped as a reusable debug dashboard.",
              cn:"在 A/B 集群对上做 waiting / connect / response 分段归因：被怀疑的网络路径恒定在 1 毫秒，真正的方差在应用层。产出一块可复用的 debug dashboard。"}},
@@ -1049,12 +1049,12 @@ var GEN_WRITINGS = [
    "cn": "项目"
   },
   "title": {
-   "en": "Replacing Prometheus Federation: Rebuilding a Multi-Tenant Monitoring Platform",
-   "cn": "替换 Prometheus Federation：一个多租户监控平台的重建"
+   "en": "Tenant-Aware Alerting on a Multi-Tenant Metrics Platform",
+   "cn": "多租户指标平台上的告警分层设计"
   },
   "sub": {
-   "en": "Moved 50 Kubernetes clusters off a weekly-OOMing federation topology onto a VictoriaMetrics platform — 1.2M active series, data lag 45s → <5s, zero alert gaps through the cutover.",
-   "cn": "把 50 个 Kubernetes 集群从每周 OOM 的 Federation 拓扑迁到 VictoriaMetrics 平台：1.2M active series，数据延迟 45s 降到 5s 以内，切换全程告警不断流。"
+   "en": "Designed a 3-tier alerting system with per-tenant SLI recording rules on VictoriaMetrics, replacing resource-centric paging (~80% of pages were not actionable) with admission control tied to observable user impact — on a platform serving 50 Kubernetes clusters.",
+   "cn": "在服务 50 个 Kubernetes 集群的 VictoriaMetrics 平台上设计三层告警分级与 per-tenant SLI recording rules，把约 80% 不可操作的资源型告警换成基于用户影响的准入控制。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/",
@@ -1360,6 +1360,26 @@ var GEN_WRITINGS = [
    "en": "https://shaorui0.github.io/tech/2026/07/20/2026-07-20_infra-engineer-value-cloud-philosophy_zh/",
    "cn": "https://shaorui0.github.io/tech/2026/07/20/2026-07-20_infra-engineer-value-cloud-philosophy_zh/"
   }
+ },
+ {
+  "id": "w-g-why-doris",
+  "group": "philosophy",
+  "kicker": {
+   "en": "DECISION",
+   "cn": "决策"
+  },
+  "title": {
+   "en": "Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward",
+   "cn": "不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听"
+  },
+  "sub": {
+   "en": "The migration case study covers how the event store got rebuilt. This one covers the decision underneath it — why Doris, when our own benchmark showed ClickHouse still faster on the exact workload we cared about, and how that got argued upward as constraint elimination instead of a speed claim.",
+   "cn": "迁移案例研究讲的是这个事件存储怎么重建的；这一篇讲的是它下面那个决策——我们自己的 benchmark 明明显示 ClickHouse 在我们在意的场景里更快，为什么还是选了 Doris，以及这件事怎么被讲给上面听，而不是靠一句\"性能更好\"。"
+  },
+  "url": {
+   "en": "https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/",
+   "cn": "https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/"
+  }
  }
 ];
 /* GEN:WRITINGS END */
@@ -1418,8 +1438,8 @@ var RESUME = {
           m:{en:"~1.2M active series · ~80K samples/s · 50 clusters", cn:"~120 万活跃序列 · ~8 万 samples/s · 50 集群"},
           items:[
             {tag:{en:"Platform", cn:"平台"},
-             en:"Rebuilt the monitoring platform after Prometheus Federation stopped scaling at 50 clusters (weekly OOM, 45 s lag); now one platform serves the whole fleet with data lag <b>under 5 s</b>. <a href='#L:w-p-vm#'>Deep dive →</a>",
-             cn:"因为 Prometheus Federation 在 50 集群规模下扛不住（每周 OOM、45 秒延迟），重建了监控平台；现在一个平台服务整个 fleet，数据延迟 <b>5 秒以内</b>。<a href='#L:w-p-vm#'>深挖 →</a>"},
+             en:"Metrics platform is VictoriaMetrics across 50 clusters (~1.2M active series, ~80K samples/s), migrated off a weekly-OOMing Prometheus Federation topology <b>before I owned this scope</b> — I operate on this platform, I didn't build the migration. <a href='#L:w-p-vm#'>Deep dive →</a>",
+             cn:"指标平台是 50 集群上的 VictoriaMetrics（约 120 万活跃序列、约 8 万 samples/s），<b>在我接手这个范围之前</b>从每周 OOM 的 Prometheus Federation 迁移过来——我在这个平台上工作，迁移不是我做的。<a href='#L:w-p-vm#'>深挖 →</a>"},
             {tag:{en:"Alerting", cn:"告警"},
              en:"Designed per-tenant SLI/SLO alerting and led alert governance: took the pager from <b>~960 alerts/day</b> (85% default-P3 noise) toward a <b>&lt;200/day</b> target via an admission gate that only lets P1/P2 page — cutting on-call toil while preserving sensitivity to high-priority alerts. <a href='#L:w-p-alertgov#'>Alert governance →</a>",
              cn:"设计分租户 SLI/SLO 告警，并主导告警治理：用只放行 P1/P2 进 pager 的准入门槛，把 pager 从每天 <b>约 960 条</b>（85% 是默认 P3 噪音）收敛到 <b>&lt;200 条/天</b>的目标，减轻 oncall 负担，同时保住高优先级告警的敏感度。<a href='#L:w-p-alertgov#'>告警治理 →</a>"}

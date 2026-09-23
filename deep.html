@@ -880,20 +880,28 @@ var DOMAINS = [
     track:{en:"5 investigations · 16 runbooks · 3 checklists", cn:"5 次调查 · 16 份 runbook · 3 份 checklist"}
   },
   {
-    id:"influence", group:"frontier", depth:52, target:75,
+    id:"influence", group:"frontier", depth:65, target:75,
     name:{en:"Influence & Communication", cn:"影响力与沟通"},
     axis:{en:["Influence &","Comms"], cn:["影响力","与沟通"]},
-    tagline:{en:"Cross-team communication: internal training, technical writing (EN/中/日), and evidence-based decision documents.",
-             cn:"跨团队协作与沟通：内部培训、技术写作（EN/中/日）、证据驱动的技术决策文档。"},
+    tagline:{en:"Led the engine-selection and storage-layout decisions for a cross-team platform rebuild; internal training, technical writing (EN/中/日), evidence-based decision documents.",
+             cn:"主导一次跨团队平台重建的引擎选型与存储布局决策；内部培训、技术写作（EN/中/日）、证据驱动的技术决策文档。"},
     thinking:{
       title:{en:"Technical debt gets funded when it is stated in the organization's own terms, with evidence.",
              cn:"技术债要用组织自己的语言和证据来陈述，才能拿到投入。"},
-      body:{en:"Root-cause and prevention work is structurally under-visible, so making it visible is part of the job: quantified incident narratives, training that transfers operational knowledge, and decision documents argued from source code and measurements. One such audit reversed a leadership decision on open-source scope.",
-            cn:"根因与预防类工作在组织里天然低可见，让它可见是工作的一部分：带量化数据的故障叙述、传递运维知识的内训、从源码和实测出发的决策文档。其中一份审计改变了 leadership 的开源范围决策。"}
+      body:{en:"Root-cause and prevention work is structurally under-visible, so making it visible is part of the job: quantified incident narratives, training that transfers operational knowledge, and decision documents argued from source code and measurements. One such audit reversed a leadership decision on open-source scope; the largest one set the engine and storage layout for rebuilding the fraud event layer, argued from our own configuration and production query logs rather than from vendor benchmarks.",
+            cn:"根因与预防类工作在组织里天然低可见，让它可见是工作的一部分：带量化数据的故障叙述、传递运维知识的内训、从源码和实测出发的决策文档。其中一份审计改变了 leadership 的开源范围决策；分量最重的一次，定下了反欺诈事件层重建的引擎与存储布局，论据来自我们自己的线上配置和生产 query_log，而不是厂商 benchmark。"}
     },
-    skills:{en:["Evidence-first persuasion","Technical writing (EN · 中 · 日)","Internal training & onboarding","Cross-team incident narratives"],
-            cn:["证据先行的说服","技术写作（EN · 中 · 日）","内部培训与 onboarding","跨团队事故叙事"]},
+    skills:{en:["Leading architecture decisions","Evidence-first persuasion","Technical writing (EN · 中 · 日)","Internal training & onboarding","Cross-team incident narratives"],
+            cn:["主导架构决策","证据先行的说服","技术写作（EN · 中 · 日）","内部培训与 onboarding","跨团队事故叙事"]},
     evidence:[
+      {w:"w-g-why-doris",
+       name:{en:"Engine selection: constraints first, a measured gap as the load-bearing argument", cn:"引擎选型：约束先行，用实测缺口做承重论据"},
+       note:{en:"Led the rebuild of the fraud event layer from ClickHouse onto Doris with compute–storage separation. Candidates were eliminated against one hard constraint — open source and deployable on our own AWS + Kubernetes — and the argument that carried the decision was an isolation gap measured on the live configuration: between the per-query and the global memory limit there was no per-workload budget layer, so about 22 heavy queries were enough to exhaust the global budget.",
+             cn:"主导反欺诈事件层从 ClickHouse 到 Doris 存算分离架构的重建。以「开源且可在自建 AWS + Kubernetes 上部署」为硬约束做候选排除；承重论据是线上配置实测出的隔离缺口：单查询与全局两道内存闸之间没有按负载分组的预算层，约 22 条重查询即可吃光全局预算。"}},
+      {w:"w-cs-doris",
+       name:{en:"Storage layout: overturning the phase-one design with production query logs", cn:"存储布局选型：用生产 query_log 推翻一期设计"},
+       note:{en:"A workload profile built from 14 days of production query logs overturned the phase-one external-table layout. Point lookups took 7–13 s; a bloom filter cut rows scanned by 73% and moved wall-clock not at all, because one active user's rows were spread across 2,044 partition files — the cost unit was file opens, not rows scanned. Switching to Doris internal tables physically re-clustered by a hash of the user key, plus an inverted index, brought warm reads to 16–24 ms.",
+             cn:"依 14 天生产 query_log 的负载画像推翻一期的外表布局设计：点查 7–13 秒，加 bloom filter 砍掉 73% 扫描行数而墙钟不动，根因是单个活跃用户的数据散落在 2,044 个分区文件，成本单位是文件打开次数而非扫描行数；改为 Doris 内表按用户键 hash 物理重聚簇并加倒排索引后，暖读 16–24 毫秒。"}},
       {w:"w-p-routing",
        name:{en:"Knowing what not to upstream", cn:"知道什么不该 upstream"},
        note:{en:"Leadership wanted the routing policy layer contributed upstream. A line-by-line audit of seven business couplings — argued with the first PR's own principle — changed the decision. Judgment about what stays internal counts as much as the code.",
@@ -908,20 +916,24 @@ var DOMAINS = [
     ]
   },
   {
-    id:"security", group:"frontier", depth:40, target:65,
+    id:"security", group:"frontier", depth:55, target:65,
     name:{en:"Security & Compliance", cn:"安全与合规"},
     axis:{en:["Security &","Compliance"], cn:["安全与合规"]},
-    tagline:{en:"Security for AI-agent operations (real, current work); traditional compliance depth is a stated growth area.",
-             cn:"AI agent 运维安全（有实际工作）；传统合规深度是明确标注的成长方向。"},
+    tagline:{en:"Cluster access control (RBAC + admission policy) and AI-agent operations security; audit-framework compliance is a stated growth area.",
+             cn:"集群访问控制（RBAC + admission 策略）与 AI agent 运维安全；审计框架类合规是明确标注的成长方向。"},
     thinking:{
-      title:{en:"Availability is one contract; not-breached is another. This axis is scored low on purpose.",
-             cn:"可用性是一条契约，「不被攻破」是另一条。这个轴的低分是如实标注。"},
-      body:{en:"Existing work is on the agent side: deny-by-default tool gateways, write attestation, blast-radius-tiered execution gates, and a standing no-direct-production rule for automated agents. IAM design and audit frameworks (SOC 2 class) are the named gap.",
-            cn:"已有工作在 agent 一侧：默认拒绝的工具网关、写入 attestation、按爆炸半径分级的执行闸门、自动化 agent 永久禁连生产。IAM 设计与审计框架（SOC 2 类）是点名的缺口。"}
+      title:{en:"Availability is one contract; not-breached is another. Put the veto where it is deterministic.",
+             cn:"可用性是一条契约，「不被攻破」是另一条。否决权要放在确定性的地方。"},
+      body:{en:"The same principle runs through both halves of the work. For humans on the clusters: RBAC decides which resources and verbs, an admission policy decides which fields, rolled out Audit before Enforce. For automated agents: deny-by-default tool gateways, write attestation, blast-radius-tiered execution gates, and a standing no-direct-production rule. Still the named gap: per-user identity end to end (today the audit log sees a shared service account) and audit frameworks of the SOC 2 class.",
+            cn:"两半工作贯穿同一个原则。对上集群的人：RBAC 决定能动哪些资源和动作，admission 策略决定能改哪些字段，先 Audit 再 Enforce 推广。对自动化 agent：默认拒绝的工具网关、写入 attestation、按爆炸半径分级的执行闸门、自动化 agent 永久禁连生产。仍然点名的缺口：端到端的按人身份（目前审计日志里只看得到共享 service account），以及 SOC 2 类审计框架。"}
     },
-    skills:{en:["Least-privilege tool design for agents","Audit trails & write attestation","Blast-radius-tiered execution gates","Secrets hygiene in automation"],
-            cn:["Agent 的最小权限工具设计","审计轨迹与写入见证","按爆炸半径分级的执行闸门","自动化中的密钥卫生"]},
+    skills:{en:["Kubernetes RBAC & admission policy (Kyverno)","Least-privilege tool design for agents","Audit trails & write attestation","Blast-radius-tiered execution gates","Secrets hygiene in automation"],
+            cn:["Kubernetes RBAC 与 admission 策略（Kyverno）","Agent 的最小权限工具设计","审计轨迹与写入见证","按爆炸半径分级的执行闸门","自动化中的密钥卫生"]},
     evidence:[
+      {w:"w-p-guardrails",
+       name:{en:"Developer guardrails: RBAC for doors, admission for fields", cn:"开发者权限护栏：RBAC 管门，admission 管字段"},
+       note:{en:"Gave developers self-serve write access to their workloads while keeping replicas and resource requests out of reach. RBAC cannot express field-level rules, so a Kyverno ClusterPolicy denies those changes at admission — including the /scale subresource a naive rule misses. Rolled out Audit → verify on a throwaway deployment → Enforce across five clusters, one PCI-scoped, with a one-line rollback. Stated gap: a shared service-account token means the audit log names the account, not the person.",
+             cn:"让开发者自助改自己的工作负载，但副本数和资源 request 仍然碰不到。RBAC 表达不了字段级规则，于是用 Kyverno ClusterPolicy 在 admission 层拒绝这两类改动，连朴素规则会漏掉的 /scale 子资源一起覆盖。按 Audit → 一次性测试 deployment 验收 → Enforce 推到五个集群（其中一个是 PCI 环境），回滚只需一行。点名的缺口：共享 service account token 让审计日志记下的是账号而不是人。"}},
       {w:"w-p-agentops",
        name:{en:"Deterministic shell hooks as the safety floor for an ops agent", cn:"用确定性 shell hook 给运维 agent 兜底"},
        note:{en:"In the oncall triage harness, the security guarantee never rests on the model behaving: irreversible operations (delete, scale, drain, IAM) are hard-blocked by a shell hook that returns exit 2 no matter how the model hallucinates. Judgment goes to the model; the veto stays deterministic.",
@@ -953,7 +965,7 @@ var GEN_WRITINGS = [
   },
   "title": {
    "en": "Rebuilding a 5-billion-row event store, down to the engine",
-   "cn": "重构一个 50 亿行的事件存储：一路做到引擎里"
+   "cn": "重构一个 50 亿行的事件存储"
   },
   "sub": {
    "en": "ClickHouse → Doris compute-storage separation: memory engineering, engine-level routing, two compaction incidents, and numbers that survived re-measurement.",
@@ -1113,11 +1125,11 @@ var GEN_WRITINGS = [
   },
   "title": {
    "en": "Fan-Out Is the Floor: Two Targeted Optimizations for Query Shapes Nobody Controls",
-   "cn": "扇出是地板：两个针对「没人能控制的查询形态」的定向优化"
+   "cn": "给控制不了的查询形态，做两个定向优化"
   },
   "sub": {
    "en": "A cross-tablet point-query index that prunes 566 tablets to about one before any tablet is opened, and a wide-read prefetch that removes serialization rather than IO — chosen because the cost of each was mostly avoidable fan-out, and shipped fail-open because neither may ever change a result. Includes the tradeoff that actually cost us, and the silent incident it caused.",
-   "cn": "一个在打开任何 tablet 之前把 566 个 tablet 剪到约 1 个的跨 tablet 点查索引，以及一个消掉串行化而不是消掉 IO 的宽读预取 —— 选这两个是因为它们的成本里大部分是可避免的扇出，做成 fail-open 是因为它们永远不许改变结果。包含我们真正付出的那个代价，以及它造成的一次静默事故。"
+   "cn": "一个在打开任何 tablet 之前把 566 个 tablet 剪到约 1 个的跨 tablet 点查索引，一个消掉排队时间（不是消掉 IO 本身）的宽读预取。两个都冲着可避免的扇出去，都做成 fail-open，因为它们不许改变查询结果。包含我们真正付出的代价，以及它造成的一次静默事故。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_fan-out-is-the-floor_en/",
@@ -1133,11 +1145,11 @@ var GEN_WRITINGS = [
   },
   "title": {
    "en": "Designing the Elastic Compute Tier: Discrete Capacity, One Write Primitive, Readiness That Cannot Lie",
-   "cn": "弹性计算层是怎么设计的：离散容量、一个写原语、不会骗人的 readiness"
+   "cn": "弹性计算层：五个设计决策"
   },
   "sub": {
    "en": "Five design decisions behind a heavy-query compute pool that rests at zero: physical isolation instead of a workload class, discrete capacity instead of per-query autoscaling, sizing by bottleneck instead of by size, a controller reduced to patching one field, and a readiness path built on the assumption that every health signal eventually lies. Spot pricing is a per-pool consequence, not the point.",
-   "cn": "一个平时 0 副本的重查询计算池背后的五个设计决策：用物理隔离而不是负载分级、用离散容量而不是逐查询伸缩、按瓶颈类型而不是按数据量定容、把 controller 收敛成对一个字段的 patch，以及一条假设「每个健康信号最终都会骗人」而设计的 readiness 路径。spot 只是分池决策的结果，不是重点。"
+   "cn": "一个平时 0 副本的重查询计算池背后的五个设计决策：物理隔离、离散容量、按瓶颈类型定容、把 controller 收敛成对一个字段的 patch，以及一条假设「每个健康信号最终都会骗人」而设计的 readiness 路径。spot 只是分池决策的结果，不是重点。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_designing-the-elastic-compute-tier_en/",
@@ -1153,11 +1165,11 @@ var GEN_WRITINGS = [
   },
   "title": {
    "en": "Alert Governance: Turning the Pager from Noise Back into Decision Signal",
-   "cn": "告警治理：把 pager 从噪声源治回决策信号"
+   "cn": "一个每天响 960 次的 pager，问题出在哪"
   },
   "sub": {
    "en": "Audited a pager emitting ~960 OpsGenie alerts a day, ~85% of them default-P3, from 367 paging rules — traced four structural root causes, and rebuilt admission, dedup, and ownership so decay has to fight back against the system.",
-   "cn": "审计了一个每天产出约 960 条 OpsGenie 告警、约 85% 是默认 P3、背后有 367 条 paging 规则的 pager：定位四个结构性根因，重建准入、去重和 ownership，让腐化从默认结局变成需要对抗系统的例外。"
+   "cn": "审计了一个每天产出约 960 条 OpsGenie 告警、约 85% 是默认 P3、背后有 367 条 paging 规则的 pager：定位四个结构性根因，重建准入、去重和 ownership，防止噪声重新累积。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_alert-governance_en/",
@@ -1193,11 +1205,11 @@ var GEN_WRITINGS = [
   },
   "title": {
    "en": "An SRE Oncall Triage Harness — Autonomous Investigation, Human-Owned Mutation",
-   "cn": "一个 SRE Oncall Triage Harness：agent 自主调查，mutation 主权归人"
+   "cn": "SRE Oncall Triage Harness：agent 自己查，改线上要人批"
   },
   "sub": {
    "en": "A working harness that refactors SRE oncall triage from a human-executed procedure into an agent that investigates on its own while every irreversible action stays behind a deterministic gate. Built on four control primitives — Spec / Loop / Hook / Fork — with the reliability discipline of a Kubernetes control plane wrapped around a non-deterministic reasoning core.",
-   "cn": "一个把 SRE oncall triage 从人肉执行重构为「agent 自主调查 + 人保留 mutation 主权」的 harness：所有不可逆操作都挡在确定性门禁之后。它建立在 Spec / Loop / Hook / Fork 四个控制原语之上，用 Kubernetes 控制平面的可靠性范式去约束一个不确定的推理内核。"
+   "cn": "一个 SRE oncall triage 的 harness：调查交给 agent 自己跑，所有会改动线上的操作都挡在确定性门禁之后，由人批准。它建立在 Spec / Loop / Hook / Fork 四个控制原语之上，用 Kubernetes 控制平面的可靠性范式去约束一个不确定的推理内核。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/",
@@ -1373,15 +1385,35 @@ var GEN_WRITINGS = [
   },
   "title": {
    "en": "Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward",
-   "cn": "不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听"
+   "cn": "选 Doris 那次，benchmark 明明更差"
   },
   "sub": {
    "en": "The migration case study covers how the event store got rebuilt. This one covers the decision underneath it — why Doris, when our own benchmark showed ClickHouse still faster on the exact workload we cared about, and how that got argued upward as constraint elimination instead of a speed claim.",
-   "cn": "迁移案例研究讲的是这个事件存储怎么重建的；这一篇讲的是它下面那个决策——我们自己的 benchmark 明明显示 ClickHouse 在我们在意的场景里更快，为什么还是选了 Doris，以及这件事怎么被讲给上面听，而不是靠一句\"性能更好\"。"
+   "cn": "迁移案例研究讲的是这个事件存储怎么重建的；这一篇讲的是它下面那个决策：benchmark 明明显示 ClickHouse 在我们在意的场景里更快，我们为什么还是选了 Doris，这个决策后来怎么讲给上面听。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/",
    "cn": "https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/"
+  }
+ },
+ {
+  "id": "w-p-guardrails",
+  "group": "project",
+  "kicker": {
+   "en": "PROJECT",
+   "cn": "项目"
+  },
+  "title": {
+   "en": "Developer Guardrails on Kubernetes: RBAC Says Which Doors, Admission Says Which Fields",
+   "cn": "让开发者自己改 deployment，但不能碰副本数和资源"
+  },
+  "sub": {
+   "en": "Developers needed to change their own deployments without an infra ticket, but not the two fields that move cost and capacity for everyone else. RBAC cannot express that. A Kyverno admission policy can — rolled out Audit → verify → Enforce across five clusters, one of them PCI-scoped, with a one-line rollback.",
+   "cn": "开发者要能自己改 deployment、不用给 infra 提单，但不能碰那两个会牵动整个集群成本和容量的字段。RBAC 表达不了这件事，Kyverno 的 admission 策略可以。按 Audit → 验收 → Enforce 推到五个集群（其中一个是 PCI 环境），回滚只需一行。"
+  },
+  "url": {
+   "en": "https://shaorui0.github.io/tech-en/2026/09/23/2026-09-23_kubernetes-developer-guardrails_en/",
+   "cn": "https://shaorui0.github.io/tech/2026/09/23/2026-09-23_kubernetes-developer-guardrails_zh/"
   }
  }
 ];

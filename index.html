@@ -153,8 +153,8 @@
   </div>
   <div class="who">
     <h1>Rui Shao</h1>
-    <p class="tagline" data-l="en">I keep large fraud-detection infrastructure alive, and I build agents that help me do it 🛠️📉🤖</p>
-    <p class="tagline" data-l="cn">我让大规模反欺诈基础设施活着，并且造 agent 来帮我干这件事 🛠️📉🤖</p>
+    <p class="tagline" data-l="en">SRE on fraud-detection data infrastructure. I turn repeated judgment into systems, then hand those systems to agents.</p>
+    <p class="tagline" data-l="cn">做反欺诈数据基础设施的 SRE。工作方式是把重复的判断变成系统，再把系统交给 agent 去跑。</p>
     <div class="links">
       <a href="https://github.com/shaorui0">GitHub</a><span class="sep">·</span>
       <a href="https://shaorui0.github.io/tech-en/" data-l="en">Blog</a><a href="https://shaorui0.github.io/tech/" data-l="cn">博客</a><span class="sep">·</span>
@@ -189,7 +189,7 @@
     <div class="tile logo"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
     <div class="what">
       <div class="h">DataVisor</div>
-      <p>I'm a Senior Site Reliability Engineer at DataVisor in Japan. DataVisor sells fraud detection as a service,
+      <p>I'm a Site Reliability Engineer at DataVisor in Japan. DataVisor sells fraud detection as a service,
       mostly to banks and payment providers; I started on the China team and moved to Japan as the company opened up
       the Japanese market and data-residency rules made local infrastructure a requirement. We're a four-person SRE
       team responsible for the whole company's infrastructure layer, and I'm primary on-call for it: 50 self-managed
@@ -289,7 +289,7 @@
 
 <div class="glist">
   <div class="glabel">Start here</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding a 5-billion-row event store, down to the engine</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding the fraud event store, down to the engine</a></div>
     <div class="d">ClickHouse → Doris compute–storage separation: memory engineering, engine-level routing, two compaction incidents, and numbers that survived re-measurement.</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/" target="_blank" rel="noopener">Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward</a></div>
     <div class="d">Our own benchmark showed ClickHouse still faster. The decision underneath the migration above: how it got framed as constraint elimination, not a speed claim, and defended to leadership.</div></div>
@@ -319,19 +319,19 @@
 </div>
 
 <div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">the on-call triage agent, twice</span></div>
-  <p>The same SRE triage agent built at two abstraction layers — once as a Claude Code skill, once as a standalone
-  Python agent on the SDK — sharing one knowledge base. Building it twice is the point: it separates what the harness
-  gives you for free from what you have to write yourself, which is the only honest way to find out where the
-  product layer ends.</p>
+  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">on-call triage, as a skill</span></div>
+  <p>An SRE on-call triage agent packaged as a Claude Code skill: an alert goes in, a structured investigation
+  comes out. Retrieval is pushed into subagents so the main loop keeps only judgment, every state-changing action
+  passes a deterministic gate, and the knowledge base compounds with each case investigated.</p>
 </div>
 
 <div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/context-infrastructure" target="_blank" rel="noopener">context-infrastructure</a> <span class="tag">personal AI workspace</span></div>
-  <p>The repo my agents live in, and the one I get the most daily use out of. Three-layer memory (global rules loaded
-  every session, dynamic observations retrieved on demand), skills as versioned reusable capabilities, and a daily
-  observer / weekly reflector cron that accumulates what I'd otherwise forget. Written for AI readers first, humans
-  second.</p>
+  <div class="n"><a href="https://github.com/shaorui0/context-engineering" target="_blank" rel="noopener">context-engineering</a> <span class="tag">personal AI workspace</span></div>
+  <p>The public slice of the workspace my agents live in. Model capability is a given; what you can change is
+  what it sees. So the question is not how to write a better prompt, it is how to organise a repo so that any session
+  starts with exactly the layer it needs. Three-layer memory, with the global constraint layer small enough to load
+  every time and specific enough to change behaviour, plus axioms distilled from real experience and indexed by
+  trigger rather than by topic.</p>
   <p>Its most useful application so far is a goal-versus-behaviour loop: Anki already logs what I actually studied
   each day, so a deterministic engine reads that log and replaces "I think I'm studying in a balanced way" with
   "you haven't touched listening in three days," then proposes the cheapest way back. Anki is just the first sensor.</p>
@@ -365,7 +365,7 @@
     <div class="tile logo"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
     <div class="what">
       <div class="h">DataVisor</div>
-      <p>我是 DataVisor 日本的高级 SRE。公司做的是以 SaaS 形式交付的欺诈检测，客户主要是银行和支付机构；我从中国团队起步，随着公司开拓日本市场、数据合规要求基础设施必须本地化而转到日本。四人 SRE 团队负责全公司的基础设施层，而我是它的 primary on-call：50 个自管理 Kubernetes 集群、6 个 AWS region、600+ 节点。</p>
+      <p>我是 DataVisor 日本的 SRE。公司做的是以 SaaS 形式交付的欺诈检测，客户主要是银行和支付机构；我从中国团队起步，随着公司开拓日本市场、数据合规要求基础设施必须本地化而转到日本。四人 SRE 团队负责全公司的基础设施层，而我是它的 primary on-call：50 个自管理 Kubernetes 集群、6 个 AWS region、600+ 节点。</p>
       <p>我负责的部分：</p>
       <ol>
         <li><b>集群生命周期</b> —— 把整个 fleet 从 Kubernetes 1.24 推到 1.29，零客户可感知停机。
@@ -434,7 +434,7 @@
 
 <div class="glist">
   <div class="glabel">先看这五篇</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">重构一个 50 亿行的事件存储：一路做到引擎里</a></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">重构反欺诈事件存储：一路做到引擎里</a></div>
     <div class="d">ClickHouse → Doris 存算分离：内存工程、引擎级路由、两次 compaction 事故，以及经受住重测的数字。</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/" target="_blank" rel="noopener">不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听</a></div>
     <div class="d">我们自己的 benchmark 明明显示 ClickHouse 更快。上面那次迁移背后的决策本身：怎么讲成约束消除而不是性能优势，又怎么讲给领导层听。</div></div>
@@ -462,15 +462,16 @@
 </div>
 
 <div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">同一个 oncall agent，写两遍</span></div>
-  <p>同一个 SRE triage agent 在两个抽象层各写一遍 —— 一遍做成 Claude Code skill，一遍用 SDK 做成独立 Python agent，共用同一套知识库。
-  写两遍本身就是目的：它把「harness 免费给你的」和「你必须自己写的」分开，而这是唯一诚实的办法去搞清楚产品层到哪儿为止。</p>
+  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">oncall 分诊，做成 skill</span></div>
+  <p>一个做成 Claude Code skill 的 SRE oncall 分诊 agent：告警进去，结构化调查出来。检索推进子 agent，主循环只留判断；
+  所有会改变系统状态的动作都过确定性门；知识库随每次调查累积。</p>
 </div>
 
 <div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/context-infrastructure" target="_blank" rel="noopener">context-infrastructure</a> <span class="tag">个人 AI 工作区</span></div>
-  <p>我那些 agent 住的仓库，也是我日常用得最多的一个。三层记忆（每次 session 被动加载的全局规则 + 按需检索的动态观察）、把能力做成可复用且带版本的 skill，
-  以及每日 observer / 每周 reflector 的 cron，替我累积那些否则会忘掉的东西。写给 AI 读者看的，人是第二顺位。</p>
+  <div class="n"><a href="https://github.com/shaorui0/context-engineering" target="_blank" rel="noopener">context-engineering</a> <span class="tag">个人 AI 工作区</span></div>
+  <p>我那些 agent 住的工作区的公开切片。模型能力是给定的，能改的是它看见什么，所以问题不是怎么写一句更好的 prompt，
+  而是怎么组织一个仓库，让任意一次 session 开始时看见的正好是该看见的那一层。三层记忆：全局约束层要小到每次都能全量加载，
+  又要具体到能改变行为；加上从真实经历提炼的 axioms，按触发词索引而不是按主题索引。</p>
   <p>目前它最有用的一个应用是「目标 vs 行为」的闭环：Anki 本来就记录了我每天真正学了什么，于是一个确定性引擎读那份日志，
   把「我觉得我在均衡地学」换成「你三天没碰听力」，并给出拨回正轨最省力的那条路。Anki 只是第一个传感器。</p>
 </div>

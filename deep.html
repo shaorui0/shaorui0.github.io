@@ -848,8 +848,8 @@ var GEN_WRITINGS = [
    "cn": "一个每天响 960 次的 pager，问题出在哪"
   },
   "sub": {
-   "en": "Audited a pager emitting ~960 OpsGenie alerts a day, ~85% of them default-P3, from 367 paging rules — traced four structural root causes, and rebuilt admission, dedup, and ownership so decay has to fight back against the system.",
-   "cn": "审计了一个每天产出约 960 条 OpsGenie 告警、约 85% 是默认 P3、背后有 367 条 paging 规则的 pager：定位四个结构性根因，重建准入、去重和 ownership，防止噪声重新累积。"
+   "en": "Audited a pager emitting ~960 OpsGenie alerts a day, ~85% of them default-P3, from 367 paging rules — traced four structural root causes, and designed admission, dedup, and ownership controls (not yet applied) so decay has to fight back against the system.",
+   "cn": "审计了一个每天产出约 960 条 OpsGenie 告警、约 85% 是默认 P3、背后有 367 条 paging 规则的 pager：定位四个结构性根因，设计准入、去重和 ownership 方案（尚未落地），防止噪声重新累积。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_alert-governance_en/",
@@ -1094,6 +1094,66 @@ var GEN_WRITINGS = [
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/09/23/2026-09-23_kubernetes-developer-guardrails_en/",
    "cn": "https://shaorui0.github.io/tech/2026/09/23/2026-09-23_kubernetes-developer-guardrails_zh/"
+  }
+ },
+ {
+  "id": "w-p-ai-harness",
+  "group": "project",
+  "kicker": {
+   "en": "PROJECT",
+   "cn": "项目"
+  },
+  "title": {
+   "en": "A Project-Level Harness for AI Agents: Constraints in Hooks and Tests, Not Prompts",
+   "cn": "项目级 AI Agent harness：约束放在 hook 和测试里，不放在 prompt 里"
+  },
+  "sub": {
+   "en": "How I used a harness — a scope gate before edits, an audit trail with stated intent, and deterministic end-to-end acceptance — to let AI agents do most of the work of rebuilding a data platform in four months, built on one premise: agents fail by confidently announcing they are done.",
+   "cn": "我用一套 harness（改动前的准入门禁、带意图的操作审计、确定性 e2e 验收）让 AI agent 承担了四个月重建一个数据平台的大部分工作。前提只有一条：agent 犯错的方式，是自信地宣告完成。"
+  },
+  "url": {
+   "en": "https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_en/",
+   "cn": "https://shaorui0.github.io/tech/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_zh/"
+  }
+ },
+ {
+  "id": "w-p-doris-obs",
+  "group": "project",
+  "kicker": {
+   "en": "PROJECT",
+   "cn": "项目"
+  },
+  "title": {
+   "en": "Observability for a Shared-Data Doris From Zero: Two-Tier Triage and Twelve Alerts",
+   "cn": "从零给存算分离 Doris 建观测：两级分诊与 12 条告警"
+  },
+  "sub": {
+   "en": "Three dashboards and 115 panels organized so an on-call engineer can go from \"is it broken?\" to \"which layer?\" in two clicks, plus an alert set deliberately cut from 27 candidates to 12 — each kept because a real failure had gone unnoticed for 35 hours, 16 days, or five repeats.",
+   "cn": "三份大盘、115 个面板，按「先问坏没坏、再问哪一层」两级分诊组织；告警从 27 条候选刻意砍到 12 条，每一条留下来的理由都是一次真实发生过、没人察觉的故障（35 小时、16 天、反复 5 次）。"
+  },
+  "url": {
+   "en": "https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_observing-a-signal-driven-doris_en/",
+   "cn": "https://shaorui0.github.io/tech/2026/10/17/2026-10-17_observing-a-signal-driven-doris_zh/"
+  }
+ },
+ {
+  "id": "w-p-doris-dr",
+  "group": "project",
+  "kicker": {
+   "en": "PROJECT",
+   "cn": "项目"
+  },
+  "title": {
+   "en": "Doris Capacity and Disaster Recovery: What a Drill Is Actually For",
+   "cn": "Doris 容量与灾备：演练到底是为了什么"
+  },
+  "sub": {
+   "en": "A capacity estimate corrected by 2.5x after a volume size was mistaken for a data size, and a DR toolchain whose most valuable output was not a recovery time but a list of eight gaps in its own runbook. All numbers were measured before production, and the page says where.",
+   "cn": "一次因把卷容量当成数据量而被纠正 2.5 倍的容量估算，以及一套灾备工具链：它最有价值的产出不是一个恢复时间，而是它自己 runbook 里的 8 处缺口。所有数字都是上线前测的，正文会写明在哪测的。"
+  },
+  "url": {
+   "en": "https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_en/",
+   "cn": "https://shaorui0.github.io/tech/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_zh/"
   }
  }
 ];

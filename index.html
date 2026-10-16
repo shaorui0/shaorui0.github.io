@@ -209,10 +209,17 @@
           structural causes, and what I designed is an admission gate rather than a cleanup pass.
           <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Analytics data platform</b> — moved off ClickHouse onto Doris with compute–storage separation, and
-          taken down into the query engine itself. Its control plane runs on signals, so the observability layer is
+          taken down into the query engine itself; it is in production now. Its control plane runs on signals, so the observability layer is
           mine too, including the way it bites: a compute group that was genuinely queueing read as idle because
           empty queue timestamps parsed as real zeros, so it never scaled up. A dashboard that cannot separate
-          'no reading' from 'zero' fails exactly where you need it. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a></li>
+          'no reading' from 'zero' fails exactly where you need it. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a>
+          · <a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_observing-a-signal-driven-doris_en/" target="_blank" rel="noopener">Observability →</a>
+          · <a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_en/" target="_blank" rel="noopener">Capacity &amp; DR →</a></li>
+        <li><b>AI-native delivery</b> — that rebuild was delivered mostly by AI agents over four months: 566+ commits
+          across three repos, 250+ end-to-end tests. My part was the project harness around them — a scope gate before
+          work starts, an intent line on every mutating command, deterministic e2e acceptance. Agents fail by
+          confidently declaring "done", so done is decided by tests and hooks, not by the agent.
+          <a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_en/" target="_blank" rel="noopener">How →</a></li>
         <li><b>Ops agents</b> — an on-call triage agent that takes an alert or a customer-reported symptom and runs
           the investigation itself: pulls metrics and logs, decomposes latency layer by layer, rules layers in and
           out, and comes back with a root-cause hypothesis and the evidence chain behind it. Every irreversible
@@ -285,14 +292,19 @@
 
 <!-- ===================== FEATURED WRITING ===================== -->
 <h2>Featured writing</h2>
-<p class="hint">Long-form write-ups — every one is a system I actually operated. The five at the top are the ones I'd hand someone first; the rest is on the blog.</p>
+<p class="hint">Long-form write-ups — every one is a system I actually operated. The first six are the ones I'd hand someone first; the rest is on the blog.</p>
 
 <div class="glist">
   <div class="glabel">Start here</div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_en/" target="_blank" rel="noopener">Agents Write the Code, the Harness Decides "Done"</a></div>
+    <div class="d">Four months, a production data platform, mostly agent-written. What the harness enforces — scope gate, intent audit, deterministic acceptance — and why none of it can live in a prompt.</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding the fraud event store, down to the engine</a></div>
     <div class="d">ClickHouse → Doris compute–storage separation: memory engineering, engine-level routing, two compaction incidents, and numbers that survived re-measurement.</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/" target="_blank" rel="noopener">Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward</a></div>
     <div class="d">Our own benchmark showed ClickHouse still faster. The decision underneath the migration above: how it got framed as constraint elimination, not a speed claim, and defended to leadership.</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/09/23/2026-09-23_kubernetes-developer-guardrails_en/" target="_blank" rel="noopener">Developer Guardrails on Kubernetes: RBAC Says Which Doors, Admission Says Which Fields</a></div>
+    <div class="d">Letting developers edit their own deployments without touching replicas or resources — the split between what RBAC can express and what only admission can.</div></div>
+  <div class="glabel">Also</div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_the-os-fallacy_en/" target="_blank" rel="noopener">The OS fallacy: why stronger models make orchestration matter more, not less</a></div>
     <div class="d">"Models are getting better, so orchestration will disappear" is the same claim as "CPUs got faster, so the OS will disappear." Includes a testable criterion for what a model absorbs and what stays in the harness.</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">An SRE Oncall Triage Harness — Autonomous Investigation, Human-Owned Mutation</a></div>
@@ -307,7 +319,15 @@
 
 <!-- ===================== PET PROJECTS ===================== -->
 <h2>Pet projects</h2>
-<p class="hint">After-hours work, mostly about running my own life and my own agents as operated systems. All three have code you can read.</p>
+<p class="hint">After-hours work, mostly about running my own life and my own agents as operated systems. All four have code you can read.</p>
+
+<div class="proj">
+  <div class="n"><a href="https://github.com/shaorui0/agent-harness" target="_blank" rel="noopener">agent-harness</a> <span class="tag">hooks · skills · tracker</span></div>
+  <p>The harness I run a dozen concurrent Claude Code sessions under. Things that must happen are hooks — inject
+  state, block out-of-scope edits, log every operation; things that need judgment are skills a session invokes —
+  scope gate, spec review, compaction. Writes never judge; judgment is deferred to compaction. A local tracker board
+  reads the same logs and shows, per session, who is waiting on me and which tasks are actually ticked off.</p>
+</div>
 
 <div class="proj">
   <div class="n"><a href="https://github.com/shaorui0/agent-control-plane" target="_blank" rel="noopener">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
@@ -375,8 +395,12 @@
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
         <li><b>可观测性</b> —— 在指标平台之上做租户级告警设计：三层严重度分级加分租户 SLI recording rules，把资源型告警换成用户影响型告警。（平台本身——VictoriaMetrics 替换 Prometheus Federation——是在我接手这个范围之前完成的迁移。）另外把 pager 本身审计了一遍：367 条 paging 规则、每天约 960 条、约 85% 停在默认最低优先级。噪音归因到四个结构性成因，我设计的解法是准入门禁，不是一次大扫除。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>分析数据平台</b> —— 从 ClickHouse 迁到 Doris 存算分离，并且一路做到查询引擎里面。它的控制面靠信号驱动，所以可观测层也是我设计的，包括它咬人的方式：一个真在排队的 compute group 读出来是空闲，因为空的排队时间戳被解析成了真实的 0，于是它从来没有扩容。一块分不清「没读到」和「零」的大盘，恰好在你最需要它的地方失效。
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
+        <li><b>分析数据平台</b> —— 从 ClickHouse 迁到 Doris 存算分离，并且一路做到查询引擎里面，现已上线生产。它的控制面靠信号驱动，所以可观测层也是我设计的，包括它咬人的方式：一个真在排队的 compute group 读出来是空闲，因为空的排队时间戳被解析成了真实的 0，于是它从来没有扩容。一块分不清「没读到」和「零」的大盘，恰好在你最需要它的地方失效。
+          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">怎么做的 →</a>
+          · <a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_observing-a-signal-driven-doris_zh/" target="_blank" rel="noopener">可观测 →</a>
+          · <a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_zh/" target="_blank" rel="noopener">容量与灾备 →</a></li>
+        <li><b>AI-native 交付</b> —— 上面这次重建，四个月里主要是 AI agent 写出来的：三个仓库 566+ 次提交、250+ 个端到端用例。我做的是包在它们外面的项目级 harness：开工前的 scope 门禁、每条变更命令前的意图记录、确定性的 e2e 验收。agent 出错的方式是很自信地宣布「做完了」，所以「做完」由测试和 hook 判定，不由 agent 自己说。
+          <a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
         <li><b>Ops agent</b> —— 一个 on-call triage agent：接一条告警或一个客户报的现象，自己把调查跑完 —— 拉 metrics 和日志、逐层拆解延迟、逐层排除或坐实，最后带着根因假设和支撑它的证据链回来。所有不可逆动作都挡在确定性门禁之后：agent 可以读生产，永远不能改生产。难点不在推理，在上下文：一条 raw range query 就是 3 万 token，所以取数下沉给 subagent、必须用 500 token 之内答复，主循环只留判断。
           <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
       </ol>
@@ -430,14 +454,28 @@
 
 <!-- ===================== FEATURED WRITING ===================== -->
 <h2>精选文章</h2>
-<p class="hint">长文 —— 每一篇背后都是我真正运维过的系统。最上面五篇是我会先递给别人看的；其余的在博客上。</p>
+<p class="hint">长文 —— 每一篇背后都是我真正运维过的系统。「先看这几篇」是我会先递给别人看的；其余的在博客上。</p>
 
 <div class="glist">
-  <div class="glabel">先看这五篇</div>
+  <div class="glabel">先看这几篇</div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_zh/" target="_blank" rel="noopener">代码让 agent 写，「做完」由 harness 判</a></div>
+    <div class="d">四个月、一个上了生产的数据平台、大部分代码出自 agent。harness 强制了什么（scope 门禁、意图审计、确定性验收），以及为什么这些都不能只写在 prompt 里。</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">重构反欺诈事件存储：一路做到引擎里</a></div>
     <div class="d">ClickHouse → Doris 存算分离：内存工程、引擎级路由、两次 compaction 事故，以及经受住重测的数字。</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/" target="_blank" rel="noopener">不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听</a></div>
     <div class="d">我们自己的 benchmark 明明显示 ClickHouse 更快。上面那次迁移背后的决策本身：怎么讲成约束消除而不是性能优势，又怎么讲给领导层听。</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/23/2026-09-23_kubernetes-developer-guardrails_zh/" target="_blank" rel="noopener">让开发者自己改 deployment，但不能碰副本数和资源</a></div>
+    <div class="d">RBAC 管「哪扇门」，admission 管「哪个字段」：开发者自助改部署时，两层各自能表达什么、不能表达什么。</div></div>
+  <div class="glabel">最近</div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/03/2026-09-03_dashboard-is-for-human-eyes_zh/" target="_blank" rel="noopener">人看 dashboard，agent 该看什么</a></div>
+    <div class="d">告警规则早就是给机器看的监控，只是被设计成只输出一位信息。按这个思路写的第一个探针，查出 667 条生产告警规则里 94 条已经静默失效。</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/05/2026-09-05_one-probe-is-not-a-system_zh/" target="_blank" rel="noopener">从一个探针，到一个能用的判定层</a></div>
+    <div class="d">探针库和告警规则是同一类东西。问「怎么做成熟」，等于问「怎么不重演告警规则的结局」。</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/03/2026-09-03_root-cause-is-chosen-not-found_zh/" target="_blank" rel="noopener">复盘时争「哪个才是根因」，为什么总争不出结果</a></div>
+    <div class="d">把根因写成因果链、每条边做反事实检验，争论就变成「在哪一刀切最划算」。</div></div>
+  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/22/2026-09-22_no-counterexample-no-criterion_zh/" target="_blank" rel="noopener">一条分区规则，静默算错了六个租户</a></div>
+    <div class="d">声明的和实际生效的对不上，两侧又各自合法。这类判据唯一有效的约束是反例。</div></div>
+  <div class="glabel">更早</div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-os-fallacy_zh/" target="_blank" rel="noopener">「操作系统谬误」：为什么模型越强，orchestration 反而越重要</a></div>
     <div class="d">「模型变强所以 orchestration 会消失」等价于「CPU 变快所以操作系统会消失」。附一条可检验的判别式：什么会被模型吸收，什么会留在 harness。</div></div>
   <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/" target="_blank" rel="noopener">一个 SRE Oncall Triage Harness：agent 自主调查，mutation 主权归人</a></div>
@@ -452,7 +490,12 @@
 
 <!-- ===================== PET PROJECTS ===================== -->
 <h2>业余项目</h2>
-<p class="hint">下班后做的东西，大多是把自己的生活和自己的 agent 当成被运维的系统来跑。三个都有可读的代码。</p>
+<p class="hint">下班后做的东西，大多是把自己的生活和自己的 agent 当成被运维的系统来跑。四个都有可读的代码。</p>
+
+<div class="proj">
+  <div class="n"><a href="https://github.com/shaorui0/agent-harness" target="_blank" rel="noopener">agent-harness</a> <span class="tag">hooks · skills · tracker</span></div>
+  <p>同时开十几个 Claude Code session 时我用的那套 harness。必须发生的事挂在 hook 上：注入状态、拦越界改动、记录每一次操作；需要判断的事做成 session 主动调用的 skill：scope 门禁、spec 评审、压缩。写入时不做判断，判断推迟到压缩时再做。本地有一块 tracker 看板读同一份日志，按 session 显示谁在等我、哪些任务真的打了勾。</p>
+</div>
 
 <div class="proj">
   <div class="n"><a href="https://github.com/shaorui0/agent-control-plane" target="_blank" rel="noopener">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>

@@ -220,6 +220,19 @@
   @media (prefers-reduced-motion: reduce){
     .card,.card:hover{transition:none;transform:none}
   }
+
+  /* merged from the retired landing page (2026-10-25) */
+  .wlist .wlabel{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:18px 0 6px}
+  .wlist .wlabel:first-child{margin-top:0}
+  .wlist .w{padding:9px 0;border-bottom:1px solid var(--line-soft)}
+  .wlist .w .t{font-size:15px;font-weight:600}
+  .wlist .w .d{font-size:13.5px;color:var(--ink-soft);margin-top:2px;max-width:76ch;line-height:1.55}
+  .pj{padding:12px 0;border-bottom:1px solid var(--line-soft)}
+  .pj .n{font-size:15.5px;font-weight:650}
+  .pj .n .tg{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:11px;color:var(--amber);font-weight:500;margin-left:8px}
+  .pj p{margin:4px 0 0;font-size:14px;line-height:1.6;color:var(--ink-soft);max-width:76ch}
+  .sec-hint{font-size:13.5px;color:var(--muted);margin:0 0 14px;max-width:76ch}
+  .contact a.hl{color:var(--amber)}
 </style>
 </head>
 <body>
@@ -256,6 +269,13 @@ var UI = {
   expHead:     {en:"Experience", cn:"工作经历"},
   skillsBlock: {en:"Skills", cn:"技能"},
   eduHead:     {en:"Education", cn:"教育经历"},
+  projHead:    {en:"Projects", cn:"项目"},
+  projHint:    {en:"After-hours work, mostly about running my own life and my own agents as operated systems. All of it has code you can read.", cn:"下班后做的东西，大多是把自己的生活和自己的 agent 当成被运维的系统来跑。都有可读的代码。"},
+  finopsLink:  {en:"FinOps Agent page →", cn:"FinOps Agent 页面 →"},
+  finopsDesc:  {en:"An AWS cost-waste agent built in public, stage by stage: repo, thinking, one report per change, and an honest held-out scorecard.", cn:"一个带证据找云上浪费的 AWS agent，公开地分阶段构建：仓库、思考过程、每个改动一份报告，以及诚实的样本外成绩单。"},
+  featHead:    {en:"Featured writing", cn:"精选文章"},
+  featHint:    {en:"Long-form write-ups, each about a system I actually operated. The first four are the ones I would hand someone first; the rest is on the blog.", cn:"长文，每篇背后都是我真正运维过的系统。「先看这几篇」是我会先递给别人看的；其余的在博客上。"},
+  blogMore:    {en:"All posts on the blog →", cn:"全部文章见博客 →"},
   zoomLabel:   {en:"Zoom in · competency map", cn:"深入 · 能力地图"},
   trackHead:   {en:"On-call track record", cn:"Oncall 战绩"},
   trackNote:   {en:"Each entry is a real production incident I was on call for, distilled into symptom → localization → fix → lesson, with the causal evidence chain preserved and all customer, cluster, and internal-service identifiers stripped.",
@@ -506,8 +526,8 @@ var DOMAINS = [
     evidence:[
       {w:"w-p-bkc",
        name:{en:"Reconcile pushed down to the hardware layer (Intel 5G vRAN)", cn:"把 reconcile 下沉到硬件层（Intel 5G vRAN）"},
-       note:{en:"A self-authored machine-level daemon that compiled Intel's Best Known Configuration (BIOS/kernel/driver/firmware/tuning) from a document into a continuously-enforced GitOps control loop across ~30 bare-metal nodes carrying real-time radio traffic. The K8s reconcile philosophy, below the layer K8s can see.",
-             cn:"自研 machine-level daemon，把 Intel 的 Best Known Configuration（BIOS/kernel/driver/firmware/tuning）从文档编译成持续 enforce 的 GitOps control loop，覆盖 ~30 台承载实时无线流量的裸机节点。K8s 的 reconcile 哲学，用在 K8s 看不到的那一层之下。"}},
+       note:{en:"A self-authored machine-level daemon that compiled Intel's Best Known Configuration (BIOS/kernel/driver/firmware/tuning) from a document into a continuously-enforced GitOps control loop across 300+ bare-metal nodes carrying real-time radio traffic. The K8s reconcile philosophy, below the layer K8s can see.",
+             cn:"自研 machine-level daemon，把 Intel 的 Best Known Configuration（BIOS/kernel/driver/firmware/tuning）从文档编译成持续 enforce 的 GitOps control loop，覆盖 300+ 台承载实时无线流量的裸机节点。K8s 的 reconcile 哲学，用在 K8s 看不到的那一层之下。"}},
       {name:{en:"Cluster build as a four-layer IaC pipeline", cn:"四层 IaC 流水线构建集群"},
        note:{en:"Image baking (AMI), orchestration, configuration, and control-plane bootstrap as separate declared layers — production K8s clusters built and rebuilt from code, not snowflakes.",
              cn:"镜像烘焙（AMI）、编排、配置、控制面引导，四层各自声明。生产 K8s 集群从代码构建和重建，没有雪花机器。"}},
@@ -596,24 +616,33 @@ var DOMAINS = [
     ]
   },
   {
-    id:"security", group:"frontier", depth:55, target:65,
+    id:"security", group:"frontier", depth:58, target:65,
     name:{en:"Security & Compliance", cn:"安全与合规"},
     axis:{en:["Security &","Compliance"], cn:["安全与合规"]},
-    tagline:{en:"Cluster access control (RBAC + admission policy) and AI-agent operations security; audit-framework compliance is a stated growth area.",
-             cn:"集群访问控制（RBAC + admission 策略）与 AI agent 运维安全；审计框架类合规是明确标注的成长方向。"},
+    tagline:{en:"Cluster access control end to end (JumpServer entry, RBAC layering, admission policy) and AI-agent operations security; audit-framework compliance is a stated growth area.",
+             cn:"集群访问控制的完整链路（JumpServer 入口、RBAC 分层、admission 策略）与 AI agent 运维安全；审计框架类合规是明确标注的成长方向。"},
     thinking:{
       title:{en:"Availability is one contract; not-breached is another. Put the veto where it is deterministic.",
              cn:"可用性是一条契约，「不被攻破」是另一条。否决权要放在确定性的地方。"},
-      body:{en:"The same principle runs through both halves of the work. For humans on the clusters: RBAC decides which resources and verbs, an admission policy decides which fields, rolled out Audit before Enforce. For automated agents: deny-by-default tool gateways, write attestation, blast-radius-tiered execution gates, and a standing no-direct-production rule. Still the named gap: per-user identity end to end (today the audit log sees a shared service account) and audit frameworks of the SOC 2 class.",
-            cn:"两半工作贯穿同一个原则。对上集群的人：RBAC 决定能动哪些资源和动作，admission 策略决定能改哪些字段，先 Audit 再 Enforce 推广。对自动化 agent：默认拒绝的工具网关、写入 attestation、按爆炸半径分级的执行闸门、自动化 agent 永久禁连生产。仍然点名的缺口：端到端的按人身份（目前审计日志里只看得到共享 service account），以及 SOC 2 类审计框架。"}
+      body:{en:"The same principle runs through both halves of the work. For humans on the clusters: JumpServer decides who gets which account, RBAC decides which resources and verbs, a RoleBinding decides which namespace, and an admission policy decides which fields — rolled out Audit before Enforce, with can-i checks before and after each grant. For automated agents: deny-by-default tool gateways, write attestation, blast-radius-tiered execution gates, and a standing no-direct-production rule. Still the named gap: per-user identity end to end (JumpServer reaches the cluster through a shared service-account token, so the audit log sees the account, not the person; impersonation or OIDC is the known fix, not built), recorded production rollouts of the newer namespace grants, and audit frameworks of the SOC 2 class.",
+            cn:"两半工作贯穿同一个原则。对上集群的人：JumpServer 决定谁拿到哪个账号，RBAC 决定能动哪些资源和动作，RoleBinding 决定在哪个 namespace，admission 策略决定能改哪些字段；先 Audit 再 Enforce，每次授权前后都用 can-i 验证。对自动化 agent：默认拒绝的工具网关、写入 attestation、按爆炸半径分级的执行闸门、自动化 agent 永久禁连生产。仍然点名的缺口：端到端的按人身份（JumpServer 通过共享 service account token 连集群，审计日志里看到的是账号不是人；impersonation 或 OIDC 是已知解法，还没建）、较新的 namespace 授权在生产上缺少留档的执行记录，以及 SOC 2 类审计框架。"}
     },
-    skills:{en:["Kubernetes RBAC & admission policy (Kyverno)","Least-privilege tool design for agents","Audit trails & write attestation","Blast-radius-tiered execution gates","Secrets hygiene in automation"],
-            cn:["Kubernetes RBAC 与 admission 策略（Kyverno）","Agent 的最小权限工具设计","审计轨迹与写入见证","按爆炸半径分级的执行闸门","自动化中的密钥卫生"]},
+    skills:{en:["Kubernetes RBAC layering (ClusterRole / Role / bindings) & admission policy (Kyverno)","JumpServer-to-cluster access design (service-account tokens, role mapping)","Least-privilege tool design for agents","Audit trails & write attestation","Blast-radius-tiered execution gates","Secrets hygiene in automation"],
+            cn:["Kubernetes RBAC 分层（ClusterRole / Role / 绑定）与 admission 策略（Kyverno）","JumpServer 到集群的访问设计（service account token、角色映射）","Agent 的最小权限工具设计","审计轨迹与写入见证","按爆炸半径分级的执行闸门","自动化中的密钥卫生"]},
     evidence:[
+      {name:{en:"Access path: JumpServer account → service account → role", cn:"访问链路：JumpServer 账号 → service account → 角色"},
+       note:{en:"Mapped the way people reach the clusters: three JumpServer accounts (admin, developer, readonly), each backed by its own service account and binding — cluster-admin, a custom developer ClusterRole, and built-in view. Wrote down the token handling (K8s 1.24+ needs a manual token Secret, rotation without touching other fields) and how the role picker appears at login. Also wrote the audit weakness plainly: the cluster sees the service account, not the human.",
+             cn:"理清人是怎么进集群的：JumpServer 三类账号（admin、developer、readonly），各自对应一个 service account 和绑定：cluster-admin、自定义 developer ClusterRole、内置 view。记录了 token 处理（K8s 1.24+ 要手动建 token Secret，轮换时只改密文）和登录时角色选择框出现的条件。也把审计短板写明白：集群看到的是 service account，不是人。"}},
       {w:"w-p-guardrails",
        name:{en:"Developer guardrails: RBAC for doors, admission for fields", cn:"开发者权限护栏：RBAC 管门，admission 管字段"},
-       note:{en:"Gave developers self-serve write access to their workloads while keeping replicas and resource requests out of reach. RBAC cannot express field-level rules, so a Kyverno ClusterPolicy denies those changes at admission — including the /scale subresource a naive rule misses. Rolled out Audit → verify on a throwaway deployment → Enforce across five clusters, one PCI-scoped, with a one-line rollback. Stated gap: a shared service-account token means the audit log names the account, not the person.",
-             cn:"让开发者自助改自己的工作负载，但副本数和资源 request 仍然碰不到。RBAC 表达不了字段级规则，于是用 Kyverno ClusterPolicy 在 admission 层拒绝这两类改动，连朴素规则会漏掉的 /scale 子资源一起覆盖。按 Audit → 一次性测试 deployment 验收 → Enforce 推到五个集群（其中一个是 PCI 环境），回滚只需一行。点名的缺口：共享 service account token 让审计日志记下的是账号而不是人。"}},
+       note:{en:"Gave developers a write-capable role on their workloads while keeping replicas and resource requests out of reach. RBAC cannot express field-level rules, so a Kyverno ClusterPolicy denies those changes at admission — including the /scale subresource a naive rule misses. Rolled out Audit → verify on a throwaway deployment (env change passes, scale and resources are rejected) → Enforce across five pre-production clusters, one PCI-scoped, one cluster at a time and stopping at the first failure, with a rollback script per step. Stated gap: a shared service-account token means the audit log names the account, not the person.",
+             cn:"给开发者一个能写自己工作负载的角色，但副本数和资源 request 仍然碰不到。RBAC 表达不了字段级规则，于是用 Kyverno ClusterPolicy 在 admission 层拒绝这两类改动，连朴素规则会漏掉的 /scale 子资源一起覆盖。按 Audit → 一次性测试 deployment 验收（改 env 通过，scale 和 resources 被拒）→ Enforce 推到五个预发集群（其中一个是 PCI 环境），一次一个集群、出错就停，每步都有回滚脚本。点名的缺口：共享 service account token 让审计日志记下的是账号而不是人。"}},
+      {name:{en:"Layered roles: base ClusterRole, namespace-scoped add-on", cn:"分层角色：基础 ClusterRole + namespace 级增量"},
+       note:{en:"Split developer access into two ClusterRoles. The base one is read-everything plus delete on pods and jobs, bound cluster-wide. Exec and secret-read live in a second role that only a per-namespace RoleBinding can activate, so opening a new namespace is one binding, not a wider base role. Wrote the grant runbook: check can-i is no, server dry-run, create the binding, check can-i is yes, one-line rollback — plus the gotcha that can-i on pods/exec reports no where exec works (use the subresource flag), and a note to trust the live cluster over the local yaml after finding drift. Exec-only variant for namespaces holding real credentials is designed, not built.",
+             cn:"把开发者权限拆成两个 ClusterRole。基础角色是全集群只读加 pods/jobs 的 delete，用 ClusterRoleBinding 全局生效。exec 和读 secret 放在第二个角色里，只能靠 namespace 级 RoleBinding 激活，开新 namespace 就是加一条绑定，而不是放宽基础角色。写了授权 runbook：先确认 can-i 为 no、server 端 dry-run、建绑定、确认 can-i 为 yes、一行回滚；并记下两个坑：can-i 查 pods/exec 在能 exec 的地方也会返回 no（要用 subresource 参数）；发现线上与本地 yaml 漂移后以线上为准。给存放真实凭据的 namespace 用的「只 exec 不读 secret」变体已设计，还没建。"}},
+      {name:{en:"Production namespace grant with a blast-radius check", cn:"带爆炸半径检查的生产 namespace 授权"},
+       note:{en:"Prepared a minimal production change after a developer hit Forbidden on exec in a database namespace missing from the allow-list: one RoleBinding per cluster, no new roles. The scripts snapshot before and after, require a typed confirmation, then check that exec flips to yes, the existing namespaces are unchanged, and kube-system, default, infra and monitoring still say no, with an end-to-end exec as the last test. The rollback only deletes a binding carrying the manual-patch annotation, and the binding deliberately omits Helm labels so metadata does not lie about who manages it. Status: prepared and reviewed; the run output was not kept, so this is design evidence, not a recorded rollout.",
+             cn:"开发者在一个不在白名单里的数据库 namespace 里 exec 被 Forbidden，之后准备了一个最小的生产变更：每个集群一条 RoleBinding，不新增角色。脚本前后各做快照，要求手敲确认，然后检查 exec 变 yes、已有 namespace 不变、kube-system/default/infra/monitoring 仍是 no，最后做一次端到端 exec。回滚只删带 manual-patch 注解的绑定，绑定里故意不加 Helm 标签，免得元数据说谎。状态：已准备并评审；执行输出没留，所以这是设计证据，不是留档的上线记录。"}},
       {w:"w-p-agentops",
        name:{en:"Deterministic shell hooks as the safety floor for an ops agent", cn:"用确定性 shell hook 给运维 agent 兜底"},
        note:{en:"In the oncall triage harness, the security guarantee never rests on the model behaving: irreversible operations (delete, scale, drain, IAM) are hard-blocked by a shell hook that returns exit 2 no matter how the model hallucinates. Judgment goes to the model; the veto stays deterministic.",
@@ -908,8 +937,8 @@ var GEN_WRITINGS = [
    "cn": "把一份文档编译成 control loop：面向 5G vRAN 裸金属的 machine-level 配置收敛控制器"
   },
   "sub": {
-   "en": "A self-authored, continuously running systemd-level daemon that turned Intel's Best Known Configuration from prose-and-shell documentation into a git-declared, continuously audited desired state across ~30 bare-metal servers spanning multiple clusters.",
-   "cn": "一个自研、持续运行的 systemd 层 daemon，把 Intel 的 Best Known Configuration 从一份 prose 加 shell 的文档，变成 git 里声明式、被持续审计的 desired state，覆盖分布在多个 cluster 的约 30 台裸金属服务器。"
+   "en": "A self-authored, continuously running systemd-level daemon that turned Intel's Best Known Configuration from prose-and-shell documentation into a git-declared, continuously audited desired state across 300+ bare-metal nodes spanning multiple clusters.",
+   "cn": "一个自研、持续运行的 systemd 层 daemon，把 Intel 的 Best Known Configuration 从一份 prose 加 shell 的文档，变成 git 里声明式、被持续审计的 desired state，覆盖分布在多个 cluster 的 300+ 台裸金属节点。"
   },
   "url": {
    "en": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/",
@@ -1155,6 +1184,26 @@ var GEN_WRITINGS = [
    "en": "https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_en/",
    "cn": "https://shaorui0.github.io/tech/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_zh/"
   }
+ },
+ {
+  "id": "w-p-doris-platform",
+  "group": "project",
+  "kicker": {
+   "en": "PROJECT",
+   "cn": "项目"
+  },
+  "title": {
+   "en": "The Doris Platform: From ClickHouse to a Compute-Storage-Separated Analytics Layer",
+   "cn": "Doris 数据库平台：从 ClickHouse 到存算分离的分析层"
+  },
+  "sub": {
+   "en": "One page that walks the whole platform in the order of my résumé bullets: why we left ClickHouse, query routing inside the Doris frontend, the elastic compute tier, the migration, capacity and DR, per-tenant cost, and observability. Each part says what the problem was, what I did, and where the number was measured.",
+   "cn": "一页讲完整个平台，顺序和简历上的 Doris 条目一致：为什么离开 ClickHouse、Doris FE 内的查询路由、弹性计算层、数据迁移、容量与灾备、租户成本、可观测性。每一节都写清问题是什么、我做了什么、数字是在哪测的。"
+  },
+  "url": {
+   "en": "",
+   "cn": ""
+  }
  }
 ];
 /* GEN:WRITINGS END */
@@ -1187,25 +1236,188 @@ var NOTES = [
        cn:"一个准确率数字经过三次诚实重测：42% → 36% → 45%，每次修订公开。不要信只会变好的结果；在审视下变得不讨喜的那些，才是在逼近真相。"} }
 ];
 
+/* merged from the retired landing page; hand-written, outside GEN regions */
+var PROJECTS = [
+ {
+  "n": "finops-agent",
+  "tag": "Python · eval",
+  "en": "An AWS cost-waste agent that finds waste with evidence, built with spec, eval and guardrails. Every change has its own report; the scorecard is held-out and says where it fails.",
+  "cn": "一个带证据找云上浪费的 AWS agent，用 spec、评估和护栏构建。每个改动一份报告，成绩单是样本外的，写明哪里不行。"
+ },
+ {
+  "n": "aha-moment",
+  "tag": "voice · Whisper",
+  "en": "One-tap voice capture from the phone, transcribed locally with Whisper into one file per take. Minimal on purpose: one button, one input, one file.",
+  "cn": "手机上一键录音，本地 Whisper 转写，一段一个文件。刻意做得极简：一个按钮、一次输入、一个文件。"
+ },
+ {
+  "n": "agent-harness",
+  "tag": "hooks · skills · tracker",
+  "en": "The harness I run a dozen concurrent Claude Code sessions under. Things that must happen are hooks (inject state, block out-of-scope edits, log every operation); things that need judgment are skills (scope gate, spec review, compaction). A local tracker board reads the same logs and shows which session is waiting on me.",
+  "cn": "我同时开十几个 Claude Code session 用的那套 harness。必须发生的事挂 hook（注入状态、拦越界改动、记录每次操作），需要判断的事做成 skill（scope 门禁、spec 评审、压缩）。本地有块 tracker 看板读同一份日志，显示哪个 session 在等我。"
+ },
+ {
+  "n": "agent-control-plane",
+  "tag": "Python · SQLite",
+  "en": "Kubernetes-style governance for AI agents. One process, one SQLite file: per-task-class SLOs, burn rates, error budgets and hard caps, a cross-model judge, outcome-derived verdicts that can flip a pass to a fail, and an Earned Autonomy Gradient where autonomy is a budget that contracts on burn and only grows with an operator signature.",
+  "cn": "给 AI agent 的 Kubernetes 式治理。一个进程、一个 SQLite 文件：按任务类分的 SLO、燃烧率、error budget 和硬上限，跨模型 judge，能把「通过」追溯翻成「失败」的结果导出判定，以及 Earned Autonomy Gradient：自主性是一笔预算，燃烧时自动收缩，拿到操作者签名才增加。"
+ },
+ {
+  "n": "agents",
+  "tag": "oncall triage, as a skill",
+  "en": "An SRE on-call triage agent packaged as a Claude Code skill: an alert goes in, a structured investigation comes out. Retrieval is pushed into subagents so the main loop keeps only judgment, and every state-changing action passes a deterministic gate.",
+  "cn": "做成 Claude Code skill 的 SRE oncall 分诊 agent：告警进去，结构化调查出来。检索推给子 agent，主循环只留判断；所有会改系统状态的动作都过确定性门。"
+ },
+ {
+  "n": "context-engineering",
+  "tag": "personal AI workspace",
+  "en": "The public slice of the workspace my agents live in: how to organise a repo so any session starts with exactly the layer it needs. Three-layer memory, plus axioms indexed by trigger rather than by topic. Its best application so far is a goal-versus-behaviour loop built on my Anki logs.",
+  "cn": "我那些 agent 住的工作区的公开切片：怎么组织一个仓库，让任意一次 session 开始时看到的正好是该看的那一层。三层记忆，加上按触发词而不是按主题索引的 axioms。目前最好用的应用是基于 Anki 日志的「目标 vs 行为」闭环。"
+ }
+];
+var FEATURED = {
+ "en": [
+  {
+   "label": "Start here",
+   "items": [
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_en/",
+     "t": "Agents Write the Code, the Harness Decides \"Done\"",
+     "d": "Four months, a production data platform, mostly agent-written. What the harness enforces — scope gate, intent audit, deterministic acceptance — and why none of it can live in a prompt."
+    },
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/",
+     "t": "Rebuilding the fraud event store, down to the engine",
+     "d": "ClickHouse → Doris compute–storage separation: memory engineering, engine-level routing, two compaction incidents, and numbers that survived re-measurement."
+    },
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/",
+     "t": "Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward",
+     "d": "Our own benchmark showed ClickHouse still faster. The decision underneath the migration above: how it got framed as constraint elimination, not a speed claim, and defended to leadership."
+    },
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/09/23/2026-09-23_kubernetes-developer-guardrails_en/",
+     "t": "Developer Guardrails on Kubernetes: RBAC Says Which Doors, Admission Says Which Fields",
+     "d": "Letting developers edit their own deployments without touching replicas or resources — the split between what RBAC can express and what only admission can."
+    }
+   ]
+  },
+  {
+   "label": "Also",
+   "items": [
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_the-os-fallacy_en/",
+     "t": "The OS fallacy: why stronger models make orchestration matter more, not less",
+     "d": "\"Models are getting better, so orchestration will disappear\" is the same claim as \"CPUs got faster, so the OS will disappear.\" Includes a testable criterion for what a model absorbs and what stays in the harness."
+    },
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/",
+     "t": "An SRE Oncall Triage Harness — Autonomous Investigation, Human-Owned Mutation",
+     "d": "The agent runs the investigation end to end; every irreversible action stays behind a deterministic gate. The binding constraint turned out to be context, not reasoning."
+    },
+    {
+     "u": "https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/",
+     "t": "Compiling a Document into a Control Loop",
+     "d": "From Intel: a self-authored systemd-level daemon that turned a prose-and-shell Best Known Configuration into a git-declared, continuously audited desired state across 300+ bare-metal nodes."
+    }
+   ]
+  }
+ ],
+ "cn": [
+  {
+   "label": "先看这几篇",
+   "items": [
+    {
+     "u": "https://shaorui0.github.io/tech/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_zh/",
+     "t": "代码让 agent 写，「做完」由 harness 判",
+     "d": "四个月、一个上了生产的数据平台、大部分代码出自 agent。harness 强制了什么（scope 门禁、意图审计、确定性验收），以及为什么这些都不能只写在 prompt 里。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/",
+     "t": "重构反欺诈事件存储：一路做到引擎里",
+     "d": "ClickHouse → Doris 存算分离：内存工程、引擎级路由、两次 compaction 事故，以及经受住重测的数字。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/",
+     "t": "不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听",
+     "d": "我们自己的 benchmark 明明显示 ClickHouse 更快。上面那次迁移背后的决策本身：怎么讲成约束消除而不是性能优势，又怎么讲给领导层听。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/09/23/2026-09-23_kubernetes-developer-guardrails_zh/",
+     "t": "让开发者自己改 deployment，但不能碰副本数和资源",
+     "d": "RBAC 管「哪扇门」，admission 管「哪个字段」：开发者自助改部署时，两层各自能表达什么、不能表达什么。"
+    }
+   ]
+  },
+  {
+   "label": "最近",
+   "items": [
+    {
+     "u": "https://shaorui0.github.io/tech/2026/09/03/2026-09-03_dashboard-is-for-human-eyes_zh/",
+     "t": "人看 dashboard，agent 该看什么",
+     "d": "告警规则早就是给机器看的监控，只是被设计成只输出一位信息。按这个思路写的第一个探针，查出 667 条生产告警规则里 94 条已经静默失效。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/09/05/2026-09-05_one-probe-is-not-a-system_zh/",
+     "t": "从一个探针，到一个能用的判定层",
+     "d": "探针库和告警规则是同一类东西。问「怎么做成熟」，等于问「怎么不重演告警规则的结局」。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/09/03/2026-09-03_root-cause-is-chosen-not-found_zh/",
+     "t": "复盘时争「哪个才是根因」，为什么总争不出结果",
+     "d": "把根因写成因果链、每条边做反事实检验，争论就变成「在哪一刀切最划算」。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/09/22/2026-09-22_no-counterexample-no-criterion_zh/",
+     "t": "一条分区规则，静默算错了六个租户",
+     "d": "声明的和实际生效的对不上，两侧又各自合法。这类判据唯一有效的约束是反例。"
+    }
+   ]
+  },
+  {
+   "label": "更早",
+   "items": [
+    {
+     "u": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-os-fallacy_zh/",
+     "t": "「操作系统谬误」：为什么模型越强，orchestration 反而越重要",
+     "d": "「模型变强所以 orchestration 会消失」等价于「CPU 变快所以操作系统会消失」。附一条可检验的判别式：什么会被模型吸收，什么会留在 harness。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/",
+     "t": "一个 SRE Oncall Triage Harness：agent 自主调查，mutation 主权归人",
+     "d": "agent 端到端跑完调查，所有不可逆动作挡在确定性门禁之后。真正的硬约束是上下文，不是推理能力。"
+    },
+    {
+     "u": "https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_zh/",
+     "t": "把一份文档编译成 control loop",
+     "d": "来自 Intel：一个自研的 systemd 层 daemon，把一份 prose 加 shell 的 Best Known Configuration，变成 git 里声明式、持续审计的 desired state，覆盖 300+ 台裸金属节点。"
+    }
+   ]
+  }
+ ]
+};
+
 var RESUME = {
   exp: [
     {
       co:"DataVisor", tile:"DV",
       role:{en:"Site Reliability Engineer (Japan · China)", cn:"站点可靠性工程师（日本 · 中国）"},
       when:"2025.03 — now",
+      intro:{en:"DataVisor sells fraud detection as a service, mostly to banks and payment providers. I started on the China team and moved to Japan as the company opened up the Japanese market and data-residency rules made local infrastructure a requirement. We are a four-person SRE team responsible for the whole company's infrastructure layer, and I am primary on-call for it: 50 self-managed Kubernetes clusters, 6 AWS regions, 600+ nodes.",
+             cn:"DataVisor 以 SaaS 形式交付欺诈检测，客户主要是银行和支付机构。我从中国团队起步，随着公司开拓日本市场、数据合规要求基础设施必须本地化而转到日本。四人 SRE 团队负责全公司的基础设施层，我是它的 primary on-call：50 个自管理 Kubernetes 集群、6 个 AWS region、600+ 节点。"},
       sections:[
         { t:{en:"Data & State", cn:"数据与状态"}, d:"data",
           m:{en:"~5.2B rows · up to 3,727 cols · Doris compute-storage separation", cn:"~52 亿行 · 最宽 3,727 列 · Doris 存算分离"},
           items:[
             {tag:{en:"Migration", cn:"迁移"},
-             en:"Led the fraud event layer's migration off <b>ClickHouse</b> onto <b>Apache Doris compute-storage separation</b>; certified <b>99.945%</b> row-complete, point lookups <b>8 s → 20 ms</b>. <a href='#W#'>Why we left ClickHouse →</a> <a href='#W#'>Data scale →</a>",
-             cn:"主导反欺诈事件层从 <b>ClickHouse</b> 迁到 <b>Apache Doris 存算分离</b>；<b>99.945%</b> 行级对账，点查 <b>8 秒 → 20 毫秒</b>。<a href='#W#'>为什么离开 ClickHouse →</a> <a href='#W#'>数据规模 →</a>"},
+             en:"Led the fraud event layer's migration off <b>ClickHouse</b> onto <b>Apache Doris compute-storage separation</b>; certified <b>99.945%</b> row-complete, point lookups <b>8 s → 20 ms</b>. <a href='#W#'>Why we left ClickHouse →</a> <a href='#W#'>Data scale →</a> <a href='#L:w-g-why-doris#'>Choosing Doris without a speed win →</a>",
+             cn:"主导反欺诈事件层从 <b>ClickHouse</b> 迁到 <b>Apache Doris 存算分离</b>；<b>99.945%</b> 行级对账，点查 <b>8 秒 → 20 毫秒</b>。<a href='#W#'>为什么离开 ClickHouse →</a> <a href='#W#'>数据规模 →</a> <a href='#L:w-g-why-doris#'>不靠性能赢的选型 →</a>"},
             {tag:{en:"Elastic compute", cn:"弹性算力"},
              en:"Designed the <b>elastic compute tier</b> — the core architecture, and a closed loop of four parts rather than an autoscaler: <b>evaluate</b> (a new SQL statement exposing the per-operator estimates the cost-based optimizer computes and then discards), <b>route</b> (those numbers become a heavy/light verdict at plan time, so routing is admission control rather than performance tuning), <b>separate</b> (the heavy tail gets a physically isolated compute group, not a priority label — a pool is a metadata construct once tablets live in S3, so scaling 2→4 backends moved zero data), and <b>provision</b> (a verdict of heavy launches capacity: discrete increments from a floor of zero, sized by bottleneck rather than by data volume, driven by a controller collapsed to one patched CR field). This layer makes no query faster — it decides where each query lands, and makes that place exist on demand. Its safety never depends on the classifier being right: a misrouted heavy query is killed by a runtime memory limit and escalated. <a href='#L:w-p-routing#'>Evaluate &amp; route →</a> <a href='#L:w-p-elastic#'>Elastic tier →</a>",
              cn:"设计<b>弹性计算层</b> —— 这是核心架构层，而且它不是一个 autoscaler，是四件事的闭环：<b>评估</b>（新增一条 SQL 语句，把成本优化器算完就丢掉的 per-operator 估算暴露出来）、<b>路由</b>（这些数字在 plan 期变成 heavy/light 判定，于是路由是准入控制而不是性能调优）、<b>轻重分离</b>（重尾拿到的是物理隔离的 compute group 而不是一个优先级标签 —— tablet 在 S3 之后一个池就是元数据构造，在线 2→4 个 BE 零数据移动）、<b>主动供给</b>（判定为 heavy 就拉起算力：从零地板开始的离散增量，按瓶颈类型而不是按数据量定容，驱动它的 controller 被收敛成对一个 CR 字段的 patch）。这一层不让任何查询变快 —— 它决定每条查询落在哪里，并让那个地方按需存在。它的安全性从不依赖判定正确：误判的重查询会被运行时内存硬限杀掉并升级。<a href='#L:w-p-routing#'>评估与路由 →</a> <a href='#L:w-p-elastic#'>弹性层 →</a>"},
             {tag:{en:"Control-plane signals", cn:"控制面信号"},
-             en:"The elastic tier runs on signals, which makes the signals themselves an engineering surface. Designed its observability layer from scratch: a <b>13-section</b> production dashboard laid out as a two-level triage path (a health overview first, then sections grouped by the issue you suspect rather than by the component that emits), and the SLI/SLO framework under it, including a scale-latency objective floored by <b>measured node-provisioning time (~154 s)</b> instead of a number picked in the abstract. The load-bearing lesson came from a defect: empty queue timestamps parsed as real zeros, so a compute group that was genuinely queueing read as idle and never triggered scale-up. I fixed the parse and added a signal-presence self-check panel, because a dashboard that cannot separate 'no reading' from 'zero' will lie in exactly the situation it was built for.",
-             cn:"弹性层靠信号驱动，所以信号本身就是工程对象。它的可观测层是我从零设计的：<b>13 个功能分区</b>的生产大盘，按两层分诊路径组织（先看总览，再按你怀疑的问题类型分组，而不是按发出指标的组件分组），以及它下面的 SLI/SLO 框架，其中扩容时效目标以<b>实测开机时间（约 154 秒）</b>为地板，而不是凭空定一个数。真正承重的那条教训来自一个缺陷：空的排队时间戳被解析成真实的 0，于是一个真在排队的 compute group 读出来是空闲，从未触发扩容。我修掉解析，并加了一块信号在场性自检面板：一块分不清「没读到」和「零」的大盘，恰好会在你造它的那个场景里撒谎。"},
+             en:"The elastic tier runs on signals, which makes the signals themselves an engineering surface. Designed its observability layer from scratch: a <b>13-section</b> production dashboard laid out as a two-level triage path (a health overview first, then sections grouped by the issue you suspect rather than by the component that emits), and the SLI/SLO framework under it, including a scale-latency objective floored by <b>measured node-provisioning time (~154 s)</b> instead of a number picked in the abstract. The load-bearing lesson came from a defect: empty queue timestamps parsed as real zeros, so a compute group that was genuinely queueing read as idle and never triggered scale-up. I fixed the parse and added a signal-presence self-check panel, because a dashboard that cannot separate 'no reading' from 'zero' will lie in exactly the situation it was built for. <a href='#L:w-p-doris-obs#'>Observability →</a> <a href='#L:w-p-doris-dr#'>Capacity &amp; DR →</a>",
+             cn:"弹性层靠信号驱动，所以信号本身就是工程对象。它的可观测层是我从零设计的：<b>13 个功能分区</b>的生产大盘，按两层分诊路径组织（先看总览，再按你怀疑的问题类型分组，而不是按发出指标的组件分组），以及它下面的 SLI/SLO 框架，其中扩容时效目标以<b>实测开机时间（约 154 秒）</b>为地板，而不是凭空定一个数。真正承重的那条教训来自一个缺陷：空的排队时间戳被解析成真实的 0，于是一个真在排队的 compute group 读出来是空闲，从未触发扩容。我修掉解析，并加了一块信号在场性自检面板：一块分不清「没读到」和「零」的大盘，恰好会在你造它的那个场景里撒谎。 <a href='#L:w-p-doris-obs#'>可观测 →</a> <a href='#L:w-p-doris-dr#'>容量与灾备 →</a>"},
             {tag:{en:"Targeted optimization", cn:"定向优化"},
              en:"Then the optimization layer, and it is deliberately <b>targeted rather than general</b>: query text, workload and query shape are all inputs we do not control — a growing share is generated by AI agents — so the only remaining lever is to make the shapes a caller might write structurally cheaper. The selection rule is that a query is worth attacking when its cost is mostly <b>avoidable fan-out</b>, which measurement had already proved is the real currency (bloom filters cut rows scanned 73% and moved wall-clock zero: one user's rows lived in 2,044 files). Two shapes qualified. A point lookup on a non-bucketed column opens every tablet, so a cross-tablet point-query index is probed before any tablet is opened — 566 tablets down to ~1. A wide read genuinely needs its column files but does not need them serially, so the column meta-pages whose byte offsets are already footer-resident are warmed concurrently ahead of the read loop, which stays byte-for-byte unchanged. Both are fail-open: a broken index can only make a query slower, never wrong. <a href='#L:w-p-fanout#'>Deep dive →</a> <a href='#L:w-p-routing#'>Cost-model blind spots →</a>",
              cn:"然后是优化层，而且它刻意是<b>定向的而不是通用的</b>：SQL 文本、负载、查询形态都是我们控制不了的输入 —— 其中越来越大的一部分由 AI agent 生成 —— 所以剩下的唯一杠杆，是让调用方可能写出的那些形态本身在结构上变便宜。选择判据是：一条查询值得下手，是因为它的成本里大部分是<b>可避免的扇出</b>，而测量早就证明扇出才是真正的货币（bloom filter 砍掉 73% 扫描行数而墙钟纹丝不动：一个用户的行散在 2,044 个文件里）。两种形态符合判据。非分桶列上的点查会打开每一个 tablet，于是加一个跨 tablet 点查索引，在打开任何 tablet 之前就探测 —— 566 个 tablet 收到约 1 个。宽读确实需要它那些列文件，但不需要串行地要，于是把字节偏移本来就在 segment footer 里的列 meta page 在读循环之前并发烘热，而读循环本身一个字节都不改。两者都 fail-open：坏索引只能让查询变慢，不能让它出错。<a href='#L:w-p-fanout#'>深挖 →</a> <a href='#L:w-p-routing#'>成本模型盲区 →</a>"}
@@ -1247,9 +1459,12 @@ var RESUME = {
         { t:{en:"Platform & Automation", cn:"平台与自动化"}, d:"platform",
           m:{en:"AI-agent-for-ops · four control primitives", cn:"AI-agent-for-ops · 四控制原语"},
           items:[
+            {tag:{en:"AI-native delivery", cn:"AI-native 交付"},
+             en:"The Doris rebuild was delivered mostly by AI agents over four months: <b>566+ commits across three repos, 250+ end-to-end tests</b>. My part was the project harness around them: a scope gate before work starts, an intent line on every mutating command, deterministic e2e acceptance. Agents fail by confidently declaring \"done\", so done is decided by tests and hooks, not by the agent. <a href='#L:w-p-ai-harness#'>How →</a>",
+             cn:"Doris 重建四个月里主要由 AI agent 写出来：<b>三个仓库 566+ 次提交、250+ 个端到端用例</b>。我做的是包在它们外面的项目级 harness：开工前的 scope 门禁、每条变更命令前的意图记录、确定性的 e2e 验收。agent 出错的方式是很自信地宣布「做完了」，所以「做完」由测试和 hook 判定，不由 agent 自己说。<a href='#L:w-p-ai-harness#'>怎么做的 →</a>"},
             {tag:{en:"AI Agent", cn:"AI Agent"},
-             en:"Built an <b>on-call triage agent</b> from scratch — a full autonomous-investigation harness: the agent runs the investigation end to end, the human keeps sovereignty over every irreversible action. <a href='#L:w-p-agentops#'>Deep dive →</a>",
-             cn:"从 0→1 做了一整套<b>on-call triage agent</b>：一个完整的自主调查 harness，agent 端到端跑完调查，人保留对每个不可逆操作的最终主权。<a href='#L:w-p-agentops#'>深挖 →</a>"}
+             en:"Built an <b>on-call triage agent</b> from scratch — a full autonomous-investigation harness: the agent runs the investigation end to end, the human keeps sovereignty over every irreversible action. It pulls metrics and logs, decomposes latency layer by layer, and returns a root-cause hypothesis with its evidence chain; the agent may read production, never change it. The hard part is context, not reasoning: one raw range query is 30K tokens, so fetching is pushed down to subagents that must answer in 500. <a href='#L:w-p-agentops#'>Deep dive →</a>",
+             cn:"从 0→1 做了一整套<b>on-call triage agent</b>：一个完整的自主调查 harness，agent 端到端跑完调查，人保留对每个不可逆操作的最终主权。它自己拉 metrics 和日志、逐层拆解延迟，带着根因假设和证据链回来；agent 可以读生产，永远不能改生产。难点在上下文而不在推理：一条 raw range query 就是 3 万 token，所以取数下沉给 subagent、必须用 500 token 之内答复。<a href='#L:w-p-agentops#'>深挖 →</a>"}
           ]}
       ]
     },
@@ -1257,9 +1472,11 @@ var RESUME = {
       co:"Intel", tile:"in",
       role:{en:"Cloud Software Development Engineer · 5G vRAN cloud-ification", cn:"云软件开发工程师 · 5G vRAN 云化"},
       when:"2022.06 — 2025.02",
+      intro:{en:"Cloud-ification of 5G vRAN: moving the radio access network off purpose-built silicon and onto general-purpose servers. I wrote Go microservices and Kubernetes operators for platform tooling, and the infrastructure-as-code daemon below.",
+             cn:"5G vRAN 云化：把无线接入网从专用芯片搬到通用服务器上。我写 Go 微服务和 Kubernetes operator 做平台工具，以及下面这个基础设施即代码 daemon。"},
       sections:[
         { t:{en:"Infra & Capacity", cn:"基础设施与容量"}, d:"infra",
-          m:{en:"~30 nodes · multi-cluster · systemd-level", cn:"~30 节点 · 多集群 · systemd 层"},
+          m:{en:"300+ nodes · multi-cluster · systemd-level", cn:"300+ 节点 · 多集群 · systemd 层"},
           items:[
             {tag:{en:"IaC", cn:"IaC"},
              en:"Built an <b>internal infrastructure-as-code reconcile daemon</b> that held <b>kernel-level machine configuration</b> — Intel's validated 5G vRAN configuration, from boot parameters to NIC driver profile — to a git-declared spec, continuously enforced on bare-metal nodes carrying real-time traffic. Kubernetes reconcile, pushed down to the hardware layer. <a href='#L:w-p-bkc#'>Deep dive →</a>",
@@ -1278,6 +1495,8 @@ var RESUME = {
       co:{en:"Tencent", cn:"腾讯"}, tile:{en:"Tencent", cn:"腾讯"},
       role:{en:"Software Development Engineer Intern · QQ live-streaming", cn:"后端开发实习 · QQ 直播平台"},
       when:"2021.05 — 2021.09",
+      intro:{en:"The internship that changed how I see systems: not the demo version of microservices, but the version where the traffic is real and every piece exists because something once went wrong without it.",
+             cn:"这段实习改变了我看系统的方式：不是微服务的 demo 版本，而是流量真实、每个部件都因为「缺了它出过事」才存在的那个版本。"},
       sections:[
         { t:null, m:null,
           items:[
@@ -1317,6 +1536,8 @@ var RESUME = {
       co:{en:"Baidu", cn:"百度"}, tile:{en:"Baidu", cn:"百度"},
       role:{en:"Data Engineer Intern · risk control", cn:"数据开发实习 · 风控业务组"},
       when:"2020.01 — 2020.10",
+      intro:{en:"The other half of the education, and the same problem domain I am in today: risk control.",
+             cn:"这份教育的另一半，而且是我今天所在的同一个问题域：风控。"},
       sections:[
         { t:null, m:null,
           items:[
@@ -1352,7 +1573,7 @@ function domainsCiting(wid){
 }
 function P(rest){ return "#/"+LANG+(rest||""); }
 /* Articles live on the blog. W() returns the outbound URL for an id. */
-function W(id){ var w=writingById(id); return (w && w.url && (w.url[LANG]||w.url.en)) || ""; }
+function W(id){ if(id==="w-p-doris-platform") return "projects/doris.html#/"+LANG; var w=writingById(id); return (w && w.url && (w.url[LANG]||w.url.en)) || ""; }
 function isExt(u){ return /^https?:/.test(u||""); }
 /* timeline monogram: shrink the type when the label is an acronym rather than 1-2 letters */
 function tile(t){
@@ -1410,11 +1631,14 @@ function viewHome(){
   h+='<header class="site">';
   h+='<div class="hd-left">';
   h+='<div class="id-row mono eyebrow"><span>'+esc(T(UI.role))+'</span><span aria-hidden="true" style="color:var(--line)">│</span><span>'+esc(T(UI.loc))+'</span><span aria-hidden="true" style="color:var(--line)">│</span><span>DataVisor</span>'+langSwitch("")+'</div>';
-  h+='<h1 class="name">Rui Shao<span class="dot">.</span></h1>';
+  h+='<h1 class="name">'+(LANG==="cn"?"邵瑞":"Rui Shao")+'<span class="dot">.</span></h1>';
   h+='<p class="thesis">'+esc(T(UI.thesis))+'</p>';
   h+='<p class="subthesis">'+esc(T(UI.subthesis))+'</p>';
   /* perspective chips removed 2026-08-04: the landing page owns the article index */
-h+='<div class="contact mono"><a href="index.html#/'+LANG+'">'+(LANG==="cn"?"← 首页":"← Home")+'</a><a href="https://github.com/shaorui0">github.com/shaorui0</a><a href="mailto:sr1054461216@gmail.com">sr1054461216@gmail.com</a></div>';
+h+='<div class="contact mono"><a href="https://github.com/shaorui0">GitHub</a><a href="mailto:sr1054461216@gmail.com">sr1054461216@gmail.com</a>'
+  +'<a href="'+(LANG==="cn"?"https://shaorui0.github.io/tech/":"https://shaorui0.github.io/tech-en/")+'" target="_blank" rel="noopener">'+(LANG==="cn"?"博客":"Blog")+'</a>'
+  +'<a href="'+W("w-v-agents")+'" target="_blank" rel="noopener">'+(LANG==="cn"?"AI 与 SRE":"AI &amp; SRE")+'</a>'
+  +'</div>';
   h+='</div>';
   h+='<div class="hd-right">'+radarSVG()+'</div>';
   h+='</header>';
@@ -1446,6 +1670,24 @@ h+='<div class="contact mono"><a href="index.html#/'+LANG+'">'+(LANG==="cn"?"←
     h+='</div></div>';
   });
   h+='</section>';
+
+
+  h+='<section class="block"><div class="block-head"><h2>'+esc(T(UI.projHead))+'</h2></div>';
+  h+='<p class="sec-hint">'+esc(T(UI.projHint))+'</p>';
+  PROJECTS.forEach(function(p){
+    h+='<div class="pj"><div class="n"><a href="https://github.com/shaorui0/'+p.n+'" target="_blank" rel="noopener">'+esc(p.n)+'</a> <span class="tg">'+esc(p.tag)+'</span>'+(p.n==="finops-agent"?' <a class="tg" href="projects/finops-agent.html#/'+LANG+'">'+esc(T(UI.finopsLink))+'</a>':'')+'</div><p>'+esc(T(p))+'</p></div>';
+  });
+  h+='</section>';
+
+  h+='<section class="block"><div class="block-head"><h2>'+esc(T(UI.featHead))+'</h2></div>';
+  h+='<p class="sec-hint">'+esc(T(UI.featHint))+'</p><div class="wlist">';
+  (FEATURED[LANG]||FEATURED.en).forEach(function(g){
+    h+='<div class="wlabel">'+esc(g.label)+'</div>';
+    g.items.forEach(function(w){
+      h+='<div class="w"><div class="t"><a href="'+w.u+'" target="_blank" rel="noopener">'+esc(w.t)+'</a></div><div class="d">'+esc(w.d)+'</div></div>';
+    });
+  });
+  h+='</div><p class="sec-hint" style="margin-top:14px"><a href="'+(LANG==="cn"?"https://shaorui0.github.io/tech/":"https://shaorui0.github.io/tech-en/")+'" target="_blank" rel="noopener">'+esc(T(UI.blogMore))+'</a></p></section>';
 
   h+='<section class="block"><div class="block-head"><h2>'+esc(T(UI.skillsBlock))+'</h2></div>';
   RESUME.skills.forEach(function(s){ h+='<p class="skills-line"><b>'+esc(T(s.k))+':</b> '+esc(s.v)+'</p>'; });
@@ -1575,7 +1817,7 @@ function render(){
   LANG=m[1];
   try{ localStorage.setItem("resume-lang", LANG); }catch(e){}
   document.documentElement.lang = (LANG==="cn"?"zh-CN":"en");
-  document.title = T(UI.title);
+  document.title = (LANG==="cn"?"邵瑞 · 一份可以逐层放大的简历":T(UI.title));
   if(m[2]==="d") app.innerHTML=viewDomain(m[3]);
   else if(m[2]==="w"){ var u=W(m[3]); if(u){ location.replace(u); return; } app.innerHTML=viewHome(); }
   else app.innerHTML=viewHome();
@@ -1590,5 +1832,6 @@ window.addEventListener("hashchange",render);
 render();
 /* mermaid removed 2026-08-03: article bodies (and their diagrams) live on the blog now */
 </script>
+<script src="nav.js" defer></script>
 </body>
 </html>

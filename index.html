@@ -1,591 +1,150 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rui Shao</title>
-<meta name="description" content="Rui Shao — Site Reliability Engineer in Tokyo. Fraud-detection infrastructure, storage engines, and agent systems for ops.">
+<meta name="description" content="Shifting fully to AI. Personal timeline: DataVisor, Intel, internships, education.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23fff' stroke='%23ddd'/><text x='16' y='22' font-size='15' font-family='Helvetica,sans-serif' font-weight='bold' fill='%23555' text-anchor='middle'>RS</text></svg>">
 <style>
-  /* Deliberately white, single-column, no framework. */
-  :root{
-    --ink:#1a1a1a; --soft:#4a4a4a; --muted:#767676;
-    --line:#e2e2e2; --line-soft:#efefef;
-    --link:#1155cc; --accent:#a35c00;
-    --tile:#f4f4f2;
-  }
+  :root{--ink:#1a1a1a;--soft:#4a4a4a;--muted:#767676;--line:#e2e2e2;--line-soft:#efefef;--link:#1155cc;--tile:#f4f4f2}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
-  body{
-    margin:0; background:#fff; color:var(--ink);
-    font-family:-apple-system,"Helvetica Neue","Segoe UI","PingFang SC","Hiragino Sans GB",Roboto,ui-sans-serif,sans-serif;
-    font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased;
-  }
-  .page{max-width:66rem;margin:0 auto;padding:clamp(28px,5vw,48px) clamp(18px,4vw,30px) 80px}
-  .narrow{max-width:52rem}
+  body{margin:0;background:#fff;color:var(--ink);font-family:-apple-system,"Helvetica Neue","Segoe UI","PingFang SC","Hiragino Sans GB",Roboto,ui-sans-serif,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .page{max-width:62rem;margin:0 auto;padding:48px 24px 72px}
   a{color:var(--link);text-decoration:none}
   a:hover{text-decoration:underline}
-  hr{border:0;border-top:1px solid var(--line);margin:34px 0}
   .mono{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
-
-  /* ---------- header (centered, karpathy-style) ---------- */
-  header{display:flex;gap:clamp(18px,3vw,30px);align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 0 4px}
-  .avatar{
-    width:clamp(130px,17vw,178px);aspect-ratio:1;border-radius:50%;flex-shrink:0;overflow:hidden;
-    background:var(--tile);border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
-  .avatar .initials{font-size:clamp(40px,5vw,56px);font-weight:600;letter-spacing:.02em;color:#9a9a9a}
-  .who{max-width:27rem}
-  h1{font-size:clamp(30px,4.2vw,42px);font-weight:600;letter-spacing:-.02em;margin:0 0 8px;line-height:1.1}
-  .tagline{margin:0 0 12px;color:var(--muted);font-size:16.5px;font-style:italic;line-height:1.45}
-  .links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:15px}
-  .links .sep{color:#ccc}
-
-  /* ---------- section headings ---------- */
-  h2{
-    font-size:15px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-    margin:0 0 6px;
-  }
-  .hint{margin:0 0 20px;font-size:14px;color:var(--muted)}
-
-  /* ---------- timeline (rail + dots + logo tiles) ---------- */
-  .tl{--rail:calc(9.1rem + 31px);position:relative;display:flex;flex-direction:column}
-  .tl::before{content:"";position:absolute;left:var(--rail);top:16px;bottom:18px;width:1px;background:#d8d8d8}
-  .row{
-    display:grid;grid-template-columns:9.1rem 26px 72px minmax(0,1fr);gap:0 18px;
-    padding:10px 0 18px;align-items:start;
-  }
-  .when{font-size:13px;color:var(--muted);text-align:right;padding-top:3px;white-space:nowrap}
-  .dot{display:flex;justify-content:center;padding-top:6px}
-  .dot i{width:7px;height:7px;border-radius:50%;background:#bdbdbd;box-shadow:0 0 0 3.5px #fff;display:block}
-  .tile{
-    width:72px;height:72px;border-radius:6px;background:var(--tile);border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    font-size:23px;font-weight:650;color:#8b8b8b;letter-spacing:.01em;overflow:hidden;
-  }
-  .tile img{width:100%;height:100%;object-fit:contain;display:block}
-  .tile.logo{padding:11px;background:#fff}
-  .tile.quad{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;padding:8px;background:#fff}
-  .tile.quad img{width:100%;height:100%;object-fit:contain}
-  .tile.txt{font-size:16px;font-weight:620;letter-spacing:.02em}
-  .what .h{font-size:17.5px;font-weight:650;line-height:1.3}
-  .what .role{font-size:14.5px;color:var(--soft);margin-top:2px}
-  .what p{margin:8px 0 0;font-size:16px;color:var(--ink)}
-  .what .fine{font-size:15px;color:var(--soft)}
-  .what ol{margin:9px 0 0;padding-left:1.35em;max-width:47rem}
-  .what ol li{font-size:16px;line-height:1.55;margin:0 0 5px;padding-left:2px}
-  .what ol li::marker{color:var(--muted);font-size:14px}
-  .what ol li b{font-weight:640}
-  @media(max-width:760px){
-    .tl::before{display:none}
-    .row{grid-template-columns:56px minmax(0,1fr);gap:0 14px;padding-bottom:22px}
-    .when{grid-column:1/-1;text-align:left;padding:0 0 8px}
-    .dot{display:none}
-    .tile{width:56px;height:56px;font-size:18px}
-  }
-
-  /* ---------- callout ---------- */
-  .callout{
-    border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:4px;
-    padding:14px 18px;margin:26px 0 0;background:#fcfcfb;
-  }
-  .callout .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
-  .callout p{margin:5px 0 0;font-size:15px;color:var(--soft)}
-  .callout a{font-weight:600}
-
-  /* Prose keeps a readable measure even though the page is wide. */
-  .bio p,.hint,.w .d,.proj p,.callout p,.what p,.what .fine{max-width:47rem}
-
-  /* ---------- bio ---------- */
-  .bio p{margin:0 0 14px;font-size:16.5px}
-  .bio p:last-child{margin-bottom:0}
-
-  /* ---------- writing ---------- */
-  .glist{margin:0 0 22px}
-  .glist:last-child{margin-bottom:0}
-  .glabel{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
-  .w{padding:7px 0;border-top:1px solid var(--line-soft)}
-  .w:first-of-type{border-top:0}
-  .w .t{font-size:16px;font-weight:560;line-height:1.35}
-  .w .d{font-size:14px;color:var(--muted);margin-top:1px}
-
-  /* ---------- projects ---------- */
-  .proj{padding:15px 0;border-top:1px solid var(--line-soft)}
-  .proj:first-of-type{border-top:0}
-  .proj .n{font-size:16.5px;font-weight:650}
-  .proj .n .tag{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-left:8px}
-  .proj p{margin:5px 0 0;font-size:15px;color:var(--soft)}
-
-  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
-
-  /* ---------- whoami widget ---------- */
-  .whoami{margin:0 0 8px}
-  .whoami-btn{
-    font:inherit;font-size:14.5px;font-weight:600;color:var(--ink);
-    background:var(--tile);border:1px solid var(--line);border-radius:5px;
-    padding:9px 16px;cursor:pointer;
-  }
-  .whoami-btn:hover{background:#ececea}
-  .whoami-btn:disabled{opacity:.55;cursor:default}
-  .whoami-hint{margin:7px 0 0;font-size:12.5px;color:var(--muted)}
-  .whoami-out{margin-top:14px;font-size:15.5px;color:var(--ink);white-space:pre-wrap;max-width:47rem}
-  .whoami-out:empty{display:none}
-
-  /* ---------- bilingual: hide the inactive language ---------- */
   :root[data-lang="en"] [data-l="cn"]{display:none}
   :root[data-lang="cn"] [data-l="en"]{display:none}
-  .lang-switch{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:13px}
-  .lang-switch a{color:var(--muted);text-decoration:none;padding:1px 2px}
-  .lang-switch a.on{color:var(--accent);font-weight:700}
-  .lang-switch a:hover{text-decoration:underline}
+
+  header{display:flex;gap:clamp(20px,3vw,36px);align-items:center;flex-wrap:wrap}
+  .avatar{width:clamp(120px,15vw,160px);aspect-ratio:1;border-radius:50%;flex-shrink:0;overflow:hidden;background:var(--tile);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .avatar .initials{font-size:44px;font-weight:600;color:#9a9a9a}
+  h1{font-size:40px;font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.15;display:flex;align-items:baseline;gap:8px 18px;flex-wrap:wrap}
+  .links{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:16px;font-weight:400;letter-spacing:0}
+  .links .sep{color:#ccc}
+  .lang-switch a{color:var(--muted)}
+  .lang-switch a.on{color:var(--ink);font-weight:600}
+  .tagline{margin:8px 0 0;color:var(--muted);font-size:18px;font-style:italic}
+  :root[data-lang="cn"] .tagline{font-style:normal}
+
+  .tl{--when:9.5rem;--gap:20px;--rail:calc(var(--when) + var(--gap) + 7px);position:relative;display:flex;flex-direction:column;margin-top:56px}
+  .tl::before{content:"";position:absolute;left:var(--rail);top:28px;bottom:28px;width:1px;background:#d8d8d8}
+  .trow{display:grid;grid-template-columns:var(--when) 14px 56px minmax(0,1fr);gap:0 var(--gap);align-items:start;padding:20px 0;color:var(--ink)}
+  .trow .when{font-size:14px;color:var(--muted);text-align:right;white-space:nowrap;padding-top:14px}
+  .trow .dot{display:flex;justify-content:center;padding-top:25px}
+  .trow .dot i{width:8px;height:8px;border-radius:50%;background:#bdbdbd;box-shadow:0 0 0 4px #fff;display:block}
+  .trow .tile{width:56px;height:56px;border-radius:8px;background:var(--tile);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:650;color:#8b8b8b;overflow:hidden}
+  .trow .tile img{width:100%;height:100%;object-fit:contain;display:block}
+  .trow .tile.logo{padding:8px;background:#fff}
+  .trow .tile.txt{font-size:11px;letter-spacing:.02em}
+  .trow .what{display:block;min-width:0;padding-top:2px}
+  .ttl{display:block;font-size:19px;line-height:1.4}
+  .ttl b{font-weight:650}
+  .sent{display:block;margin-top:6px;color:var(--soft);font-size:17px;line-height:1.6}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .tags span{font-size:13.5px;line-height:1;padding:6px 11px;border-radius:999px;background:var(--tile);border:1px solid var(--line-soft);color:var(--soft)}
+  .trow.edu{padding:14px 0}
+  .trow.edu .ttl{font-size:17.5px;color:var(--soft)}
+  .trow.edu .tile{width:56px;height:56px}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+  @media(max-width:760px){
+    .page{padding:32px 16px 48px}
+    h1{font-size:34px}
+    .tl{margin-top:36px}
+    .tl::before{display:none}
+    .trow{grid-template-columns:56px minmax(0,1fr);gap:0 16px;padding:18px 0}
+    .trow .when{grid-column:1/-1;text-align:left;padding:0 0 8px}
+    .trow .dot{display:none}
+    .ttl{font-size:18px}
+    .sent{font-size:16.5px}
+  }
 </style>
 </head>
 <body>
 <div class="page">
 
 <header>
-  <!-- To use a real photo: drop me.jpg next to this file; it replaces the monogram automatically. -->
   <div class="avatar">
     <img src="me.jpg" alt="Rui Shao" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()">
     <span class="initials">RS</span>
   </div>
   <div class="who">
-    <h1>Rui Shao</h1>
-    <p class="tagline" data-l="en">SRE on fraud-detection data infrastructure. I turn repeated judgment into systems, then hand those systems to agents.</p>
-    <p class="tagline" data-l="cn">做反欺诈数据基础设施的 SRE。工作方式是把重复的判断变成系统，再把系统交给 agent 去跑。</p>
-    <div class="links">
-      <a href="https://github.com/shaorui0">GitHub</a><span class="sep">·</span>
-      <a href="https://shaorui0.github.io/tech-en/" data-l="en">Blog</a><a href="https://shaorui0.github.io/tech/" data-l="cn">博客</a><span class="sep">·</span>
-      <a href="mailto:sr1054461216@gmail.com" data-l="en">Email</a><a href="mailto:sr1054461216@gmail.com" data-l="cn">邮箱</a><span class="sep">·</span>
-      <a href="deep.html" data-l="en">Deeper résumé</a><a href="deep.html" data-l="cn">深度简历</a><span class="sep">·</span>
-      <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_en/" data-l="en" target="_blank" rel="noopener">AI &amp; SRE</a><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-in-the-age-of-ai-agents_zh/" data-l="cn" target="_blank" rel="noopener">AI 与 SRE</a><span class="sep">·</span>
-      <span class="lang-switch"><a href="#/en">EN</a>·<a href="#/cn">中文</a></span>
-    </div>
+    <h1><span data-l="en">Rui Shao</span><span data-l="cn">邵瑞</span>
+      <span class="links"><a href="https://github.com/shaorui0">GitHub</a><span class="sep">·</span><span class="lang-switch"><a href="#/en">EN</a>·<a href="#/cn">中文</a></span></span></h1>
+    <p class="tagline" data-l="en">Shifting fully to AI.</p>
+    <p class="tagline" data-l="cn">全面转向 AI。</p>
   </div>
 </header>
 
-<div data-l="en">
-
-<hr>
-
-<!-- ===================== WHO AM I ===================== -->
-<div class="whoami">
-  <button class="whoami-btn" data-whoami-btn="en" onclick="askWhoAmI('en')">Who am I? →</button>
-  <p class="whoami-hint">Calls the Cloudflare Workers AI API live.</p>
-  <div class="whoami-out" data-whoami-out="en"></div>
-</div>
-
-<hr>
-
-<!-- ===================== TIMELINE / RESUME TREE ===================== -->
 <section class="tl">
-
-  <div class="row">
-    <div class="when mono">2025.03 – now</div>
-    <div class="dot"><i></i></div>
-    <!-- Optional real logo: drop logo-datavisor.png (72×72) next to this file; it replaces the monogram. -->
-    <div class="tile logo"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
-    <div class="what">
-      <div class="h">DataVisor</div>
-      <p>I'm a Site Reliability Engineer at DataVisor in Japan. DataVisor sells fraud detection as a service,
-      mostly to banks and payment providers; I started on the China team and moved to Japan as the company opened up
-      the Japanese market and data-residency rules made local infrastructure a requirement. We're a four-person SRE
-      team responsible for the whole company's infrastructure layer, and I'm primary on-call for it: 50 self-managed
-      Kubernetes clusters, 6 AWS regions, 600+ nodes.</p>
-      <p>My share of the platform:</p>
-      <ol>
-        <li><b>Cluster lifecycle</b> — took the fleet from Kubernetes 1.24 to 1.29 with zero customer-impacting
-          downtime. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_en/" target="_blank" rel="noopener">How →</a></li>
-        <li><b>Infrastructure as code</b> — the build path those clusters come from: baked images, Ansible roles,
-          kubeadm control planes, worker changes shipped as immutable replacement.</li>
-        <li><b>CI/CD</b> — the Jenkins delivery layer, moved onto Kubernetes and then stabilized.
-          <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_en/" target="_blank" rel="noopener">How →</a></li>
-        <li><b>Observability</b> — tenant-aware alerting on top of the metrics platform: three-tier severity and
-          per-tenant SLI recording rules, replacing resource-centric paging. (The platform itself — VictoriaMetrics
-          replacing Prometheus Federation — was migrated before I owned this scope.) Separately audited the pager
-          itself: 367 paging rules, ~960 alerts a day, ~85% at default lowest priority. The noise traces to four
-          structural causes, and what I designed is an admission gate rather than a cleanup pass.
-          <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_replacing-prometheus-federation_en/" target="_blank" rel="noopener">How →</a></li>
-        <li><b>Analytics data platform</b> — moved off ClickHouse onto Doris with compute–storage separation, and
-          taken down into the query engine itself; it is in production now. Its control plane runs on signals, so the observability layer is
-          mine too, including the way it bites: a compute group that was genuinely queueing read as idle because
-          empty queue timestamps parsed as real zeros, so it never scaled up. A dashboard that cannot separate
-          'no reading' from 'zero' fails exactly where you need it. <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">How →</a>
-          · <a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_observing-a-signal-driven-doris_en/" target="_blank" rel="noopener">Observability →</a>
-          · <a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_en/" target="_blank" rel="noopener">Capacity &amp; DR →</a></li>
-        <li><b>AI-native delivery</b> — that rebuild was delivered mostly by AI agents over four months: 566+ commits
-          across three repos, 250+ end-to-end tests. My part was the project harness around them — a scope gate before
-          work starts, an intent line on every mutating command, deterministic e2e acceptance. Agents fail by
-          confidently declaring "done", so done is decided by tests and hooks, not by the agent.
-          <a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_en/" target="_blank" rel="noopener">How →</a></li>
-        <li><b>Ops agents</b> — an on-call triage agent that takes an alert or a customer-reported symptom and runs
-          the investigation itself: pulls metrics and logs, decomposes latency layer by layer, rules layers in and
-          out, and comes back with a root-cause hypothesis and the evidence chain behind it. Every irreversible
-          action stays behind a deterministic gate — the agent may read production, never change it. The hard part
-          isn't the reasoning, it's context: one raw range query returns 30K tokens, so fetching is pushed down to
-          subagents that must answer in 500, and the main loop keeps only judgment.
-          <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">How →</a></li>
-      </ol>
-    </div>
+  <div class="trow">
+    <span class="when mono">2025.03 –</span><span class="dot"><i></i></span><span class="tile logo"><img src="logo-datavisor.png" alt="DataVisor" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>DataVisor</b></a> · Infrastructure Engineer</span><span data-l="cn"><a href="deep.html"><b>DataVisor</b></a> · 基础设施工程师</span></span><span class="sent"><span data-l="en">DataVisor sells fraud detection as a service, mostly to banks and payment providers. I'm on a four-person SRE team that owns the company's whole infrastructure layer: 50 self-managed Kubernetes clusters, 6 AWS regions, 600+ nodes, and I'm primary on-call for it. Work there includes the fleet upgrade from 1.24 to 1.29, the move from ClickHouse to Doris with compute–storage separation, per-tenant alerting, and a triage agent wired into production alerts.</span><span data-l="cn">DataVisor 以 SaaS 形式做反欺诈，客户主要是银行和支付机构。我在四人 SRE 团队负责全公司的基础设施层：50 个自建 K8s 集群、6 个 AWS region、600+ 节点，兼 primary on-call。做过的事包括集群从 1.24 升到 1.29、ClickHouse 迁到 Doris 存算分离、租户级告警，以及接入生产告警的排障 agent。</span></span><span class="tags"><span>Kubernetes</span><span>kubeadm</span><span>AWS</span><span>Packer</span><span>Ansible</span><span>Helm</span><span>Jenkins</span><span>VictoriaMetrics</span><span>Grafana</span><span>Loki</span><span>Apache Doris</span><span>ClickHouse</span><span>Python</span><span>AI Agent</span></span></span>
   </div>
-
-  <div class="row">
-    <div class="when mono">2022.06 – 2025.02</div>
-    <div class="dot"><i></i></div>
-    <div class="tile logo"><img src="logo-intel.svg" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></div>
-    <div class="what">
-      <div class="h">Intel</div>
-      <p>I was a Cloud Software Development Engineer at Intel working on the cloud-ification of 5G vRAN — moving the
-      radio access network off purpose-built silicon and onto general-purpose servers. I wrote Go microservices and
-      Kubernetes operators for platform tooling, and an
-      <a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">internal infrastructure-as-code daemon</a> that held kernel-level machine
-      configuration to a declared spec on bare-metal nodes carrying real-time traffic. This is also where I learned
-      observability from the ground up — Prometheus, Loki, Jaeger, OpenTelemetry — and eventually why labeling CPU
-      is not monitoring.</p>
-    </div>
+  <div class="trow">
+    <span class="when mono">2022.06 – 2025.02</span><span class="dot"><i></i></span><span class="tile logo"><img src="logo-intel.svg" alt="Intel" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>Intel</b></a> · Cloud Software Engineer</span><span data-l="cn"><a href="deep.html"><b>Intel</b></a> · 云软件开发工程师</span></span><span class="sent"><span data-l="en">5G vRAN cloud-ification: moving the radio access network off purpose-built hardware onto general-purpose servers. I wrote Go microservices and Kubernetes operators; the main project was a declarative config daemon on 300+ bare-metal nodes that held kernel and hardware baselines to a declared spec and recovered across reboots. It's also where I learned observability from the ground up: Prometheus federation, Loki, Jaeger, OpenTelemetry.</span><span data-l="cn">5G vRAN 云化：把无线接入网从专用硬件搬到通用服务器上。我写 Go 微服务和 K8s operator，主项目是一个跑在 300+ 裸机节点上的声明式配置 daemon，把内核和硬件基线收敛到声明的状态，跨重启也能恢复。可观测性也是在这里从头学的：Prometheus 联邦、Loki、Jaeger、OpenTelemetry。</span></span><span class="tags"><span>5G vRAN</span><span>Go</span><span>Kubernetes</span><span>K8s Operator</span><span>IaC</span><span>Ansible</span><span>Jenkins</span><span>Prometheus</span><span>Loki</span><span>Jaeger</span><span>OpenTelemetry</span></span></span>
   </div>
-
-  <div class="row">
-    <div class="when mono">2020.01 – 2021.09</div>
-    <div class="dot"><i></i></div>
-    <div class="tile quad" title="Tencent · ByteDance · App Annie · Baidu"><img src="logo-tencent.png" alt="Tencent"><img src="logo-bytedance.svg" alt="ByteDance"><img src="logo-appannie.png" alt="App Annie"><img src="logo-baidu.png" alt="Baidu"></div>
-    <div class="what">
-      <div class="h">Internships</div>
-      <p>Four of them in under two years: <b>Tencent</b> (QQ live-streaming), <b>ByteDance</b> (data platform),
-      <b>App Annie</b> (web backend), <b>Baidu</b> (risk-control data engineering).</p>
-      <p><b>Tencent</b> is the one that changed how I see systems. Feature development on a high-traffic consumer product
-      in Go and tRPC, and my first walk through a complete microservice and distributed architecture as it actually
-      runs in production — service discovery, config center, Kafka, centralized logging, monitoring and alerting,
-      managed MySQL and Redis, and releases going out canary-first, batch by batch, with a rollback path. Not the
-      demo version of those words: the version where the traffic is real and every one of those pieces exists
-      because something once went wrong without it. <b>Baidu</b> was the other half of the education — data engineering
-      on Hadoop, MapReduce, Hive, Elasticsearch and Airflow, in a risk-control group, which is the same problem
-      domain I'm in today.</p>
-    </div>
+  <div class="trow">
+    <span class="when mono">2021.05 – 2021.09</span><span class="dot"><i></i></span><span class="tile logo"><img src="logo-tencent.png" alt="Tencent" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>TX</span></span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>Tencent</b></a> · Backend intern, QQ live-streaming</span><span data-l="cn"><a href="deep.html"><b>腾讯</b></a> · 后端开发实习 · QQ 直播</span></span><span class="sent"><span data-l="en">Built features for the QQ live-streaming platform in Go and tRPC, and shipped them through canary and staged rollouts.</span><span data-l="cn">在 QQ 直播平台用 Go + tRPC 做业务 feature，走灰度和分批发布上线。</span></span><span class="tags"><span>Go</span><span>tRPC</span><span>Kafka</span><span>MySQL</span><span>Redis</span></span></span>
   </div>
-
-  <div class="row">
-    <div class="when mono">2019.09 – 2022.06</div>
-    <div class="dot"><i></i></div>
-    <div class="tile txt">USTB</div>
-    <div class="what">
-      <div class="h">University of Science &amp; Technology Beijing</div>
-      <p>MSc in computer science and technology, in Beijing.</p>
-    </div>
+  <div class="trow">
+    <span class="when mono">2021.03 – 2021.05</span><span class="dot"><i></i></span><span class="tile logo"><img src="logo-bytedance.svg" alt="ByteDance" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>BD</span></span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>ByteDance</b></a> · Backend intern, data platform</span><span data-l="cn"><a href="deep.html"><b>字节跳动</b></a> · 后端开发实习 · 数据中台</span></span><span class="sent"><span data-l="en">Wrote RESTful services for the data platform in Go.</span><span data-l="cn">在数据中台用 Go 写 RESTful 服务。</span></span><span class="tags"><span>Go</span><span>gin</span><span>MySQL</span><span>Redis</span></span></span>
   </div>
-
-  <div class="row">
-    <div class="when mono">2014.09 – 2018.06</div>
-    <div class="dot"><i></i></div>
-    <div class="tile txt">WHC</div>
-    <div class="what">
-      <div class="h">Wenhua College</div>
-      <p>BEng in electronic information engineering, in Wuhan.</p>
-    </div>
+  <div class="trow">
+    <span class="when mono">2020.11 – 2021.02</span><span class="dot"><i></i></span><span class="tile logo"><img src="logo-appannie.png" alt="App Annie" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>AA</span></span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>App Annie</b></a> · Web backend intern</span><span data-l="cn"><a href="deep.html"><b>App Annie</b></a> · Web 后端开发实习</span></span><span class="sent"><span data-l="en">Wrote Python crawler services, test-driven.</span><span data-l="cn">写 Python 爬虫服务，测试驱动开发。</span></span><span class="tags"><span>Python</span><span>TDD</span></span></span>
   </div>
-
+  <div class="trow">
+    <span class="when mono">2020.01 – 2020.10</span><span class="dot"><i></i></span><span class="tile logo"><img src="logo-baidu.png" alt="Baidu" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>BD</span></span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>Baidu</b></a> · Data engineer intern, risk control</span><span data-l="cn"><a href="deep.html"><b>百度</b></a> · 数据开发实习 · 风控业务组</span></span><span class="sent"><span data-l="en">Data development in the risk-control group: jobs for product teams across the company.</span><span data-l="cn">在风控业务组做数据开发，给公司各项目组跑数据任务。</span></span><span class="tags"><span>Hadoop</span><span>MapReduce</span><span>Hive</span><span>Elasticsearch</span><span>Airflow</span></span></span>
+  </div>
+  <div class="trow edu">
+    <span class="when mono">2019.09 – 2022.06</span><span class="dot"><i></i></span><span class="tile txt">USTB</span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>USTB</b></a> · MSc, Computer Science and Technology</span><span data-l="cn"><a href="deep.html"><b>北京科技大学</b></a> · 计算机科学与技术 · 硕士</span></span></span>
+  </div>
+  <div class="trow edu">
+    <span class="when mono">2014.09 – 2018.06</span><span class="dot"><i></i></span><span class="tile txt">WHC</span>
+    <span class="what"><span class="ttl"><span data-l="en"><a href="deep.html"><b>Wenhua College</b></a> · BEng, Electronic Information Engineering</span><span data-l="cn"><a href="deep.html"><b>文华学院</b></a> · 电子信息工程 · 本科</span></span></span>
+  </div>
 </section>
 
-<hr>
-
-<!-- ===================== FEATURED WRITING ===================== -->
-<h2>Featured writing</h2>
-<p class="hint">Long-form write-ups — every one is a system I actually operated. The first six are the ones I'd hand someone first; the rest is on the blog.</p>
-
-<div class="glist">
-  <div class="glabel">Start here</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_en/" target="_blank" rel="noopener">Agents Write the Code, the Harness Decides "Done"</a></div>
-    <div class="d">Four months, a production data platform, mostly agent-written. What the harness enforces — scope gate, intent audit, deterministic acceptance — and why none of it can live in a prompt.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_en/" target="_blank" rel="noopener">Rebuilding the fraud event store, down to the engine</a></div>
-    <div class="d">ClickHouse → Doris compute–storage separation: memory engineering, engine-level routing, two compaction incidents, and numbers that survived re-measurement.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_en/" target="_blank" rel="noopener">Choosing Doris Without a Speed Win: A Constraint-First Case, Argued Upward</a></div>
-    <div class="d">Our own benchmark showed ClickHouse still faster. The decision underneath the migration above: how it got framed as constraint elimination, not a speed claim, and defended to leadership.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/09/23/2026-09-23_kubernetes-developer-guardrails_en/" target="_blank" rel="noopener">Developer Guardrails on Kubernetes: RBAC Says Which Doors, Admission Says Which Fields</a></div>
-    <div class="d">Letting developers edit their own deployments without touching replicas or resources — the split between what RBAC can express and what only admission can.</div></div>
-  <div class="glabel">Also</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_the-os-fallacy_en/" target="_blank" rel="noopener">The OS fallacy: why stronger models make orchestration matter more, not less</a></div>
-    <div class="d">"Models are getting better, so orchestration will disappear" is the same claim as "CPUs got faster, so the OS will disappear." Includes a testable criterion for what a model absorbs and what stays in the harness.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_sre-oncall-triage-harness_en/" target="_blank" rel="noopener">An SRE Oncall Triage Harness — Autonomous Investigation, Human-Owned Mutation</a></div>
-    <div class="d">The agent runs the investigation end to end; every irreversible action stays behind a deterministic gate. The binding constraint turned out to be context, not reasoning.</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech-en/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_en/" target="_blank" rel="noopener">Compiling a Document into a Control Loop</a></div>
-    <div class="d">From Intel: a self-authored systemd-level daemon that turned a prose-and-shell Best Known Configuration into a git-declared, continuously audited desired state across ~30 bare-metal servers.</div></div>
-</div>
-
-<p class="hint" style="margin-top:18px">The rest, and shorter posts, are on the <a href="https://shaorui0.github.io/tech-en/" target="_blank" rel="noopener">blog</a>.</p>
-
-<hr>
-
-<!-- ===================== PET PROJECTS ===================== -->
-<h2>Pet projects</h2>
-<p class="hint">After-hours work, mostly about running my own life and my own agents as operated systems. All four have code you can read.</p>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agent-harness" target="_blank" rel="noopener">agent-harness</a> <span class="tag">hooks · skills · tracker</span></div>
-  <p>The harness I run a dozen concurrent Claude Code sessions under. Things that must happen are hooks — inject
-  state, block out-of-scope edits, log every operation; things that need judgment are skills a session invokes —
-  scope gate, spec review, compaction. Writes never judge; judgment is deferred to compaction. A local tracker board
-  reads the same logs and shows, per session, who is waiting on me and which tasks are actually ticked off.</p>
-</div>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agent-control-plane" target="_blank" rel="noopener">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
-  <p>Kubernetes-style governance for AI agents. One process, one SQLite file, no infra deps: per-task-class SLOs,
-  multi-window burn rates, error budgets and hard caps — plus a cross-model judge that scores outputs without sharing
-  the agent's blind spots, outcome-derived verdicts that can retroactively flip a "pass" to "fail", sealed tools behind
-  a single deny-by-default gateway, and an <i>Earned Autonomy Gradient</i> where autonomy is a budget the agent spends,
-  auto-contracting on burn and only promoting with an operator signature.</p>
-</div>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">on-call triage, as a skill</span></div>
-  <p>An SRE on-call triage agent packaged as a Claude Code skill: an alert goes in, a structured investigation
-  comes out. Retrieval is pushed into subagents so the main loop keeps only judgment, every state-changing action
-  passes a deterministic gate, and the knowledge base compounds with each case investigated.</p>
-</div>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/context-engineering" target="_blank" rel="noopener">context-engineering</a> <span class="tag">personal AI workspace</span></div>
-  <p>The public slice of the workspace my agents live in. Model capability is a given; what you can change is
-  what it sees. So the question is not how to write a better prompt, it is how to organise a repo so that any session
-  starts with exactly the layer it needs. Three-layer memory, with the global constraint layer small enough to load
-  every time and specific enough to change behaviour, plus axioms distilled from real experience and indexed by
-  trigger rather than by topic.</p>
-  <p>Its most useful application so far is a goal-versus-behaviour loop: Anki already logs what I actually studied
-  each day, so a deterministic engine reads that log and replaces "I think I'm studying in a balanced way" with
-  "you haven't touched listening in three days," then proposes the cheapest way back. Anki is just the first sensor.</p>
-</div>
-
 <footer>
-  <span class="mono">CONTENT IS DATA · EVERY CLAIM LINKS TO AN ARTIFACT</span>
+  <span class="mono">EVERY CLAIM LINKS TO AN ARTIFACT</span>
   <span class="mono">Tokyo, UTC+9</span>
 </footer>
-</div><!-- /en -->
-
-<div data-l="cn">
-
-<hr>
-
-<!-- ===================== 我是谁 ===================== -->
-<div class="whoami">
-  <button class="whoami-btn" data-whoami-btn="cn" onclick="askWhoAmI('cn')">我是谁？ →</button>
-  <p class="whoami-hint">实时调用 Cloudflare 的 LLM API。</p>
-  <div class="whoami-out" data-whoami-out="cn"></div>
-</div>
-
-<hr>
-
-<!-- ===================== 时间线 ===================== -->
-<section class="tl">
-
-  <div class="row">
-    <div class="when mono">2025.03 – 现在</div>
-    <div class="dot"><i></i></div>
-    <div class="tile logo"><img src="logo-datavisor.png" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>DV</span></div>
-    <div class="what">
-      <div class="h">DataVisor</div>
-      <p>我是 DataVisor 日本的 SRE。公司做的是以 SaaS 形式交付的欺诈检测，客户主要是银行和支付机构；我从中国团队起步，随着公司开拓日本市场、数据合规要求基础设施必须本地化而转到日本。四人 SRE 团队负责全公司的基础设施层，而我是它的 primary on-call：50 个自管理 Kubernetes 集群、6 个 AWS region、600+ 节点。</p>
-      <p>我负责的部分：</p>
-      <ol>
-        <li><b>集群生命周期</b> —— 把整个 fleet 从 Kubernetes 1.24 推到 1.29，零客户可感知停机。
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_kubernetes-upgrade-engineering_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>基础设施即代码</b> —— 这些集群是怎么造出来的：镜像烘焙、Ansible role、kubeadm 控制面，worker 变更走不可变替换。</li>
-        <li><b>CI/CD</b> —— Jenkins 交付层，迁上 Kubernetes 之后再稳定化。
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_what-knows-jenkins-actually-tests_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>可观测性</b> —— 在指标平台之上做租户级告警设计：三层严重度分级加分租户 SLI recording rules，把资源型告警换成用户影响型告警。（平台本身——VictoriaMetrics 替换 Prometheus Federation——是在我接手这个范围之前完成的迁移。）另外把 pager 本身审计了一遍：367 条 paging 规则、每天约 960 条、约 85% 停在默认最低优先级。噪音归因到四个结构性成因，我设计的解法是准入门禁，不是一次大扫除。
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_replacing-prometheus-federation_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>分析数据平台</b> —— 从 ClickHouse 迁到 Doris 存算分离，并且一路做到查询引擎里面，现已上线生产。它的控制面靠信号驱动，所以可观测层也是我设计的，包括它咬人的方式：一个真在排队的 compute group 读出来是空闲，因为空的排队时间戳被解析成了真实的 0，于是它从来没有扩容。一块分不清「没读到」和「零」的大盘，恰好在你最需要它的地方失效。
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">怎么做的 →</a>
-          · <a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_observing-a-signal-driven-doris_zh/" target="_blank" rel="noopener">可观测 →</a>
-          · <a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_dr-drills-find-runbook-gaps_zh/" target="_blank" rel="noopener">容量与灾备 →</a></li>
-        <li><b>AI-native 交付</b> —— 上面这次重建，四个月里主要是 AI agent 写出来的：三个仓库 566+ 次提交、250+ 个端到端用例。我做的是包在它们外面的项目级 harness：开工前的 scope 门禁、每条变更命令前的意图记录、确定性的 e2e 验收。agent 出错的方式是很自信地宣布「做完了」，所以「做完」由测试和 hook 判定，不由 agent 自己说。
-          <a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-        <li><b>Ops agent</b> —— 一个 on-call triage agent：接一条告警或一个客户报的现象，自己把调查跑完 —— 拉 metrics 和日志、逐层拆解延迟、逐层排除或坐实，最后带着根因假设和支撑它的证据链回来。所有不可逆动作都挡在确定性门禁之后：agent 可以读生产，永远不能改生产。难点不在推理，在上下文：一条 raw range query 就是 3 万 token，所以取数下沉给 subagent、必须用 500 token 之内答复，主循环只留判断。
-          <a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/" target="_blank" rel="noopener">怎么做的 →</a></li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="when mono">2022.06 – 2025.02</div>
-    <div class="dot"><i></i></div>
-    <div class="tile logo"><img src="logo-intel.svg" alt="" onerror="this.remove()" onload="this.nextElementSibling&&this.nextElementSibling.remove()"><span>in</span></div>
-    <div class="what">
-      <div class="h">Intel</div>
-      <p>我在 Intel 做云软件开发工程师，方向是 5G vRAN 的云化 —— 把无线接入网从专用芯片搬到通用服务器上。我写 Go 微服务和 Kubernetes operator 做平台工具，也写了一个<a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_zh/" target="_blank" rel="noopener">内部使用的基础设施即代码 daemon</a>，把内核级机器配置收敛到声明的 spec 上，跑在承载实时流量的裸机节点上。这里也是我从零学可观测性的地方 —— Prometheus、Loki、Jaeger、OpenTelemetry —— 以及最终想明白为什么「给 CPU 打标签」不叫监控。</p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="when mono">2020.01 – 2021.09</div>
-    <div class="dot"><i></i></div>
-    <div class="tile quad" title="Tencent · ByteDance · App Annie · Baidu"><img src="logo-tencent.png" alt="Tencent"><img src="logo-bytedance.svg" alt="ByteDance"><img src="logo-appannie.png" alt="App Annie"><img src="logo-baidu.png" alt="Baidu"></div>
-    <div class="what">
-      <div class="h">实习</div>
-      <p>不到两年里四段：<b>腾讯</b>（QQ 直播平台）、<b>字节跳动</b>（数据中台）、<b>App Annie</b>（Web 后端）、<b>百度</b>（风控数据开发）。</p>
-      <p><b>腾讯</b>那段改变了我看系统的方式。在一个高流量 C 端产品上做业务开发，用 Go 和 tRPC，也第一次完整走过一套在生产里真实运转的微服务与分布式架构 —— 服务发现、配置中心、Kafka、集中式日志、监控告警、托管 MySQL 与 Redis，以及先灰度、再分批、留回滚路径的发布。不是这些词的 demo 版本，而是流量真实、每个部件都因为「缺了它出过事」才存在的那个版本。<b>百度</b>是这份教育的另一半 —— 在风控业务组做数据开发，Hadoop、MapReduce、Hive、Elasticsearch、Airflow，而风控正是我今天所在的同一个问题域。</p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="when mono">2019.09 – 2022.06</div>
-    <div class="dot"><i></i></div>
-    <div class="tile txt">北科大</div>
-    <div class="what">
-      <div class="h">北京科技大学</div>
-      <p>硕士，计算机科学与技术，北京。</p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="when mono">2014.09 – 2018.06</div>
-    <div class="dot"><i></i></div>
-    <div class="tile txt">文华</div>
-    <div class="what">
-      <div class="h">文华学院</div>
-      <p>本科，电子信息工程，武汉。</p>
-    </div>
-  </div>
-
-</section>
-
-<hr>
-
-<!-- ===================== FEATURED WRITING ===================== -->
-<h2>精选文章</h2>
-<p class="hint">长文 —— 每一篇背后都是我真正运维过的系统。「先看这几篇」是我会先递给别人看的；其余的在博客上。</p>
-
-<div class="glist">
-  <div class="glabel">先看这几篇</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/10/17/2026-10-17_agents-write-the-code-the-harness-decides-done_zh/" target="_blank" rel="noopener">代码让 agent 写，「做完」由 harness 判</a></div>
-    <div class="d">四个月、一个上了生产的数据平台、大部分代码出自 agent。harness 强制了什么（scope 门禁、意图审计、确定性验收），以及为什么这些都不能只写在 prompt 里。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_rebuilding-a-5b-row-event-store_zh/" target="_blank" rel="noopener">重构反欺诈事件存储：一路做到引擎里</a></div>
-    <div class="d">ClickHouse → Doris 存算分离：内存工程、引擎级路由、两次 compaction 事故，以及经受住重测的数字。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/22/2026-09-22_picking-doris-without-a-speed-win_zh/" target="_blank" rel="noopener">不靠性能赢的选型：一次约束优先的决策，怎么讲给上面听</a></div>
-    <div class="d">我们自己的 benchmark 明明显示 ClickHouse 更快。上面那次迁移背后的决策本身：怎么讲成约束消除而不是性能优势，又怎么讲给领导层听。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/23/2026-09-23_kubernetes-developer-guardrails_zh/" target="_blank" rel="noopener">让开发者自己改 deployment，但不能碰副本数和资源</a></div>
-    <div class="d">RBAC 管「哪扇门」，admission 管「哪个字段」：开发者自助改部署时，两层各自能表达什么、不能表达什么。</div></div>
-  <div class="glabel">最近</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/03/2026-09-03_dashboard-is-for-human-eyes_zh/" target="_blank" rel="noopener">人看 dashboard，agent 该看什么</a></div>
-    <div class="d">告警规则早就是给机器看的监控，只是被设计成只输出一位信息。按这个思路写的第一个探针，查出 667 条生产告警规则里 94 条已经静默失效。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/05/2026-09-05_one-probe-is-not-a-system_zh/" target="_blank" rel="noopener">从一个探针，到一个能用的判定层</a></div>
-    <div class="d">探针库和告警规则是同一类东西。问「怎么做成熟」，等于问「怎么不重演告警规则的结局」。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/03/2026-09-03_root-cause-is-chosen-not-found_zh/" target="_blank" rel="noopener">复盘时争「哪个才是根因」，为什么总争不出结果</a></div>
-    <div class="d">把根因写成因果链、每条边做反事实检验，争论就变成「在哪一刀切最划算」。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/09/22/2026-09-22_no-counterexample-no-criterion_zh/" target="_blank" rel="noopener">一条分区规则，静默算错了六个租户</a></div>
-    <div class="d">声明的和实际生效的对不上，两侧又各自合法。这类判据唯一有效的约束是反例。</div></div>
-  <div class="glabel">更早</div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_the-os-fallacy_zh/" target="_blank" rel="noopener">「操作系统谬误」：为什么模型越强，orchestration 反而越重要</a></div>
-    <div class="d">「模型变强所以 orchestration 会消失」等价于「CPU 变快所以操作系统会消失」。附一条可检验的判别式：什么会被模型吸收，什么会留在 harness。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_sre-oncall-triage-harness_zh/" target="_blank" rel="noopener">一个 SRE Oncall Triage Harness：agent 自主调查，mutation 主权归人</a></div>
-    <div class="d">agent 端到端跑完调查，所有不可逆动作挡在确定性门禁之后。真正的硬约束是上下文，不是推理能力。</div></div>
-  <div class="w"><div class="t"><a href="https://shaorui0.github.io/tech/2026/08/03/2026-08-03_compiling-a-document-into-a-control-loop_zh/" target="_blank" rel="noopener">把一份文档编译成 control loop</a></div>
-    <div class="d">来自 Intel：一个自研的 systemd 层 daemon，把一份 prose 加 shell 的 Best Known Configuration，变成 git 里声明式、持续审计的 desired state，覆盖约 30 台裸金属服务器。</div></div>
-</div>
-
-<p class="hint" style="margin-top:18px">其余的文章，以及更短的随笔，在<a href="https://shaorui0.github.io/tech/" target="_blank" rel="noopener">博客上</a>.</p>
-
-<hr>
-
-<!-- ===================== PET PROJECTS ===================== -->
-<h2>业余项目</h2>
-<p class="hint">下班后做的东西，大多是把自己的生活和自己的 agent 当成被运维的系统来跑。四个都有可读的代码。</p>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agent-harness" target="_blank" rel="noopener">agent-harness</a> <span class="tag">hooks · skills · tracker</span></div>
-  <p>同时开十几个 Claude Code session 时我用的那套 harness。必须发生的事挂在 hook 上：注入状态、拦越界改动、记录每一次操作；需要判断的事做成 session 主动调用的 skill：scope 门禁、spec 评审、压缩。写入时不做判断，判断推迟到压缩时再做。本地有一块 tracker 看板读同一份日志，按 session 显示谁在等我、哪些任务真的打了勾。</p>
-</div>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agent-control-plane" target="_blank" rel="noopener">agent-control-plane</a> <span class="tag">Python · SQLite</span></div>
-  <p>给 AI agent 的 Kubernetes 式治理。一个进程、一个 SQLite 文件、零基础设施依赖：按任务类分的 SLO、多窗口燃烧率、error budget 与硬上限 ——
-  外加一个不与 agent 共享盲区的跨模型 judge、能把「通过」追溯翻成「失败」的结果导出判定、藏在单一 deny-by-default 网关后面的 sealed tools，
-  以及一条 <i>Earned Autonomy Gradient</i>：自主性是 agent 花出去的预算，燃烧时自动收缩，只有拿到操作者签名才升级。</p>
-</div>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/agents" target="_blank" rel="noopener">agents</a> <span class="tag">oncall 分诊，做成 skill</span></div>
-  <p>一个做成 Claude Code skill 的 SRE oncall 分诊 agent：告警进去，结构化调查出来。检索推进子 agent，主循环只留判断；
-  所有会改变系统状态的动作都过确定性门；知识库随每次调查累积。</p>
-</div>
-
-<div class="proj">
-  <div class="n"><a href="https://github.com/shaorui0/context-engineering" target="_blank" rel="noopener">context-engineering</a> <span class="tag">个人 AI 工作区</span></div>
-  <p>我那些 agent 住的工作区的公开切片。模型能力是给定的，能改的是它看见什么，所以问题不是怎么写一句更好的 prompt，
-  而是怎么组织一个仓库，让任意一次 session 开始时看见的正好是该看见的那一层。三层记忆：全局约束层要小到每次都能全量加载，
-  又要具体到能改变行为；加上从真实经历提炼的 axioms，按触发词索引而不是按主题索引。</p>
-  <p>目前它最有用的一个应用是「目标 vs 行为」的闭环：Anki 本来就记录了我每天真正学了什么，于是一个确定性引擎读那份日志，
-  把「我觉得我在均衡地学」换成「你三天没碰听力」，并给出拨回正轨最省力的那条路。Anki 只是第一个传感器。</p>
-</div>
-
-<footer>
-  <span class="mono">内容即数据 · 每条声明都链接到实物</span>
-  <span class="mono">东京，UTC+9</span>
-</footer>
-</div><!-- /cn -->
 
 </div>
-
 <script>
-/* Bilingual routing. Shares the localStorage key with deep.html so the language
-   choice survives moving between the two pages. */
 (function(){
-  var TITLES = {en:"Rui Shao", cn:"Rui Shao"};
   function detect(){
     try{ var v = localStorage.getItem("resume-lang"); if(v==="en"||v==="cn") return v; }catch(e){}
     return (navigator.language||"").toLowerCase().indexOf("zh")===0 ? "cn" : "en";
   }
-  function apply(lang){
+  function applyLang(l){
     var root = document.documentElement;
-    root.setAttribute("data-lang", lang);
-    root.setAttribute("lang", lang==="cn" ? "zh-CN" : "en");
-    document.title = TITLES[lang] || TITLES.en;
-    try{ localStorage.setItem("resume-lang", lang); }catch(e){}
-    document.querySelectorAll(".lang-switch a").forEach(function(a){
-      a.classList.toggle("on", a.getAttribute("href") === "#/" + lang);
-    });
-    /* carry the language into every link to the deeper resume */
-    document.querySelectorAll('a[href^="deep.html"]').forEach(function(a){
-      var h = a.getAttribute("href");
-      var rest = h.indexOf("#/") >= 0 ? h.slice(h.indexOf("#/") + 4) : "";
-      a.setAttribute("href", "deep.html#/" + lang + rest);
-    });
+    root.setAttribute("data-lang", l);
+    root.setAttribute("lang", l==="cn" ? "zh-CN" : "en");
+    document.title = l==="cn" ? "邵瑞" : "Rui Shao";
+    try{ localStorage.setItem("resume-lang", l); }catch(e){}
+    document.querySelectorAll(".lang-switch a").forEach(function(a){ a.classList.toggle("on", a.getAttribute("href")==="#/"+l); });
+    document.querySelectorAll('a[href^="deep.html"]').forEach(function(a){ a.setAttribute("href", "deep.html#/"+l); });
   }
-  function route(){
+  function routeHash(){
     var m = (location.hash||"").match(/^#\/(en|cn)/);
-    if(!m){ location.replace("#/" + detect()); return; }
-    apply(m[1]);
+    if(!m){ location.replace("#/"+detect()); return; }
+    applyLang(m[1]);
   }
-  window.addEventListener("hashchange", route);
-  route();
+  window.addEventListener("hashchange", routeHash);
+  routeHash();
 })();
-
-/* "Who am I" widget: live call to a Cloudflare Worker proxying Workers AI
-   (open-weight model), grounded server-side in a fixed fact sheet. */
-var WHOAMI_ENDPOINT = "https://whoami-proxy.whoami-worker.workers.dev";
-var WHOAMI_ERR = {
-  en: "Couldn't reach the model right now (rate limit or transient error) — try again in a bit.",
-  cn: "现在联系不上模型（可能限流了，也可能临时抖动）——过一会儿再试。"
-};
-function askWhoAmI(lang){
-  var btn = document.querySelector('[data-whoami-btn="' + lang + '"]');
-  var out = document.querySelector('[data-whoami-out="' + lang + '"]');
-  if(!btn || !out) return;
-  btn.disabled = true;
-  out.textContent = lang === "cn" ? "……想一下……" : "…thinking…";
-  fetch(WHOAMI_ENDPOINT, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({lang: lang})
-  })
-  .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, body:j}; }); })
-  .then(function(res){
-    out.textContent = (res.ok && res.body && res.body.text) ? res.body.text : WHOAMI_ERR[lang];
-  })
-  .catch(function(){ out.textContent = WHOAMI_ERR[lang]; })
-  .finally(function(){ btn.disabled = false; });
-}
 </script>
+<script src="nav.js" defer></script>
 </body>
 </html>

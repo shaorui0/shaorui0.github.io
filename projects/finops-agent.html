@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FinOps Agent - Rui Shao</title>
+<meta name="description" content="An AWS FinOps agent that finds cloud waste with evidence, built with spec, eval and guardrails. Staged build log, one change at a time.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23fff' stroke='%23ddd'/><text x='16' y='22' font-size='15' font-family='Helvetica,sans-serif' font-weight='bold' fill='%23555' text-anchor='middle'>RS</text></svg>">
+<style>
+:root{--ink:#1a1a1a;--soft:#4a4a4a;--muted:#767676;--line:#e2e2e2;--line-soft:#efefef;--link:#1155cc;--accent:#a35c00;--tile:#f4f4f2}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font-family:-apple-system,"Helvetica Neue","Segoe UI","PingFang SC","Hiragino Sans GB",Roboto,ui-sans-serif,sans-serif;font-size:16.5px;line-height:1.62}
+.page{max-width:52rem;margin:0 auto;padding:clamp(24px,5vw,44px) clamp(18px,4vw,30px) 80px}
+a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+code{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:var(--tile);padding:1px 4px;border-radius:3px}
+h1{font-size:clamp(28px,4vw,38px);font-weight:600;letter-spacing:-.02em;margin:0 0 6px;line-height:1.15}
+.en{margin:0 0 10px;color:var(--muted);font-style:italic;font-size:16px}
+h2{font-size:15px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin:42px 0 8px}
+.hint{margin:0 0 16px;font-size:14px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:15px;margin:12px 0 0}.links .sep{color:#ccc}
+dl{margin:0}dt{font-weight:650;margin-top:14px}dd{margin:2px 0 0;color:var(--soft);font-size:15.5px}
+ol.tl{list-style:none;margin:0;padding:0 0 0 18px;border-left:1px solid #d8d8d8}
+.st{position:relative;padding:4px 0 20px 6px}
+.st::before{content:"";position:absolute;left:-23px;top:11px;width:9px;height:9px;border-radius:50%;background:#bdbdbd;box-shadow:0 0 0 3.5px #fff}
+.sh{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline}
+.sn{font-weight:650;font-size:16.5px;word-break:break-word}.sd{font-size:13px;color:var(--muted)}
+.st p{margin:4px 0 0;font-size:15px}.take{color:var(--soft)}
+.k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-right:8px}
+.ln{font-size:14px}
+figure{margin:0 0 26px}figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:4px;background:#fff}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;font-size:14px;min-width:560px;width:100%}
+th,td{border-bottom:1px solid var(--line-soft);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600}tr.fresh td{background:#fcf6ec;font-weight:600}
+.callout{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:4px;padding:12px 16px;margin:16px 0 0;background:#fcfcfb;font-size:15px;color:var(--soft)}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style><script src="../nav.js" defer></script></head><body><div class="page">
+<h1>FinOps Agent</h1>
+<p class="en">An AWS FinOps agent that finds cloud waste with evidence, and a worked example of building an LLM agent with spec, eval and guardrails. Staged: one change at a time, every step with its own report.</p>
+<link rel="stylesheet" href="stage.css">
+<style>body:not(.cn) .l-cn{display:none} body.cn .l-en{display:none}</style>
+<div class="stage" id="stage">
+  <div class="bar"><i id="bar"></i></div>
+  <div class="head mono"><span id="rtitle"></span><span class="r"><a href="#" id="replay" title="replay">&#8635;</a></span></div>
+  <div class="cols">
+    <div class="col"><div class="k"><span class="l-en">Architecture model</span><span class="l-cn">架构</span></div><div id="dg"></div></div>
+    <div class="col"><div class="k"><span class="l-en">Run replay</span><span class="l-cn">运行回放</span></div><div class="log mono" id="log"></div></div>
+  </div>
+  <div class="foot"><span id="rfoot"></span><span class="src" id="rsrc"></span></div>
+</div>
+<script type="application/json" id="scene-data">{
+ "model": {
+  "vb": "0 0 400 300",
+  "nodes": [
+   [
+    "aws",
+    8,
+    16,
+    80,
+    30,
+    {
+     "en": "AWS APIs\nread-only",
+     "cn": "AWS API\n只读凭据"
+    },
+    "ext"
+   ],
+   [
+    "prom",
+    8,
+    62,
+    80,
+    30,
+    "Prometheus",
+    "ext"
+   ],
+   [
+    "guard",
+    104,
+    16,
+    96,
+    30,
+    {
+     "en": "hook\nread-only guard",
+     "cn": "hook\n只读闸"
+    },
+    "human"
+   ],
+   [
+    "collect",
+    216,
+    16,
+    70,
+    30,
+    "collect"
+   ],
+   [
+    "snapshot",
+    302,
+    16,
+    90,
+    30,
+    {
+     "en": "snapshot\nreplayable",
+     "cn": "快照\n可重放"
+    },
+    "store"
+   ],
+   [
+    "detect",
+    216,
+    100,
+    176,
+    30,
+    {
+     "en": "detectors · deterministic\nmethod steps M1 – M5",
+     "cn": "检测器 · 确定性\n方法步骤 M1 – M5"
+    }
+   ],
+   [
+    "findings",
+    216,
+    156,
+    80,
+    30,
+    {
+     "en": "findings\n+ evidence",
+     "cn": "finding\n+ 证据"
+    }
+   ],
+   [
+    "leads",
+    312,
+    156,
+    80,
+    30,
+    {
+     "en": "leads →\njudgment",
+     "cn": "lead →\n判断层"
+    }
+   ],
+   [
+    "sli",
+    216,
+    212,
+    80,
+    30,
+    {
+     "en": "SLI · waste\nbudget",
+     "cn": "SLI · 浪费\n预算"
+    }
+   ],
+   [
+    "alerts",
+    312,
+    212,
+    80,
+    30,
+    {
+     "en": "alert rules\npromtool",
+     "cn": "告警规则\npromtool"
+    }
+   ],
+   [
+    "report",
+    216,
+    268,
+    176,
+    30,
+    {
+     "en": "report.html · diff vs last",
+     "cn": "report.html · 与上次 diff"
+    },
+    "store"
+   ],
+   [
+    "eval",
+    8,
+    156,
+    180,
+    30,
+    {
+     "en": "eval vs ground truth\nCI gate",
+     "cn": "对照 ground truth 的 eval\nCI 门禁"
+    }
+   ]
+  ],
+  "edges": [
+   [
+    "aws",
+    "guard"
+   ],
+   [
+    "guard",
+    "collect"
+   ],
+   [
+    "prom",
+    "collect",
+    "M88,77 L251,77 L251,46"
+   ],
+   [
+    "collect",
+    "snapshot"
+   ],
+   [
+    "snapshot",
+    "detect"
+   ],
+   [
+    "detect",
+    "findings"
+   ],
+   [
+    "detect",
+    "leads"
+   ],
+   [
+    "findings",
+    "sli"
+   ],
+   [
+    "sli",
+    "alerts"
+   ],
+   [
+    "sli",
+    "report"
+   ],
+   [
+    "alerts",
+    "report"
+   ],
+   [
+    "eval",
+    "findings",
+    "d"
+   ]
+  ]
+ },
+ "en": {
+  "model": "finops",
+  "title": "finops-agent run · synthetic account · read-only",
+  "src": "Real run output; the account is synthetic so the numbers are safe to show.",
+  "foot": [
+   "Scored against a planted ground truth; CI fails when recall drops. ",
+   "https://github.com/shaorui0/finops-agent",
+   "Repo →"
+  ],
+  "lines": [
+   [
+    "cmd",
+    "collect",
+    "",
+    "aws:active prom:active guard:active collect:active"
+   ],
+   [
+    "ok",
+    "ec2 · ebs · snapshots · eip · nat · cost explorer",
+    "0 writes",
+    "aws:done prom:done guard:done collect:done snapshot:done"
+   ],
+   [
+    "cmd",
+    "detect  (deterministic)",
+    "",
+    "detect:active"
+   ],
+   [
+    "sub",
+    "M3 delete · stopped instance storage",
+    "$900 / mo",
+    "findings:active"
+   ],
+   [
+    "sub",
+    "M3 delete · orphan snapshots",
+    "$190 / mo",
+    ""
+   ],
+   [
+    "sub",
+    "M4 downsize · gp2 → gp3",
+    "$20 / mo",
+    ""
+   ],
+   [
+    "sub",
+    "M5 commitment · savings plan utilization",
+    "60.5%",
+    ""
+   ],
+   [
+    "sub",
+    "M1 attribution · tags present, owner wrong",
+    "flagged",
+    ""
+   ],
+   [
+    "cmd",
+    "leads  (handed to judgment, with evidence)",
+    "",
+    "detect:done findings:done leads:active"
+   ],
+   [
+    "sub",
+    "NAT bytes up 5.5× since 09-04, first seen 27 days later",
+    "lead",
+    ""
+   ],
+   [
+    "sub",
+    "ingest fleet: 6 instances, 0% of jobs succeeded",
+    "lead",
+    "leads:done"
+   ],
+   [
+    "cmd",
+    "SLI",
+    "",
+    "sli:active"
+   ],
+   [
+    "gate",
+    "waste_ratio 13.1%",
+    "target ≤ 5% · violated",
+    "sli:gate alerts:gate"
+   ],
+   [
+    "gate",
+    "attribution_coverage 25.4%",
+    "target ≥ 90% · violated",
+    ""
+   ],
+   [
+    "gate",
+    "anomaly_time_to_detect 27 d",
+    "≤ 1 d · daily",
+    ""
+   ],
+   [
+    "ok",
+    "invariants pass · 7 findings · 4 leads",
+    "report.html",
+    "report:done eval:done"
+   ],
+   [
+    "dim",
+    "run #2 vs run #1: new 0 · persisting 7 · resolved 0 · regressed 0",
+    "",
+    ""
+   ]
+  ]
+ },
+ "cn": {
+  "model": "finops",
+  "title": "finops-agent 运行 · 合成账号 · 只读",
+  "src": "真实运行输出；账号是合成的，所以数字可以公开。",
+  "foot": [
+   "对着埋好的 ground truth 打分，recall 掉了 CI 就红。",
+   "https://github.com/shaorui0/finops-agent",
+   "仓库 →"
+  ],
+  "lines": [
+   [
+    "cmd",
+    "collect",
+    "",
+    "aws:active prom:active guard:active collect:active"
+   ],
+   [
+    "ok",
+    "ec2 · ebs · 快照 · eip · nat · cost explorer",
+    "0 次写",
+    "aws:done prom:done guard:done collect:done snapshot:done"
+   ],
+   [
+    "cmd",
+    "detect（确定性）",
+    "",
+    "detect:active"
+   ],
+   [
+    "sub",
+    "M3 删除 · 已停机实例的存储",
+    "$900 / 月",
+    "findings:active"
+   ],
+   [
+    "sub",
+    "M3 删除 · 孤儿快照",
+    "$190 / 月",
+    ""
+   ],
+   [
+    "sub",
+    "M4 降配 · gp2 → gp3",
+    "$20 / 月",
+    ""
+   ],
+   [
+    "sub",
+    "M5 承诺 · savings plan 利用率",
+    "60.5%",
+    ""
+   ],
+   [
+    "sub",
+    "M1 归属 · 有 tag，owner 不对",
+    "标出",
+    ""
+   ],
+   [
+    "cmd",
+    "leads（交给判断层，带证据）",
+    "",
+    "detect:done findings:done leads:active"
+   ],
+   [
+    "sub",
+    "NAT 流量从 09-04 起涨 5.5×，27 天后才被看到",
+    "lead",
+    ""
+   ],
+   [
+    "sub",
+    "ingest 机群：6 台实例，任务成功率 0%",
+    "lead",
+    "leads:done"
+   ],
+   [
+    "cmd",
+    "SLI",
+    "",
+    "sli:active"
+   ],
+   [
+    "gate",
+    "waste_ratio 13.1%",
+    "目标 ≤ 5% · 违反",
+    "sli:gate alerts:gate"
+   ],
+   [
+    "gate",
+    "attribution_coverage 25.4%",
+    "目标 ≥ 90% · 违反",
+    ""
+   ],
+   [
+    "gate",
+    "anomaly_time_to_detect 27 天",
+    "≤ 1 天 · 改每日",
+    ""
+   ],
+   [
+    "ok",
+    "不变量通过 · 7 个 finding · 4 个 lead",
+    "report.html",
+    "report:done eval:done"
+   ],
+   [
+    "dim",
+    "第 2 次 vs 第 1 次：新增 0 · 持续 7 · 解决 0 · 回退 0",
+    "",
+    ""
+   ]
+  ]
+ }
+}</script>
+<script src="stage.js"></script>
+<script>(function(){function a(){var m=(location.hash||"").match(/^#\/(en|cn)/),l=m?m[1]:"cn";document.body.classList.toggle("cn",l==="cn");if(window.Stage)Stage.setLang(l);}window.addEventListener("hashchange",a);a();})();</script>
+<p>一个带证据找云上浪费的 AWS FinOps agent，同时也是一份用 spec、评估和护栏构建 LLM agent 的完整样例。过程即交付：每个改动都有 spec、按阶段的 commit、带证据的验收和一份 HTML 报告，下面按时间一步一步看。</p>
+<div class="links">
+<a href="https://github.com/shaorui0/finops-agent" target="_blank" rel="noopener">GitHub 仓库</a><span class="sep">&middot;</span>
+<a href="https://github.com/shaorui0/finops-agent/blob/main/README.md" target="_blank" rel="noopener">README</a><span class="sep">&middot;</span>
+<a href="https://github.com/shaorui0/finops-agent/blob/main/reports/index.html" target="_blank" rel="noopener">导读页源码</a><span class="sep">&middot;</span>
+<a href="https://github.com/shaorui0/finops-agent/tree/main/notes/blog" target="_blank" rel="noopener">博客稿：notes/blog</a><span class="sep">&middot;</span>
+<a href="https://github.com/shaorui0/finops-agent/blob/main/eval/EXPERIMENTS.md" target="_blank" rel="noopener">实验记录</a>
+</div>
+
+<h2>我怎么思考这个 agent</h2>
+<p class="hint">动手写代码之前我问了自己这些问题，回答决定了它现在的样子。完整版见 README。</p>
+<dl><dt>为什么做它？</dt><dd>练习并展示 agent 工程能力：让一个 agent 在真实系统上可控、可度量、可改进。成本是好载体：每家公司都有这个问题，数据是结构化的，答错有实际代价。（R1、R15）</dd><dt>agent 工程和 agent 开发有什么区别？</dt><dd>开发是让模型把事做成。工程是决定它能碰什么、被告知什么、输出怎么检查、怎样变好而不倒退。Context 决定上限，harness 决定下限。（R1、R6）</dd><dt>模型弱在哪？</dt><dd>会编数字，会听从本该只读的文本，会偏离你设定的路径。所以：数字由代码算，资源元数据按不可信输入处理（测试账号里埋了一条注入），方法论固定路径。（R6）</dd><dt>判断还是验证？</dt><dd>agent 做验证，不下断言。每个结论带证据，每个金额带口径，不变量拒绝不可能成立的答案，不管答案是谁给的。（R7）</dd><dt>&quot;更好&quot;指什么？</dt><dd>对照标准答案的数字：召回率、按金额加权的召回率、精确率、踩陷阱次数。基线只升不降，CI 强制。（R7）</dd><dt>过程即交付</dt><dd>每个改动都是一份 spec、按阶段的 commit、带证据的验收、一份 HTML 报告和原始笔记。代码看得见，推理过程也看得见。（R8、R9）</dd><dt>什么保持私有</dt><dd>雇主数据一律不进。只用合成数据和个人只读账号；每次提交都跑泄漏扫描。（REQUIREMENTS §4 约束）</dd></dl>
+
+<h2>图</h2>
+<p class="hint">三张图都由仓库里的 mermaid 源文件生成（<code>docs/diagrams/</code>），点图可看大图。</p>
+<figure><a href="finops-agent/architecture.svg" target="_blank" rel="noopener"><img src="finops-agent/architecture.svg" alt="架构：模块与分层，三层只读护栏，eval 与测试环境" loading="lazy"></a><figcaption>架构：模块与分层，三层只读护栏，eval 与测试环境</figcaption></figure>
+<figure><a href="finops-agent/method.svg" target="_blank" rel="noopener"><img src="finops-agent/method.svg" alt="方法：成本优化七步（M0-M6）" loading="lazy"></a><figcaption>方法：成本优化七步（M0-M6）</figcaption></figure>
+<figure><a href="finops-agent/harness-layers.svg" target="_blank" rel="noopener"><img src="finops-agent/harness-layers.svg" alt="harness 分层" loading="lazy"></a><figcaption>harness 分层</figcaption></figure>
+
+<h2>分阶段时间线</h2>
+<p class="hint">每个改动一张卡：做了什么、收获了什么、报告与原始笔记。共 27 个改动（到 c0026-code-wrapup）；之后每个新改动验收时追加一行。</p>
+<ol class="tl"><li class="st"><div class="sh"><span class="sn">0000-init</span><span class="sd">2026-10-23</span></div><p class="did">仓库骨架、需求、change-loop skill</p><p class="take"><span class="k">收获</span>面试只面一个东西：一个项目同时证明领域（FinOps）和 agent 工程</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0000-requirements.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0000-init.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0001-requirements-v2</span><span class="sd">2026-10-23</span></div><p class="did">需求 v2 + AWS 只读 hook</p><p class="take"><span class="k">收获</span>第一行业务代码之前先装护栏：先写下它不能做什么</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0001-requirements-v2.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0001-requirements-v2.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0002-visibility-chain</span><span class="sd">2026-10-23</span></div><p class="did">覆盖面矩阵 + 可见性链</p><p class="take"><span class="k">收获</span>先定成本目标需要的 SLI，再找指标，顺序不能反</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0002-visibility-chain.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0002-visibility-chain.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0003-project-rules</span><span class="sd">2026-10-23</span></div><p class="did">从私有工作区蒸馏出项目规则层</p><p class="take"><span class="k">收获</span>蒸馏就是删：50 条公理留 11 条，每条写明在这里怎么落地</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0003-project-rules.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0003-project-rules.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0004-test-env</span><span class="sd">2026-10-24</span></div><p class="did">合成账号 + 假 AWS / Prometheus 服务器</p><p class="take"><span class="k">收获</span>测试数据难在浪费藏在哪，不在规模：只找闲置的检测器在 $8.7K/月里只找到不到 $100</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0004-test-env.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0004-test-env.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0005-pipeline-skeleton</span><span class="sd">2026-10-24</span></div><p class="did">采集 → 快照 → 检测器 → 可见性链 → 报告</p><p class="take"><span class="k">收获</span>确定性层命中 7/12；另外 5 条需要跨源判断，作为线索交出</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0005-pipeline-skeleton.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0005-pipeline-skeleton.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0006-eval-ci</span><span class="sd">2026-10-24</span></div><p class="did">对照标准答案的打分器、回归基线、Makefile、GitHub Actions；README 分两部分</p><p class="take"><span class="k">收获</span>评估抓到的第一批 bug 在打分器里：宽松匹配让召回虚高 8 个点</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0006-eval-ci.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0006-eval-ci.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0007-finops-slo</span><span class="sd">2026-10-24</span></div><p class="did">FinOps SLO、浪费预算、11 条告警规则（promtool 测试）、跨运行腐烂检测、巡检节奏</p><p class="take"><span class="k">收获</span>清理会腐烂：NAT 异常隔了 27 天才被发现，所以巡检必须每天跑</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0007-finops-slo.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0007-finops-slo.md" target="_blank" rel="noopener">笔记</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/docs/FINOPS_SLO.md" target="_blank" rel="noopener">文档</a></p></li><li class="st"><div class="sh"><span class="sn">c0008-zh-docs</span><span class="sd">2026-10-24</span></div><p class="did">文档与报告界面改中文；语言规则更新；线索加结构化 <code>since</code> 字段；报告卡片显示资源 ID</p><p class="take"><span class="k">收获</span>逻辑不能依赖显示文本：一翻译，从文本里解析日期的代码就断了</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0008-zh-docs.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0008-zh-docs.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0009-judgment-layer</span><span class="sd">2026-10-24</span></div><p class="did">判断层：LLM 逐条回答线索（代码取证并算数，模型只选候选，record/replay cassette），新增空闲时段线索，报告加「Agent 成本」</p><p class="take"><span class="k">收获</span>代码算数、模型只选：eval 深度 recall 0.44 → 1.0，且重录会改判断，稳定性来自 cassette 而不是模型</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0009-judgment-layer.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0009-judgment-layer.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0010-rot-scenario</span><span class="sd">2026-10-24</span></div><p class="did">合成账号加 <code>--world</code> 与下个月场景（next_month / month_after 覆盖层），<code>scripts/rot_demo.sh</code> 三周期演示 resolved / regressed / new</p><p class="take"><span class="k">收获</span>两次运行不可能出现 regressed，至少要三个周期</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0010-rot-scenario.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0010-rot-scenario.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0011-remediation-plans</span><span class="sd">2026-10-24</span></div><p class="did">findings 转可审阅的 dry-run 修复计划（撤回成本/回滚/前置检查），apply 永不执行</p><p class="take"><span class="k">收获</span>高撤回成本的动作连命令都不给全（承诺只有建议，孤儿快照只隔离）</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0011-remediation-plans.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0011-remediation-plans.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0012-rules-sync</span><span class="sd">2026-10-24</span></div><p class="did">新增 tools/sync_rules.py：对比母版与蒸馏公理，只出中文提议（更新/候选/回提），命中泄漏模式只标记不输出；manifest 只存文件名与哈希</p><p class="take"><span class="k">收获</span>同步只提议不落盘；基线取今天，只能保证今后的漂移</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0012-rules-sync.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0012-rules-sync.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0013-oss-docs</span><span class="sd">2026-10-24</span></div><p class="did">新增 <code>CONTRIBUTING.md</code> 与 <code>docs/ARCHITECTURE.md</code>：环境与测试、改动闭环、硬规则、加检测器与场景、eval 基线；模块地图与 8 个运行产物的字段契约</p><p class="take"><span class="k">收获</span>产物字段清单要对着一次真实运行逐 key 核对，不能凭读代码手写</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0013-oss-docs.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0013-oss-docs.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0014-testenv-catalog</span><span class="sd">2026-10-24</span></div><p class="did">测试账号 12 个发现、4 个陷阱、2 个场景的全部期望补齐 现状→期望→差异→处置→预防 五段，数字由成本模型计算；<code>python3 -m testenv.catalog</code> 生成自包含目录页</p><p class="take"><span class="k">收获</span>数字用占位符对着 world 计算，测试扫字面量金额，改价格页面自动跟着变</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0014-testenv-catalog.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0014-testenv-catalog.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0015-adversarial-and-experiments</span><span class="sd">2026-10-24</span></div><p class="did">9 个注入变体的对抗套件（8 个发现集不变，1 个数字诱饵压掉一条 finding）；数字落地规则 G1-G8；样本外 recall 0.9/0.9091、savings_recall 0.566；实验记录 eval/EXPERIMENTS.md</p><p class="take"><span class="k">收获</span>样本内 1.0 是被调出来的：换两个月份 recall 掉到 0.9，原因是线索生成器而不是 LLM</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0015-adversarial-and-experiments.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0015-adversarial-and-experiments.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0016-integration-five-part</span><span class="sd">2026-10-24</span></div><p class="did">每次运行写 plans.json（含判断层 finding）与 fivepart.json，报告每个 finding 卡片是 现状/期望/差异/处置/预防 五段，finding 带 owner；<code>make rot-demo</code> 与新套件进 <code>make test</code></p><p class="take"><span class="k">收获</span>status/spec/diff 按 evidence 的 source 分流，LLM 文本不进数字；remediate 没有的类型在新模块注入处理器，测试断言 skipped 为空</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0016-integration-five-part.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0016-integration-five-part.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0017-visibility-ring1-llm</span><span class="sd">2026-10-24</span></div><p class="did">LLM 只读业务目标文件推第 ① 环，对评审版打分；录制 v3 overlap 0.91 / precision 0.81，重采样均值约 0.79</p><p class="take"><span class="k">收获</span>overlap 高不等于缺口表等价：LLM 擅长推「要看什么」，不擅长猜「它叫什么」，② 环应按语义发现名字</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0017-visibility-ring1-llm.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0017-visibility-ring1-llm.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0018-savings-verification</span><span class="sd">2026-10-24</span></div><p class="did">用 Cost Explorer 核实 resolved finding 的真实节省：反事实基线 + 分层对照组 + 保持测量 + 精确账单分解，生成中文文档与 HTML</p><p class="take"><span class="k">收获</span>两张发票相减会得出「清理没效果」：三项清理省 $76.05，账单涨 $474.93</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0018-savings-verification.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0018-savings-verification.md" target="_blank" rel="noopener">笔记</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/docs/SAVINGS_VERIFICATION.md" target="_blank" rel="noopener">文档</a></p></li><li class="st"><div class="sh"><span class="sn">c0019-human-read-layer</span><span class="sd">2026-10-24</span></div><p class="did">六张 mermaid 图（架构、数据流、可见性链、方法、腐烂、harness）+ 生成的导读页 reports/index.html + 链接/图新鲜度测试</p><p class="take"><span class="k">收获</span>给读者的层也要可生成、可测试：手写导读必然和仓库脱节</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0019-human-read-layer.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0019-human-read-layer.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0020-visibility-ring1-stable</span><span class="sd">2026-10-24</span></div><p class="did">ring 1 只说词不写名，ring 2 按 HELP/name/scope 确定性发现候选名，ring 4 need 级混合状态；<code>--samples N</code> 评估</p><p class="take"><span class="k">收获</span>N=5 overlap 均值 0.964（min 0.91），评审路径 gaps 与 make eval 不变；尺子换了，不能和 c0017 的 0.79 直接比</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0020-visibility-ring1-stable.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0020-visibility-ring1-stable.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0021-savings-verification-real-deviations</span><span class="sd">2026-10-24</span></div><p class="did">给核实器喂真实偏差：期中删除、SP 吸收、用量增长、IOPS 吞吐口径差四类场景，按因分类，设计值对账；原链保留为零假设对照</p><p class="take"><span class="k">收获</span>100% 的验证结果最不值钱：场景链实现率 18.9%（仅 agent 85.9%），每个偏差都有独立证据</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0021-savings-verification-real-deviations.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0021-savings-verification-real-deviations.md" target="_blank" rel="noopener">笔记</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/docs/SAVINGS_VERIFICATION.md" target="_blank" rel="noopener">文档</a></p></li><li class="st"><div class="sh"><span class="sn">c0022-grounding-number-bait</span><span class="sd">2026-10-24</span></div><p class="did">叙述里的未验证数字不再否决整条 waste finding：结构化字段合法时按从句脱敏并留痕，number_bait 的 $1,469 finding 保住；新增 3 个 bait 变体</p><p class="take"><span class="k">收获</span>校验器的 fail closed 本身是攻击面：不改 prompt、不放松 grounding，只改「谁有否决权」</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0022-grounding-number-bait.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0022-grounding-number-bait.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0023-persistent-anomaly-and-resolution</span><span class="sd">2026-10-24</span></div><p class="did">窗口前就存在的费用异常用前 92 天 P25 基线出线索；消失的 finding 分 resolved / not_redetected；样本外 recall 0.9/0.9091 -&gt; 1.0（已被污染）</p><p class="take"><span class="k">收获</span>漏检被记成修复比漏检本身更糟；对着样本外失败修完，那两个世界就不再是样本外</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0023-persistent-anomaly-and-resolution.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0023-persistent-anomaly-and-resolution.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0024-fresh-heldout</span><span class="sd">2026-10-24</span></div><p class="did">预注册的全新样本外世界（货运 SaaS，12 条标准答案/5 陷阱），冻结后只评估一次：recall 0.75、savings_recall 0.568、1 个陷阱违规</p><p class="take"><span class="k">收获</span>换一个世界 1.0 掉到 0.75，漏检在线索与取证而不在判断层；样本外要冻结在前才算数</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0024-fresh-heldout.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0024-fresh-heldout.md" target="_blank" rel="noopener">笔记</a></p></li><li class="st"><div class="sh"><span class="sn">c0025-docs-consolidation</span><span class="sd">2026-10-24</span></div><p class="did">文档合并：README 三层结果与嵌图、ARCHITECTURE 补判断层与处置、NARRATIVE、MATURITY、BUILD_PROCESS、覆盖面矩阵、实验记录对抗段、导读页重建</p><p class="take"><span class="k">收获</span>诚实的成绩单要把样本内 1.0 和预注册 0.75 放在同一张表里，并写明每一层证明什么</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0025-docs-consolidation.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0025-docs-consolidation.md" target="_blank" rel="noopener">笔记</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/docs/NARRATIVE.md" target="_blank" rel="noopener">叙事</a></p></li><li class="st"><div class="sh"><span class="sn">c0026-code-wrapup</span><span class="sd">2026-10-24</span></div><p class="did">收尾代码尾巴（显式快照、未再检出入报告、make test 覆盖全部、heldout 默认端口）+ 文档检查 D11/D16（--docs 开关）</p><p class="take"><span class="k">收获</span>全局暂存和手写测试清单都是静默债；新检查先挂 flag 再切换</p><p class="ln"><a href="https://github.com/shaorui0/finops-agent/blob/main/reports/0026-code-wrapup.html" target="_blank" rel="noopener">报告</a> · <a href="https://github.com/shaorui0/finops-agent/blob/main/notes/blog/0026-code-wrapup.md" target="_blank" rel="noopener">笔记</a></p></li></ol>
+
+<h2>诚实的成绩单</h2>
+<p class="hint">数字原样取自 <a href="https://github.com/shaorui0/finops-agent/blob/main/eval/EXPERIMENTS.md" target="_blank" rel="noopener">eval/EXPERIMENTS.md</a> §7.3。前三行是样本内或已被我用来修过 agent 的世界；只有最后一行是事先冻结、只评估一次的新世界。</p>
+<div class="scroll"><table><thead><tr><th>world</th><th>kind</th><th>recall</th><th>savings_recall</th><th>precision</th><th>savings_accuracy</th><th>deep recall</th><th>陷阱违规</th></tr></thead><tbody><tr><td>base</td><td>样本内</td><td>1.0</td><td>1.0</td><td>1.0</td><td>0.9167</td><td>1.0</td><td>0</td></tr><tr><td>next_month</td><td>样本外（已污染，c0023）</td><td>1.0</td><td>1.0</td><td>1.0</td><td>0.8</td><td>1.0</td><td>0</td></tr><tr><td>month_after</td><td>样本外（已污染，c0023）</td><td>1.0</td><td>1.0</td><td>1.0</td><td>1.0</td><td>1.0</td><td>0</td></tr><tr class="fresh"><td><b>fresh_world</b></td><td><b>预注册</b></td><td><b>0.75</b></td><td><b>0.568</b></td><td>1.0</td><td><b>0.5385</b></td><td><b>0.6667</b></td><td><b>1</b></td></tr></tbody></table></div>
+<div class="callout">换一个世界，recall 从 1.0 掉到 0.75，savings_recall 掉到 0.568，并且出现 1 次陷阱违规。n=12，recall 的 95% 区间约 [0.47, 0.91]，点估计的落差不能当成统计显著。漏检在确定性层与取证层，不在判断层：8 个 LLM 判断全部被接受。样本内的 1.0 部分是拟合出来的。详见 <a href="https://github.com/shaorui0/finops-agent/blob/main/eval/EXPERIMENTS.md" target="_blank" rel="noopener">EXPERIMENTS §7</a>。</div>
+
+<footer>Generated from the finops-agent repo by build_finops_page.py. No employer data: synthetic accounts only.</footer>
+</div></body></html>

@@ -1,4 +1,4 @@
-/* Shared top bar: Projects ▾ · AI · Résumé · Blog.
+/* Shared top bar: Home · Projects ▾ · AI · Résumé · Blog.
    Include on every page with <script src="nav.js" defer></script> (from projects/: src="../nav.js").
    Paths are resolved against this script's own location, so the same file works from any depth.
    Language follows the page hash (#/en, #/cn), else localStorage "resume-lang". */
@@ -46,6 +46,8 @@
   function render(){
     var l = lang(), here = location.pathname.replace(/\/+$/, "");
     var h = '<div class="in">';
+    var onHome = here === "" || /\/index\.html$/.test(here) || base.replace(/^[a-z]+:\/\/[^\/]+/, "").replace(/\/+$/, "") === here;
+    h += '<a class="tb'+(onHome?' on':'')+'" href="'+base+'#/'+l+'">'+(l==="cn"?"首页":"Home")+'</a>';
     MENU.forEach(function(g){
       var dd = g.items.map(function(x){
         if(x.sep) return "<hr>";

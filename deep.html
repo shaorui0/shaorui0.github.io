@@ -1258,6 +1258,7 @@ var PROJECTS = [
  },
  {
   "n": "agent-control-plane",
+  "nolink": true,
   "tag": "Python · SQLite",
   "en": "Kubernetes-style governance for AI agents. One process, one SQLite file: per-task-class SLOs, burn rates, error budgets and hard caps, a cross-model judge, outcome-derived verdicts that can flip a pass to a fail, and an Earned Autonomy Gradient where autonomy is a budget that contracts on burn and only grows with an operator signature.",
   "cn": "给 AI agent 的 Kubernetes 式治理。一个进程、一个 SQLite 文件：按任务类分的 SLO、燃烧率、error budget 和硬上限，跨模型 judge，能把「通过」追溯翻成「失败」的结果导出判定，以及 Earned Autonomy Gradient：自主性是一笔预算，燃烧时自动收缩，拿到操作者签名才增加。"
@@ -1675,7 +1676,7 @@ h+='<div class="contact mono"><a href="https://github.com/shaorui0">GitHub</a><a
   h+='<section class="block"><div class="block-head"><h2>'+esc(T(UI.projHead))+'</h2></div>';
   h+='<p class="sec-hint">'+esc(T(UI.projHint))+'</p>';
   PROJECTS.forEach(function(p){
-    h+='<div class="pj"><div class="n"><a href="https://github.com/shaorui0/'+p.n+'" target="_blank" rel="noopener">'+esc(p.n)+'</a> <span class="tg">'+esc(p.tag)+'</span>'+(p.n==="finops-agent"?' <a class="tg" href="projects/finops-agent.html#/'+LANG+'">'+esc(T(UI.finopsLink))+'</a>':'')+'</div><p>'+esc(T(p))+'</p></div>';
+    h+='<div class="pj"><div class="n">'+(p.nolink?esc(p.n):'<a href="https://github.com/shaorui0/'+p.n+'" target="_blank" rel="noopener">'+esc(p.n)+'</a>')+' <span class="tg">'+esc(p.tag)+'</span>'+(p.n==="finops-agent"?' <a class="tg" href="projects/finops-agent.html#/'+LANG+'">'+esc(T(UI.finopsLink))+'</a>':'')+'</div><p>'+esc(T(p))+'</p></div>';
   });
   h+='</section>';
 
